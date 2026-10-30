@@ -43,7 +43,7 @@ test('home page does not load remote fonts or external scripts automatically', a
 });
 
 test('cost policy explains free local mode, Cloudflare quota and provider opt-in risks', async () => {
-  const guide = await readFile(resolve(root, 'COSTS_AND_FREE_MODE.md'), 'utf8');
+  const guide = await readFile(resolve(root, 'docs/COSTS_AND_FREE_MODE.md'), 'utf8');
   assert.match(guide, /zero-cost local development/i);
   assert.match(guide, /10,000 Neurons per day/i);
   assert.match(guide, /Cloudflare Workers AI/i);
