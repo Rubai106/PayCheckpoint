@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "projectVersion": "1.27.2",
+  "status": "protocol-prepared-no-independent-data-collected",
+  "conversationPlan": {
+    "plannedSlots": 48,
+    "developmentSlots": 24,
+    "heldoutSlots": 24,
+    "stimuliCreated": 0,
+    "adjudicatedCases": 0,
+    "labelsCollected": false
+  },
+  "ocrPlan": {
+    "plannedSlots": 30,
+    "developmentSlots": 24,
+    "heldoutSlots": 6,
+    "imagesCreated": 0,
+    "realEngineRuns": 0,
+    "labelsCollected": false
+  },
+  "usabilityPlan": {
+    "targetParticipants": "5-8 adults",
+    "sessionsConducted": 0,
+    "participantResultsAvailable": false
+  },
+  "heldoutPolicy": {
+    "lockedBeforeAnnotation": true,
+    "systemTuningAllowed": false,
+    "crossSplitExactHashCheck": true,
+    "systemPredictionsCapturedAfterAdjudication": true
+  },
+  "privacy": {
+    "privateStimuliIncludedInPublicReports": false,
+    "participantIdentifiersCollected": false,
+    "realPaymentDetailsAllowed": false
+  },
+  "thirdPartyIndependenceExternallyVerified": false,
+  "lastUpdated": "2026-10-30",
+  "syntheticTechnicalPilot": {
+    "status": "completed-synthetic-technical-pilot-not-independent-evaluation",
+    "dataset": "evaluation/receipt-lens-pilot/manifest.json",
+    "images": 24,
+    "browserTesseractJsRuns": 0,
+    "independentReview": false,
+    "note": "Native Tesseract CLI pilot is recorded separately and does not change ocrPlan.realEngineRuns, which tracks the independent adjudicated OCR evaluation protocol.",
+    "psmModesEvaluated": [
+      3,
+      6,
+      11
+    ],
+    "nativeTesseractCliEvaluations": {
+      "psm3": 24,
+      "psm6": 24,
+      "psm11": 24
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "PayCheckpoint Local Conversation Sequence Regression Set v1",
+  "created": "2026-10-30",
+  "purpose": "Deterministic regression checks for ordered message-pattern rules in a Bangladesh MFS consumer-support context.",
+  "syntheticOnly": true,
+  "independentEvaluation": false,
+  "realWorldAccuracyMeasured": false,
+  "limitations": [
+    "All conversations are fictional and developer-authored.",
+    "This is not a representative sample of real scam conversations or benign conversations.",
+    "Expected pattern labels were authored by the project team and have not been independently adjudicated.",
+    "Passing these cases does not establish precision, recall, fraud-detection accuracy, or safety in production."
+  ],
+  "cases": [
+    {"id":"P01-authority-to-credential","category":"synthetic-positive","language":"en","transcript":"Other: We are from your bank customer care.\nOther: Send your OTP to verify your account.","expectedPatterns":["identity-to-credential"]},
+    {"id":"P02-urgency-to-credential","category":"synthetic-positive","language":"en","transcript":"Other: Act now or your account will be blocked.\nOther: Send your OTP now.","expectedPatterns":["pressure-to-credential"]},
+    {"id":"P03-benefit-to-fee","category":"synthetic-positive","language":"en","transcript":"Other: You have been selected for a scholarship.\nOther: Pay registration fee to claim your scholarship.","expectedPatterns":["benefit-to-fee"]},
+    {"id":"P04-urgency-to-recovery-fee","category":"synthetic-positive","language":"en","transcript":"Other: Last warning, act immediately.\nOther: Pay a recovery fee to release your refund.","expectedPatterns":["pressure-to-payment"]},
+    {"id":"P05-link-to-credential","category":"synthetic-positive","language":"en","transcript":"Other: Open https://bit.ly/verify-now\nOther: Enter your OTP to verify the wallet.","expectedPatterns":["link-to-credential"]},
+    {"id":"P06-authority-to-mistaken-transfer","category":"synthetic-positive","language":"en","transcript":"Other: I am calling from customer care.\nOther: I sent money by mistake; return it now.","expectedPatterns":["identity-to-payment"]},
+    {"id":"P07-staged-escalation-with-user-turns","category":"synthetic-positive","language":"en","transcript":"Other: We are from your bank customer care.\nOther: Act now or your account will be blocked.\nMe: I need to check.\nOther: Install AnyDesk and share your screen.","expectedPatterns":["identity-to-pressure","pressure-to-credential","identity-to-credential"]},
+    {"id":"P08-bangla-credential-sequence","category":"synthetic-positive","language":"bn","transcript":"Other: আমি ব্যাংকের কাস্টমার কেয়ার থেকে বলছি।\nOther: আপনার অ্যাকাউন্ট এখনই বন্ধ হবে।\nOther: যাচাইয়ের জন্য আপনার OTP দিন।","expectedPatterns":["identity-to-pressure","pressure-to-credential","identity-to-credential"]},
+    {"id":"N01-benign-payment-receipt","category":"synthetic-benign","language":"en","transcript":"Other: Your payment of Tk 3000 was received.\nMe: Thank you.\nOther: Please check the receipt in the official app.\nMe: I will check it there.\nOther: Never share your PIN or OTP with anyone.","expectedPatterns":[]},
+    {"id":"N02-benign-official-safety-reminder","category":"synthetic-benign","language":"en","transcript":"Other: Customer care is available through the official app.\nMe: Thanks.\nOther: Never share your OTP with anyone.","expectedPatterns":[]},
+    {"id":"N03-benign-delivery-charge","category":"synthetic-benign","language":"en","transcript":"Other: Your parcel is ready for delivery.\nMe: How much is delivery?\nOther: Delivery charge is Tk 80.","expectedPatterns":[]},
+    {"id":"N04-isolated-credential-request-no-prior-stage","category":"synthetic-uncertain","language":"en","transcript":"Other: Send your OTP now.\nOther: Act now or your account will be blocked.","expectedPatterns":[]},
+    {"id":"N05-unknown-speakers-no-sequence-attribution","category":"synthetic-uncertain","language":"en","transcript":"I am calling from customer care.\nYour account will be blocked immediately.\nSend your OTP now.","expectedPatterns":[]},
+    {"id":"N06-benign-provider-reference-request","category":"synthetic-benign","language":"en","transcript":"Other: I can help you check the payment status.\nMe: What do you need?\nOther: Please locate the TrxID in your official app and enter it in the provider's official help form.","expectedPatterns":[]},
+    {"id":"N07-self-message-not-linked-to-other-party","category":"synthetic-uncertain","language":"en","transcript":"Me: I am from customer care.\nOther: Send your OTP now.","expectedPatterns":[]},
+    {"id":"N08-reversed-event-order-does-not-create-progression","category":"synthetic-uncertain","language":"en","transcript":"Other: Send your OTP now.\nOther: We are from your bank customer care.","expectedPatterns":[]},
+    {"id":"N09-bangla-benign-safety-reminder","category":"synthetic-benign","language":"bn","transcript":"Other: আপনার পেমেন্ট সফল হয়েছে।\nMe: ধন্যবাদ।\nOther: কখনোই PIN বা OTP কাউকে দেবেন না।","expectedPatterns":[]}
+  ]
+}

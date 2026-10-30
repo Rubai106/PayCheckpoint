@@ -1,0 +1,12 @@
+{
+  "status": "not-run",
+  "split": "heldout",
+  "eligibleCases": 0,
+  "errors": [],
+  "reason": "No adjudicated heldout rows are available.",
+  "metricsGenerated": false,
+  "independentHumanEvaluation": false,
+  "rawStimuliIncluded": false,
+  "generatedAt": "2026-10-30T10:17:31.413Z",
+  "inputFile": "CONVERSATION-ANNOTATION-TEMPLATE.csv"
+}

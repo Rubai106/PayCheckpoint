@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "projectVersion": "1.24.0",
+  "status": "focused-suites-passed-manual-validation-open",
+  "generatedAt": "2026-10-30T08:05:00Z",
+  "executionMode": "Each specialist browser suite was invoked in a separate process; the chained legacy all-in-one qa:browser runner is excluded due documented shared-page instability.",
+  "suites": [
+    {
+      "name": "keyboard-focus",
+      "status": "passed",
+      "scope": "Visible keyboard focus and programmatic labels"
+    },
+    {
+      "name": "benchmark-ui",
+      "status": "passed",
+      "scope": "Offline coach disclosure and English/Bangla UI"
+    },
+    {
+      "name": "recovery-navigator",
+      "status": "passed",
+      "result": "8 focused interaction groups"
+    },
+    {
+      "name": "incident-dossier",
+      "status": "passed",
+      "result": "7/7 focused interaction groups"
+    },
+    {
+      "name": "share-safe-brief",
+      "status": "passed",
+      "result": "7/7 focused interaction groups"
+    },
+    {
+      "name": "receipt-lens",
+      "status": "passed-mocked-engine",
+      "result": "9/9 focused interaction groups; OCR output mocked, not an accuracy test"
+    },
+    {
+      "name": "sequence-intelligence",
+      "status": "passed",
+      "result": "10/10 focused interaction groups"
+    },
+    {
+      "name": "evidence-integrity",
+      "status": "passed",
+      "result": "12/12 focused interaction groups; browser harness uses a test digest mock, SHA-256 separately tested against Node Web Crypto known-answer data"
+    },
+    {
+      "name": "report-download-preparation",
+      "status": "passed-preparation-only",
+      "scope": "Local Blob URL and attachment filename generated; real served-origin download manager still needs manual verification"
+    },
+    {
+      "name": "follow-up-planner",
+      "status": "passed",
+      "result": "7/7 focused interaction groups"
+    }
+  ],
+  "manualItemsOpen": [
+    "Run the legacy all-in-one qa:browser suite from a clean supported browser environment; its long shared-page workflow has documented intermittent late-run stalls.",
+    "Verify the report download in a normal served-origin browser and confirm the browser download manager receives the expected attachment.",
+    "Run actual ReceiptLens OCR engine on labelled Bengali, English and mixed-script payment screenshots; no real OCR accuracy result exists.",
+    "Complete consented formative usability sessions; zero sessions have been conducted."
+  ],
+  "notEvidenceOf": [
+    "real-world fraud-detection accuracy",
+    "OCR accuracy",
+    "payment-provider verification",
+    "participant usability results",
+    "production readiness"
+  ]
+}

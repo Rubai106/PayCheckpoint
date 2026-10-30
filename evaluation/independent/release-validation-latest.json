@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "projectVersion": "1.27.2",
+  "generatedAt": "2026-10-30T10:17:31.864Z",
+  "startedAt": "2026-10-30T10:17:26.257Z",
+  "status": "passed",
+  "passed": 9,
+  "total": 9,
+  "failed": 0,
+  "completed": 9,
+  "processIsolation": true,
+  "browserSuitesIncluded": false,
+  "browserValidationNote": "Browser journeys are not part of this deterministic runner. Run the focused qa:* scripts independently; repeated Chromium launches chained under one parent can stall in this constrained environment. A browser timeout is never a pass.",
+  "browserValidationCommands": [
+    "npm run qa:focus",
+    "npm run qa:benchmark-ui",
+    "npm run qa:recovery",
+    "npm run qa:incident-dossier",
+    "npm run qa:share-brief",
+    "npm run qa:receipt-lens",
+    "npm run qa:sequence",
+    "npm run qa:evidence-integrity",
+    "npm run qa:report-download",
+    "npm run qa:followup"
+  ],
+  "evaluationDataStatus": "Independent conversation, OCR and human-usability data are intentionally not run until human annotations, real OCR runs and consented sessions exist.",
+  "results": [
+    {
+      "name": "source-integrity",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 3049,
+      "stdoutTail": "✓ UI_UX_REFRESH_v1.11.0.md\n✓ CHANGELOG.md\n✓ COSTS_AND_FREE_MODE.md\n✓ FEATURE_IMPROVEMENTS_45PLUS.md\n✓ EVALUATION_READINESS_REPORT.md\n✓ evaluation/FORMATIVE-USABILITY-PROTOCOL.md\n✓ evaluation/WORKFLOW-CASES.csv\n✓ evaluation/SYNTHETIC-MESSAGE-CARDS.md\n✓ evaluation/fixtures/payment-recipient-mismatch.png\n✓ evaluation/fixtures/payment-amount-mismatch.png\n✓ evaluation/SESSION-WORKSHEET.csv\n✓ qa/browser_qa.py\n✓ qa/recovery_navigator_qa.py\n✓ qa/share_brief_qa.py\n✓ qa/receipt_lens_qa.py\n✓ qa/first_time_journey_qa.py\n✓ qa/served_origin_qa.py\n✓ qa/responsive_app_screens_qa.py\n✓ qa/incident_dossier_qa.py\n✓ qa/sequence_intelligence_qa.py\n✓ qa/accessibility_focus_qa.py\n✓ qa/scam_benchmark_ui_qa.py\n✓ qa/evidence_integrity_qa.py\n✓ qa/report_download_qa.py\n✓ tests/evidence-integrity.test.mjs\n✓ tests/sequence-intelligence.test.mjs\n✓ evaluation/conversation-sequence/benchmark-v1.json\n✓ evaluation/conversation-sequence/benchmark-latest.json\n✓ scripts/run-conversation-sequence-benchmark.mjs\n✓ STEP8_SEQUENCE_INTELLIGENCE.md\n✓ STEP9_EVIDENCE_INTEGRITY_MANIFEST.md\n✓ tests/incident-dossier.test.mjs\n✓ tests/followup-planner.test.mjs\n✓ qa/followup_planner_qa.py\n✓ js/followup-planner.js\n✓ STEP10_CALL_AND_FOLLOWUP_INTELLIGENCE.md\n✓ STEP11_INDEPENDENT_PRODUCT_VALIDATION.md\n✓ evaluation/independent/ANNOTATION-GUIDE.md\n✓ evaluation/independent/STEP11-VALIDATION-PLAN.md\n✓ evaluation/independent/EVALUATION-MANIFEST.json\n✓ evaluation/independent/CONVERSATION-ANNOTATION-TEMPLATE.csv\n✓ evaluation/independent/OCR-ANNOTATION-TEMPLATE.csv\n✓ evaluation/independent/WORKFLOW-TASKS-STEP11.csv\n✓ evaluation/independent/conversation-evaluation-latest.json\n✓ evaluation/independent/ocr-evaluation-latest.json\n✓ evaluation/independent/usability-evaluation-latest.json\n✓ scripts/lib/csv.mjs\n✓ scripts/evaluate-conversation-annotations.mjs\n✓ scripts/evaluate-receipt-ocr.mjs\n✓ scripts/analyze-usability-sessions.mjs\n✓ scripts/run-release-validation.mjs\n✓ scripts/verify-live-copilot.mjs\n✓ tests/independent-evaluation.test.mjs\n✓ tests/pages-copilot-function.test.mjs\n✓ evaluation/RECEIPTLENS-RESULTS.csv\n✓ evaluation/synthetic-benchmark-latest.json\n✓ scripts/run-synthetic-benchmark.mjs\n✓ index.html\n✓ assets/styles.css\n✓ shared/copilot-core.mjs\n✓ functions/api/copilot/status.js\n✓ functions/api/copilot/analyze.js\n✓ functions/api/health.js\n✓ functions/api/providers/status.js\n✓ functions/api/integrations/bkash/status.js\n✓ functions/api/integrations/bkash/payment-status.js\n✓ functions/api/integrations/bkash/transaction-search.js\n✓ functions/api/integrations/bkash/validation-run.js\n✓ functions/api/sandbox/self-test.js\n✓ scripts/build-pages.mjs\n✓ wrangler.toml\n✓ STEP6_FREE_CLOUDFLARE_AI.md\n✓ RECOVERY_GUIDANCE_SOURCES.md\n✓ PROVIDER_INTEGRATION_READINESS.md\n✓ SANDBOX_INTEGRATION_LAB.md\n✓ BKASH_SANDBOX_INTEGRATION.md\n✓ BKASH_VALIDATION_MATRIX.md\n✓ STEP1_AI_COPILOT_AND_UX_FOUNDATION.md\n✓ STEP2_EVIDENCE_MAP.md\n✓ STEP3_RECOVERY_NAVIGATOR.md\n✓ STEP4_SHARE_SAFE_BRIEF.md\n✓ STEP5_RECEIPT_LENS_OCR.md\n✓ STEP7_INCIDENT_DOSSIER.md\n✓ evaluation/RECEIPTLENS-EVALUATION-PLAN.md\n✓ evaluation/receipt-lens-pilot/manifest.json\n✓ evaluation/receipt-lens-pilot/generator-ground-truth.csv\n✓ evaluation/receipt-lens-pilot/results/tesseract-cli-pilot-latest.json\n✓ evaluation/receipt-lens-pilot/results/tesseract-cli-psm3.json\n✓ evaluation/receipt-lens-pilot/results/tesseract-cli-psm6.json\n✓ evaluation/receipt-lens-pilot/results/tesseract-cli-psm11.json\n✓ scripts/generate-receipt-lens-pilot.py\n✓ scripts/run-receipt-lens-pilot.mjs\n✓ tests/receipt-lens-pilot.test.mjs\n✓ STEP12_REAL_RECEIPTLENS_PILOT.md\n✓ STEP13_RECEIPTLENS_LIFECYCLE.md\n✓ qa/receipt_lens_qa.py\n✓ .env.example\n✓ js/state-utils.js\n✓ js/simulation.js\n✓ js/navigation.js\n✓ js/official-guidance.js\n✓ js/cases.js\n✓ js/prevention.js\n✓ js/recovery.js\n✓ js/safesend.js\n✓ js/reports.js\n✓ js/evidence-map.js\n✓ js/recovery-navigator.js\n✓ js/incident-dossier.js\n✓ js/followup-planner.js\n✓ js/copilot.js\n✓ js/share-brief.js\n✓ js/saved-cases.js\n✓ js/provider-readiness.js\n✓ js/sandbox-lab.js\n✓ js/bkash-sandbox.js\n✓ js/enhancements.js\n✓ js/sequence-intelligence.js\n✓ js/receipt-lens.js\n✓ js/evidence-integrity.js\n✓ js/bootstrap.js\n✓ server/case-storage.mjs\n✓ server/provider-readiness.mjs\n✓ server/sandbox-lab.mjs\n✓ server/bkash-checkout-sandbox.mjs\n✓ server/bkash-validation.mjs\n✓ server/bkash-errors.mjs\n✓ scripts/bkash-preflight.mjs\n✓ scripts/bkash-live-validation.mjs\n✓ scripts/load-local-env.mjs\n✓ tests/bkash-validation.test.mjs\n✓ tests/bkash-live-cli.test.mjs\n✓ tests/enhancements.test.mjs\n✓ tests/dev-gating.test.mjs\n✓ tests/i18n-completeness.test.mjs\n✓ server/api.mjs\n✓ server/copilot.mjs\n✓ tests/copilot.test.mjs\n✓ tests/recovery-navigator.test.mjs\n✓ tests/share-brief.test.mjs\n✓ tests/receipt-lens.test.mjs\n✓ scripts/serve.mjs\n✓ scripts/setup-backend.mjs\n✓ release version is v1.27.2\n✓ no external npm dependencies\n✓ outbound provider requests disabled by default\n✓ no external font/script auto-loads in entry page\n✓ syntax tests/evidence-integrity.test.mjs\n✓ syntax tests/sequence-intelligence.test.mjs\n✓ syntax scripts/run-conversation-sequence-benchmark.mjs\n✓ syntax tests/incident-dossier.test.mjs\n✓ syntax tests/followup-planner.test.mjs\n✓ syntax js/followup-planner.js\n✓ syntax scripts/lib/csv.mjs\n✓ syntax scripts/evaluate-conversation-annotations.mjs\n✓ syntax scripts/evaluate-receipt-ocr.mjs\n✓ syntax scripts/analyze-usability-sessions.mjs\n✓ syntax scripts/run-release-validation.mjs\n✓ syntax scripts/verify-live-copilot.mjs\n✓ syntax tests/independent-evaluation.test.mjs\n✓ syntax tests/pages-copilot-function.test.mjs\n✓ syntax scripts/run-synthetic-benchmark.mjs\n✓ syntax shared/copilot-core.mjs\n✓ syntax functions/api/copilot/status.js\n✓ syntax functions/api/copilot/analyze.js\n✓ syntax functions/api/health.js\n✓ syntax functions/api/providers/status.js\n✓ syntax functions/api/integrations/bkash/status.js\n✓ syntax functions/api/integrations/bkash/payment-status.js\n✓ syntax functions/api/integrations/bkash/transaction-search.js\n✓ syntax functions/api/integrations/bkash/validation-run.js\n✓ syntax functions/api/sandbox/self-test.js\n✓ syntax scripts/build-pages.mjs\n✓ syntax scripts/run-receipt-lens-pilot.mjs\n✓ syntax tests/receipt-lens-pilot.test.mjs\n✓ syntax js/state-utils.js\n✓ syntax js/simulation.js\n✓ syntax js/navigation.js\n✓ syntax js/official-guidance.js\n✓ syntax js/cases.js\n✓ syntax js/prevention.js\n✓ syntax js/recovery.js\n✓ syntax js/safesend.js\n✓ syntax js/reports.js\n✓ syntax js/evidence-map.js\n✓ syntax js/recovery-navigator.js\n✓ syntax js/incident-dossier.js\n✓ syntax js/followup-planner.js\n✓ syntax js/copilot.js\n✓ syntax js/share-brief.js\n✓ syntax js/saved-cases.js\n✓ syntax js/provider-readiness.js\n✓ syntax js/sandbox-lab.js\n✓ syntax js/bkash-sandbox.js\n✓ syntax js/enhancements.js\n✓ syntax js/sequence-intelligence.js\n✓ syntax js/receipt-lens.js\n✓ syntax js/evidence-integrity.js\n✓ syntax js/bootstrap.js\n✓ syntax server/case-storage.mjs\n✓ syntax server/provider-readiness.mjs\n✓ syntax server/sandbox-lab.mjs\n✓ syntax server/bkash-checkout-sandbox.mjs\n✓ syntax server/bkash-validation.mjs\n✓ syntax server/bkash-errors.mjs\n✓ syntax scripts/bkash-preflight.mjs\n✓ syntax scripts/bkash-live-validation.mjs\n✓ syntax scripts/load-local-env.mjs\n✓ syntax tests/bkash-validation.test.mjs\n✓ syntax tests/bkash-live-cli.test.mjs\n✓ syntax tests/enhancements.test.mjs\n✓ syntax tests/dev-gating.test.mjs\n✓ syntax tests/i18n-completeness.test.mjs\n✓ syntax server/api.mjs\n✓ syntax server/copilot.mjs\n✓ syntax tests/copilot.test.mjs\n✓ syntax tests/recovery-navigator.test.mjs\n✓ syntax tests/share-brief.test.mjs\n✓ syntax tests/receipt-lens.test.mjs\n✓ syntax scripts/serve.mjs\n✓ syntax scripts/setup-backend.mjs\n✓ independent evaluation status is explicitly NOT RUN until data are collected\n✓ native Tesseract pilot commands are available without API dependencies\n✓ independent evaluation commands are available\n✓ screenshot comparison, ReceiptLens OCR, scam coach, sequence intelligence, incident dossier, evidence integrity, follow-up planner, timeline and share-brief panels present\n✓ no removed Google model/API integration in runtime configuration\n\nPayCheckpoint source integrity check passed.\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "node-unit-and-integration-tests",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 1899,
+      "stdoutTail": " ...\n# Subtest: OCR suggestions must be manually chosen and explicit screenshot consent is still required\nok 170 - OCR suggestions must be manually chosen and explicit screenshot consent is still required\n  ---\n  duration_ms: 0.596163\n  type: 'test'\n  ...\n# Subtest: raw OCR text and image are not put in the persistent case or structured export\nok 171 - raw OCR text and image are not put in the persistent case or structured export\n  ---\n  duration_ms: 0.228859\n  type: 'test'\n  ...\n# Subtest: Evidence Map reports OCR provenance and confidence bands without exposing raw text\nok 172 - Evidence Map reports OCR provenance and confidence bands without exposing raw text\n  ---\n  duration_ms: 0.341256\n  type: 'test'\n  ...\n# Subtest: required source checks and QA command include ReceiptLens\nok 173 - required source checks and QA command include ReceiptLens\n  ---\n  duration_ms: 0.790639\n  type: 'test'\n  ...\n# Subtest: recipient extraction requires recipient context and never promotes a sender/from number\nok 174 - recipient extraction requires recipient context and never promotes a sender/from number\n  ---\n  duration_ms: 1.278483\n  type: 'test'\n  ...\n# Subtest: unlabelled phone numbers are not guessed to be recipients\nok 175 - unlabelled phone numbers are not guessed to be recipients\n  ---\n  duration_ms: 0.115686\n  type: 'test'\n  ...\n# Subtest: amount extraction only promotes a positively labelled amount, not fee or balance\nok 176 - amount extraction only promotes a positively labelled amount, not fee or balance\n  ---\n  duration_ms: 0.531072\n  type: 'test'\n  ...\n# Subtest: ambiguous OCR currency glyph and amount tokens abstain unless the narrow glyph-artifact rule applies\nok 177 - ambiguous OCR currency glyph and amount tokens abstain unless the narrow glyph-artifact rule applies\n  ---\n  duration_ms: 0.289923\n  type: 'test'\n  ...\n# Subtest: adjacent amount fallback rejects a labelled fee line even when OCR misses its Bengali label\nok 178 - adjacent amount fallback rejects a labelled fee line even when OCR misses its Bengali label\n  ---\n  duration_ms: 0.330794\n  type: 'test'\n  ...\n# Subtest: OCR digits with a missing decimal are not silently normalized into a guessed amount\nok 179 - OCR digits with a missing decimal are not silently normalized into a guessed amount\n  ---\n  duration_ms: 0.378117\n  type: 'test'\n  ...\n# Subtest: Recovery Navigator has distinct scenario paths and official CIPC source\nok 180 - Recovery Navigator has distinct scenario paths and official CIPC source\n  ---\n  duration_ms: 1.963057\n  type: 'test'\n  ...\n# Subtest: Recovery checklist progress is labelled user-reported and reset with each new case\nok 181 - Recovery checklist progress is labelled user-reported and reset with each new case\n  ---\n  duration_ms: 0.365566\n  type: 'test'\n  ...\n# Subtest: Navigator is included in the B2C incident workflow and focused QA command\nok 182 - Navigator is included in the B2C incident workflow and focused QA command\n  ---\n  duration_ms: 0.267806\n  type: 'test'\n  ...\n# Subtest: synthetic fixture lookup is allowlisted and never guesses unknown references\nok 183 - synthetic fixture lookup is allowlisted and never guesses unknown references\n  ---\n  duration_ms: 1.489217\n  type: 'test'\n  ...\n# Subtest: valid synthetic webhook signature is accepted and only safe fields are returned\nok 184 - valid synthetic webhook signature is accepted and only safe fields are returned\n  ---\n  duration_ms: 1.374227\n  type: 'test'\n  ...\n# Subtest: tampered body and malformed signatures are rejected\nok 185 - tampered body and malformed signatures are rejected\n  ---\n  duration_ms: 0.664672\n  type: 'test'\n  ...\n# Subtest: stale timestamps, malformed event schema and non-sandbox environment are rejected\nok 186 - stale timestamps, malformed event schema and non-sandbox environment are rejected\n  ---\n  duration_ms: 0.398664\n  type: 'test'\n  ...\n# Subtest: duplicate event IDs are rejected after the first accepted delivery\nok 187 - duplicate event IDs are rejected after the first accepted delivery\n  ---\n  duration_ms: 0.979966\n  type: 'test'\n  ...\n# Subtest: suite executes all local-only checks and reports no external provider calls\nok 188 - suite executes all local-only checks and reports no external provider calls\n  ---\n  duration_ms: 2.584994\n  type: 'test'\n  ...\n# Subtest: sequence review identifies ordered progression across explicitly labelled other-party messages\nok 189 - sequence review identifies ordered progression across explicitly labelled other-party messages\n  ---\n  duration_ms: 32.40514\n  type: 'test'\n  ...\n# Subtest: single message containing two signals does not become a cross-message sequence\nok 190 - single message containing two signals does not become a cross-message sequence\n  ---\n  duration_ms: 6.451244\n  type: 'test'\n  ...\n# Subtest: self messages are never paired with other-party signals to invent a progression\nok 191 - self messages are never paired with other-party signals to invent a progression\n  ---\n  duration_ms: 6.120409\n  type: 'test'\n  ...\n# Subtest: unknown speaker labels allow individual review but prevent sequence attribution\nok 192 - unknown speaker labels allow individual review but prevent sequence attribution\n  ---\n  duration_ms: 6.711563\n  type: 'test'\n  ...\n# Subtest: benign bilingual conversation and legitimate safety advice do not produce configured sequence patterns\nok 193 - benign bilingual conversation and legitimate safety advice do not produce configured sequence patterns\n  ---\n  duration_ms: 10.034057\n  type: 'test'\n  ...\n# Subtest: ordered progression is independent of user messages inserted between other-party turns\nok 194 - ordered progression is independent of user messages inserted between other-party turns\n  ---\n  duration_ms: 7.905045\n  type: 'test'\n  ...\n# Subtest: message excerpts redact phone numbers, long digit sequences and OTP values\nok 195 - message excerpts redact phone numbers, long digit sequences and OTP values\n  ---\n  duration_ms: 6.283301\n  type: 'test'\n  ...\n# Subtest: limits reject overlong, excessive and single-message transcripts\nok 196 - limits reject overlong, excessive and single-message transcripts\n  ---\n  duration_ms: 5.269954\n  type: 'test'\n  ...\n# Subtest: export-safe summary contains pattern metadata but never transcript or excerpts\nok 197 - export-safe summary contains pattern metadata but never transcript or excerpts\n  ---\n  duration_ms: 8.654822\n  type: 'test'\n  ...\n# Subtest: timeline event stores only counts and pattern count, never transcript text\nok 198 - timeline event stores only counts and pattern count, never transcript text\n  ---\n  duration_ms: 6.316561\n  type: 'test'\n  ...\n# Subtest: sequence result rendering escapes untrusted conversation text\nok 199 - sequence result rendering escapes untrusted conversation text\n  ---\n  duration_ms: 5.571594\n  type: 'test'\n  ...\n# Subtest: new-case reset clears transcript, results and export summary\nok 200 - new-case reset clears transcript, results and export summary\n  ---\n  duration_ms: 6.416599\n  type: 'test'\n  ...\n# Subtest: entry page loads sequence module after base scam rules and exposes local privacy notice\nok 201 - entry page loads sequence module after base scam rules and exposes local privacy notice\n  ---\n  duration_ms: 2.208311\n  type: 'test'\n  ...\n# Subtest: synthetic conversation benchmark matches authored sequence expectations without claiming independent accuracy\nok 202 - synthetic conversation benchmark matches authored sequence expectations without claiming independent accuracy\n  ---\n  duration_ms: 11.871301\n  type: 'test'\n  ...\n# Subtest: reversed provided timestamps are called out rather than silently re-ordered\nok 203 - reversed provided timestamps are called out rather than silently re-ordered\n  ---\n  duration_ms: 19.814705\n  type: 'test'\n  ...\n# Subtest: persisted benchmark report is explicitly synthetic and does not claim accuracy\nok 204 - persisted benchmark report is explicitly synthetic and does not claim accuracy\n  ---\n  duration_ms: 1.704209\n  type: 'test'\n  ...\n# Subtest: Share brief has opt-in identifier fields and complaint/timeline controls\nok 205 - Share brief has opt-in identifier fields and complaint/timeline controls\n  ---\n  duration_ms: 1.887849\n  type: 'test'\n  ...\n# Subtest: Complaint masking handles common phone, email, link and long-number patterns\nok 206 - Complaint masking handles common phone, email, link and long-number patterns\n  ---\n  duration_ms: 0.413318\n  type: 'test'\n  ...\n# Subtest: Print requires explicit review confirmation and prints only the document\nok 207 - Print requires explicit review confirmation and prints only the document\n  ---\n  duration_ms: 0.373389\n  type: 'test'\n  ...\n# Subtest: Share brief remains local and resets when starting a new case\nok 208 - Share brief remains local and resets when starting a new case\n  ---\n  duration_ms: 0.428586\n  type: 'test'\n  ...\n1..208\n# tests 208\n# suites 0\n# pass 208\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 1825.210847\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "synthetic-scam-rule-regression",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 89,
+      "stdoutTail": "PayCheckpoint synthetic rule benchmark 1.1.0\nCore: 22/22\nChallenge: 28/28\nExact expected-signal match: 50/50 (100.0%)\n\nPer-rule synthetic metrics:\n- benefit-fee: precision 100.0%; recall 100.0%; TP 1, FP 0, FN 0; support 1\n- credential-request: precision 100.0%; recall 100.0%; TP 9, FP 0, FN 0; support 9\n- external-link: precision 100.0%; recall 100.0%; TP 5, FP 0, FN 0; support 5\n- impersonation: precision 100.0%; recall 100.0%; TP 7, FP 0, FN 0; support 7\n- mistaken-transfer: precision 100.0%; recall 100.0%; TP 5, FP 0, FN 0; support 5\n- prize-benefit: precision 100.0%; recall 100.0%; TP 4, FP 0, FN 0; support 4\n- recovery-fee: precision 100.0%; recall 100.0%; TP 5, FP 0, FN 0; support 5\n- remote-access: precision 100.0%; recall 100.0%; TP 4, FP 0, FN 0; support 4\n- urgency-threat: precision 100.0%; recall 100.0%; TP 9, FP 0, FN 0; support 9\n\nReport written to /mnt/data/pc1271_audit/evaluation/synthetic-benchmark-latest.json\nPrivacy: raw fixture messages are not included in this report; no network calls are made.\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "synthetic-conversation-sequence-regression",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 64,
+      "stdoutTail": "Conversation sequence synthetic regression: 17/17 expected pattern sets matched.\nThis is developer-authored synthetic regression evidence, not an independent or real-world accuracy estimate.\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "conversation-independent-evaluation-status",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 54,
+      "stdoutTail": "Conversation evaluation NOT RUN: No adjudicated heldout rows are available.\nReport: /mnt/data/pc1271_audit/evaluation/independent/conversation-evaluation-latest.json\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "ocr-independent-evaluation-status",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 51,
+      "stdoutTail": "ReceiptLens evaluation NOT RUN: No adjudicated, actually-run heldout OCR rows are available.\nReport: /mnt/data/pc1271_audit/evaluation/independent/ocr-evaluation-latest.json\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "usability-evaluation-status",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 49,
+      "stdoutTail": "Usability analysis NOT RUN: No participant task rows have been entered.\nReport: /mnt/data/pc1271_audit/evaluation/independent/usability-evaluation-latest.json\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "pages-static-build",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 82,
+      "stdoutTail": "Cloudflare Pages static bundle prepared at dist/ for paycheckpoint-website v1.27.2.\nOnly index.html, assets/, js/, and _headers are copied. Pages Functions live in /functions and are deployed separately by Cloudflare.\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "pages-bundle-security-tests",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 246,
+      "stdoutTail": "TAP version 13\n# Subtest: Pages build copies only public static assets and security headers\nok 1 - Pages build copies only public static assets and security headers\n  ---\n  duration_ms: 8.110055\n  type: 'test'\n  ...\n# Subtest: Pages output excludes tests, docs, environment files, server secrets and local case data\nok 2 - Pages output excludes tests, docs, environment files, server secrets and local case data\n  ---\n  duration_ms: 3.863623\n  type: 'test'\n  ...\n# Subtest: Wrangler configuration declares only the free Workers AI binding and Pages output directory\nok 3 - Wrangler configuration declares only the free Workers AI binding and Pages output directory\n  ---\n  duration_ms: 2.448439\n  type: 'test'\n  ...\n1..3\n# tests 3\n# suites 0\n# pass 3\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 195.831163\n",
+      "stderrTail": ""
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "status": "not-run",
+  "split": "heldout",
+  "eligibleImages": 0,
+  "errors": [],
+  "reason": "No adjudicated, actually-run heldout OCR rows are available.",
+  "metricsGenerated": false,
+  "realOcrAccuracyMeasured": false,
+  "rawOcrTextIncluded": false,
+  "generatedAt": "2026-10-30T10:17:31.472Z",
+  "inputFile": "OCR-ANNOTATION-TEMPLATE.csv"
+}

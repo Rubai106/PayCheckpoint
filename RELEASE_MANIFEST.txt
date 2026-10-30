@@ -1,0 +1,25 @@
+PayCheckpoint v1.27.0 — Step 14 Release Package
+Build date: 30 October 2026
+Product type: B2C consumer prototype
+
+Included: source, tests, QA tools, evaluation templates and synthetic fixtures, Cloudflare Pages static build (dist/), deployment configuration and project documentation.
+
+Verified on 30 October 2026:
+- npm run check: PASS
+- npm test: 204/204 PASS
+- npm run qa:release: 9/9 PASS
+- npm run qa:first-time: PASS
+- npm run qa:responsive: 70/70 PASS
+- npm run qa:served-origin: PASS (local HTTP/API smoke only)
+- npm run build:pages: PASS
+- npm run qa:pages-build: 3/3 PASS
+
+Not verified / not included as completed:
+- Public deployment and live Cloudflare Workers AI inference
+- Official organizer sticker asset
+- Human usability study and independent held-out conversation/OCR evaluations
+- Full manual WCAG/screen-reader and real-device browser audit
+- Real provider transaction lookup, transfer cancellation/reversal or complaint submission
+
+No actual .env file, credentials, API key, or private token is included. The only environment file included is the safe template .env.example.
+See STEP14_FIRST_TIME_B2C.md, QA_REPORT.md, BUILD_REPORT.md, SUBMISSION_READINESS.md and the separate Step 14 research/QA report.

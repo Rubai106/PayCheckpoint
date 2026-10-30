@@ -1,0 +1,26 @@
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+node_modules/
+playwright-report/
+test-results/
+qa-output/
+data/
+__pycache__/
+*.py[cod]
+dist/
+.wrangler/
+
+# Logs and debugging
+*.log
+npm-debug.log*
+coverage/
+.nyc_output/
+.cache/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp

@@ -1,0 +1,628 @@
+{
+  "schemaVersion": 1,
+  "benchmarkVersion": "1.1.0",
+  "generatedAt": "2026-10-30T10:17:31.290Z",
+  "authorship": "developer-authored synthetic cases; not independently labeled",
+  "interpretation": "Synthetic rule-regression evidence only. No real-world detection accuracy, causal impact, or user-study results are measured.",
+  "mode": "synthetic-rule-regression-only",
+  "passed": 50,
+  "total": 50,
+  "exactMatchRate": 1,
+  "core": {
+    "passed": 22,
+    "total": 22
+  },
+  "challenge": {
+    "passed": 28,
+    "total": 28
+  },
+  "labelMetrics": [
+    {
+      "id": "benefit-fee",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "support": 1
+    },
+    {
+      "id": "credential-request",
+      "tp": 9,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "support": 9
+    },
+    {
+      "id": "external-link",
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "support": 5
+    },
+    {
+      "id": "impersonation",
+      "tp": 7,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "support": 7
+    },
+    {
+      "id": "mistaken-transfer",
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "support": 5
+    },
+    {
+      "id": "prize-benefit",
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "support": 4
+    },
+    {
+      "id": "recovery-fee",
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "support": 5
+    },
+    {
+      "id": "remote-access",
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "support": 4
+    },
+    {
+      "id": "urgency-threat",
+      "tp": 9,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "support": 9
+    }
+  ],
+  "results": [
+    {
+      "id": "credential-en",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "credential-request"
+      ],
+      "actual": [
+        "credential-request"
+      ]
+    },
+    {
+      "id": "credential-bn",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "credential-request"
+      ],
+      "actual": [
+        "credential-request"
+      ]
+    },
+    {
+      "id": "fee-en",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "recovery-fee"
+      ],
+      "actual": [
+        "recovery-fee"
+      ]
+    },
+    {
+      "id": "fee-bn",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "recovery-fee"
+      ],
+      "actual": [
+        "recovery-fee"
+      ]
+    },
+    {
+      "id": "remote-en",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "remote-access"
+      ],
+      "actual": [
+        "remote-access"
+      ]
+    },
+    {
+      "id": "remote-bn",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "remote-access"
+      ],
+      "actual": [
+        "remote-access"
+      ]
+    },
+    {
+      "id": "urgency-en",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "urgency-threat"
+      ],
+      "actual": [
+        "urgency-threat"
+      ]
+    },
+    {
+      "id": "urgency-bn",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "urgency-threat"
+      ],
+      "actual": [
+        "urgency-threat"
+      ]
+    },
+    {
+      "id": "impersonation-en",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "impersonation"
+      ],
+      "actual": [
+        "impersonation"
+      ]
+    },
+    {
+      "id": "impersonation-bn",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "impersonation"
+      ],
+      "actual": [
+        "impersonation"
+      ]
+    },
+    {
+      "id": "return-en",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "mistaken-transfer"
+      ],
+      "actual": [
+        "mistaken-transfer"
+      ]
+    },
+    {
+      "id": "return-bn",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "mistaken-transfer",
+        "urgency-threat"
+      ],
+      "actual": [
+        "mistaken-transfer",
+        "urgency-threat"
+      ]
+    },
+    {
+      "id": "prize-en",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "prize-benefit"
+      ],
+      "actual": [
+        "prize-benefit"
+      ]
+    },
+    {
+      "id": "prize-bn",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "prize-benefit"
+      ],
+      "actual": [
+        "prize-benefit"
+      ]
+    },
+    {
+      "id": "link",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "external-link"
+      ],
+      "actual": [
+        "external-link"
+      ]
+    },
+    {
+      "id": "multi-signal",
+      "suite": "core",
+      "passed": true,
+      "expected": [
+        "credential-request",
+        "impersonation",
+        "urgency-threat"
+      ],
+      "actual": [
+        "credential-request",
+        "impersonation",
+        "urgency-threat"
+      ]
+    },
+    {
+      "id": "benign-receipt",
+      "suite": "core",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "benign-invoice",
+      "suite": "core",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "benign-safety",
+      "suite": "core",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "benign-greeting",
+      "suite": "core",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "benign-balance",
+      "suite": "core",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "benign-support",
+      "suite": "core",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "challenge-credential-readout",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "credential-request"
+      ],
+      "actual": [
+        "credential-request"
+      ]
+    },
+    {
+      "id": "challenge-credential-bangla-pin",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "credential-request",
+        "urgency-threat"
+      ],
+      "actual": [
+        "credential-request",
+        "urgency-threat"
+      ]
+    },
+    {
+      "id": "challenge-credential-warning",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "challenge-credential-otp-required",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "credential-request"
+      ],
+      "actual": [
+        "credential-request"
+      ]
+    },
+    {
+      "id": "challenge-fee-processing",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "recovery-fee"
+      ],
+      "actual": [
+        "recovery-fee"
+      ]
+    },
+    {
+      "id": "challenge-fee-bangla-recovery",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "recovery-fee"
+      ],
+      "actual": [
+        "recovery-fee"
+      ]
+    },
+    {
+      "id": "challenge-fee-quoted-warning",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "recovery-fee"
+      ],
+      "actual": [
+        "recovery-fee"
+      ]
+    },
+    {
+      "id": "challenge-remote-control",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "remote-access"
+      ],
+      "actual": [
+        "remote-access"
+      ]
+    },
+    {
+      "id": "challenge-remote-bangla-threat",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "remote-access"
+      ],
+      "actual": [
+        "remote-access"
+      ]
+    },
+    {
+      "id": "challenge-urgency-last-chance",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "urgency-threat"
+      ],
+      "actual": [
+        "urgency-threat"
+      ]
+    },
+    {
+      "id": "challenge-urgency-bangla-account",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "urgency-threat"
+      ],
+      "actual": [
+        "urgency-threat"
+      ]
+    },
+    {
+      "id": "challenge-impersonation-i-am",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "credential-request",
+        "impersonation"
+      ],
+      "actual": [
+        "credential-request",
+        "impersonation"
+      ]
+    },
+    {
+      "id": "challenge-impersonation-bangla",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "credential-request",
+        "impersonation"
+      ],
+      "actual": [
+        "credential-request",
+        "impersonation"
+      ]
+    },
+    {
+      "id": "challenge-impersonation-mentioned",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "challenge-return-accidentally",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "mistaken-transfer"
+      ],
+      "actual": [
+        "mistaken-transfer"
+      ]
+    },
+    {
+      "id": "challenge-return-bangla",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "mistaken-transfer"
+      ],
+      "actual": [
+        "mistaken-transfer"
+      ]
+    },
+    {
+      "id": "challenge-prize-link",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "external-link",
+        "prize-benefit"
+      ],
+      "actual": [
+        "external-link",
+        "prize-benefit"
+      ]
+    },
+    {
+      "id": "challenge-prize-bangla-fee",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "benefit-fee",
+        "prize-benefit"
+      ],
+      "actual": [
+        "benefit-fee",
+        "prize-benefit"
+      ]
+    },
+    {
+      "id": "challenge-link-short",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "external-link"
+      ],
+      "actual": [
+        "external-link"
+      ]
+    },
+    {
+      "id": "challenge-link-telegram",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "external-link"
+      ],
+      "actual": [
+        "external-link"
+      ]
+    },
+    {
+      "id": "challenge-benign-customer-care",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "challenge-benign-otp-context",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "challenge-benign-bank-statement",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "challenge-benign-mistake-discussion",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "challenge-benign-fee-advice",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "challenge-multi-credential-link",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "credential-request",
+        "external-link",
+        "impersonation",
+        "urgency-threat"
+      ],
+      "actual": [
+        "credential-request",
+        "external-link",
+        "impersonation",
+        "urgency-threat"
+      ]
+    },
+    {
+      "id": "challenge-multi-return-impersonation",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [
+        "impersonation",
+        "mistaken-transfer",
+        "urgency-threat"
+      ],
+      "actual": [
+        "impersonation",
+        "mistaken-transfer",
+        "urgency-threat"
+      ]
+    },
+    {
+      "id": "challenge-benign-balance-bangla",
+      "suite": "challenge",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "realWorldAccuracyMeasured": false,
+  "independentEvaluation": false,
+  "rawMessagesStored": false,
+  "networkRequests": 0
+}

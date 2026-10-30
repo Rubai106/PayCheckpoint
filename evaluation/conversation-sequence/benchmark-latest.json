@@ -1,0 +1,246 @@
+{
+  "name": "PayCheckpoint Local Conversation Sequence Regression Set v1",
+  "runAt": "2026-10-30T10:17:31.364Z",
+  "mode": "synthetic-sequence-rule-regression-only",
+  "total": 17,
+  "passed": 17,
+  "failed": 0,
+  "exactPatternSetMatchRate": 1,
+  "byCategory": {
+    "synthetic-positive": {
+      "total": 8,
+      "passed": 8
+    },
+    "synthetic-benign": {
+      "total": 5,
+      "passed": 5
+    },
+    "synthetic-uncertain": {
+      "total": 4,
+      "passed": 4
+    }
+  },
+  "independentEvaluation": false,
+  "realWorldAccuracyMeasured": false,
+  "datasetIsRepresentative": false,
+  "networkRequests": 0,
+  "rawTranscriptsStored": false,
+  "limitations": [
+    "All conversations are fictional and developer-authored.",
+    "This is not a representative sample of real scam conversations or benign conversations.",
+    "Expected pattern labels were authored by the project team and have not been independently adjudicated.",
+    "Passing these cases does not establish precision, recall, fraud-detection accuracy, or safety in production."
+  ],
+  "results": [
+    {
+      "id": "P01-authority-to-credential",
+      "category": "synthetic-positive",
+      "passed": true,
+      "expectedPatterns": [
+        "identity-to-credential"
+      ],
+      "actualPatterns": [
+        "identity-to-credential"
+      ],
+      "messageCount": 2,
+      "warningMessageCount": 2,
+      "patternCount": 1
+    },
+    {
+      "id": "P02-urgency-to-credential",
+      "category": "synthetic-positive",
+      "passed": true,
+      "expectedPatterns": [
+        "pressure-to-credential"
+      ],
+      "actualPatterns": [
+        "pressure-to-credential"
+      ],
+      "messageCount": 2,
+      "warningMessageCount": 2,
+      "patternCount": 1
+    },
+    {
+      "id": "P03-benefit-to-fee",
+      "category": "synthetic-positive",
+      "passed": true,
+      "expectedPatterns": [
+        "benefit-to-fee"
+      ],
+      "actualPatterns": [
+        "benefit-to-fee"
+      ],
+      "messageCount": 2,
+      "warningMessageCount": 2,
+      "patternCount": 1
+    },
+    {
+      "id": "P04-urgency-to-recovery-fee",
+      "category": "synthetic-positive",
+      "passed": true,
+      "expectedPatterns": [
+        "pressure-to-payment"
+      ],
+      "actualPatterns": [
+        "pressure-to-payment"
+      ],
+      "messageCount": 2,
+      "warningMessageCount": 2,
+      "patternCount": 1
+    },
+    {
+      "id": "P05-link-to-credential",
+      "category": "synthetic-positive",
+      "passed": true,
+      "expectedPatterns": [
+        "link-to-credential"
+      ],
+      "actualPatterns": [
+        "link-to-credential"
+      ],
+      "messageCount": 2,
+      "warningMessageCount": 2,
+      "patternCount": 1
+    },
+    {
+      "id": "P06-authority-to-mistaken-transfer",
+      "category": "synthetic-positive",
+      "passed": true,
+      "expectedPatterns": [
+        "identity-to-payment"
+      ],
+      "actualPatterns": [
+        "identity-to-payment"
+      ],
+      "messageCount": 2,
+      "warningMessageCount": 2,
+      "patternCount": 1
+    },
+    {
+      "id": "P07-staged-escalation-with-user-turns",
+      "category": "synthetic-positive",
+      "passed": true,
+      "expectedPatterns": [
+        "identity-to-credential",
+        "identity-to-pressure",
+        "pressure-to-credential"
+      ],
+      "actualPatterns": [
+        "identity-to-credential",
+        "identity-to-pressure",
+        "pressure-to-credential"
+      ],
+      "messageCount": 4,
+      "warningMessageCount": 3,
+      "patternCount": 3
+    },
+    {
+      "id": "P08-bangla-credential-sequence",
+      "category": "synthetic-positive",
+      "passed": true,
+      "expectedPatterns": [
+        "identity-to-credential",
+        "identity-to-pressure",
+        "pressure-to-credential"
+      ],
+      "actualPatterns": [
+        "identity-to-credential",
+        "identity-to-pressure",
+        "pressure-to-credential"
+      ],
+      "messageCount": 3,
+      "warningMessageCount": 3,
+      "patternCount": 3
+    },
+    {
+      "id": "N01-benign-payment-receipt",
+      "category": "synthetic-benign",
+      "passed": true,
+      "expectedPatterns": [],
+      "actualPatterns": [],
+      "messageCount": 5,
+      "warningMessageCount": 0,
+      "patternCount": 0
+    },
+    {
+      "id": "N02-benign-official-safety-reminder",
+      "category": "synthetic-benign",
+      "passed": true,
+      "expectedPatterns": [],
+      "actualPatterns": [],
+      "messageCount": 3,
+      "warningMessageCount": 0,
+      "patternCount": 0
+    },
+    {
+      "id": "N03-benign-delivery-charge",
+      "category": "synthetic-benign",
+      "passed": true,
+      "expectedPatterns": [],
+      "actualPatterns": [],
+      "messageCount": 3,
+      "warningMessageCount": 0,
+      "patternCount": 0
+    },
+    {
+      "id": "N04-isolated-credential-request-no-prior-stage",
+      "category": "synthetic-uncertain",
+      "passed": true,
+      "expectedPatterns": [],
+      "actualPatterns": [],
+      "messageCount": 2,
+      "warningMessageCount": 2,
+      "patternCount": 0
+    },
+    {
+      "id": "N05-unknown-speakers-no-sequence-attribution",
+      "category": "synthetic-uncertain",
+      "passed": true,
+      "expectedPatterns": [],
+      "actualPatterns": [],
+      "messageCount": 3,
+      "warningMessageCount": 3,
+      "patternCount": 0
+    },
+    {
+      "id": "N06-benign-provider-reference-request",
+      "category": "synthetic-benign",
+      "passed": true,
+      "expectedPatterns": [],
+      "actualPatterns": [],
+      "messageCount": 3,
+      "warningMessageCount": 0,
+      "patternCount": 0
+    },
+    {
+      "id": "N07-self-message-not-linked-to-other-party",
+      "category": "synthetic-uncertain",
+      "passed": true,
+      "expectedPatterns": [],
+      "actualPatterns": [],
+      "messageCount": 2,
+      "warningMessageCount": 2,
+      "patternCount": 0
+    },
+    {
+      "id": "N08-reversed-event-order-does-not-create-progression",
+      "category": "synthetic-uncertain",
+      "passed": true,
+      "expectedPatterns": [],
+      "actualPatterns": [],
+      "messageCount": 2,
+      "warningMessageCount": 2,
+      "patternCount": 0
+    },
+    {
+      "id": "N09-bangla-benign-safety-reminder",
+      "category": "synthetic-benign",
+      "passed": true,
+      "expectedPatterns": [],
+      "actualPatterns": [],
+      "messageCount": 3,
+      "warningMessageCount": 0,
+      "patternCount": 0
+    }
+  ]
+}
