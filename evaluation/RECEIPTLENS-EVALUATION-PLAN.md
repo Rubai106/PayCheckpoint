@@ -1,6 +1,6 @@
 # ReceiptLens OCR evaluation plan — not yet executed
 
-**Status:** Independent real-image OCR evaluation protocol and blank score sheet. A separate 24-image synthetic native Tesseract CLI technical pilot is recorded in `STEP12_REAL_RECEIPTLENS_PILOT.md`; no independent/real-provider OCR accuracy results have been generated.  
+**Status:** Independent real-image OCR evaluation protocol and blank score sheet. A separate 24-image synthetic native Tesseract CLI technical pilot is recorded in `docs/STEP12_REAL_RECEIPTLENS_PILOT.md`; no independent/real-provider OCR accuracy results have been generated.  
 **Purpose:** Validate field extraction and abstention for synthetic payment-screen images before using ReceiptLens in a competition demo.
 
 ## Protocol

@@ -5,7 +5,7 @@ The official rules were checked on 30 October 2026. Recheck for organizer update
 ## Latest project evidence (v1.27.2, 30 October 2026)
 
 - `npm test`: 208/208; `npm run qa:release`: 9/9; `npm run check`: PASS.
-- First-time route, 70 responsive layouts, keyboard focus and the listed focused consumer feature suites pass. See `STEP15_RELEASE_AND_SUBMISSION_AUDIT.md` for the full table.
+- First-time route, 70 responsive layouts, keyboard focus and the listed focused consumer feature suites pass. See `docs/STEP15_RELEASE_AND_SUBMISSION_AUDIT.md` for the full table.
 - Native Tesseract CLI PSM 6 pilot: 24 synthetic fixtures, 23/24 both-fields present; one decimal-loss error. Not real-wallet/browser-OCR accuracy.
 - Held-out conversation/OCR evaluation: NOT RUN. Human usability sessions: NOT RUN.
 - Cloudflare live inference: NOT VERIFIED; the deployed public URL and AI binding are not available in this package.

@@ -32,7 +32,7 @@ assert headers.get('Referrer-Policy') == 'strict-origin-when-cross-origin'
 assert 'camera=()' in headers.get('Permissions-Policy', '')
 for path in ['/js/prevention.js', '/js/receipt-lens.js', '/assets/styles.css']:
     get(path)
-for path in ['/README.md', '/QA_REPORT.md', '/.env.example', '/tests/', '/scripts/check.mjs']:
+for path in ['/README.md', '/QA_REPORT.md', '/docs/QA_REPORT.md', '/.env.example', '/tests/', '/scripts/check.mjs']:
     get(path, 404)
 
 _, body = get('/api/copilot/status')

@@ -2,6 +2,8 @@
 
 PayCheckpoint is a bilingual (English/Bangla), local-first payment-safety and incident-recovery companion for Bangladesh. It helps consumers compare payment details, review suspicious-message patterns, organize evidence, review explicitly labelled multi-message scam-pressure sequences locally, prepare for provider support with a Payment Incident Dossier, and create a share-safe incident brief. It does not control, cancel, reverse, authenticate or verify real wallet transactions.
 
+Browse the [documentation index](docs/README.md) for architecture, deployment, integrations, evaluation records and historical implementation notes.
+
 ## Run locally
 
 Requirements: Node.js 20 or later. No npm dependencies are required.
@@ -93,7 +95,7 @@ npm run qa:pages-build
 
 ## Latest release and submission pack (v1.27.2)
 
-The v1.27.2 release audit re-ran `npm run check`, `npm test` (208/208), `npm run qa:release` (9/9), first-time journey, 70 responsive layouts, focused feature suites, the native Tesseract CLI synthetic technical pilot, and the Cloudflare Pages build/security checks. See `STEP15_RELEASE_AND_SUBMISSION_AUDIT.md` for the complete results and limitations.
+The v1.27.2 release audit re-ran `npm run check`, `npm test` (208/208), `npm run qa:release` (9/9), first-time journey, 70 responsive layouts, focused feature suites, the native Tesseract CLI synthetic technical pilot, and the Cloudflare Pages build/security checks. See `docs/STEP15_RELEASE_AND_SUBMISSION_AUDIT.md` for the complete results and limitations.
 
 A five-slide draft deck, English speaker notes and final submission checklist are in `submission/`. `submission/OWNER_ACTIONS.md` gives the exact owner-only registration, Cloudflare Pages, live-inference, sticker and safe user-study steps. The deck is not final until the public URL/live AI status is verified and the exact organizer-provided sticker replaces the placeholder. Independent held-out OCR/conversation evaluation and participant usability testing remain NOT RUN.
 
@@ -103,7 +105,7 @@ The official [YUNet AIgnite Buildathon rules](https://yunet-aignite26.devpost.co
 
 ## ReceiptLens lifecycle reliability (Step 13)
 
-- ReceiptLens now has an English/Bangla Cancel OCR control, idempotent worker termination, stale-run guards, and new-image/new-case invalidation. A cancelled run cannot overwrite a newer run. See `STEP13_RECEIPTLENS_LIFECYCLE.md` for implementation, QA and the initialization-download limitation.
+- ReceiptLens now has an English/Bangla Cancel OCR control, idempotent worker termination, stale-run guards, and new-image/new-case invalidation. A cancelled run cannot overwrite a newer run. See `docs/STEP13_RECEIPTLENS_LIFECYCLE.md` for implementation, QA and the initialization-download limitation.
 
 ## ReceiptLens technical OCR pilot (Step 12)
 

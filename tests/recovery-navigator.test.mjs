@@ -7,7 +7,7 @@ const [navigatorSource, page, packageJson, report] = await Promise.all([
   readFile(new URL('js/recovery-navigator.js', root), 'utf8'),
   readFile(new URL('index.html', root), 'utf8'),
   readFile(new URL('package.json', root), 'utf8').then(JSON.parse),
-  readFile(new URL('STEP3_RECOVERY_NAVIGATOR.md', root), 'utf8')
+  readFile(new URL('docs/STEP3_RECOVERY_NAVIGATOR.md', root), 'utf8')
 ]);
 
 test('Recovery Navigator has distinct scenario paths and official CIPC source', () => {

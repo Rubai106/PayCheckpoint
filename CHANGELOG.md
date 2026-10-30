@@ -39,7 +39,7 @@
 - Added focused browser regressions for cancel during recognition, cancel while worker creation is pending, late stale rejection after a new success, and worker cleanup. ReceiptLens QA is now 11/11 (mock worker).
 - No model/API, paid service, provider request, image upload or data-retention change was introduced. OCR remains user-reviewed and untrusted.
 - Limitation: cancellation cannot abort Tesseract.js internal script/language downloads before `createWorker` returns a handle; late-created workers are terminated immediately before they can process the image.
-- Full step details and verification: `STEP13_RECEIPTLENS_LIFECYCLE.md`.
+- Full step details and verification: `docs/STEP13_RECEIPTLENS_LIFECYCLE.md`.
 
 ## v1.25.0 — 30 October 2026 — Step 12: Real ReceiptLens Technical Pilot
 
@@ -49,7 +49,7 @@
 - Pinned Tesseract.js page segmentation mode 6 explicitly, aligning with the browser API's documented single-block default and the best field extraction result on this synthetic receipt layout. It is not selected as a general full-text transcription mode; PSM 3 had lower CER/WER.
 - Added a real-engine pilot runner, image generator, frozen image hashes, per-case output, PSM comparison reports, seven new integrity/metrics tests, and `npm run qa:receipt-pilot`. The `qa:receipt-lens` browser suite remains mocked and now asserts the pinned PSM settings.
 - Kept the Step 11 independent OCR evaluation at `NOT RUN`; native CLI synthetic runs do not count as independent adjudicated browser-engine OCR runs. No real provider screenshots or human adjudication have been collected.
-- Research and results: see `STEP12_REAL_RECEIPTLENS_PILOT.md`.
+- Research and results: see `docs/STEP12_REAL_RECEIPTLENS_PILOT.md`.
 
 ## v1.23.0 — 30 October 2026 — Step 10: Call Preparation & Follow-up Intelligence
 
@@ -60,7 +60,7 @@
 - Follow-up plans are page-memory only and clear on reload/new case. Users can export `.ics` to retain reminders outside the page.
 - Added opt-in-only Share-Safe Brief sections for provider-call questions and follow-up plans; both options are unchecked by default and reset for a new case.
 - Competitive research confirmed that case messaging/status/follow-up or scam reporting already exist in PayPal, Monzo and ScamShield. The product's differentiation claim is the integrated, bilingual, provider-independent Bangladesh MFS evidence-to-recovery workflow—not an assertion that no other web app has similar features.
-- Verification and limitations are recorded in `QA_REPORT.md` and `STEP10_CALL_AND_FOLLOWUP_INTELLIGENCE.md`.
+- Verification and limitations are recorded in `docs/QA_REPORT.md` and `docs/STEP10_CALL_AND_FOLLOWUP_INTELLIGENCE.md`.
 
 ## v1.21.0 — 30 October 2026 — Step 9: Evidence Integrity Manifest
 
@@ -119,7 +119,7 @@ The v1.12.0 historical implementation briefly included a Gemini API route. That 
 - Added conservative candidate rules for Bangladesh-format phone numbers and labelled/currency amounts, source-line numbers, bounding-box overlays, categorical engine-score bands and a transcript reveal panel. No values are accepted automatically.
 - Selected OCR values must be visually checked and explicitly confirmed; the action clears the confirmation checkbox. Changing language clears existing suggestions. The evidence export records the OCR method, language, score bands and selected source-line indexes but excludes the image and raw OCR transcript.
 - Added ReceiptLens unit tests and nine focused isolated Chromium interaction groups using a mocked OCR worker, including Bengali/Arabic-Indic digit normalization, misleading dates/IDs/balances, inert text rendering, source highlighting, export privacy, case reset and fallback on engine failure.
-- Research: Tesseract.js official v7 API (browser worker, multi-language arrays and `blocks` output), official language data, PaddleOCR browser model language coverage, a 2025 BRAC University Bengali OCR benchmark and a disclosure on manipulated payment screenshots. See `STEP5_RECEIPT_LENS_OCR.md`.
+- Research: Tesseract.js official v7 API (browser worker, multi-language arrays and `blocks` output), official language data, PaddleOCR browser model language coverage, a 2025 BRAC University Bengali OCR benchmark and a disclosure on manipulated payment screenshots. See `docs/STEP5_RECEIPT_LENS_OCR.md`.
 - Verification caveat at v1.16.0: the actual third-party browser OCR runtime and language downloads could not be loaded in that environment. Step 12 later ran native Tesseract CLI on synthetic generated fixtures; it does not establish browser Tesseract.js parity or independent accuracy. The independent `evaluation/RECEIPTLENS-RESULTS.csv` remains `NOT_RUN`.
 - Verification: `npm run check` PASS; `npm test` 108/108; `npm run qa:receipt-lens` 9/9 focused groups (mocked engine); `npm run qa:recovery` 8 groups; `npm run qa:share-brief` 6 groups; `npm run qa:evaluation` 50/50 developer-authored synthetic labels. Broad `npm run qa:browser` timed out at 120 seconds and is not counted as passing.
 
@@ -136,13 +136,13 @@ The v1.12.0 historical implementation briefly included a Gemini API route. That 
 - Uses the existing official provider source register; no provider lookups or complaint submissions are performed. CIPC escalation is explicitly conditional on the provider-first complaint route.
 - Added page-local checklist progress, reset-on-new-case behavior and provenance notes. Checklist clicks do not fabricate timeline events; structured evidence export labels user-marked IDs as unverified self-reports.
 - Added `qa:recovery` focused Chromium acceptance tests and source-level regression coverage.
-- Research: Bangladesh Bank CIPC procedure, bKash official fraud awareness, current Buildathon rules and OWASP GenAI security guidance. See `STEP3_RECOVERY_NAVIGATOR.md`.
+- Research: Bangladesh Bank CIPC procedure, bKash official fraud awareness, current Buildathon rules and OWASP GenAI security guidance. See `docs/STEP3_RECOVERY_NAVIGATOR.md`.
 - Limit: full historic browser interaction suite timed out in this environment during its later screenshot-related checks after the extra incident UI; focused navigator acceptance passes, but full cross-browser and served-origin testing remains required before public release.
 
 
 ## v1.13.0 — 30 October 2026 — Step 2: Source-aware Evidence Map
 
-**Research-informed implementation:** uses source/provenance separation and explicit unknowns rather than an opaque aggregate fraud score. See `STEP2_EVIDENCE_MAP.md` for the rationale, external references, tests and limitations.
+**Research-informed implementation:** uses source/provenance separation and explicit unknowns rather than an opaque aggregate fraud score. See `docs/STEP2_EVIDENCE_MAP.md` for the rationale, external references, tests and limitations.
 
 - Added a responsive, bilingual Evidence Map to the incident workspace. It distinguishes the user's intent, unverified pasted instruction, pre-send simulation entry, manually reviewed screenshot outcome, user-reviewed but unauthenticated receipt/message fields, and unavailable provider-authoritative evidence.
 - Added field-level status labels (match, mismatch, missing, incomplete, unconfirmed, not reviewed, stale, saved snapshot, unavailable) and masks recipient phone numbers by default.
@@ -153,7 +153,7 @@ The v1.12.0 historical implementation briefly included a Gemini API route. That 
 ## v1.12.0 — 30 October 2026 — Step 1: Evidence-to-Action foundation
 
 
-**Research-informed implementation:** Research on digital-finance fraud protection indicates that generic warning features are widespread and warning fatigue is a known challenge; the product therefore distinguishes evidence sources and unknowns rather than outputting a generic fraud probability. See `STEP1_AI_COPILOT_AND_UX_FOUNDATION.md` for references and limitations.
+**Research-informed implementation:** Research on digital-finance fraud protection indicates that generic warning features are widespread and warning fatigue is a known challenge; the product therefore distinguishes evidence sources and unknowns rather than outputting a generic fraud probability. See `docs/STEP1_AI_COPILOT_AND_UX_FOUNDATION.md` for references and limitations.
 
 - Added a B2C Evidence-to-Action Copilot panel in the incident workflow.
 - Added a private deterministic offline plan. It uses categorical case states and situation selection only, makes no network request, and intentionally ignores the optional free-text note.
