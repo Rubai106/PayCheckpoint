@@ -1,0 +1,52 @@
+name: PayCheckpoint validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: paycheckpoint-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Release and consumer journey regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install browser test runner
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Run deterministic release validation
+        run: npm run qa:release
+
+      - name: Run first-time consumer journey
+        run: npm run qa:first-time
+
+      - name: Run keyboard and focus accessibility checks
+        run: npm run qa:focus
+
+      - name: Run responsive screen regression
+        run: npm run qa:responsive
