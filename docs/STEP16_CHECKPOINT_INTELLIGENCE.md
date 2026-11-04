@@ -19,7 +19,7 @@ The primary action is selected from the active case state:
 - A prevention case with matching entered details can proceed to the manual wallet-side checkpoint, where the user must independently verify the provider's own confirmation screen.
 - A recovery case routes toward reviewing a receipt/message or preparing the incident dossier.
 
-The English/Bangla panel labels the current state, explains why its action is recommended, and gives secondary actions less visual weight. The recommendation changes with the underlying evidence; it is not a static menu.
+The English/Bangla panel labels the current state, explains why its action is recommended, and gives secondary actions less visual weight. The recommendation changes with the underlying evidence; it is not a static menu. The screenshot branch distinguishes an incomplete review from an actual field mismatch and a stale comparison; the message tells users which condition applies.
 
 ## Fail-closed wallet checkpoint
 
@@ -41,7 +41,7 @@ This is defense in depth: hiding a button is not treated as sufficient, because 
 
 GitHub Actions run [#41879564068](https://github.com/Rubai106/PayCheckpoint/actions/runs/41879564068) completed successfully for source commit `c6c26f51bf1921409d679f204213b3b733f2e12d`. The regression job passed deterministic release validation, first-time consumer journey, Incident Dossier, Evidence Map, keyboard/focus accessibility and responsive-layout stages.
 
-The focused browser QA covers matching and mismatching pre-send values, English/Bangla switching, instruction source inspection and return, and blocked attempts involving instruction, receipt and screenshot conflicts (including a direct call to the preflight renderer).
+The focused browser QA covers matching and mismatching pre-send values, English/Bangla switching, instruction source inspection and return, and blocked attempts involving instruction, receipt and screenshot conflicts (including a direct call to the preflight renderer). It also asserts the incomplete-screenshot explanation in both languages while the typed payment details are deliberately set to match.
 
 ## Limitations
 
