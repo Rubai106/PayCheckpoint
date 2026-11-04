@@ -1,6 +1,6 @@
 {
   "name": "paycheckpoint-website",
-  "version": "1.28.1",
+  "version": "1.28.2",
   "private": true,
   "description": "Bilingual local-first payment safety, source-aware evidence, incident preparation, and safer cancelable OCR workflows",
   "type": "module",
