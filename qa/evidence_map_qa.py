@@ -279,6 +279,8 @@ with sync_playwright() as p:
     # An unconfirmed value suggested from an original instruction cannot be silently treated as proof.
     page.evaluate("""() => {
       S.screenReview = null;
+      // Reset the prior direct-call mismatch scenario so this test isolates instruction review.
+      S.enteredNum = S.intendedNum; S.enteredAmt = S.intendedAmt;
       S.instrNumCands = ['01712345679']; S.instrAmtCands = [];
       S.instrNumConfirmed = false; S.instrAmtConfirmed = false;
       renderRecon(); goApp('recon');
