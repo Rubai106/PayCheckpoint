@@ -99,7 +99,7 @@ npm run qa:pages-build
 - A mismatch correction changes only PayCheckpoint's local comparison values. A persistent warning explicitly says that the actual bKash/Nagad/Rocket app was not changed.
 - English/Bangla first-time journey coverage includes the prototype/privacy FAQ, concise field hints, and readable mobile progress labels at seven widths (320–1440px); a separate responsive audit tests 10 screens × 7 widths. These are automated interface checks, not participant usability evidence.
 
-## Latest release and submission pack (v1.28.0)
+## Latest release and submission pack (v1.28.1)
 
 The v1.28.0 release audit is recorded in `docs/STEP15_RELEASE_AND_SUBMISSION_AUDIT.md`. A 4 November 2026 owner-supplied production report records a successful real synthetic Cloudflare Workers AI inference request (HTTP 200, approximately 4.6 seconds) and API failure-path checks; see `submission/PRODUCTION_VERIFICATION_2026-11-04.md`. This report is attributed to the owner's coding agent and is not an independent reproduction.
 
