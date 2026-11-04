@@ -158,6 +158,19 @@ with sync_playwright() as p:
     assert 'user-reported' in page.locator('#wallet-check-status').inner_text().lower()
     assert page.evaluate("S.timeline.some(e => e.code === 'wallet-details-checked' && e.source === 'user-reported')")
 
+    # Programmatic updates must refresh the live comparison even without input events.
+    page.evaluate("goApp('intent')")
+    assert page.locator('#live-source-visual').get_attribute('data-state') == 'match'
+    assert page.locator('[data-live-source="entered"] [data-live-value="recipient"]').inner_text() == '01712345678'
+    assert page.locator('[data-live-source="entered"] [data-live-value="amount"]').inner_text() == '৳3,000'
+
+    # Starting a new case clears the form and all live comparison layers.
+    page.evaluate("startJourney('prevention','intent')")
+    assert page.locator('#live-source-visual').get_attribute('data-state') == 'pending'
+    assert page.locator('[data-live-source="intent"] [data-live-value="recipient"]').inner_text() == 'Not entered yet'
+    assert page.locator('[data-live-source="entered"] [data-live-value="recipient"]').inner_text() == 'Not entered yet'
+    assert '01712345678' not in page.locator('#live-source-visual').inner_text()
+
     # A mismatch does not expose the simulated transfer path; fixing it unlocks the manual checkpoint.
     page.evaluate("startJourney('prevention','intent')")
     page.locator('#f-intended-num').fill('01712345678')
