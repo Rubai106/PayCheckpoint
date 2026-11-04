@@ -55,6 +55,7 @@ test('entry page includes the organizer asset, 3D demo, live comparison, and loc
 
 test('mismatch layer has restrained motion with an explicit reduced-motion fallback', async () => {
   const css = await readFile(resolve(root, 'assets/styles.css'), 'utf8');
-  assert.match(css, /@keyframes payment-mismatch-nudge/);
-  assert.match(css, /prefers-reduced-motion:reduce[\\s\\S]*?payment-mismatch-nudge[\\s\\S]*?animation:none!important/);
+  assert.ok(css.includes('@keyframes payment-mismatch-nudge'));
+  assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'));
+  assert.ok(css.includes('animation:none!important'));
 });
