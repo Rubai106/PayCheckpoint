@@ -8,6 +8,7 @@ function recordTimelineEvent(code, en, bn, source){
   var entry={code:String(code||'event').slice(0,64),at:new Date().toISOString(),en:String(en||'Event').slice(0,180),bn:String(bn||en||'ঘটনা').slice(0,180),source:source==='user-reported'?'user-reported':'app-recorded'};
   S.timeline.push(entry);
   if(S.timeline.length>50) S.timeline=S.timeline.slice(-50);
+  if(typeof renderIncidentWorkflowHub==='function')renderIncidentWorkflowHub();
   return entry;
 }
 function recordTimelineEventOnce(code,en,bn,source){
