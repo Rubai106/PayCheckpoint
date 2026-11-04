@@ -45,6 +45,9 @@ jobs:
       - name: Run first-time consumer journey
         run: npm run qa:first-time
 
+      - name: Run connected recovery workspace regression
+        run: npm run qa:incident-dossier
+
       - name: Run keyboard and focus accessibility checks
         run: npm run qa:focus
 
