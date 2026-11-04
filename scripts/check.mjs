@@ -16,7 +16,7 @@ for (const file of mustExist) {
 const html = await readFile(resolve(root, 'index.html'), 'utf8');
 const envExample = await readFile(resolve(root, '.env.example'), 'utf8');
 const packageJson = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
-if (packageJson.version !== '1.29.0') { console.error(`✗ Expected release version 1.29.0, found ${packageJson.version}`); failed = true; } else console.log('✓ release version is v1.29.0');
+if (packageJson.version !== '1.30.0') { console.error(`✗ Expected release version 1.30.0, found ${packageJson.version}`); failed = true; } else console.log('✓ release version is v1.30.0');
 if (Object.keys(packageJson.dependencies ?? {}).length || Object.keys(packageJson.devDependencies ?? {}).length) {
   console.error('✗ Free local mode expects no npm dependencies'); failed = true;
 } else console.log('✓ no external npm dependencies');

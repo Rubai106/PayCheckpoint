@@ -138,7 +138,7 @@ test('dossier is integrated into incident view, language refresh, reset, and bot
   assert.match(shareBrief, /Provider contact preparation/);
   assert.ok(check.includes('js/incident-dossier.js'));
   assert.ok(check.includes('qa/incident_dossier_qa.py'));
-  assert.equal(pkg.version, '1.29.0');
+  assert.equal(pkg.version, '1.30.0');
   assert.ok(html.includes('data-cipc-prep') === false || html.includes('incident-dossier-support'));
 });
 

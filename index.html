@@ -340,6 +340,7 @@ Other: Send your OTP to verify."></textarea>
 <h2 data-i18n="reconH">3 · Intent-to-receipt reconciliation</h2><p class="hint" data-i18n="reconHint">Three sources compared exactly. A mismatch is a difference — it is not automatically fraud or an unauthorised transaction.</p>
 <div id="recon-body"></div>
 <div class="cta-row" id="recon-actions"></div>
+<div id="recon-evidence-map-slot"></div>
 </section>
 
 <section class="panel hidden" data-screen="preflight-check">
@@ -447,37 +448,7 @@ Other: Send your OTP to verify."></textarea>
   </div>
 </section>
 <div id="incident-body"></div>
-<section class="evidence-map-panel" aria-labelledby="evidence-map-title">
-  <div class="evidence-map-heading">
-    <div><p class="eyebrow" id="evidence-map-kicker">SOURCE-AWARE REVIEW</p><h3 id="evidence-map-title">Evidence Map</h3><p class="hint" id="evidence-map-intro">See which facts agree, conflict, or remain unknown. A match does not authenticate a message or verify wallet ownership.</p></div>
-    <span id="evidence-map-count" class="tag tag-n">No comparison yet</span>
-  </div>
-  <div id="evidence-map-summary" class="evidence-map-summary" role="status" aria-live="polite"></div>
-  <div class="evidence-map-tools">
-    <div class="evidence-map-filters" role="group" aria-label="Filter evidence sources" id="evidence-map-filters">
-      <button type="button" class="evidence-map-filter is-active" data-evidence-filter="all" aria-pressed="true"><span id="evidence-map-filter-all">All sources</span><b data-evidence-count="all">6</b></button>
-      <button type="button" class="evidence-map-filter" data-evidence-filter="conflicts" aria-pressed="false"><span id="evidence-map-filter-conflicts">Conflicts</span><b data-evidence-count="conflicts">0</b></button>
-      <button type="button" class="evidence-map-filter" data-evidence-filter="review" aria-pressed="false"><span id="evidence-map-filter-review">Needs review</span><b data-evidence-count="review">0</b></button>
-    </div>
-    <p class="evidence-map-order-note" id="evidence-map-order-note">01 → 06 is the review order, not a timestamped transaction history.</p>
-  </div>
-  <p id="evidence-map-filter-status" class="evidence-map-filter-status" role="status" aria-live="polite"></p>
-  <section class="evidence-field-trail" aria-labelledby="evidence-field-trail-title">
-    <div class="evidence-field-trail-head">
-      <div><p class="eyebrow" id="evidence-field-trail-kicker">FIELD INVESTIGATION</p><h4 id="evidence-field-trail-title">Follow one detail across sources</h4><p id="evidence-field-trail-intro">Choose a field to compare it independently across the case sources.</p></div>
-      <div class="evidence-field-lenses" id="evidence-field-lenses" role="group" aria-label="Choose a field to investigate">
-        <button type="button" class="evidence-field-lens is-active" data-evidence-lens="recipient" aria-pressed="true" id="evidence-lens-recipient">Recipient</button>
-        <button type="button" class="evidence-field-lens" data-evidence-lens="amount" aria-pressed="false" id="evidence-lens-amount">Amount</button>
-      </div>
-    </div>
-    <div id="evidence-field-trail-summary" class="evidence-field-trail-summary" role="status" aria-live="polite"></div>
-    <div id="evidence-field-trail-list" class="evidence-field-trail-list" aria-live="polite"></div>
-    <p id="evidence-field-trail-note" class="evidence-field-trail-note">The intended details are the comparison reference, not independent proof. A matching value does not authenticate the source.</p>
-  </section>
-  <div id="evidence-map-body" class="evidence-map-grid" aria-live="polite"></div>
-  <p id="evidence-map-filter-empty" class="evidence-map-filter-empty" hidden>No sources match this filter. Choose another view.</p>
-  <p class="hint evidence-map-footnote" id="evidence-map-footnote">User-provided content, manual review, parsed text and provider-confirmed facts are different evidence levels. No provider-confirmed record is attached in this prototype.</p>
-</section>
+<div id="incident-evidence-map-slot"></div>
 <section class="evidence-integrity-panel" id="evidence-integrity-panel" aria-labelledby="evidence-integrity-title">
   <div class="evidence-integrity-heading"><div><p class="eyebrow" id="evidence-integrity-kicker">LOCAL FILE FINGERPRINTS</p><h3 id="evidence-integrity-title">Evidence Integrity Manifest</h3><p class="hint" id="evidence-integrity-intro">Create SHA-256 fingerprints for files you select. Files are read in this browser; they are not uploaded or retained. Records stay in this page until you start a new case or reload; download the JSON manifest to keep a reference. Later, select the same file to compare its bytes with the saved fingerprint.</p></div><span class="tag tag-n" id="evidence-integrity-count">0 of 8 evidence records used</span></div>
   <div class="evidence-integrity-controls">
@@ -580,6 +551,38 @@ Other: Send your OTP to verify."></textarea>
   <article id="share-brief-document" class="share-brief-document" aria-label="Share-safe incident brief preview"></article>
 </section>
 </section>
+
+<div id="evidence-map-parking" class="hidden"><section id="evidence-map-panel" class="evidence-map-panel hidden" aria-labelledby="evidence-map-title">
+  <div class="evidence-map-heading">
+    <div><p class="eyebrow" id="evidence-map-kicker">SOURCE-AWARE REVIEW</p><h3 id="evidence-map-title">Evidence Map</h3><p class="hint" id="evidence-map-intro">See which facts agree, conflict, or remain unknown. A match does not authenticate a message or verify wallet ownership.</p></div>
+    <span id="evidence-map-count" class="tag tag-n">No comparison yet</span>
+  </div>
+  <div id="evidence-map-summary" class="evidence-map-summary" role="status" aria-live="polite"></div>
+  <div class="evidence-map-tools">
+    <div class="evidence-map-filters" role="group" aria-label="Filter evidence sources" id="evidence-map-filters">
+      <button type="button" class="evidence-map-filter is-active" data-evidence-filter="all" aria-pressed="true"><span id="evidence-map-filter-all">All sources</span><b data-evidence-count="all">6</b></button>
+      <button type="button" class="evidence-map-filter" data-evidence-filter="conflicts" aria-pressed="false"><span id="evidence-map-filter-conflicts">Conflicts</span><b data-evidence-count="conflicts">0</b></button>
+      <button type="button" class="evidence-map-filter" data-evidence-filter="review" aria-pressed="false"><span id="evidence-map-filter-review">Needs review</span><b data-evidence-count="review">0</b></button>
+    </div>
+    <p class="evidence-map-order-note" id="evidence-map-order-note">01 → 06 is the review order, not a timestamped transaction history.</p>
+  </div>
+  <p id="evidence-map-filter-status" class="evidence-map-filter-status" role="status" aria-live="polite"></p>
+  <section class="evidence-field-trail" aria-labelledby="evidence-field-trail-title">
+    <div class="evidence-field-trail-head">
+      <div><p class="eyebrow" id="evidence-field-trail-kicker">FIELD INVESTIGATION</p><h4 id="evidence-field-trail-title">Follow one detail across sources</h4><p id="evidence-field-trail-intro">Choose a field to compare it independently across the case sources.</p></div>
+      <div class="evidence-field-lenses" id="evidence-field-lenses" role="group" aria-label="Choose a field to investigate">
+        <button type="button" class="evidence-field-lens is-active" data-evidence-lens="recipient" aria-pressed="true" id="evidence-lens-recipient">Recipient</button>
+        <button type="button" class="evidence-field-lens" data-evidence-lens="amount" aria-pressed="false" id="evidence-lens-amount">Amount</button>
+      </div>
+    </div>
+    <div id="evidence-field-trail-summary" class="evidence-field-trail-summary" role="status" aria-live="polite"></div>
+    <div id="evidence-field-trail-list" class="evidence-field-trail-list" aria-live="polite"></div>
+    <p id="evidence-field-trail-note" class="evidence-field-trail-note">The intended details are the comparison reference, not independent proof. A matching value does not authenticate the source.</p>
+  </section>
+  <div id="evidence-map-body" class="evidence-map-grid" aria-live="polite"></div>
+  <p id="evidence-map-filter-empty" class="evidence-map-filter-empty" hidden>No sources match this filter. Choose another view.</p>
+  <p class="hint evidence-map-footnote" id="evidence-map-footnote">User-provided content, manual review, parsed text and provider-confirmed facts are different evidence levels. No provider-confirmed record is attached in this prototype.</p>
+</section></div>
 
 <!-- SETTINGS -->
 <section class="panel hidden" data-screen="settings">

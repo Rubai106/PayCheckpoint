@@ -15,7 +15,7 @@ scripts = [
     "sandbox-lab.js", "bkash-sandbox.js", "cases.js", "prevention.js", "recovery.js", "safesend.js",
     "reports.js", "evidence-map.js", "recovery-navigator.js", "incident-dossier.js", "followup-planner.js",
     "saved-cases.js", "enhancements.js", "sequence-intelligence.js", "receipt-lens.js", "copilot.js",
-    "share-brief.js", "evidence-integrity.js", "bootstrap.js"
+    "share-brief.js", "evidence-integrity.js", "payment-visual.js", "bootstrap.js"
 ]
 inline = "\n".join('<script>\n' + (ROOT / "js" / name).read_text(encoding="utf-8") + "\n</script>" for name in scripts)
 html = html.replace("</body>", inline + "\n</body>")
@@ -29,6 +29,31 @@ with sync_playwright() as p:
     errors = []
     page.on("pageerror", lambda error: errors.append(str(error)))
     page.set_content(html, wait_until="load", timeout=30000)
+
+    # The same Evidence Map is available immediately after reconciliation.
+    # Source inspection must return to the screen that launched it.
+    page.evaluate("""() => {
+      startJourney('prevention', 'intent');
+      S.intendedNum = '01712345678'; S.intendedAmt = '3000';
+      S.instrNumConfirmed = true; S.instrNum = '01712345679';
+      S.instrAmtConfirmed = true; S.instrAmt = '3000';
+      S.enteredNum = '01712345678'; S.enteredAmt = '3000';
+      goApp('recon');
+    }""")
+    assert page.locator('[data-screen="recon"]').is_visible()
+    assert page.locator('#evidence-map-panel').is_visible()
+    assert page.locator('#evidence-map-panel').evaluate("(el) => el.parentElement.id") == "recon-evidence-map-slot"
+    assert page.locator("#evidence-map-body [data-evidence-source]").count() == 6
+    page.locator('[data-evidence-source="instruction"] .evidence-source-open').click()
+    assert page.locator('[data-screen="intent"]').is_visible()
+    assert page.locator('#evidence-map-panel').is_hidden()
+    assert page.locator('#evidence-source-return').is_visible()
+    page.locator('#evidence-source-return-action').click()
+    assert page.locator('[data-screen="recon"]').is_visible()
+    assert page.locator('#evidence-map-panel').is_visible()
+    assert page.locator('#evidence-map-panel').evaluate("(el) => el.parentElement.id") == "recon-evidence-map-slot"
+    assert page.evaluate("document.activeElement.id") == "evidence-map-title"
+    checks.append("PASS | Evidence Map is surfaced after reconciliation and source handoff returns to the originating screen")
 
     page.evaluate("""() => {
       startJourney('recovery', 'incident');

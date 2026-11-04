@@ -71,6 +71,7 @@ function evidenceMapSourceCard(id, title, provenance, number, amount, nState, aS
 }
 var PC_EVIDENCE_MAP_FILTER = 'all';
 var PC_EVIDENCE_MAP_LENS = 'recipient';
+var PC_EVIDENCE_MAP_RETURN_SCREEN = 'incident';
 function filterEvidenceSources(filter) {
   if (['all', 'conflicts', 'review'].indexOf(filter) === -1) filter = 'all';
   PC_EVIDENCE_MAP_FILTER = filter;
@@ -160,6 +161,9 @@ function renderEvidenceFieldTrail(sources) {
   });
 }
 function openEvidenceSource(id, fieldKind) {
+  var activePanel = document.querySelector('[data-screen]:not(.hidden)');
+  var activeScreen = activePanel ? activePanel.getAttribute('data-screen') : '';
+  if (activeScreen === 'recon' || activeScreen === 'incident') PC_EVIDENCE_MAP_RETURN_SCREEN = activeScreen;
   fieldKind = fieldKind === 'amount' ? 'amount' : 'recipient';
   var routes = {
     intent: { screen: 'intent', field: 'f-intended-num', amountField: 'f-intended-amt' },
@@ -175,6 +179,7 @@ function openEvidenceSource(id, fieldKind) {
     panel.classList.toggle('hidden', panel.getAttribute('data-screen') !== route.screen);
   });
   if (typeof renderJourneyProgress === 'function') renderJourneyProgress('start');
+  if (typeof positionEvidenceMap === 'function') positionEvidenceMap(route.screen);
   if (route.details != null) {
     var disclosures = document.querySelectorAll('[data-screen="intent"] details.intent-advanced');
     if (disclosures[route.details]) disclosures[route.details].open = true;
@@ -197,13 +202,11 @@ function openEvidenceSource(id, fieldKind) {
 function returnToEvidenceMap() {
   var handoff = document.getElementById('evidence-source-return');
   if (handoff) handoff.classList.add('hidden');
-  if (typeof goApp === 'function') goApp('incident');
+  var destination = PC_EVIDENCE_MAP_RETURN_SCREEN === 'recon' ? 'recon' : 'incident';
+  if (typeof goApp === 'function') goApp(destination);
   renderEvidenceMap();
-  if (typeof incidentWorkflowJump === 'function') incidentWorkflowJump('evidence-map-title');
-  else {
-    var title = document.getElementById('evidence-map-title');
-    if (title) { title.setAttribute('tabindex', '-1'); title.focus(); }
-  }
+  var title = document.getElementById('evidence-map-title');
+  if (title) { title.setAttribute('tabindex', '-1'); title.scrollIntoView({behavior:'auto',block:'start'}); title.focus(); }
   return true;
 }
 function evidenceMapScreenshotIsStale(review) {

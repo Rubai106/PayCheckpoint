@@ -92,7 +92,7 @@ test('usability analysis rejects participant identifiers and malformed outcomes'
 
 test('Step 11 docs and package scripts expose the evaluation protocol without claiming completed user research',async()=>{
  const pkg=JSON.parse(await readFile(resolve(root,'package.json'),'utf8'));
- assert.equal(pkg.version,'1.29.0');assert.ok(pkg.scripts['qa:conversation-independent']);assert.ok(pkg.scripts['qa:ocr-independent']);assert.ok(pkg.scripts['qa:usability-summary']);
+ assert.equal(pkg.version,'1.30.0');assert.ok(pkg.scripts['qa:conversation-independent']);assert.ok(pkg.scripts['qa:ocr-independent']);assert.ok(pkg.scripts['qa:usability-summary']);
  const guide=await readFile(resolve(root,'evaluation/independent/ANNOTATION-GUIDE.md'),'utf8');assert.match(guide,/no independent annotations or participant sessions have been collected/i);
  const manifest=JSON.parse(await readFile(resolve(root,'evaluation/independent/EVALUATION-MANIFEST.json'),'utf8'));assert.equal(manifest.conversationPlan.adjudicatedCases,0);assert.equal(manifest.usabilityPlan.sessionsConducted,0);
 });

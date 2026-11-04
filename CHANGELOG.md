@@ -1,4 +1,12 @@
-## v1.29.0 — 4 November 2026 — Intent → Evidence → Action visual stack
+## v1.30.0 — 4 November 2026 — Evidence Map in the decision workflow
+
+- Surfaced the existing six-source Evidence Map immediately after payment reconciliation, so users can trace each recipient and amount before moving to the final wallet checkpoint.
+- Kept one shared map in both reconciliation and the incident workspace. The panel moves between explicit mount points rather than being duplicated; source states, filters and field lenses remain consistent.
+- Preserved the originating review screen when users open a source input. Returning now restores the same reconciliation or incident view, re-renders the map and focuses its heading without resetting the case.
+- Extended the Evidence Map browser regression to cover the reconciliation → inspect source → return journey, while preserving the existing incident workspace coverage.
+- No new dependencies, provider integrations or unsupported verification claims. Evidence provenance and the provider-not-connected limitation remain explicit.
+
+## v1.30.0 — 4 November 2026 — Intent → Evidence → Action visual stack
 - Moved all new visual-demo and Bangladesh Bank impact-strip English/Bangla labels into the shared I18N dictionaries so the existing completeness audit covers them; the visual module no longer mutates the dictionaries at runtime.
 - Updated the first-time journey browser assertions to target the new interactive hero instead of the removed static mock selectors.
 - Added a compact, bilingual Bangladesh Bank context strip to the landing page: 81,423 reported 2025 cases across MFS, cheque and card segments and an 8.7% MFS fraud-value recovery rate. The source opens the official Payment Systems Report 2025; the UI states that sector figures are not an individual risk estimate or PayCheckpoint outcome.

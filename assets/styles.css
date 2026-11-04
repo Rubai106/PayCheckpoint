@@ -1431,7 +1431,7 @@ details[open]{background:#FCFEFC}
 }
 @media(prefers-reduced-motion:reduce){.evidence-field-lens,.evidence-field-open{transition:none!important}}
 
-/* v1.29.0 — purpose-built, live payment evidence stack and organizer mark. */
+/* v1.30.0 — purpose-built, live payment evidence stack and organizer mark. */
 .sticker-slot{flex:0 1 166px;max-width:166px;min-height:0;padding:0;border:0;background:transparent;display:flex;align-items:center;justify-content:center}
 .sticker-image{display:block;width:100%;height:auto;max-height:48px;object-fit:contain;filter:drop-shadow(0 3px 7px rgba(31,20,53,.10))}
 @media(max-width:640px){.sticker-slot{flex:0 1 118px;max-width:118px;min-height:0;padding:0}.sticker-image{max-height:42px}}
@@ -1541,7 +1541,7 @@ details[open]{background:#FCFEFC}
   .payment-scene-card--intent,.payment-scene-card--instruction,.payment-scene-card--entered{transform:none!important}
 }
 
-/* v1.29.0 — sourced Bangladesh payment-risk context, deliberately compact. */
+/* v1.30.0 — sourced Bangladesh payment-risk context, deliberately compact. */
 .impact-strip-section{padding:0 0 28px}
 .impact-strip{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:19px 28px;align-items:center;margin:0;border:1px solid #254C3D;border-radius:17px;padding:21px 24px;background:radial-gradient(ellipse at 88% 0%,rgba(67,139,100,.25),transparent 42%),linear-gradient(132deg,#193D2F 0%,#102D23 100%);color:#F4F7F3;box-shadow:0 10px 28px rgba(23,58,42,.10)}
 .impact-strip-copy{position:relative;z-index:1;max-width:400px}
