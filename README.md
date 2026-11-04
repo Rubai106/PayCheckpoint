@@ -1,6 +1,6 @@
 # PayCheckpoint v1.30.0
 
-PayCheckpoint is a bilingual (English/Bangla), local-first payment-safety and incident-recovery companion for Bangladesh. It helps consumers compare payment details, review suspicious-message patterns, organize evidence, review explicitly labelled multi-message scam-pressure sequences locally, prepare for provider support with a Payment Incident Dossier, and create a share-safe incident brief. It does not control, cancel, reverse, authenticate or verify real wallet transactions.
+PayCheckpoint is a bilingual (English/Bangla), local-first payment-safety and incident-recovery companion for Bangladesh. It helps consumers compare payment details, trace six evidence sources in one Evidence Map immediately after reconciliation, review suspicious-message patterns, organize evidence, review explicitly labelled multi-message scam-pressure sequences locally, prepare for provider support with a Payment Incident Dossier, and create a share-safe incident brief. It does not control, cancel, reverse, authenticate or verify real wallet transactions.
 
 Browse the [documentation index](docs/README.md) for architecture, deployment, integrations, evaluation records and historical implementation notes.
 
@@ -103,7 +103,7 @@ npm run qa:pages-build
 
 The v1.28.0 release audit is recorded in `docs/STEP15_RELEASE_AND_SUBMISSION_AUDIT.md`. A 4 November 2026 owner-supplied production report records a successful real synthetic Cloudflare Workers AI inference request (HTTP 200, approximately 4.6 seconds) and API failure-path checks; see `submission/PRODUCTION_VERIFICATION_2026-11-04.md`. This report is attributed to the owner's coding agent and is not an independent reproduction.
 
-A five-slide draft deck, English speaker notes, production verification report and final submission checklist are in `submission/`. The public app is https://paycheckpoint.pages.dev. The owner reports successful registration and a real synthetic live-AI inference check on 4 November 2026. The latest GitHub main source is v1.30.0; the production commit must be confirmed at `/build-info.json` after the build-provenance change is deployed. The mandatory official sticker must be downloaded from the organizer's [Google Drive folder](https://drive.google.com/drive/folders/1ILpnmXpegv75cNM-ACVJjh4OVmac0BIs?usp=sharing) and replace the navbar placeholder. Independent held-out OCR/conversation evaluation and participant usability testing remain NOT RUN.
+A five-slide draft deck, English speaker notes, production verification report and final submission checklist are in `submission/`. The public app is https://paycheckpoint.pages.dev. The owner reports successful registration and a real synthetic live-AI inference check on 4 November 2026. The latest GitHub main source is v1.30.0; the production commit must be confirmed at `/build-info.json` after the build-provenance change is deployed. The exact organizer-provided sticker is committed at `assets/aignite-buildathon-sticker.webp` and rendered in the navbar. Verify that the live deployment shows it before submission. Independent held-out OCR/conversation evaluation and participant usability testing remain NOT RUN.
 
 ## Competition alignment (verified 30 October 2026)
 
