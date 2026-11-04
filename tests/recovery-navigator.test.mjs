@@ -27,7 +27,7 @@ test('Recovery checklist progress is labelled user-reported and reset with each 
 test('Navigator is included in the B2C incident workflow and focused QA command', () => {
   assert.ok(page.includes('./js/recovery-navigator.js'));
   assert.ok(page.includes('id="recovery-nav-scenario"'));
-  assert.equal(packageJson.version, '1.28.2');
+  assert.equal(packageJson.version, '1.29.0');
   assert.equal(packageJson.scripts['qa:recovery'], 'python qa/recovery_navigator_qa.py');
   assert.ok(report.includes('Bangladesh Bank'));
 });

@@ -18,7 +18,7 @@
      "Built For Ostad Presents YUNet AIgnite Buildathon 2026" sticker, clearly visible near the top.
      Replace the placeholder below with the exact organizer-provided image file before submission.
      Keep it in this navbar position; do not move it to the footer. -->
-<div class="sticker-slot" id="competition-sticker" role="img" aria-label="Official buildathon sticker placeholder — replace with the organizer-provided sticker before submission"><span>Official buildathon sticker goes here</span></div>
+<div class="sticker-slot" id="competition-sticker"><img class="sticker-image" src="./assets/aignite-buildathon-sticker.webp" alt="Built For Ostad Presents YUNet AIgnite Buildathon 2026" width="360" height="128" decoding="async"/></div>
 <button class="mnav-btn" id="mnavBtn" aria-expanded="false" aria-controls="mnav" aria-label="Menu">☰</button>
 <nav class="navlinks" aria-label="Primary"><a href="#how" data-i18n="navHow">How It Works</a><a href="#can" data-i18n="navCan">Can / Cannot</a><a href="#privacy" data-i18n="navPriv">Safety &amp; Privacy</a><a href="#faq">FAQ</a></nav>
 <div style="margin-left:auto;display:flex;gap:10px;align-items:center" class="nav-cta">
@@ -46,22 +46,41 @@
 </div>
 <div class="note hero-safety" data-i18n="neverAsked"><strong>Important:</strong> This is an independent companion. It does not read inside your real bKash, Nagad or Rocket app, or intercept, cancel or reverse a real transfer. Examples and undo controls are simulations.</div>
 </div>
-<div class="mock" aria-label="Sample payment comparison">
-<div class="mock-top"><div><p class="eyebrow" data-i18n="mockEyebrow">EXAMPLE CHECK · SYNTHETIC DATA</p><h3 data-i18n="mockTitle">Recipient check</h3></div><span class="demo-mark"><span class="status-dot" aria-hidden="true"></span><span data-i18n="mockSample">Sample</span></span></div>
-<p class="sub mock-intro" data-i18n="mockSub">Compare what you intended, what was instructed, and what appears in the entered details or receipt.</p>
-<div class="mock-check mock-check-risk">
-<div class="mock-check-top"><strong data-i18n="mockRecipient">Recipient number</strong><span class="tag tag-r" data-i18n="mockMismatch">Mismatch</span></div>
-<div class="mock-values"><div><span data-i18n="mockIntended">You intended</span><strong>01712-345678</strong></div><div><span data-i18n="mockActual">Entered / receipt</span><strong class="value-diff">01712-345687</strong></div></div>
-<p class="mock-explain" data-i18n="mockMismatchHint">Last two digits differ. Pause and check the destination before confirming.</p>
-<details class="mock-source"><summary data-i18n="mockOriginalInstruction">Show original instruction</summary><p><span data-i18n="mockInstructionExample">Original instruction: 01712-345678</span> <span class="tag tag-n" data-i18n="mockUserProvided">User-provided example</span></p></details>
-</div>
-<div class="mock-check mock-check-ok">
-<div class="mock-check-top"><strong data-i18n="mockAmount">Amount</strong><span class="tag tag-g" data-i18n="mockMatches">Matches</span></div>
-<div class="mock-values"><div><span data-i18n="mockIntended">You intended</span><strong>৳3,000</strong></div><div><span data-i18n="mockActual">Entered / receipt</span><strong>৳3,000</strong></div></div>
-</div>
-<div class="mock-unknown"><span class="unknown-icon" aria-hidden="true">?</span><span><strong data-i18n="mockNotVerified">Recipient identity not verified</strong><small data-i18n="mockIdentityCaveat">Matching digits do not prove who owns the wallet.</small></span></div>
-<button class="btn btn-p mock-try" onclick="loadScenario('A')"><span data-i18n="mockTry">Explore this example</span><span aria-hidden="true">→</span></button>
-<p class="mock-footnote" data-i18n="mockFootnote">All details are fictional. PayCheckpoint compares details you provide; it is not connected to a live wallet.</p>
+<div class="mock payment-visual-demo" id="payment-visual-demo" aria-label="Interactive layered payment comparison example">
+  <div class="mock-top payment-visual-heading">
+    <div><p class="eyebrow" data-i18n="visualDemoEyebrow">INTENT → EVIDENCE → ACTION</p><h3 data-i18n="visualDemoTitle">See the payment before it moves</h3></div>
+    <span class="demo-mark"><span class="status-dot" aria-hidden="true"></span><span data-i18n="mockSample">Sample</span></span>
+  </div>
+  <p class="sub mock-intro" data-i18n="visualDemoSubtitle">Three independent sources, one clear comparison. Change the example to see how a single digit changes the result.</p>
+  <div class="visual-demo-switch" role="group" aria-label="Choose an example">
+    <button type="button" class="visual-demo-switch-button is-active" data-demo-scenario="mismatch" aria-pressed="true" data-i18n="visualDemoMismatchButton">Show mismatch</button>
+    <button type="button" class="visual-demo-switch-button" data-demo-scenario="match" aria-pressed="false" data-i18n="visualDemoMatchButton">Show match</button>
+  </div>
+  <div class="payment-scene" id="payment-scene" data-state="mismatch" aria-label="Three-dimensional payment evidence stack">
+    <article class="payment-scene-card payment-scene-card--intent" data-demo-source="intent">
+      <div class="payment-scene-card-top"><span class="payment-scene-index">01</span><span class="payment-scene-label" data-i18n="visualIntentLabel">YOUR INTENT</span><span class="source-chip" data-i18n="visualIntentSource">You stated</span></div>
+      <div class="payment-scene-values"><div><small data-i18n="mockRecipient">Recipient number</small><strong data-demo-recipient>01712-345678</strong></div><div><small data-i18n="mockAmount">Amount</small><strong data-demo-amount>৳3,000</strong></div></div>
+    </article>
+    <div class="payment-scene-connector payment-scene-connector--one" aria-hidden="true"><i></i><span></span></div>
+    <article class="payment-scene-card payment-scene-card--instruction" data-demo-source="instruction">
+      <div class="payment-scene-card-top"><span class="payment-scene-index">02</span><span class="payment-scene-label" data-i18n="visualInstructionLabel">ORIGINAL INSTRUCTION</span><span class="source-chip" data-i18n="visualMessageSource">Message</span></div>
+      <div class="payment-scene-instruction" data-i18n="visualInstructionExample">“Send ৳3,000 to 01712-345678”</div>
+      <div class="payment-scene-source-note" data-i18n="visualInstructionNote">A message is a source to review — not proof of identity.</div>
+    </article>
+    <div class="payment-scene-connector payment-scene-connector--two" aria-hidden="true"><i></i><span></span></div>
+    <article class="payment-scene-card payment-scene-card--entered" data-demo-source="entered">
+      <div class="payment-scene-card-top"><span class="payment-scene-index">03</span><span class="payment-scene-label" data-i18n="visualEnteredLabel">DETAILS YOU ENTER</span><span class="source-chip" data-i18n="visualManualSource">Manual entry</span></div>
+      <div class="payment-scene-values"><div><small data-i18n="mockRecipient">Recipient number</small><strong data-demo-recipient>01712-345687</strong></div><div><small data-i18n="mockAmount">Amount</small><strong data-demo-amount>৳3,000</strong></div></div>
+    </article>
+  </div>
+  <div class="payment-demo-result" id="payment-demo-result" data-state="mismatch" role="status" aria-live="polite" aria-atomic="true">
+    <span class="payment-demo-result-mark" aria-hidden="true">!</span>
+    <div><strong data-demo-result-title>One recipient mismatch</strong><p data-demo-result-copy>The entered number differs from your intent. Pause and correct it before continuing in your own payment app.</p></div>
+    <span class="tag tag-r" data-demo-result-tag>Mismatch</span>
+  </div>
+  <div class="mock-unknown"><span class="unknown-icon" aria-hidden="true">?</span><span><strong data-i18n="mockNotVerified">Recipient identity not verified</strong><small data-i18n="mockIdentityCaveat">Matching digits do not prove who owns the wallet.</small></span></div>
+  <button class="btn btn-p mock-try" type="button" onclick="startJourney('prevention','intent')"><span data-i18n="visualDemoStart">Check my payment details</span><span aria-hidden="true">→</span></button>
+  <p class="mock-footnote" data-i18n="mockFootnote">All details are fictional. PayCheckpoint compares details you provide; it is not connected to a live wallet.</p>
 </div>
 </section>
 
@@ -194,6 +213,31 @@ Other: Send your OTP to verify."></textarea>
   <label for="f-entered-amt" data-i18n="lblEnteredAmt">Amount you are about to enter (৳) *</label>
   <input id="f-entered-amt" type="text" inputmode="decimal" autocomplete="off" placeholder="Exact amount in your payment app" data-i18n-placeholder="enteredAmtPlaceholder" />
 </div>
+<section class="live-source-visual" id="live-source-visual" data-state="pending" aria-labelledby="live-source-visual-title">
+  <div class="live-source-visual-head">
+    <div><p class="eyebrow" data-i18n="liveVisualEyebrow">LIVE COMPARISON</p><h3 id="live-source-visual-title" data-i18n="liveVisualTitle">Your sources, side by side</h3><p class="hint" data-i18n="liveVisualIntro">This view updates as you type. Instruction values are compared only after you confirm a candidate.</p></div>
+    <span class="live-source-overall" id="live-source-overall" data-state="pending" data-i18n="liveVisualWaiting">Waiting for details</span>
+  </div>
+  <div class="live-source-visual-grid">
+    <article class="live-source-card live-source-card--intent" data-live-source="intent" data-state="pending">
+      <div class="live-source-card-top"><span class="live-source-index">01</span><strong data-i18n="visualIntentLabel">YOUR INTENT</strong><span class="live-source-state" data-live-state-label>Baseline</span></div>
+      <div class="live-source-field"><small data-i18n="mockRecipient">Recipient number</small><strong data-live-value="recipient">Not entered yet</strong></div>
+      <div class="live-source-field"><small data-i18n="mockAmount">Amount</small><strong data-live-value="amount">Not entered yet</strong></div>
+    </article>
+    <article class="live-source-card live-source-card--instruction" data-live-source="instruction" data-state="review">
+      <div class="live-source-card-top"><span class="live-source-index">02</span><strong data-i18n="visualInstructionLabel">ORIGINAL INSTRUCTION</strong><span class="live-source-state" data-live-state-label>Not confirmed</span></div>
+      <div class="live-source-field"><small data-i18n="mockRecipient">Recipient number</small><strong data-live-value="recipient">Not confirmed</strong></div>
+      <div class="live-source-field"><small data-i18n="mockAmount">Amount</small><strong data-live-value="amount">Not confirmed</strong></div>
+      <p class="live-source-card-note" data-i18n="liveVisualInstructionNote">Suggestions stay out of the comparison until you confirm them.</p>
+    </article>
+    <article class="live-source-card live-source-card--entered" data-live-source="entered" data-state="pending">
+      <div class="live-source-card-top"><span class="live-source-index">03</span><strong data-i18n="visualEnteredLabel">DETAILS YOU ENTER</strong><span class="live-source-state" data-live-state-label>Waiting</span></div>
+      <div class="live-source-field"><small data-i18n="mockRecipient">Recipient number</small><strong data-live-value="recipient">Not entered yet</strong></div>
+      <div class="live-source-field"><small data-i18n="mockAmount">Amount</small><strong data-live-value="amount">Not entered yet</strong></div>
+    </article>
+  </div>
+  <p class="live-source-visual-summary" id="live-source-visual-summary" role="status" aria-live="polite" aria-atomic="true" data-i18n="liveVisualWaitingCopy">Enter your intended details and the values you are preparing to enter. Nothing is sent from this page.</p>
+</section>
 <details class="intent-advanced">
   <summary data-i18n="intentInstructionDisclosure">Optional · Compare the original seller or recipient instruction</summary>
   <p class="hint" data-i18n="intentInstructionHelp">Use this when the payment request arrived by SMS, chat or another message. Candidate details are suggestions only and must be confirmed.</p>
@@ -654,6 +698,7 @@ Other: Send your OTP to verify."></textarea>
 <script src="./js/copilot.js"></script>
 <script src="./js/share-brief.js"></script>
 <script src="./js/evidence-integrity.js"></script>
+<script src="./js/payment-visual.js"></script>
 <script src="./js/bootstrap.js"></script>
 </body>
 </html>

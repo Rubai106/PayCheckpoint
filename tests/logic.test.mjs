@@ -75,7 +75,7 @@ test('transaction flow declares explicit, guarded simulation transitions', async
 test('entry page references local feature scripts and styles', async () => {
   const html = await readFile(resolve(root, 'index.html'), 'utf8');
   for (const asset of ['assets/styles.css', 'js/state-utils.js', 'js/simulation.js', 'js/navigation.js',
-    'js/cases.js', 'js/prevention.js', 'js/recovery.js', 'js/safesend.js', 'js/reports.js', 'js/saved-cases.js', 'js/bootstrap.js']) {
+    'js/payment-visual.js', 'js/cases.js', 'js/prevention.js', 'js/recovery.js', 'js/safesend.js', 'js/reports.js', 'js/saved-cases.js', 'js/bootstrap.js']) {
     assert.ok(html.includes(`./${asset}`), `missing reference to ${asset}`);
   }
   assert.ok(html.includes('id="f-intended-num"'));

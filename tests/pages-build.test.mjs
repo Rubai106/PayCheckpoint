@@ -25,7 +25,7 @@ test('Pages build copies only public static assets and security headers', async 
   const info = JSON.parse(await readFile(resolve(dist, 'build-info.json'), 'utf8'));
   assert.deepEqual(info, {
     app: 'paycheckpoint-website',
-    version: '1.28.2',
+    version: '1.29.0',
     branch: 'main',
     commit: expectedCommit
   });

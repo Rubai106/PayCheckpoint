@@ -11,7 +11,7 @@ scripts = [
     'sandbox-lab.js','bkash-sandbox.js','cases.js','prevention.js','recovery.js','safesend.js',
     'reports.js','evidence-map.js','recovery-navigator.js','incident-dossier.js','followup-planner.js',
     'saved-cases.js','enhancements.js','sequence-intelligence.js','receipt-lens.js','copilot.js',
-    'share-brief.js','evidence-integrity.js','bootstrap.js'
+    'share-brief.js','evidence-integrity.js','payment-visual.js','bootstrap.js'
 ]
 html = re.sub(r'<script src="\./js/[^"]+"></script>', '', html)
 inline = '\n'.join('<script>\n' + (ROOT / 'js' / name).read_text(encoding='utf-8') + '\n</script>' for name in scripts)
@@ -31,6 +31,14 @@ with sync_playwright() as p:
     assert 'optional copilot' in (page.locator('[data-i18n="faqStoredA"]').text_content() or '').lower()
     assert 'live example' not in page.locator('[data-i18n="mockTitle"]').inner_text().lower()
     assert 'synthetic data' in page.locator('[data-i18n="mockEyebrow"]').inner_text().lower()
+    assert page.locator('#competition-sticker img').get_attribute('src') == './assets/aignite-buildathon-sticker.webp'
+    assert 'buildathon 2026' in page.locator('#competition-sticker img').get_attribute('alt').lower()
+    assert page.locator('#payment-visual-demo .payment-scene-card').count() == 3
+    assert page.locator('#payment-demo-result').get_attribute('data-state') == 'mismatch'
+    page.locator('[data-demo-scenario="match"]').click()
+    assert page.locator('#payment-demo-result').get_attribute('data-state') == 'match'
+    page.locator('[data-demo-scenario="mismatch"]').click()
+    assert page.locator('#payment-demo-result').get_attribute('data-state') == 'mismatch'
     page.evaluate("showView('app'); goApp('start')")
 
     # First-use chooser: three explicit consumer situations, no specialist tools in the chooser.
@@ -64,6 +72,11 @@ with sync_playwright() as p:
     page.locator('#f-intended-amt').fill('3000')
     page.locator('#f-entered-num').fill('01712345678')
     page.locator('#f-entered-amt').fill('3000')
+    assert page.locator('#live-source-visual').get_attribute('data-state') == 'match'
+    page.locator('#f-entered-num').fill('01712345679')
+    assert page.locator('#live-source-visual').get_attribute('data-state') == 'mismatch'
+    page.locator('#f-entered-num').fill('01712345678')
+    assert page.locator('#live-source-visual').get_attribute('data-state') == 'match'
     page.locator('[data-i18n="compareDetails"]').click()
     assert page.locator('[data-screen="recon"]').is_visible()
     assert page.locator('#recon-actions button').filter(has_text='review before confirming').count() == 1

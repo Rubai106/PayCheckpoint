@@ -1,3 +1,12 @@
+## v1.29.0 — 4 November 2026 — Intent → Evidence → Action visual stack
+
+- Replaced the static landing-page comparison mock with a purpose-built, CSS-perspective evidence stack: user intent, original payment instruction, and entered details. The sample has working match/mismatch controls and an animated state change; it does not use a generic decorative orb or a remote 3D dependency.
+- Added a live three-source comparison directly beneath the actual pre-send inputs. It updates while the user types, distinguishes confirmed instruction candidates from unconfirmed suggestions, and reports recipient and amount disagreements separately.
+- Kept number/amount comparison local. A match remains a comparison only and never implies wallet ownership or provider verification.
+- Integrated the exact organizer-provided YUNet AIgnite sticker artwork in the navbar as an optimized local WebP asset, with descriptive alternative text and mobile sizing.
+- Added pure normalization/comparison regression tests and extended the first-time browser journey checks for the live visual states, landing demo controls and sticker path.
+- Added reduced-motion treatment and responsive one-column source cards for narrow screens. No new package dependencies, remote 3D runtime or payment-provider behavior.
+
 ## v1.28.2 — 4 November 2026 — Field-level evidence investigation
 
 - Added separate recipient and amount investigation lenses that trace each field through all six Evidence Map sources.
