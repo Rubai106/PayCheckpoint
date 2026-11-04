@@ -123,6 +123,7 @@ function buildIncident(opts){if(!opts||opts.navigate!==false)goApp('incident');i
  }
  if(typeof renderEvidenceTimeline==='function')renderEvidenceTimeline();
  var note=document.getElementById('copy-note');if(note)note.innerHTML='';
+ if(typeof renderIncidentWorkflowHub==='function')renderIncidentWorkflowHub();
 }
 function toggleReveal(){S.revealed=!S.revealed;document.getElementById('btn-reveal').textContent=S.revealed?t('hideNumbers'):t('revealNumbers');buildIncident({navigate:false});var note=document.getElementById('copy-note');if(note)note.innerHTML='<div class="warn" role="status">'+esc(S.revealed?t('revealed'):t('hiddenAgain'))+'</div>'}
 function reportText(){return 'PayCheckpoint — Incident Report (prepared by user, NOT submitted)\n'+(document.getElementById('incident-body').innerText||'')+'\n\nEVIDENCE / FOLLOW-UP TIMELINE (events may be user-reported, not independently verified)\n'+(typeof timelinePlainText==='function'?timelinePlainText():'No timeline available.')+'\n\nCOMPLAINT DRAFT\n'+document.getElementById('f-complaint').value}
