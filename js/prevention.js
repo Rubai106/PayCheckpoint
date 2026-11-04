@@ -130,7 +130,7 @@ function checkpointPreflightBlock(sourceChecks){
  var instructionPending=!!((S.instrNumCands||[]).length&&!S.instrNumConfirmed)||!!((S.instrAmtCands||[]).length&&!S.instrAmtConfirmed);
  var screenshot=S.screenReview||null;
  var screenshotStale=!!(screenshot&&typeof evidenceMapScreenshotIsStale==='function'&&evidenceMapScreenshotIsStale(screenshot));
- var screenshotMismatch=!!(screenshot&&(screenshot.recipientState==='MISMATCH'||screenshot.amountState==='MISMATCH'||screenshot.overall==='MISMATCH'||screenshot.overall==='INCOMPLETE'));
+ var screenshotMismatch=!!(screenshot&&(screenshot.recipientState==='MISMATCH'||screenshot.amountState==='MISMATCH'||screenshot.recipientState==='INCOMPLETE'||screenshot.amountState==='INCOMPLETE'||screenshot.overall==='MISMATCH'||screenshot.overall==='INCOMPLETE'));
  var recoveryJourney=S.journey==='recovery';
  return {
   blocked:recoveryJourney||receiptMismatch||instructionMismatch||instructionPending||screenshotStale||screenshotMismatch,
