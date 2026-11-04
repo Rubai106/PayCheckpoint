@@ -27,6 +27,6 @@ test('Share brief remains local and resets when starting a new case',()=>{
   assert.match(source,/function resetShareBriefForNewCase/);assert.match(source,/PC_SHARE_BRIEF_STATE\.callQuestions&&Array\.isArray\(dossier\.callPreparationQuestions\)/);assert.match(source,/PC_SHARE_BRIEF_STATE\.followups&&Array\.isArray\(dossier\.followUpPlans\)/);assert.match(reset,/resetShareBriefForNewCase/);
   assert.match(source,/does not contact providers|PayCheckpoint does not contact providers/i);
   assert.ok(page.includes('./js/share-brief.js'));
-  assert.equal(pkg.version,'1.28.0');assert.equal(pkg.scripts['qa:share-brief'],'python qa/share_brief_qa.py');
+  assert.equal(pkg.version,'1.28.1');assert.equal(pkg.scripts['qa:share-brief'],'python qa/share_brief_qa.py');
   assert.ok(check.includes('js/share-brief.js'));
 });
