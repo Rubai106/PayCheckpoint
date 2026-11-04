@@ -45,3 +45,14 @@ The first live inference attempt returned a generic `fetch failed`; the retry su
 - Official buildathon rules: https://yunet-aignite26.devpost.com/rules
 - Official submission schedule: https://yunet-aignite26.devpost.com/details/dates
 - Official sticker folder, supplied in the organizer email: https://drive.google.com/drive/folders/1ILpnmXpegv75cNM-ACVJjh4OVmac0BIs?usp=sharing
+
+
+## Later source-status addendum — 4 November 2026
+
+This report is a point-in-time, owner-supplied verification record. Its original deployed-source observation (v1.27.1) predates the current GitHub main source.
+
+- Current GitHub main: v1.31.0, commit `c6c26f51bf1921409d679f204213b3b733f2e12d`.
+- GitHub Actions run [#41879564068](https://github.com/Rubai106/PayCheckpoint/actions/runs/41879564068) completed successfully for that commit.
+- The current Pages build emits `/build-info.json`, but the live endpoint has not been independently verified against this commit.
+
+A green GitHub Actions run verifies the tested repository source; it does not deploy the source or prove production parity. Do not describe the public site as v1.31.0 until its live manifest reports the exact current main SHA. The earlier synthetic AI inference result remains evidence for the earlier tested deployment only; repeat the synthetic live check if the deployed source changes and the owner can access the public endpoint.
