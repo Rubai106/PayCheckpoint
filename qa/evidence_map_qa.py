@@ -206,6 +206,29 @@ with sync_playwright() as p:
     assert page.locator('[data-screen="preflight-check"]').is_hidden()
     checks.append("PASS | mismatched screenshot comparison blocks the pre-send wallet checkpoint")
 
+    # An incomplete screenshot must not be presented as ready just because the
+    # manually entered fields happen to match the user's stated intent.
+    page.evaluate("""() => {
+      S.screenReview = {
+        intentRecipient: canonPhone(S.intendedNum),
+        intentAmountMinor: amountMinor(S.intendedAmt),
+        recipientState: 'INCOMPLETE',
+        amountState: 'INCOMPLETE',
+        overall: 'INCOMPLETE',
+        method: 'Manual visual comparison'
+      };
+      S._ssOutcome = 'MATCH';
+      renderRecon(); goApp('recon');
+    }""")
+    assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'review'
+    assert page.locator('#checkpoint-intelligence-action').inner_text().lower() in ('review screenshot values', 'স্ক্রিনশটের তথ্য পর্যালোচনা করুন')
+    assert page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').count() == 0
+    page.evaluate("renderPreflightCheck()")
+    assert page.locator('[data-screen="recon"]').is_visible()
+    assert page.locator('[data-screen="preflight-check"]').is_hidden()
+    checks.append("PASS | incomplete screenshot review is surfaced as a review action and blocks the wallet checkpoint")
+
+
     # An unconfirmed value suggested from an original instruction cannot be silently treated as proof.
     page.evaluate("""() => {
       S.screenReview = null;
