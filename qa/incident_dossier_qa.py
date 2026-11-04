@@ -31,7 +31,7 @@ with sync_playwright() as p:
 
     page.locator('#recovery-nav-scenario').select_option('wrong-recipient')
     page.locator('#recovery-nav-provider').select_option('bkash')
-    assert page.locator('#incident-workflow-path-status').inner_text().startswith('Money may have gone to the wrong recipient')
+    assert page.locator('#incident-workflow-path-status').inner_text().startswith('Possible wrong recipient')
     assert page.locator('#incident-workflow-next-title').inner_text() == 'Review the transaction message'
     page.locator('#incident-workflow-continue').click()
     assert page.locator('[data-screen="sms"]').is_visible()
