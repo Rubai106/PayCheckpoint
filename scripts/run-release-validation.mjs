@@ -93,7 +93,10 @@ for(const task of tasks){
   console.log(`RUN ${task.name}`);
   const result=await runTask(task);results.push(result);
   console.log(`${result.passed?'PASS':'FAIL'} ${task.name} (${result.durationMs} ms)${result.timedOut?' — timed out':''}`);
-  if(!result.passed&&result.stderrTail)console.log(result.stderrTail.slice(-2000));
+  if(!result.passed){
+    if(result.stdoutTail)console.log('\nSTDOUT (last 9,000 chars):\n'+result.stdoutTail.slice(-9000));
+    if(result.stderrTail)console.error('\nSTDERR (last 9,000 chars):\n'+result.stderrTail.slice(-9000));
+  }
   await checkpoint();
 }
 await checkpoint(true);
