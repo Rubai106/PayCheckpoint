@@ -153,7 +153,7 @@ function renderCheckpointIntelligence(sourceChecks,flags){
  var instructionPending=!!flags.instructionPending||!!((S.instrNumCands||[]).length&&!S.instrNumConfirmed)||!!((S.instrAmtCands||[]).length&&!S.instrAmtConfirmed);
  var screenshot=flags.screenshotReview||S.screenReview||null;
  var screenshotStale=!!(screenshot&&typeof evidenceMapScreenshotIsStale==='function'&&evidenceMapScreenshotIsStale(screenshot));
- var screenshotMismatch=!!(screenshot&&(screenshot.recipientState==='MISMATCH'||screenshot.amountState==='MISMATCH'||screenshot.overall==='MISMATCH'));
+ var screenshotMismatch=!!(screenshot&&(screenshot.recipientState==='MISMATCH'||screenshot.amountState==='MISMATCH'||screenshot.overall==='MISMATCH'||screenshot.overall==='INCOMPLETE'));
  var screenshotNeedsReview=!!(screenshot&&(screenshotStale||screenshotMismatch));
  var action={state:'review',status:L('Review details','তথ্য পর্যালোচনা করুন'),summary:L('Review the details recorded for this case.','এই কেসের জন্য নথিভুক্ত তথ্য পর্যালোচনা করুন।'),why:L('The next step is selected from the source comparisons. This is guidance, not a fraud verdict.','উৎসগুলোর তুলনার ভিত্তিতে পরবর্তী পদক্ষেপ বেছে নেওয়া হয়েছে। এটি নির্দেশনা, প্রতারণার রায় নয়।'),label:L('Review details','তথ্য পর্যালোচনা করুন'),run:function(){goApp('intent')}};
 
