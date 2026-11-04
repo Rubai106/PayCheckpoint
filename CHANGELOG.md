@@ -5,8 +5,11 @@
 - Kept the core safety boundary unchanged: PayCheckpoint cannot inspect the provider app, verify wallet ownership, send or reverse transfers. The optional timeline event remains explicitly user-reported.
 - Added English/Bangla copy and a language-switch regression assertion so progress announcements stay in the selected language without clearing the user's checkboxes.
 - Added focused first-time journey assertions for progress state, button gating, CSS progress width and localized accessible labeling.
+- Added a connected case-workflow hub to the incident workspace, linking Recovery Navigator, Evidence Map, Payment Incident Dossier and the case timeline without creating duplicate case state.
+- Added a deterministic suggested-next-step action that routes users to scenario selection, provider selection, transaction-message review, contact preparation or follow-up planning based on current case data.
+- Added keyboard focus handoff to the selected section/form field, bilingual accessible labels, live case-state summaries and responsive 320–1440px layout coverage.
+- Added the focused recovery-workspace browser suite to the GitHub Actions validation workflow, including contact-log handoff and share-safe brief access.
 - No provider, cloud AI, storage, network or payment-state behavior changed. No new dependencies.
-- Automated test suites have not yet been executed in this environment; the new regression assertions are committed but are not claimed as passing until run.
 
 ## 4 November 2026 — Production verification and build provenance
 
