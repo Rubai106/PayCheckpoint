@@ -27,6 +27,7 @@ with sync_playwright() as p:
     assert page.locator('#incident-workflow-next-title').inner_text() == 'Choose what happened'
     page.locator('#incident-workflow-continue').click()
     assert page.locator('#recovery-nav-scenario').is_visible()
+    assert page.evaluate("document.activeElement && document.activeElement.id") == 'recovery-nav-scenario'
     checks.append('PASS | Connected case hub appears first and routes the user to choose a recovery path')
 
     page.locator('#recovery-nav-scenario').select_option('wrong-recipient')
@@ -35,6 +36,7 @@ with sync_playwright() as p:
     assert page.locator('#incident-workflow-next-title').inner_text() == 'Review the transaction message'
     page.locator('#incident-workflow-continue').click()
     assert page.locator('[data-screen="sms"]').is_visible()
+    assert page.evaluate("document.activeElement && document.activeElement.id") == 'f-sms'
     page.evaluate("goApp('incident')")
     page.evaluate("S.intendedNum='01712345678'; S.intendedAmt='3000'; S.receipt={recipient:'01712345678',amount:'3000',datetime:'2026-10-30 10:15',trxid:'TRX-123456789'}; S.receiptReviewed=true; renderIncidentDossier()")
     assert 'Receipt fields reviewed by you' in page.locator('#incident-workflow-evidence-status').inner_text()
