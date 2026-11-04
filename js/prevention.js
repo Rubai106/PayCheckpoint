@@ -1,11 +1,34 @@
 /* ---------- intent & validation ---------- */
 function submitIntent(){
- var num=document.getElementById('f-intended-num').value.trim(),amt=document.getElementById('f-intended-amt').value.trim(),ok=true;
- var en=document.getElementById('e-num'),ea=document.getElementById('e-amt');en.innerHTML='';ea.innerHTML='';
- if(!canonPhone(num)){var numIssue=S.lang==='bn'?L('This is not a supported Bangladeshi mobile format.','বাংলাদেশি মোবাইল নম্বরের ফরম্যাট সমর্থিত নয়।'):(phoneIssue(num)||'this is not a supported Bangladeshi mobile format');en.innerHTML='<div class="field-err" role="alert"><strong>'+L('What’s wrong:','সমস্যা:')+'</strong> '+esc(numIssue)+'. '+esc(t('phoneAcceptedFormats'))+'</div>';document.getElementById('f-intended-num').setAttribute('aria-invalid','true');ok=false}else{document.getElementById('f-intended-num').removeAttribute('aria-invalid');en.innerHTML='<div class="field-ok">'+esc(t('formatOk'))+esc(canonPhone(num))+esc(t('formatOkEnd'))+'</div>'}
- var av=amountMinor(amt);if(amt===''||av==null||av<=0){ea.innerHTML='<div class="field-err" role="alert">'+esc(t('amountInvalid'))+'</div>';ok=false}
- if(!ok)return;
- S._localFieldsCorrected=false;S.intendedNum=num;S.intendedAmt=amt;S.intentUnknown={num:false,amt:false};S.instruction=document.getElementById('f-instruction').value;parseInstruction(S.instruction);S.enteredNum=document.getElementById('f-entered-num').value.trim();S.enteredAmt=document.getElementById('f-entered-amt').value.trim();if(S.screenReview&&typeof renderScreenshotReviewResult==='function')renderScreenshotReviewResult();
+ var num=document.getElementById('f-intended-num').value.trim(),amt=document.getElementById('f-intended-amt').value.trim();
+ var enteredNum=document.getElementById('f-entered-num').value.trim(),enteredAmt=document.getElementById('f-entered-amt').value.trim();
+ var ok=true,firstInvalid=null;
+ var en=document.getElementById('e-num'),ea=document.getElementById('e-amt');
+ var een=document.getElementById('e-entered-num'),eea=document.getElementById('e-entered-amt');
+ var intendedNumInput=document.getElementById('f-intended-num'),intendedAmtInput=document.getElementById('f-intended-amt');
+ var enteredNumInput=document.getElementById('f-entered-num'),enteredAmtInput=document.getElementById('f-entered-amt');
+ [en,ea,een,eea].forEach(function(el){if(el)el.innerHTML=''});
+ function invalid(input,message){
+  input.setAttribute('aria-invalid','true');
+  if(!firstInvalid)firstInvalid=input;
+  ok=false;
+  return '<div class="field-err" role="alert">'+message+'</div>';
+ }
+ function valid(input){input.removeAttribute('aria-invalid')}
+ if(!canonPhone(num)){
+  var numIssue=S.lang==='bn'?L('This is not a supported Bangladeshi mobile format.','বাংলাদেশি মোবাইল নম্বরের ফরম্যাট সমর্থিত নয়।'):(phoneIssue(num)||'this is not a supported Bangladeshi mobile format');
+  en.innerHTML=invalid(intendedNumInput,'<strong>'+L('What’s wrong:','সমস্যা:')+'</strong> '+esc(numIssue)+'. '+esc(t('phoneAcceptedFormats')));
+ }else{valid(intendedNumInput);en.innerHTML='<div class="field-ok">'+esc(t('formatOk'))+esc(canonPhone(num))+esc(t('formatOkEnd'))+'</div>'}
+ var av=amountMinor(amt);
+ if(amt===''||av==null||av<=0){ea.innerHTML=invalid(intendedAmtInput,esc(t('amountInvalid')))}else{valid(intendedAmtInput)}
+ if(!canonPhone(enteredNum)){
+  var enteredNumIssue=S.lang==='bn'?L('Enter the Bangladesh mobile number exactly as shown in your payment app.','আপনার পেমেন্ট অ্যাপে দেখানো বাংলাদেশি মোবাইল নম্বরটি হুবহু লিখুন।'):(phoneIssue(enteredNum)||L('Enter the Bangladesh mobile number exactly as shown in your payment app.','আপনার পেমেন্ট অ্যাপে দেখানো বাংলাদেশি মোবাইল নম্বরটি হুবহু লিখুন।'));
+  een.innerHTML=invalid(enteredNumInput,'<strong>'+L('Check the recipient number:','প্রাপকের নম্বর দেখুন:')+'</strong> '+esc(enteredNumIssue)+'. '+esc(t('phoneAcceptedFormats')));
+ }else{valid(enteredNumInput)}
+ var enteredMinor=amountMinor(enteredAmt);
+ if(enteredAmt===''||enteredMinor==null||enteredMinor<=0){eea.innerHTML=invalid(enteredAmtInput,esc(t('amountInvalid')))}else{valid(enteredAmtInput)}
+ if(!ok){if(firstInvalid)firstInvalid.focus();return}
+ S._localFieldsCorrected=false;S.intendedNum=num;S.intendedAmt=amt;S.intentUnknown={num:false,amt:false};S.instruction=document.getElementById('f-instruction').value;parseInstruction(S.instruction);S.enteredNum=enteredNum;S.enteredAmt=enteredAmt;if(S.screenReview&&typeof renderScreenshotReviewResult==='function')renderScreenshotReviewResult();
  if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('payment-intent-recorded','User recorded intended recipient and amount','ব্যবহারকারী উদ্দেশ্য করা প্রাপক ও পরিমাণ লিখেছেন','app-recorded');
  renderRecon();if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('details-compared','Payment details compared; results retain source labels','পেমেন্টের তথ্য তুলনা করা হয়েছে; ফলাফলে উৎসের পরিচয় রাখা হয়েছে','app-recorded');goApp('recon');
 }
