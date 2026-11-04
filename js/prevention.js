@@ -349,5 +349,6 @@ function correctMismatch(){
  if(c.amount&&c.amount.entry.state==='MISMATCH'&&amountMinor(S.intendedAmt)!=null){S.enteredAmt=S.intendedAmt;document.getElementById('f-entered-amt').value=S.intendedAmt;changed.push(L('amount','পরিমাণ'))}
  if(!changed.length){var note=document.getElementById('copy-note');if(note)note.innerHTML='<div class="warn" role="status">'+L('No pre-send field mismatch was found to correct. The intent, instruction and receipt sources were left unchanged.','সংশোধনের জন্য পাঠানোর আগের কোনো অমিল পাওয়া যায়নি। উদ্দেশ্য, নির্দেশনা ও রসিদের উৎস অপরিবর্তিত রাখা হয়েছে।')+'</div>';return}
  S._localFieldsCorrected=true;
+ if(typeof window!=='undefined'&&typeof window.refreshPayCheckpointComparison==='function')window.refreshPayCheckpointComparison();
  renderRecon();
 }
