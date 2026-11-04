@@ -1,4 +1,4 @@
-/* PayCheckpoint v1.27.2 — bilingual dictionary completeness regression test.
+/* PayCheckpoint v1.28.0 — bilingual dictionary completeness regression test.
    Every data-i18n / data-i18n-placeholder key used in index.html must exist in
    both the English and Bangla dictionaries, so switching languages never leaves
    an element stuck on the other language's text. */
