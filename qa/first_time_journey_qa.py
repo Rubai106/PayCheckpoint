@@ -42,6 +42,11 @@ with sync_playwright() as p:
     page.locator('[data-demo-scenario="match"]').click()
     assert page.locator('#payment-demo-result').get_attribute('data-state') == 'match'
     page.locator('[data-demo-scenario="mismatch"]').click()
+    page.locator('[data-demo-scenario="match"]').click()
+    page.locator('#langBn').click()
+    assert 'লেখা সব তথ্য মিলেছে' in page.locator('#payment-demo-result').inner_text()
+    page.locator('#langEn').click()
+    page.locator('[data-demo-scenario="mismatch"]').click()
     assert page.locator('#payment-demo-result').get_attribute('data-state') == 'mismatch'
     page.evaluate("showView('app'); goApp('start')")
 

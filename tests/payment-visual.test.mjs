@@ -52,3 +52,9 @@ test('entry page includes the organizer asset, 3D demo, live comparison, and loc
   assert.match(html, /\.\/js\/payment-visual\.js/);
   await assert.doesNotReject(readFile(resolve(root, 'assets/aignite-buildathon-sticker.webp')));
 });
+
+test('mismatch layer has restrained motion with an explicit reduced-motion fallback', async () => {
+  const css = await readFile(resolve(root, 'assets/styles.css'), 'utf8');
+  assert.match(css, /@keyframes payment-mismatch-nudge/);
+  assert.match(css, /prefers-reduced-motion:reduce[\\s\\S]*?payment-mismatch-nudge[\\s\\S]*?animation:none!important/);
+});

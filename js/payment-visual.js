@@ -241,7 +241,14 @@
     ['f-intended-num','f-intended-amt','f-entered-num','f-entered-amt','f-instruction'].forEach(function(id){
       var input=byId(id);if(input){input.addEventListener('input',updateLiveComparison);input.addEventListener('change',updateLiveComparison);}
     });
-    ['langEn','langBn'].forEach(function(id){var button=byId(id);if(button)button.addEventListener('click',updateLiveComparison)});
+    ['langEn','langBn'].forEach(function(id){
+      var button=byId(id);
+      if(button)button.addEventListener('click',function(){
+        updateLiveComparison();
+        var scene=byId('payment-scene');
+        setDemoScenario(scene&&scene.dataset.state==='match'?'match':'mismatch');
+      });
+    });
     doc.addEventListener('click',function(event){
       var target=event.target&&event.target.closest?event.target.closest('[onclick^="confirmInstr("]'):null;
       if(target&&root.setTimeout)root.setTimeout(updateLiveComparison,0);

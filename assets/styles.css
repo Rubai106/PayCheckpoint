@@ -1573,3 +1573,14 @@ details[open]{background:#FCFEFC}
   .impact-stat small{font-size:9px}
   .impact-strip-source a{font-size:9px;overflow-wrap:anywhere}
 }
+
+/* A small depth shift makes a mismatch legible without adding visual noise. */
+@keyframes payment-mismatch-nudge{
+  0%,100%{transform:translateZ(-12px) rotateX(-2deg) rotateY(4deg)}
+  34%{transform:translateZ(-2px) rotateX(0deg) rotateY(0deg) translateX(3px)}
+  68%{transform:translateZ(-17px) rotateX(-2deg) rotateY(4deg) translateX(-2px)}
+}
+.payment-scene[data-state="mismatch"] .payment-scene-card--entered{animation:payment-mismatch-nudge .48s cubic-bezier(.2,.75,.25,1) both}
+@media(prefers-reduced-motion:reduce){
+  .payment-scene[data-state="mismatch"] .payment-scene-card--entered{animation:none!important}
+}
