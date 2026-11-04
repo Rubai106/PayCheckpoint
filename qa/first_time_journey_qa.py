@@ -204,7 +204,15 @@ with sync_playwright() as p:
     for width in [320, 360, 390, 430, 768, 1024, 1440]:
         page.set_viewport_size({'width': width, 'height': 900})
         page.evaluate("showView('home')")
-        assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth'), f'horizontal overflow at {width}px on home'
+        home_layout = page.evaluate("""() => {
+          const root = document.documentElement, body = document.body, width = window.innerWidth;
+          const offenders = [...document.querySelectorAll('body *')].map(el => {
+            const r = el.getBoundingClientRect(), css = getComputedStyle(el);
+            return {tag: el.tagName.toLowerCase(), id: el.id, className: typeof el.className === 'string' ? el.className.slice(0,100) : '', left: Math.round(r.left*10)/10, right: Math.round(r.right*10)/10, width: Math.round(r.width*10)/10, scrollWidth: el.scrollWidth, clientWidth: el.clientWidth, overflowX: css.overflowX, transform: css.transform};
+          }).filter(x => x.right > width + 1 || x.left < -1).sort((a,b) => b.right-a.right).slice(0,12);
+          return {viewport: width, rootScroll: root.scrollWidth, bodyScroll: body.scrollWidth, bodyClient: body.clientWidth, offenders};
+        }""")
+        assert home_layout['rootScroll'] <= width, f'horizontal overflow at {width}px on home: {home_layout}'
         assert page.locator('#impact-strip').is_visible()
         for screen in ['start', 'message-review']:
             page.evaluate(f"goApp('{screen}')")
