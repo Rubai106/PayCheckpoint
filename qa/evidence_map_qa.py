@@ -166,6 +166,60 @@ with sync_playwright() as p:
         assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"horizontal overflow at {width}px"
     checks.append("PASS | no document-level horizontal overflow from 320px through 1440px")
 
+    # The preflight checkpoint must not be reachable while a reviewed evidence source conflicts.
+    page.evaluate("""() => {
+      S.journey = 'prevention';
+      S.intendedNum = '01712345678'; S.intendedAmt = '3000';
+      S.enteredNum = '01712345678'; S.enteredAmt = '3000';
+      S.instrNumCands = []; S.instrAmtCands = [];
+      S.instrNumConfirmed = false; S.instrAmtConfirmed = false;
+      S.receiptReviewed = true;
+      S.receipt = {recipient:'01712345679', amount:'3000'};
+      S.receiptProv = {recipient:'receipt', amount:'receipt'};
+      S.screenReview = null;
+      renderRecon(); goApp('recon');
+    }""")
+    assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'review'
+    assert page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').count() == 0
+    page.evaluate("renderPreflightCheck()")
+    assert page.locator('[data-screen="recon"]').is_visible()
+    assert page.locator('[data-screen="preflight-check"]').is_hidden()
+    checks.append("PASS | reviewed receipt conflict blocks the pre-send wallet checkpoint")
+
+    # A screenshot comparison that is mismatched or stale also blocks preflight.
+    page.evaluate("""() => {
+      S.receiptReviewed = false; S.receipt = {}; S.receiptProv = {};
+      S.screenReview = {
+        intentRecipient: canonPhone(S.intendedNum),
+        intentAmountMinor: amountMinor(S.intendedAmt),
+        recipientState: 'MISMATCH',
+        amountState: 'MATCH',
+        overall: 'MISMATCH',
+        method: 'Manual visual comparison'
+      };
+      renderRecon(); goApp('recon');
+    }""")
+    assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'review'
+    assert page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').count() == 0
+    page.evaluate("renderPreflightCheck()")
+    assert page.locator('[data-screen="recon"]').is_visible()
+    assert page.locator('[data-screen="preflight-check"]').is_hidden()
+    checks.append("PASS | mismatched screenshot comparison blocks the pre-send wallet checkpoint")
+
+    # An unconfirmed value suggested from an original instruction cannot be silently treated as proof.
+    page.evaluate("""() => {
+      S.screenReview = null;
+      S.instrNumCands = ['01712345679']; S.instrAmtCands = [];
+      S.instrNumConfirmed = false; S.instrAmtConfirmed = false;
+      renderRecon(); goApp('recon');
+    }""")
+    assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'review'
+    assert page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').count() == 0
+    page.evaluate("renderPreflightCheck()")
+    assert page.locator('[data-screen="recon"]').is_visible()
+    assert page.locator('[data-screen="preflight-check"]').is_hidden()
+    checks.append("PASS | unconfirmed instruction candidate blocks the pre-send wallet checkpoint")
+
     assert not errors, "\n".join(errors)
     browser.close()
 
