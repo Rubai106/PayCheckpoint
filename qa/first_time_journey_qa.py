@@ -76,10 +76,21 @@ with sync_playwright() as p:
     assert 'only that app can send the transfer' in checkpoint_copy
     assert page.locator('#preflight-check-summary').inner_text().count('01712345678') >= 1
     assert page.locator('#btn-record-wallet-check').is_disabled()
+    assert page.locator('#wallet-check-count').inner_text() == '0 / 2'
+    assert page.locator('#wallet-check-progress').get_attribute('aria-valuenow') == '0'
     page.locator('#wallet-check-recipient').check()
     assert page.locator('#btn-record-wallet-check').is_disabled()
+    assert page.locator('#wallet-check-count').inner_text() == '1 / 2'
+    assert page.locator('#wallet-check-progress').get_attribute('aria-valuenow') == '1'
     page.locator('#wallet-check-amount').check()
     assert page.locator('#btn-record-wallet-check').is_enabled()
+    assert page.locator('#wallet-check-count').inner_text() == '2 / 2'
+    assert page.locator('#wallet-check-progress').get_attribute('aria-valuenow') == '2'
+    assert page.locator('#wallet-check-progress-fill').get_attribute('style') == 'width:100%'
+    page.evaluate('setLang(true)')
+    assert page.locator('#wallet-check-progress').get_attribute('aria-label') == 'ওয়ালেট যাচাই সম্পন্ন'
+    assert page.locator('#btn-record-wallet-check').is_enabled()
+    page.evaluate('setLang(false)')
     page.locator('#btn-record-wallet-check').click()
     assert 'user-reported' in page.locator('#wallet-check-status').inner_text().lower()
     assert page.evaluate("S.timeline.some(e => e.code === 'wallet-details-checked' && e.source === 'user-reported')")
