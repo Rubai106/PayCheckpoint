@@ -69,7 +69,7 @@ test('PSM comparison files are labelled correctly and contain bounded field metr
 });
 
 test('independent OCR evaluation remains NOT RUN despite the separate native CLI technical pilot', () => {
-  assert.equal(independent.projectVersion, '1.27.2');
+  assert.equal(independent.projectVersion, '1.28.0');
   assert.equal(independent.status, 'protocol-prepared-no-independent-data-collected');
   assert.equal(independent.ocrPlan.realEngineRuns, 0);
   assert.equal(independent.ocrPlan.labelsCollected, false);
@@ -81,7 +81,7 @@ test('independent OCR evaluation remains NOT RUN despite the separate native CLI
 
 
 test('package provides free local pilot commands and no API dependency', () => {
-  assert.equal(pkg.version, '1.27.2');
+  assert.equal(pkg.version, '1.28.0');
   assert.equal(pkg.scripts['generate:receipt-pilot'], 'python scripts/generate-receipt-lens-pilot.py');
   assert.equal(pkg.scripts['qa:receipt-pilot'], 'node scripts/run-receipt-lens-pilot.mjs --psm 6');
   assert.match(pkg.scripts['qa:receipt-pilot-psm3'], /--psm 3/);
