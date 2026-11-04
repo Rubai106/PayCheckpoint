@@ -121,6 +121,10 @@ with sync_playwright() as p:
     assert page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').count() == 1
     page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').click()
     assert page.locator('[data-screen="preflight-check"]').is_visible()
+    assert page.locator('#wallet-check-count').inner_text() == '0 / 2'
+    assert page.locator('#wallet-check-recipient').is_checked() is False
+    assert page.locator('#wallet-check-amount').is_checked() is False
+    assert page.locator('#btn-record-wallet-check').is_disabled()
 
     # Third route: simple message check first, advanced conversation analysis on demand.
     page.evaluate("goApp('start')")
