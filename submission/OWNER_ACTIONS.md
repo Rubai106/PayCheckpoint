@@ -1,90 +1,63 @@
-# PayCheckpoint — owner actions after v1.27.2 local verification
+# PayCheckpoint — remaining owner actions (4 November 2026)
 
-This guide is for the tasks that require your own Devpost, GitHub, Cloudflare or organizer access. Do not put credentials or real payment data in the repository or test cases.
+This file covers tasks that require your personal Devpost account, the organizer's official asset, or a real device/browser. Do not put credentials, API tokens or real payment data in GitHub or test cases.
 
-## 1. Registration
+## 1. Devpost registration and submission
 
-- Open https://yunet-aignite26.devpost.com/ and register before the listed 31 October 2026 deadline.
-- Confirm the rules: Bangladesh student eligibility, individual/solo participation, and one project per participant.
-- Do not assume registration is complete until Devpost confirms it in your account.
+- Organizer email confirms that a registration was received (“Thank you for registering”). Sign into the same Devpost account and confirm the participant record.
+- Official submission page: https://yunet-aignite26.devpost.com/
+- The organizer says submissions are accepted through Devpost only. Do not send the project by email, WhatsApp or Google Forms.
+- The event is individual/solo only. Do not add teammates or create a team submission.
+- Save the project entry once the submission window is open and confirm Devpost shows it as submitted, not draft.
 
-## 2. Push the project to a repository you own
+## 2. Public app and hosted AI
 
-From the extracted PayCheckpoint project directory:
+- Public application: https://paycheckpoint.pages.dev
+- GitHub repository: https://github.com/Rubai106/PayCheckpoint
+- Cloudflare Production has a Workers AI binding named exactly `AI`.
+- The owner-supplied Claude report dated 4 November records a successful live Qwen3 Workers AI synthetic inference response (HTTP 200, approximately 4.6 seconds) plus consent, malformed JSON, method, quota and model-failure checks. See `PRODUCTION_VERIFICATION_2026-11-04.md`.
+- GitHub main is v1.27.2 at `3c72fd93e1be662eea45eeb5e7b51d90fb1c483b`, while the supplied production report identifies the deployed code as v1.27.1. A build-provenance manifest is being added. After that change is merged and deployed, open https://paycheckpoint.pages.dev/build-info.json and compare its full commit SHA with GitHub main.
+- Re-run exactly one synthetic live check against the final deployment if the build SHA changes: `npm run qa:live-copilot -- --base-url https://paycheckpoint.pages.dev`. Do not use real SMS, wallet, identity or payment information.
+- Do not create an API token for Workers AI. No API key is required for the Pages binding.
 
-```bash
-git status --short
-# Review and preserve any existing changes.
-git add .
-git commit -m "Prepare PayCheckpoint v1.27.2 buildathon release"
-git push
-```
+## 3. Exact official buildathon sticker — mandatory
 
-Do not commit `.env`, `.env.local`, `.dev.vars`, credentials or real user data. The package excludes those secret files; keep it that way.
+The organizer supplied the official asset folder in the registration email:
 
-## 3. Deploy Cloudflare Pages
+https://drive.google.com/drive/folders/1ILpnmXpegv75cNM-ACVJjh4OVmac0BIs?usp=sharing
 
-In Cloudflare Dashboard:
+1. Open the folder using the same Google account that can access the organizer materials.
+2. Download the exact official image file (prefer the original PNG or SVG, not a screenshot or compressed preview).
+3. Upload that original image file in this ChatGPT conversation, or place it in `assets/` and push it to GitHub.
+4. The exact image must be visibly displayed in the navbar or another prominent area near the top of the app.
+5. After integrating, verify it on desktop and mobile and redeploy.
 
-1. Create a Pages project connected to your own GitHub repository.
-2. Select the repository root as the project root.
-3. Set the build command to `npm run build:pages`.
-4. Set the build output directory to `dist`.
-5. Keep the `functions/` directory at the repository root so Pages discovers the Copilot Functions.
-6. In Pages Settings → Functions → Bindings, add a Workers AI binding named exactly `AI`.
-7. Save and redeploy after the binding is configured.
+Do not recreate, redraw, approximate or substitute the sticker with a generic YUNet logo or text. The app currently still contains a clearly marked placeholder; until the original file is integrated and visible on the live website, this mandatory requirement is NOT complete.
 
-The repository's `wrangler.toml` also declares `[ai] binding = "AI"`. Check the resulting Pages deployment rather than assuming the setting was applied.
+## 4. Final production verification
 
-## 4. Verify status, then make exactly one synthetic AI request
+After the provenance update is deployed:
 
-Open this path on the deployed site:
+- Open https://paycheckpoint.pages.dev/build-info.json and record version, branch and commit.
+- Compare commit with the current GitHub main SHA.
+- Open the homepage in a clean browser and check CSS/assets.
+- Verify the Copilot status endpoint and perform one synthetic live inference only if the deployed commit changed.
+- Test the three first-use routes, language toggle, main recovery flow and AI offline fallback with fictional inputs only.
 
-`https://YOUR-PUBLIC-URL/api/copilot/status`
+## 5. Five-slide presentation
 
-Expected: `cloudAiConfigured: true`, provider `Cloudflare Workers AI`, model `@cf/qwen/qwen3-30b-a3b-fp8`, and `localFallbackAvailable: true`.
+- The updated five-slide draft is `PayCheckpoint-AIgnite-Updated-5slides.pptx` in the working handoff. It includes the live URL and reported synthetic AI integration result, while stating that the exact sticker and final commit confirmation remain pending.
+- Replace any pending statement only after the official sticker is integrated and the final deployment SHA is confirmed.
+- Keep the deck at no more than five slides. The product demo video is optional; if submitted, it must be in English.
 
-Then, from the project directory, run:
+## 6. Validation and safe claims
 
-```bash
-npm run qa:live-copilot -- --base-url https://YOUR-PUBLIC-URL
-```
+- No held-out conversation/OCR study or human usability sessions have been performed. Leave them as NOT RUN unless genuinely completed.
+- ReceiptLens's 24-image native Tesseract pilot uses synthetic fixtures only and does not establish real-wallet/browser OCR accuracy.
+- One successful live AI inference request proves the hosted route responds, not its accuracy or continuous availability.
+- PayCheckpoint does not authenticate wallet owners, query private transactions, cancel/reverse transfers, submit provider complaints or guarantee recovery.
+- Avoid claims of global-first novelty, fraud accuracy, funds recovered, user savings, provider integration or user-study outcomes without evidence.
 
-This command sends exactly one clearly fictional test case to the public endpoint and consumes a small amount of Workers AI quota. Review its output and save it as submission evidence. Do not run it repeatedly without a reason. A mocked test is not a substitute for this live result.
+## 7. Deadline
 
-If it fails, keep the offline plan available and record the exact error. Do not claim live AI until this command passes against the final public deployment.
-
-## 5. Replace the organizer sticker
-
-Obtain the exact “Built For Ostad Presents YUNet AIgnite Buildathon 2026” artwork from the organizers/official participant materials. Replace the clearly marked placeholder near the top navbar with the exact file. Do not recreate, approximate or substitute it with text. Rebuild and redeploy, then check the deployed page at desktop and mobile widths.
-
-## 6. Do a small, safe first-time-user study
-
-Use 5–8 consenting volunteers and synthetic scenarios only. Do not ask participants to open a real wallet or share SMS, phone numbers, payment references, account details, PINs or OTPs. Record only anonymous session code, task success, completion time, observed confusion and the comprehension checks in the supplied evaluation worksheet. Do not invent or backfill participant results.
-
-Include comprehension checks:
-
-- A match in PayCheckpoint does not authenticate the recipient.
-- No detected warning does not mean a message is safe.
-- PayCheckpoint cannot cancel/reverse a transfer.
-- User-reported follow-up is not provider-verified.
-- OCR suggestions require visual review and confirmation.
-
-## 7. Update and submit the five-slide deck
-
-After deployment and sticker replacement:
-
-- Replace any pending deployment text with the actual public URL and verified AI status.
-- Do not claim held-out accuracy or participant outcomes unless the corresponding evaluations were genuinely completed.
-- Keep the deck at no more than five slides.
-- Submit before the safe cutoff: **5 November 2026, 10:00 PM Bangladesh time**. The official rules page lists 11:59 PM while the schedule page lists 10:00 PM; use the earlier time unless the organizer clarifies.
-- A demo video is optional; if submitted, it must be in English according to the rules.
-
-## Safe claims to use now
-
-- Bilingual, consumer-focused prototype for pre-payment comparison, suspicious message/conversation review and recovery preparation.
-- Local deterministic warning explanations; optional consent-gated Cloudflare AI route is implemented but must be verified live after deployment.
-- ReceiptLens can suggest candidate fields; its native OCR pilot used 24 synthetic fixtures. It has not been validated on real provider screenshots or proven equivalent to the browser OCR runtime.
-- Evidence tools preserve user-controlled provenance; they do not authenticate the origin or truth of evidence.
-
-Avoid claims of fraud detection accuracy, global first, verified recipients, live payment-provider connectivity, transaction reversal, recovery success, user savings or 45+/50 score.
+The organizer's email says 5 November 2026, 11:59 PM Bangladesh time. The official Devpost schedule/header currently show 10:00 PM +06 on the same date. Use 10:00 PM on 5 November as the safe operational cutoff unless the organizer explicitly clarifies otherwise.

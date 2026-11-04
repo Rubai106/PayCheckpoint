@@ -1,3 +1,11 @@
+## 4 November 2026 — Production verification and build provenance
+
+- Recorded the owner-supplied live production report for https://paycheckpoint.pages.dev: homepage/static asset HTTP 200, security headers, Cloudflare Workers AI status, one successful real Qwen3 synthetic inference request (HTTP 200, approximately 4.6 seconds), and documented consent/error/fallback API checks. The report is explicitly attributed to the owner's coding agent, not an independent reproduction.
+- Added a minimal `/build-info.json` manifest to Cloudflare Pages builds. It exposes only app/package version, deployed branch and validated 40-character `CF_PAGES_COMMIT_SHA`; invalid or unavailable build metadata is safely represented as `unknown` / `null`.
+- Added build tests confirming manifest contents and that the Pages output still excludes source, tests, documentation, functions and environment files.
+- The exact official sticker remains a submission blocker. The organizer's official asset folder is https://drive.google.com/drive/folders/1ILpnmXpegv75cNM-ACVJjh4OVmac0BIs?usp=sharing. Do not replace the placeholder with recreated artwork.
+- The public source commit remains unconfirmed until the build-provenance manifest is deployed and compared with GitHub main.
+
 ## v1.27.2 — 30 October 2026 — Competition evidence correction and submission pack
 
 - Corrected competition documentation after re-reading the official Devpost rules: the current rules list five judging dimensions (Problem and User Value; Solution and Innovation; AI and Technical Implementation; User Experience and Product Readiness; Presentation and Pitch) but do **not** currently publish numeric point weights. Earlier internal 35/50 estimates based on assumed weights are withdrawn as calibrated scores.

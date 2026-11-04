@@ -4,6 +4,12 @@ PayCheckpoint is a bilingual (English/Bangla), local-first payment-safety and in
 
 Browse the [documentation index](docs/README.md) for architecture, deployment, integrations, evaluation records and historical implementation notes.
 
+## Public application and production provenance
+
+- Live application: https://paycheckpoint.pages.dev
+- Live AI: an owner-supplied report dated 4 November 2026 records one successful synthetic Qwen3 Workers AI inference request. This is an integration smoke test, not an accuracy or fraud-detection benchmark.
+- After deploying the build-provenance update, inspect https://paycheckpoint.pages.dev/build-info.json. It should expose only the package identity, production branch and full source commit SHA. Compare the SHA with GitHub main before calling the latest source deployed.
+
 ## Run locally
 
 Requirements: Node.js 20 or later. No npm dependencies are required.
@@ -65,7 +71,7 @@ npm run qa:pages-build
 
 `qa:release` runs the deterministic release matrix (source, unit/integration, synthetic regression, evaluation-status, Pages build/security). Run each focused browser command separately; browser process orchestration is intentionally not chained because Chromium child processes can stall in constrained environments.
 
-`build:pages` creates a public static bundle in `dist/`; it copies only `index.html`, `assets/`, `js/` and security headers. Cloudflare Pages discovers the root `functions/` directory separately. The Pages demo deliberately disables encrypted saved-case storage, all payment-provider connectivity, and the local synthetic provider lab. These remain available only in the local Node project where their documented prerequisites apply.
+`build:pages` creates a public static bundle in `dist/`; it copies only `index.html`, `assets/`, `js/`, `_headers` and a minimal public `build-info.json` containing the package version, Cloudflare branch and source commit SHA. The manifest makes production provenance inspectable at `/build-info.json` without exposing secrets. Cloudflare Pages discovers the root `functions/` directory separately. The Pages demo deliberately disables encrypted saved-case storage, all payment-provider connectivity, and the local synthetic provider lab. These remain available only in the local Node project where their documented prerequisites apply.
 
 ## Implemented workflows
 
@@ -95,13 +101,13 @@ npm run qa:pages-build
 
 ## Latest release and submission pack (v1.27.2)
 
-The v1.27.2 release audit re-ran `npm run check`, `npm test` (208/208), `npm run qa:release` (9/9), first-time journey, 70 responsive layouts, focused feature suites, the native Tesseract CLI synthetic technical pilot, and the Cloudflare Pages build/security checks. See `docs/STEP15_RELEASE_AND_SUBMISSION_AUDIT.md` for the complete results and limitations.
+The v1.27.2 release audit is recorded in `docs/STEP15_RELEASE_AND_SUBMISSION_AUDIT.md`. A 4 November 2026 owner-supplied production report records a successful real synthetic Cloudflare Workers AI inference request (HTTP 200, approximately 4.6 seconds) and API failure-path checks; see `submission/PRODUCTION_VERIFICATION_2026-11-04.md`. This report is attributed to the owner's coding agent and is not an independent reproduction.
 
-A five-slide draft deck, English speaker notes and final submission checklist are in `submission/`. `submission/OWNER_ACTIONS.md` gives the exact owner-only registration, Cloudflare Pages, live-inference, sticker and safe user-study steps. The deck is not final until the public URL/live AI status is verified and the exact organizer-provided sticker replaces the placeholder. Independent held-out OCR/conversation evaluation and participant usability testing remain NOT RUN.
+A five-slide draft deck, English speaker notes, production verification report and final submission checklist are in `submission/`. The public app is https://paycheckpoint.pages.dev. The owner reports successful registration and a real synthetic live-AI inference check on 4 November 2026. The latest GitHub main source is v1.27.2; the production commit must be confirmed at `/build-info.json` after the build-provenance change is deployed. The mandatory official sticker must be downloaded from the organizer's [Google Drive folder](https://drive.google.com/drive/folders/1ILpnmXpegv75cNM-ACVJjh4OVmac0BIs?usp=sharing) and replace the navbar placeholder. Independent held-out OCR/conversation evaluation and participant usability testing remain NOT RUN.
 
 ## Competition alignment (verified 30 October 2026)
 
-The official [YUNet AIgnite Buildathon rules](https://yunet-aignite26.devpost.com/rules) currently list five judging dimensions: Problem and User Value; Solution and Innovation; AI and Technical Implementation; User Experience and Product Readiness; and Presentation and Pitch. The rules page says the detailed scoring system may be announced or updated; it does **not currently publish numeric point weights**. Any 35/50 or 45+/50 figure in project discussions is an internal illustrative estimate, not an official score. Mandatory project requirements include a functional B2C web app with meaningful AI, the exact organizer-provided sticker prominently near the top, a publicly accessible live link, and a presentation deck of no more than five slides. The official sticker is still a placeholder in this package, and public deployment/live inference have not been verified.
+The official [YUNet AIgnite Buildathon rules](https://yunet-aignite26.devpost.com/rules) currently list five judging dimensions: Problem and User Value; Solution and Innovation; AI and Technical Implementation; User Experience and Product Readiness; and Presentation and Pitch. The rules page says the detailed scoring system may be announced or updated; it does **not currently publish numeric point weights**. Any 35/50 or 45+/50 figure in project discussions is an internal illustrative estimate, not an official score. Mandatory project requirements include a functional B2C web app with meaningful AI, the exact organizer-provided sticker prominently near the top, a publicly accessible live link, and a presentation deck of no more than five slides. The exact official sticker remains pending integration from the organizer's [provided Drive folder](https://drive.google.com/drive/folders/1ILpnmXpegv75cNM-ACVJjh4OVmac0BIs?usp=sharing). Public deployment and one live synthetic AI inference are reported as verified in `submission/PRODUCTION_VERIFICATION_2026-11-04.md`; the deployed source commit remains pending build-provenance confirmation.
 
 ## ReceiptLens lifecycle reliability (Step 13)
 

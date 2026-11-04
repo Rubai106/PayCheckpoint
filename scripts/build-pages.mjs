@@ -21,5 +21,14 @@ await writeFile(resolve(dist, '_headers'), [
   ''
 ].join('\n'));
 const packageJson = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
-console.log(`Cloudflare Pages static bundle prepared at dist/ for ${packageJson.name} v${packageJson.version}.`);
-console.log('Only index.html, assets/, js/, and _headers are copied. Pages Functions live in /functions and are deployed separately by Cloudflare.');
+const commitSha = process.env.CF_PAGES_COMMIT_SHA || null;
+const branch = process.env.CF_PAGES_BRANCH || 'local';
+const buildInfo = {
+  app: packageJson.name,
+  version: packageJson.version,
+  branch: typeof branch === 'string' && /^[a-zA-Z0-9._/-]{1,120}$/.test(branch) ? branch : 'unknown',
+  commit: typeof commitSha === 'string' && /^[0-9a-f]{40}$/i.test(commitSha) ? commitSha : null
+};
+await writeFile(resolve(dist, 'build-info.json'), JSON.stringify(buildInfo, null, 2) + '\n');
+console.log(`Cloudflare Pages static bundle prepared at dist/ for ${packageJson.name} v${packageJson.version} (${buildInfo.branch}, ${buildInfo.commit || 'commit SHA unavailable'}).`);
+console.log('Only index.html, assets/, js/, build-info.json and _headers are copied. Pages Functions live in /functions and are deployed separately by Cloudflare.');

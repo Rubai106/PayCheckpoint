@@ -1,39 +1,47 @@
 # Final YUNet AIgnite submission checklist
 
-The official rules were checked on 30 October 2026. Recheck for organizer updates before submitting.
+**Last refreshed:** 4 November 2026  
+**Official submission page:** https://yunet-aignite26.devpost.com/  
+**Rules:** https://yunet-aignite26.devpost.com/rules  
+**Schedule:** https://yunet-aignite26.devpost.com/details/dates
 
-## Latest project evidence (v1.27.2, 30 October 2026)
+## Current project evidence
 
-- `npm test`: 208/208; `npm run qa:release`: 9/9; `npm run check`: PASS.
-- First-time route, 70 responsive layouts, keyboard focus and the listed focused consumer feature suites pass. See `docs/STEP15_RELEASE_AND_SUBMISSION_AUDIT.md` for the full table.
-- Native Tesseract CLI PSM 6 pilot: 24 synthetic fixtures, 23/24 both-fields present; one decimal-loss error. Not real-wallet/browser-OCR accuracy.
-- Held-out conversation/OCR evaluation: NOT RUN. Human usability sessions: NOT RUN.
-- Cloudflare live inference: NOT VERIFIED; the deployed public URL and AI binding are not available in this package.
+- Repository: https://github.com/Rubai106/PayCheckpoint
+- Public application: https://paycheckpoint.pages.dev
+- GitHub `main` commit checked 4 November: `3c72fd93e1be662eea45eeb5e7b51d90fb1c483b`; package version is v1.27.2.
+- The organizer's registration email begins “Thank you for registering”; registration receipt is therefore reported as received. Confirm the registered participant and solo submission in Devpost before final submission.
+- The owner-supplied Claude report records one successful live Cloudflare Workers AI synthetic inference request: HTTP 200, Qwen3, approximately 4.6 seconds, seven structured fields and an uncertainty notice. See `PRODUCTION_VERIFICATION_2026-11-04.md`. This is reported evidence, not an independently reproduced accuracy test.
+- The same report identifies the deployed source as v1.27.1. GitHub main is v1.27.2. A new public `/build-info.json` manifest is being added so the final Cloudflare deployment commit can be compared directly with GitHub.
+- Local verification of the build-provenance change: `node --test tests/pages-build.test.mjs` 4/4; `npm run check` PASS; `npm test` 209/209; `npm run qa:release` 9/9; `npm run qa:first-time` PASS; `npm run qa:responsive` 70/70; `npm run qa:served-origin` PASS. These were run in the v1.27.2 working copy; live browser UI checks remain separate.
+- Native Tesseract CLI pilot: 24 synthetic fixtures; 23/24 both expected fields present, one decimal-loss error. Not real-world OCR accuracy or browser/WASM parity.
+- Held-out conversation/OCR validation and human usability sessions remain NOT RUN.
 
-## Mandatory gates
+## Mandatory submission gates
 
-- [ ] Confirm current student eligibility in Bangladesh and individual/solo submission.
-- [ ] Register on Devpost by 31 October 2026.
-- [ ] Deploy the app publicly and confirm judges can open it without a login.
-- [ ] Configure Cloudflare Pages Functions and Workers AI binding named `AI`.
-- [ ] Run `npm run qa:live-copilot -- --base-url https://YOUR-PUBLIC-URL` with the synthetic case only; retain the real output.
-- [ ] Obtain the exact organizer-provided “Built For Ostad Presents YUNet AIgnite Buildathon 2026” sticker and replace the visible placeholder near the navbar.
-- [ ] Submit the app URL and a presentation deck of no more than five slides.
-- [ ] Use 5 November 2026, 10:00 PM Bangladesh time as the safe operational deadline because the schedule page is earlier than the rules-page time. Seek organizer clarification if possible.
+- [x] Organizer registration receipt received (email confirmation); check Devpost account still reflects the correct individual entry.
+- [x] Public app URL created: https://paycheckpoint.pages.dev
+- [x] Workers AI binding `AI` confirmed in Cloudflare Production.
+- [x] One real synthetic hosted AI inference request reported PASS on 4 November 2026.
+- [ ] Merge/deploy build-provenance manifest and confirm `https://paycheckpoint.pages.dev/build-info.json` reports the expected v1.27.2 production branch and exact GitHub commit SHA.
+- [ ] Obtain the exact official sticker from the organizer's folder: https://drive.google.com/drive/folders/1ILpnmXpegv75cNM-ACVJjh4OVmac0BIs?usp=sharing . Add the original file to the navbar; do not recreate, approximate or replace it with text.
+- [ ] After the sticker is installed, redeploy and inspect the real navbar at desktop and mobile widths.
+- [ ] Submit the public app URL and the final presentation deck (maximum five slides) through Devpost only.
+- [ ] Confirm the Devpost project page is saved/submitted and not merely a draft.
 
-## High-value proof before finalizing
+## Deadline
 
-- [ ] Run at least 5 consented first-time-user sessions using fictional examples; record actual task success, confusion, and comprehension.
-- [ ] Have a fluent Bangla reviewer inspect critical warnings, recovery actions and labels.
-- [ ] Test the public URL on a real Android phone and desktop browser, including a fresh browser session.
-- [ ] Verify the Cloudflare quota and failure fallback; no “unlimited free AI” claim.
-- [ ] Capture fresh product screenshots from the deployed build.
-- [ ] Record an English demo video only if useful; it is recommended, not mandatory.
+The organizer's email says **5 November 2026, 11:59 PM Bangladesh time**. The official Devpost schedule and event header currently show **5 November 2026, 10:00 PM +06**. To avoid a missed submission, use **10:00 PM Bangladesh time on 5 November** as the operational cutoff unless the organizer confirms the later time in writing.
 
-## Never claim without evidence
+## High-value validation (not a substitute for mandatory gates)
 
-- Live Workers AI before a real inference response.
-- Real OCR accuracy based only on the mocked browser suite or synthetic CLI pilot.
-- Independent accuracy from developer-authored 50/50 and 17/17 fixtures.
-- User success, fraud prevented, funds recovered, provider connectivity or transaction verification that was not observed.
-- A 35/50 or 45+/50 “official score”; the current rules page does not publish numerical category weights.
+- [ ] Test the public URL from a clean browser on desktop and a real Android/iPhone browser; test all three consumer journeys.
+- [ ] Have a fluent Bangla reviewer check critical labels and warnings.
+- [ ] Run at least five consented first-time-user sessions using synthetic cases only, if time and participants are available; report results only if actually collected.
+- [ ] Review keyboard/focus, zoom/reflow and screen-reader behavior manually. Automated checks are not accessibility certification.
+- [ ] Capture fresh screenshots from the exact production deployment.
+- [ ] Demo video is optional; if submitted, it must be in English.
+
+## Claims to avoid
+
+Do not claim real-world fraud-detection accuracy, real-wallet OCR accuracy, global-first novelty, user savings, fraud prevented, funds recovered, recipient identity verification, live payment-provider connectivity, transaction cancellation/reversal, user-study outcomes, or an official numeric judge score without evidence. A single successful hosted inference request is not an AI accuracy benchmark.
