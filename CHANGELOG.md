@@ -1,3 +1,9 @@
+## v1.31.0 follow-up — synchronize live comparison after programmatic changes
+- Fixed stale live source cards after programmatic updates. Mismatch correction now refreshes the interactive comparison even though the values were not typed into the inputs.
+- Starting a new case also refreshes all live comparison layers after clearing the prior case, preventing old recipient/amount values from remaining visible in a fresh case.
+- Added first-time journey browser regression coverage for both the corrected comparison state and full case reset state.
+- The refresh hook is local-only and does not make a provider request.
+
 ## v1.31.0 follow-up — required pre-send field validation
 - Closed a first-use validation gap: the pre-send journey now validates both sides of the comparison, not only the intended recipient and amount.
 - Missing or malformed payment-app recipient numbers and amounts remain on the form with field-specific, bilingual errors, `aria-invalid` state, and focus moved to the first invalid field. A comparison is not presented as ready until all four required values are valid.
