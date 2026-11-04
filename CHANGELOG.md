@@ -1,3 +1,12 @@
+## v1.28.2 — 4 November 2026 — Field-level evidence investigation
+
+- Added separate recipient and amount investigation lenses that trace each field through all six Evidence Map sources.
+- Added independent counts for values matching intent, differing from intent, requiring review, and the provider record that is not connected.
+- Added source-specific actions from the selected field trail to the relevant original input, including focus on the amount field when investigating amounts.
+- Kept screenshot comparison outcomes visible without retaining the compared phone number or amount; the UI labels the result as compared with the value not retained.
+- Kept the intended details as a user-reported baseline and the provider row non-actionable. Matching values are comparisons only, not proof of message authenticity, wallet ownership or transaction completion.
+- Added browser coverage for both field lenses, separate state counts, masked values, screenshot privacy, focus handoff, Bangla labels and responsive behavior. No new dependencies or provider/payment behavior.
+
 ## v1.28.1 — 4 November 2026 — Interactive Evidence Map investigation
 
 - Added conflict and review-needed filters across all six Evidence Map source cards, with live counts and keyboard-readable active states.
