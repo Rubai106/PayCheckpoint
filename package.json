@@ -1,6 +1,6 @@
 {
   "name": "paycheckpoint-website",
-  "version": "1.28.0",
+  "version": "1.28.1",
   "private": true,
   "description": "Bilingual local-first payment safety, source-aware evidence, incident preparation, and safer cancelable OCR workflows",
   "type": "module",
@@ -15,6 +15,7 @@
     "qa:evaluation": "node scripts/run-synthetic-benchmark.mjs",
     "qa:recovery": "python qa/recovery_navigator_qa.py",
     "qa:incident-dossier": "python qa/incident_dossier_qa.py",
+    "qa:evidence-map": "python qa/evidence_map_qa.py",
     "qa:share-brief": "python qa/share_brief_qa.py",
     "qa:receipt-lens": "python qa/receipt_lens_qa.py",
     "build:pages": "node scripts/build-pages.mjs",
