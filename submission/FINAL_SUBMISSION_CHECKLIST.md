@@ -9,7 +9,7 @@
 
 - Repository: https://github.com/Rubai106/PayCheckpoint
 - Public application: https://paycheckpoint.pages.dev
-- Current GitHub `main` commit checked 4 November: `1201182b1ab65fdf9687b47ba0292a1eb89f315d`; package version is v1.28.0.
+- Current GitHub `main` source is v1.28.0 (4 November 2026); the tested application-runtime changes are in commit `59e1fd6`. Later commits update submission/release documentation.
 - The organizer's registration email begins “Thank you for registering”; registration receipt is therefore reported as received. Confirm the registered participant and solo submission in Devpost before final submission.
 - The owner-supplied Claude report records one successful live Cloudflare Workers AI synthetic inference request: HTTP 200, Qwen3, approximately 4.6 seconds, seven structured fields and an uncertainty notice. See `PRODUCTION_VERIFICATION_2026-11-04.md`. This is reported evidence, not an independently reproduced accuracy test.
 - The same report identifies the deployed source as v1.27.1. GitHub `main` is now v1.28.0. The Pages build includes `/build-info.json`, but the live deployment has not yet been independently checked against the latest main SHA.
