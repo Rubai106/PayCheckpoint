@@ -127,7 +127,7 @@ test('entry page includes the local-only panel, secure-context notice and module
   assert.match(cases, /resetEvidenceIntegrityForNewCase/);
   assert.match(reports, /renderEvidenceIntegrity/);
   assert.ok(check.includes('js/evidence-integrity.js'));
-  assert.equal(pkg.version, '1.27.2');
+  assert.equal(pkg.version, '1.28.0');
 });
 
 test('share-safe brief includes fingerprints only with explicit opt-in', async () => {
