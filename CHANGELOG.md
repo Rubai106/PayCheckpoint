@@ -1,3 +1,9 @@
+## v1.31.0 follow-up — required pre-send field validation
+- Closed a first-use validation gap: the pre-send journey now validates both sides of the comparison, not only the intended recipient and amount.
+- Missing or malformed payment-app recipient numbers and amounts remain on the form with field-specific, bilingual errors, `aria-invalid` state, and focus moved to the first invalid field. A comparison is not presented as ready until all four required values are valid.
+- Added regression coverage for invalid entered values, accessible error associations, focus order, and successful continuation after correction.
+- This is local form validation only; it does not contact or inspect a payment provider.
+
 ## v1.31.0 — 4 November 2026 — Checkpoint Intelligence
 - Added an explicit direct-invocation regression for a typed recipient mismatch: calling the wallet checkpoint function cannot bypass the computed intent-versus-entry mismatch, even when its UI action is absent.
 - Improved mixed screenshot-review guidance: when a comparison is incomplete and also contains a known mismatch, the next-step summary now discloses both states in English and Bangla. The preflight guard now tracks mismatch and incompleteness separately while blocking either condition; a focused browser regression covers the mixed case.
