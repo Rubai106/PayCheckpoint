@@ -117,17 +117,19 @@ function syncWalletCheckProgress(){
  var recipient=document.getElementById('wallet-check-recipient'),amount=document.getElementById('wallet-check-amount');
  var button=document.getElementById('btn-record-wallet-check'),count=document.getElementById('wallet-check-count');
  var track=document.getElementById('wallet-check-progress'),fill=document.getElementById('wallet-check-progress-fill');
- var live=document.getElementById('wallet-check-live-progress');
+ var live=document.getElementById('wallet-check-live-progress'),progressHint=document.getElementById('wallet-check-progress-hint');
  var done=(recipient&&recipient.checked?1:0)+(amount&&amount.checked?1:0);
  var total=2,percent=(done/total)*100;
+ var localizedDone=S.lang==='bn'?['০','১','২'][done]:String(done);
  var recipientLabel=recipient&&recipient.closest('label'),amountLabel=amount&&amount.closest('label');
- if(count)count.textContent=done+' / '+total;
+ if(count)count.textContent=localizedDone+(S.lang==='bn'?' / ২':' / 2');
  if(track){
   track.setAttribute('aria-valuenow',String(done));
   track.setAttribute('aria-label',L('Wallet checks completed','ওয়ালেট যাচাই সম্পন্ন'));
-  track.setAttribute('aria-valuetext',L(done+' of 2 checks selected', '২টির মধ্যে '+done+'টি যাচাই নির্বাচন করা হয়েছে'));
+  track.setAttribute('aria-valuetext',L(done+' of 2 checks selected','২টির মধ্যে '+localizedDone+'টি যাচাই নির্বাচন করা হয়েছে'));
  }
  if(fill)fill.style.width=percent+'%';
+ if(progressHint)progressHint.textContent=done===0?L('Step 1: Check the recipient number and displayed name in your payment app.','ধাপ ১: পেমেন্ট অ্যাপে প্রাপকের নম্বর ও দেখানো নাম মিলিয়ে নিন.'):done===1?L('Step 2: Check the amount and any fee on the app’s confirmation screen.','ধাপ ২: অ্যাপের নিশ্চিতকরণ স্ক্রিনে পরিমাণ ও যেকোনো ফি মিলিয়ে নিন.'):L('Both checks are selected. You can record this as user-reported, or continue without saving.','দুটি যাচাই-ই নির্বাচন করা হয়েছে। চাইলে ব্যবহারকারীর দেওয়া তথ্য হিসেবে সংরক্ষণ করুন, অথবা কিছু না রেখেই এগিয়ে যান।');
  if(live)live.textContent=done===0?L('No wallet checks selected. Start with the recipient.','এখনো কোনো ওয়ালেট যাচাই নির্বাচন করা হয়নি। প্রাপক দিয়ে শুরু করুন।'):done===1?L('One of two checks selected. Check the amount and fee next.','দুটি যাচাইয়ের মধ্যে একটি নির্বাচন করা হয়েছে। এবার পরিমাণ ও ফি দেখুন।'):L('Both checks selected. You may record this as user-reported.','দুটি যাচাই-ই নির্বাচন করা হয়েছে। চাইলে এটিকে ব্যবহারকারীর দেওয়া তথ্য হিসেবে সংরক্ষণ করতে পারেন।');
  if(recipientLabel)recipientLabel.classList.toggle('is-checked',!!recipient.checked);
  if(amountLabel)amountLabel.classList.toggle('is-checked',!!amount.checked);
