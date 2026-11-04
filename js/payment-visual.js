@@ -16,10 +16,10 @@
   }
   function amountMinor(value){
     var raw=normalizeDigits(value).trim();
-    raw=raw.replace(/^৳\s*/,'').replace(/^(?:Tk\.?|BDT)\s*/i,'')
-      .replace(/\s*(?:Tk\.?|BDT|৳)$/i,'').replace(/,/g,'').trim();
-    if(!/^\d+(\.\d{1,2})?$/.test(raw))return null;
-    var n=Number(raw);
+    raw=raw.replace(/^৳\s*/,'').replace(/^(?:Tk\.?|BDT)\s+/i,'')
+      .replace(/\s+(?:Tk\.?|BDT)$/i,'').replace(/\s*৳$/,'').trim();
+    if(!/^(\d{1,3}(,\d{3})+|\d+)(\.\d{1,2})?$/.test(raw))return null;
+    var n=Number(raw.replace(/,/g,''));
     return Number.isFinite(n)&&n>0?Math.round(n*100):null;
   }
   function compareRecipient(leftValue,rightValue){
@@ -224,6 +224,10 @@
       var input=byId(id);if(input){input.addEventListener('input',updateLiveComparison);input.addEventListener('change',updateLiveComparison);}
     });
     ['langEn','langBn'].forEach(function(id){var button=byId(id);if(button)button.addEventListener('click',updateLiveComparison)});
+    doc.addEventListener('click',function(event){
+      var target=event.target&&event.target.closest?event.target.closest('[onclick^="confirmInstr("]'):null;
+      if(target&&root.setTimeout)root.setTimeout(updateLiveComparison,0);
+    });
     setDemoScenario('mismatch');
     updateLiveComparison();
   }
