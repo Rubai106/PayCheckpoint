@@ -48,6 +48,9 @@ jobs:
       - name: Run connected recovery workspace regression
         run: npm run qa:incident-dossier
 
+      - name: Run interactive Evidence Map regression
+        run: npm run qa:evidence-map
+
       - name: Run keyboard and focus accessibility checks
         run: npm run qa:focus
 
