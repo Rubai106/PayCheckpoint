@@ -87,7 +87,7 @@ function renderIncidentWorkflowHub() {
   setText('incident-workflow-export', bn ? 'শেয়ার-সেফ সারাংশ দেখুন' : 'Preview share-safe brief');
   setReady('incident-workflow-card-path', scenario !== 'unsure');
   setReady('incident-workflow-card-evidence', reviewedReceipt || reviewedScreenshot);
-  setReady('incident-workflow-card-contact', available > 0 || calls > 0);
+  setReady('incident-workflow-card-contact', (readiness.length > 0 && available === readiness.length) || calls > 0);
   setReady('incident-workflow-card-history', events > 1 || activePlans > 0);
   var continueButton = document.getElementById('incident-workflow-continue');
   if (continueButton) continueButton.setAttribute('aria-label', (bn ? 'প্রস্তাবিত পরবর্তী ধাপে যান: ' : 'Continue to suggested next step: ') + next.title);
