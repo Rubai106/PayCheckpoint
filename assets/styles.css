@@ -1350,3 +1350,34 @@ details[open]{background:#FCFEFC}
   .incident-workflow-card{transition:none!important}
   .incident-workflow-card:hover{transform:none}
 }
+
+/* v1.28.1 — Evidence Map source investigation: filters, provenance links and honest review ordering. */
+.evidence-source-return{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 14px;padding:12px 15px;border:1px solid #CFE1D3;border-radius:14px;background:linear-gradient(110deg,#EFF7F0,#FFFFFF);box-shadow:0 6px 18px rgba(20,55,34,.045)}
+.evidence-source-return>div{display:grid;gap:2px;min-width:0}
+.evidence-source-return strong{color:#1E4430;font-size:13px}
+.evidence-source-return span{color:#627669;font-size:12px}
+.evidence-map-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 13px}
+.evidence-map-filters{display:flex;flex-wrap:wrap;gap:7px}
+.evidence-map-filter{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:0 12px;border:1px solid #D8E4DA;border-radius:999px;background:#fff;color:#4B6252;font-size:12px;font-weight:700;cursor:pointer}
+.evidence-map-filter b{display:grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:#F0F4F0;color:#587060;font-size:10px}
+.evidence-map-filter.is-active{background:#173F2F;border-color:#173F2F;color:#fff;box-shadow:0 4px 12px rgba(23,63,47,.14)}
+.evidence-map-filter.is-active b{background:rgba(255,255,255,.16);color:#fff}
+.evidence-map-order-note{margin:0;color:#748278;font-size:10px;line-height:1.5;text-align:right}
+.evidence-map-filter-status{min-height:18px;margin:-4px 0 10px;color:#7B897F;font-size:10px}
+.evidence-map-filter-empty{margin:0 0 12px;padding:24px 16px;border:1px dashed #C9D9CC;border-radius:13px;color:#718176;background:#FBFDFB;text-align:center;font-size:13px}
+.evidence-source-card[hidden]{display:none!important}
+.evidence-source-title{display:flex;align-items:flex-start;gap:9px;min-width:0}
+.evidence-source-order{display:grid;place-items:center;flex:0 0 27px;width:27px;height:27px;border:1px solid #D7E5D9;border-radius:8px;background:#F0F7F1;color:#28563A;font-size:10px;font-weight:850;font-variant-numeric:tabular-nums}
+.evidence-source-title h4{padding-top:2px}
+.evidence-source-relation{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:10px 0 9px;padding:8px 9px;border:1px solid #E4ECE4;border-radius:9px;background:#F7FAF7}
+.evidence-source-relation>span:first-child{color:#708174;font-size:10px;font-weight:700}
+.evidence-source-relation .tag{max-width:64%;white-space:normal;text-align:right;font-size:9px;line-height:1.35}
+.evidence-source-actions{display:flex;justify-content:flex-end;margin-top:12px;padding-top:10px;border-top:1px solid #EAF0EA}
+.evidence-source-open{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 11px;border:1px solid #D4E4D7;border-radius:999px;background:#F5FAF5;color:#25583A;font-size:11px;font-weight:750;cursor:pointer}
+.evidence-source-open:hover{background:#EAF5EC;border-color:#B9D7C0}
+.evidence-source-open span{font-size:13px}
+.evidence-source-unavailable{color:#89968C;font-size:10px;font-weight:650}
+.evidence-source-card:focus-within{border-color:#91BDA0;box-shadow:0 0 0 3px rgba(38,117,67,.1)}
+@media(max-width:760px){.evidence-map-tools{align-items:flex-start;flex-direction:column}.evidence-map-order-note{text-align:left}.evidence-map-filter{min-height:40px}.evidence-source-return{align-items:flex-start;flex-direction:column}.evidence-source-return .btn{width:100%}}
+@media(max-width:380px){.evidence-map-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.evidence-map-filter{justify-content:center;gap:5px;padding:0 7px;font-size:10px}.evidence-source-relation{align-items:flex-start;flex-direction:column}.evidence-source-relation .tag{max-width:100%;text-align:left}}
+@media(prefers-reduced-motion:reduce){.evidence-map-filter,.evidence-source-open{transition:none!important;scroll-behavior:auto}}
