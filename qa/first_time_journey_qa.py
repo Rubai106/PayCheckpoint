@@ -78,6 +78,26 @@ with sync_playwright() as p:
     for selector in ['#f-intended-amt', '#f-entered-num', '#f-entered-amt']:
         placeholder = page.locator(selector).get_attribute('placeholder') or ''
         assert len(placeholder) <= 38, (selector, placeholder)
+
+    # Both sides of the pre-send comparison are required. Invalid payment-app
+    # values must be corrected before the app can present a comparison as ready.
+    page.locator('#f-intended-num').fill('01712345678')
+    page.locator('#f-intended-amt').fill('3000')
+    page.locator('#f-entered-num').fill('not-a-bangladesh-number')
+    page.locator('#f-entered-amt').fill('0')
+    page.locator('[data-i18n="compareDetails"]').click()
+    assert page.locator('[data-screen="intent"]').is_visible()
+    assert page.locator('#f-entered-num').get_attribute('aria-invalid') == 'true'
+    assert page.locator('#f-entered-amt').get_attribute('aria-invalid') == 'true'
+    assert page.locator('#e-entered-num [role="alert"]').count() == 1
+    assert page.locator('#e-entered-amt [role="alert"]').count() == 1
+    assert page.evaluate('document.activeElement.id') == 'f-entered-num'
+    page.locator('#f-entered-num').fill('01712345678')
+    page.locator('#f-entered-amt').fill('3000')
+    page.locator('[data-i18n="compareDetails"]').click()
+    assert page.locator('[data-screen="recon"]').is_visible()
+
+    page.evaluate("startJourney('prevention','intent')")
     page.locator('#f-intended-num').fill('01712345678')
     page.locator('#f-intended-amt').fill('3000')
     page.locator('#f-entered-num').fill('01712345678')
