@@ -70,6 +70,7 @@ function evidenceMapSourceCard(id, title, provenance, number, amount, nState, aS
     '<p class="evidence-source-note">' + esc(note) + '</p><div class="evidence-source-actions">' + action + '</div></article>';
 }
 var PC_EVIDENCE_MAP_FILTER = 'all';
+var PC_EVIDENCE_MAP_LENS = 'recipient';
 function filterEvidenceSources(filter) {
   if (['all', 'conflicts', 'review'].indexOf(filter) === -1) filter = 'all';
   PC_EVIDENCE_MAP_FILTER = filter;
@@ -102,13 +103,70 @@ function filterEvidenceSources(filter) {
   if (status) status.textContent = evidenceMapCopy('Showing ' + visible + ' of ' + cards.length + ' sources.', cards.length + 'টি উৎসের মধ্যে ' + visible + 'টি দেখানো হচ্ছে।');
   return visible;
 }
-function openEvidenceSource(id) {
+function renderEvidenceFieldTrail(sources) {
+  var lens = PC_EVIDENCE_MAP_LENS === 'amount' ? 'amount' : 'recipient';
+  var isAmount = lens === 'amount';
+  var comparable = sources.filter(function(source) { return source.id !== 'intent' && source.id !== 'provider'; });
+  var stateOf = function(source) { return isAmount ? source.amountState : source.recipientState; };
+  var matches = comparable.filter(function(source) { return stateOf(source) === 'match'; }).length;
+  var conflicts = comparable.filter(function(source) { return stateOf(source) === 'mismatch'; }).length;
+  var needsReview = comparable.length - matches - conflicts;
+  document.querySelectorAll('[data-evidence-lens]').forEach(function(button) {
+    var active = button.getAttribute('data-evidence-lens') === lens;
+    button.classList.toggle('is-active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+  var recipientTab = document.getElementById('evidence-lens-recipient');
+  var amountTab = document.getElementById('evidence-lens-amount');
+  var kicker = document.getElementById('evidence-field-trail-kicker');
+  var title = document.getElementById('evidence-field-trail-title');
+  var intro = document.getElementById('evidence-field-trail-intro');
+  var note = document.getElementById('evidence-field-trail-note');
+  var group = document.getElementById('evidence-field-lenses');
+  if (kicker) kicker.textContent = evidenceMapCopy('FIELD INVESTIGATION', 'তথ্যভিত্তিক অনুসন্ধান');
+  if (title) title.textContent = evidenceMapCopy('Follow one detail across sources', 'বিভিন্ন উৎসে একটি তথ্য অনুসরণ করুন');
+  if (intro) intro.textContent = evidenceMapCopy('Choose a field to compare it independently across the case sources.', 'কেসের সব উৎসে আলাদাভাবে তুলনা করতে একটি তথ্য বেছে নিন।');
+  if (recipientTab) recipientTab.textContent = evidenceMapCopy('Recipient', 'প্রাপক');
+  if (amountTab) amountTab.textContent = evidenceMapCopy('Amount', 'পরিমাণ');
+  if (group) group.setAttribute('aria-label', evidenceMapCopy('Choose a field to investigate', 'যে তথ্য অনুসন্ধান করবেন তা বেছে নিন'));
+  if (note) note.textContent = evidenceMapCopy('The intended details are the comparison reference, not independent proof. A matching value does not authenticate the source.', 'উদ্দেশ্য করা তথ্য তুলনার রেফারেন্স, স্বাধীন প্রমাণ নয়। মান মিলে গেলেও উৎসের সত্যতা যাচাই হয় না।');
+  var summary = document.getElementById('evidence-field-trail-summary');
+  if (summary) {
+    summary.innerHTML =
+      '<span class="evidence-field-count is-match" data-field-count="match"><strong>' + matches + '</strong><small>' + esc(evidenceMapCopy('match intent', 'উদ্দেশ্যের সঙ্গে মেলে')) + '</small></span>' +
+      '<span class="evidence-field-count is-conflict" data-field-count="conflict"><strong>' + conflicts + '</strong><small>' + esc(evidenceMapCopy('differ from intent', 'উদ্দেশ্যের সঙ্গে অমিল')) + '</small></span>' +
+      '<span class="evidence-field-count is-review" data-field-count="review"><strong>' + needsReview + '</strong><small>' + esc(evidenceMapCopy('need review', 'পর্যালোচনা দরকার')) + '</small></span>' +
+      '<span class="evidence-field-count is-unavailable" data-field-count="unavailable"><strong>' + sources.filter(function(source) { return source.id === 'provider' && stateOf(source) === 'unavailable'; }).length + '</strong><small>' + esc(evidenceMapCopy('provider record not connected', 'প্রদানকারী রেকর্ড সংযুক্ত নয়')) + '</small></span>';
+  }
+  var list = document.getElementById('evidence-field-trail-list');
+  if (!list) return;
+  list.innerHTML = sources.map(function(source) {
+    var state = stateOf(source);
+    var value = isAmount ? source.amount : source.number;
+    var display = source.id === 'screenshot' && state !== 'not-reviewed'
+      ? evidenceMapCopy('Compared · value not retained', 'তুলনা হয়েছে · মান সংরক্ষিত নেই')
+      : evidenceMapDisplay(value, lens);
+    var action = source.actionable
+      ? '<button type="button" class="evidence-field-open" data-evidence-trace-open="' + esc(source.id) + '" aria-label="' + esc(evidenceMapCopy('Open ' + source.title + ' for ' + (isAmount ? 'amount' : 'recipient'), (isAmount ? 'পরিমাণের জন্য ' : 'প্রাপকের জন্য ') + source.title + ' খুলুন')) + '">' + esc(evidenceMapCopy('Open input', 'ইনপুট খুলুন')) + '<span aria-hidden="true">↗</span></button>'
+      : '<span class="evidence-field-no-action">' + esc(evidenceMapCopy('Not connected', 'সংযুক্ত নয়')) + '</span>';
+    return '<article class="evidence-field-row" data-evidence-trail-source="' + esc(source.id) + '" data-evidence-trail-state="' + esc(state) + '">' +
+      '<div class="evidence-field-source"><span class="evidence-source-order">' + esc(source.order) + '</span><div><strong>' + esc(source.title) + '</strong><small>' + esc(source.provenance) + '</small></div></div>' +
+      '<div class="evidence-field-value"><small>' + esc(isAmount ? evidenceMapCopy('Amount', 'পরিমাণ') : evidenceMapCopy('Recipient', 'প্রাপক')) + '</small><strong>' + esc(display) + '</strong></div>' +
+      '<div class="evidence-field-state">' + evidenceMapTag(state) + '</div>' +
+      '<div class="evidence-field-action">' + action + '</div></article>';
+  }).join('');
+  list.querySelectorAll('[data-evidence-trace-open]').forEach(function(button) {
+    button.addEventListener('click', function() { openEvidenceSource(button.getAttribute('data-evidence-trace-open'), lens); });
+  });
+}
+function openEvidenceSource(id, fieldKind) {
+  fieldKind = fieldKind === 'amount' ? 'amount' : 'recipient';
   var routes = {
-    intent: { screen: 'intent', field: 'f-intended-num' },
-    instruction: { screen: 'intent', field: 'f-instruction', details: 0 },
-    'pre-send': { screen: 'intent', field: 'f-entered-num' },
-    screenshot: { screen: 'intent', field: 'screen-recipient-num', details: 1 },
-    receipt: { screen: 'sms', field: 'f-sms' }
+    intent: { screen: 'intent', field: 'f-intended-num', amountField: 'f-intended-amt' },
+    instruction: { screen: 'intent', field: 'f-instruction', amountField: 'f-instruction', details: 0 },
+    'pre-send': { screen: 'intent', field: 'f-entered-num', amountField: 'f-entered-amt' },
+    screenshot: { screen: 'intent', field: 'screen-recipient-num', amountField: 'screen-recipient-amt', details: 1 },
+    receipt: { screen: 'sms', field: 'f-sms', amountField: 'f-sms' }
   };
   var route = routes[id];
   if (!route) return false;
@@ -121,7 +179,7 @@ function openEvidenceSource(id) {
     var disclosures = document.querySelectorAll('[data-screen="intent"] details.intent-advanced');
     if (disclosures[route.details]) disclosures[route.details].open = true;
   }
-  var field = document.getElementById(route.field);
+  var field = document.getElementById(fieldKind === 'amount' ? (route.amountField || route.field) : route.field);
   if (!field) return false;
   var handoff = document.getElementById('evidence-source-return');
   if (handoff) handoff.classList.remove('hidden');
@@ -129,7 +187,7 @@ function openEvidenceSource(id) {
   var copy = document.getElementById('evidence-source-return-copy');
   var action = document.getElementById('evidence-source-return-action');
   var sourceTitle = (document.querySelector('[data-evidence-source="' + id + '"] h4') || {}).textContent || id;
-  if (title) title.textContent = evidenceMapCopy('Reviewing: ' + sourceTitle, 'পর্যালোচনা হচ্ছে: ' + sourceTitle);
+  if (title) title.textContent = evidenceMapCopy('Reviewing: ' + sourceTitle + ' · ' + (fieldKind === 'amount' ? 'amount' : 'recipient'), 'পর্যালোচনা হচ্ছে: ' + sourceTitle + ' · ' + (fieldKind === 'amount' ? 'পরিমাণ' : 'প্রাপক'));
   if (copy) copy.textContent = evidenceMapCopy('Your case stays in page memory. Return to the Evidence Map when you are ready.', 'আপনার কেস পেজে অপরিবর্তিত আছে। প্রস্তুত হলে প্রমাণের মানচিত্রে ফিরুন।');
   if (action) action.textContent = evidenceMapCopy('Return to Evidence Map', 'প্রমাণের মানচিত্রে ফিরুন');
   field.scrollIntoView({ behavior: 'auto', block: 'center' });
@@ -183,7 +241,16 @@ function renderEvidenceMap() {
   var receiptNote = !receiptAvailable ? (S.savedCaseSnapshot && (receipt.recipient || receipt.amount) ? evidenceMapCopy('A saved snapshot is not a freshly reviewed receipt and is excluded from comparison.', 'সংরক্ষিত স্ন্যাপশট নতুন করে পর্যালোচিত রসিদ নয় এবং তুলনায় ব্যবহার করা হয় না।') : evidenceMapCopy('No message fields have been confirmed for this case. Pasted SMS is not authenticated.', 'এই কেসে কোনো বার্তার তথ্য নিশ্চিত করা হয়নি। পেস্ট করা SMS-এর সত্যতা যাচাই হয় না।')) : evidenceMapCopy('User-reviewed text fields · still not provider-authenticated; edited fields retain their edited provenance.', 'ব্যবহারকারীর পর্যালোচিত বার্তার তথ্য · তবুও প্রদানকারী দ্বারা যাচাইকৃত নয়; সম্পাদিত মানের সম্পাদিত পরিচয় রাখা হয়।');
   rows.push(evidenceMapSourceCard('receipt', evidenceMapCopy('Reviewed message / receipt fields', 'পর্যালোচিত বার্তা / রসিদের তথ্য'), evidenceMapCopy(receiptAvailable ? 'User reviewed · source is unverified text' : (S.savedCaseSnapshot ? 'Saved snapshot · not freshly reviewed' : 'Not reviewed'), receiptAvailable ? 'ব্যবহারকারী পর্যালোচনা করেছেন · উৎস যাচাই করা লেখা নয়' : (S.savedCaseSnapshot ? 'সংরক্ষিত স্ন্যাপশট · নতুন করে পর্যালোচনা হয়নি' : 'পর্যালোচনা হয়নি')), receiptAvailable ? (receipt.recipient || '') : (S.savedCaseSnapshot ? receipt.recipient || '' : ''), receiptAvailable ? (receipt.amount || '') : (S.savedCaseSnapshot ? receipt.amount || '' : ''), receiptNumState, receiptAmtState, receiptNote, '05', true));
   rows.push(evidenceMapSourceCard('provider', evidenceMapCopy('Provider-confirmed record', 'প্রদানকারী-নিশ্চিত রেকর্ড'), evidenceMapCopy('No authoritative provider result attached', 'কোনো কর্তৃত্বপূর্ণ প্রদানকারী ফল যুক্ত নেই'), '', '', 'unavailable', 'unavailable', evidenceMapCopy('A value match in this app does not verify wallet ownership, authenticity, or transaction status.', 'এই অ্যাপে মান মিলে যাওয়া ওয়ালেটের মালিকানা, সত্যতা বা লেনদেনের অবস্থা যাচাই করে না।'), '06', false));
+  var fieldTrailSources = [
+    {id:'intent',order:'01',title:evidenceMapCopy('Your intended payment','আপনার উদ্দেশ্য করা পেমেন্ট'),provenance:evidenceMapCopy('User-reported reference · not independently verified','ব্যবহারকারীর দেওয়া রেফারেন্স · স্বাধীনভাবে যাচাই করা নয়'),number:num,amount:amt,recipientState:'baseline',amountState:'baseline',actionable:true},
+    {id:'instruction',order:'02',title:evidenceMapCopy('Original instruction','মূল নির্দেশনা'),provenance:evidenceMapCopy('Pasted text · unverified','পেস্ট করা লেখা · যাচাই হয়নি'),number:instrNum,amount:instrAmt,recipientState:instrNumState,amountState:instrAmtState,actionable:true},
+    {id:'pre-send',order:'03',title:evidenceMapCopy('Pre-send entry','পাঠানোর আগের এন্ট্রি'),provenance:evidenceMapCopy('Manual entry · simulated review','হাতে লেখা · সিমুলেটেড পর্যালোচনা'),number:entryNum,amount:entryAmt,recipientState:evidenceMapCompare(entryNum,'recipient',true),amountState:evidenceMapCompare(entryAmt,'amount',true),actionable:true},
+    {id:'screenshot',order:'04',title:evidenceMapCopy('Payment-screen screenshot / receipt','পেমেন্ট স্ক্রিনশট / রসিদ'),provenance:screenshotProvenance,number:'',amount:'',recipientState:screenNumState,amountState:screenAmtState,actionable:true},
+    {id:'receipt',order:'05',title:evidenceMapCopy('Reviewed message / receipt fields','পর্যালোচিত বার্তা / রসিদের তথ্য'),provenance:evidenceMapCopy(receiptAvailable?'User reviewed · source unverified':'Not freshly reviewed','ব্যবহারকারী পর্যালোচনা করেছেন · উৎস যাচাই নয়'),number:receiptAvailable?(receipt.recipient||''):(S.savedCaseSnapshot?(receipt.recipient||''):''),amount:receiptAvailable?(receipt.amount||''):(S.savedCaseSnapshot?(receipt.amount||''):''),recipientState:receiptNumState,amountState:receiptAmtState,actionable:true},
+    {id:'provider',order:'06',title:evidenceMapCopy('Provider-confirmed record','প্রদানকারী-নিশ্চিত রেকর্ড'),provenance:evidenceMapCopy('No authoritative provider result attached','কোনো কর্তৃত্বপূর্ণ প্রদানকারী ফল যুক্ত নেই'),number:'',amount:'',recipientState:'unavailable',amountState:'unavailable',actionable:false}
+  ];
   body.innerHTML = rows.join('');
+  renderEvidenceFieldTrail(fieldTrailSources);
   var allStates = [instrNumState, instrAmtState, evidenceMapCompare(entryNum, 'recipient', true), evidenceMapCompare(entryAmt, 'amount', true), screenNumState, screenAmtState, receiptNumState, receiptAmtState];
   var mismatches = allStates.filter(function(code) { return code === 'mismatch'; }).length;
   var incomplete = allStates.filter(function(code) { return ['missing', 'not-reviewed', 'not-confirmed', 'incomplete', 'needs-review', 'stale', 'saved'].indexOf(code) >= 0; }).length;
@@ -214,7 +281,13 @@ function renderEvidenceMap() {
     button.onclick = function() { filterEvidenceSources(button.getAttribute('data-evidence-filter')); };
   });
   body.querySelectorAll('[data-evidence-open]').forEach(function(button) {
-    button.addEventListener('click', function() { openEvidenceSource(button.getAttribute('data-evidence-open')); });
+    button.addEventListener('click', function() { openEvidenceSource(button.getAttribute('data-evidence-open'), button.getAttribute('data-evidence-open-field') || 'recipient'); });
+  });
+  document.querySelectorAll('[data-evidence-lens]').forEach(function(button) {
+    button.onclick = function() {
+      PC_EVIDENCE_MAP_LENS = button.getAttribute('data-evidence-lens') === 'amount' ? 'amount' : 'recipient';
+      renderEvidenceFieldTrail(fieldTrailSources);
+    };
   });
   filterEvidenceSources(PC_EVIDENCE_MAP_FILTER);
   if (typeof renderIncidentWorkflowHub === 'function') renderIncidentWorkflowHub();
