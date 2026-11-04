@@ -46,10 +46,10 @@ function renderIncidentWorkflowHub() {
       : (bn ? 'এখনো কোনো উৎস পর্যালোচনা হয়নি' : 'No reviewed source yet');
   var contactStatus = bn
     ? available + '/6টি তথ্য · ' + calls + 'টি যোগাযোগ নথি'
-    : available + '/6 information items · ' + calls + ' contact entries';
+    : available + '/6 information items · ' + calls + (calls === 1 ? ' contact entry' : ' contact entries');
   var historyStatus = bn
     ? events + 'টি টাইমলাইন এন্ট্রি · ' + activePlans + 'টি সক্রিয় ফলো-আপ'
-    : events + ' timeline entries · ' + activePlans + ' active follow-ups';
+    : events + (events === 1 ? ' timeline entry' : ' timeline entries') + ' · ' + activePlans + (activePlans === 1 ? ' active follow-up' : ' active follow-ups');
   var next;
   if (scenario === 'unsure') {
     next = { action: 'jump', target: 'recovery-nav-scenario', title: bn ? 'আপনার পরিস্থিতি বেছে নিন' : 'Choose what happened' };
