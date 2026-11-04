@@ -392,6 +392,18 @@ Other: Send your OTP to verify."></textarea>
     <p class="evidence-map-order-note" id="evidence-map-order-note">01 → 06 is the review order, not a timestamped transaction history.</p>
   </div>
   <p id="evidence-map-filter-status" class="evidence-map-filter-status" role="status" aria-live="polite"></p>
+  <section class="evidence-field-trail" aria-labelledby="evidence-field-trail-title">
+    <div class="evidence-field-trail-head">
+      <div><p class="eyebrow" id="evidence-field-trail-kicker">FIELD INVESTIGATION</p><h4 id="evidence-field-trail-title">Follow one detail across sources</h4><p id="evidence-field-trail-intro">Choose a field to compare it independently across the case sources.</p></div>
+      <div class="evidence-field-lenses" id="evidence-field-lenses" role="group" aria-label="Choose a field to investigate">
+        <button type="button" class="evidence-field-lens is-active" data-evidence-lens="recipient" aria-pressed="true" id="evidence-lens-recipient">Recipient</button>
+        <button type="button" class="evidence-field-lens" data-evidence-lens="amount" aria-pressed="false" id="evidence-lens-amount">Amount</button>
+      </div>
+    </div>
+    <div id="evidence-field-trail-summary" class="evidence-field-trail-summary" role="status" aria-live="polite"></div>
+    <div id="evidence-field-trail-list" class="evidence-field-trail-list" aria-live="polite"></div>
+    <p id="evidence-field-trail-note" class="evidence-field-trail-note">The intended details are the comparison reference, not independent proof. A matching value does not authenticate the source.</p>
+  </section>
   <div id="evidence-map-body" class="evidence-map-grid" aria-live="polite"></div>
   <p id="evidence-map-filter-empty" class="evidence-map-filter-empty" hidden>No sources match this filter. Choose another view.</p>
   <p class="hint evidence-map-footnote" id="evidence-map-footnote">User-provided content, manual review, parsed text and provider-confirmed facts are different evidence levels. No provider-confirmed record is attached in this prototype.</p>
