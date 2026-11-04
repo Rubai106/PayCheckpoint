@@ -1152,3 +1152,50 @@ details[open]{background:#FCFEFC}
   #scam-coach-results ol{grid-template-columns:1fr}
   #scam-coach-results ol li{min-height:0;padding:34px 12px 12px}
 }
+
+
+/* Evidence Map — make provenance and field-level disagreement the visual centrepiece. */
+.evidence-map-panel{
+  border:1px solid #D6E5D9;
+  background:radial-gradient(ellipse at 95% 0%,rgba(202,233,210,.34),transparent 34%),linear-gradient(155deg,#F8FCF8,#FFFFFF 72%);
+}
+.evidence-map-heading h3{color:#173C2D;font-size:23px;letter-spacing:-.045em}
+.evidence-map-summary{
+  border-color:#CFE1D3;border-radius:13px;
+  background:linear-gradient(115deg,#EAF5EC,#F8FCF8);
+  color:#234A37;
+}
+.evidence-map-summary p{color:#61796A}
+.evidence-source-card{
+  position:relative;overflow:hidden;
+  border:1px solid #DFE9E0;border-radius:15px;padding:16px;
+  background:linear-gradient(155deg,#FFFFFF,#FBFDFB);
+  box-shadow:0 4px 14px rgba(20,55,34,.035);
+  transition:border-color .2s ease,transform .2s ease,box-shadow .2s ease;
+}
+.evidence-source-card:before{
+  content:"";position:absolute;left:0;right:0;top:0;height:3px;
+  background:linear-gradient(90deg,#0B8060,#B6DCC0);
+}
+.evidence-source-card:hover{border-color:#BDD8C4;transform:translateY(-2px);box-shadow:0 12px 26px rgba(20,55,34,.07)}
+.evidence-source-head h4{color:#203D2E;letter-spacing:-.02em}
+.evidence-source-id{color:#789083;letter-spacing:.11em}
+.evidence-provenance{color:#65796C}
+.evidence-source-fields{gap:8px}
+.evidence-map-value{
+  border-color:#E2EBE3;border-radius:10px;background:#F8FBF8;padding:10px;
+}
+.evidence-map-value-head>span:first-child{color:#5B7062}
+.evidence-map-value strong{color:#193E2D;font-size:15px}
+.evidence-map-value small{color:#718278}
+.evidence-map-value .tag{border-radius:6px}
+.evidence-source-note{color:#667A6D}
+.evidence-map-footnote{color:#708076}
+.evidence-integrity-panel{
+  border-color:#DCE6DE;
+  background:linear-gradient(155deg,#F8FBF8,#FFFFFF 72%);
+}
+.evidence-integrity-heading h3{color:#1D3C2D;letter-spacing:-.03em}
+.evidence-integrity-entry{border-color:#DFE8E0;border-radius:14px}
+.evidence-integrity-hash{background:#F2F7F2;color:#52695A}
+@media(prefers-reduced-motion:reduce){.evidence-source-card{transition:none!important;transform:none!important}}
