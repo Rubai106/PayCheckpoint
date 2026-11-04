@@ -275,11 +275,22 @@ Other: Send your OTP to verify."></textarea>
   <div id="preflight-check-summary" class="preflight-check-summary"></div>
   <div class="preflight-checklist">
     <p class="intent-step-label" data-i18n="preflightCheckListTitle">BEFORE YOU CONFIRM IN YOUR PAYMENT APP</p>
-    <label><input type="checkbox" id="wallet-check-recipient" /> <span data-i18n="walletCheckRecipient">I reopened my payment app and checked the recipient number and displayed name (if shown).</span></label>
-    <label><input type="checkbox" id="wallet-check-amount" /> <span data-i18n="walletCheckAmount">I checked the amount and any fee on the payment app's own confirmation screen.</span></label>
-    <p class="hint" data-i18n="walletCheckCaveat">Only tick these after checking inside the provider app yourself. PayCheckpoint cannot see that screen or verify what you did. Recording is optional.</p>
+    <div class="wallet-check-progress">
+      <div class="wallet-check-progress-head">
+        <strong data-i18n="walletCheckProgressTitle">Your final wallet check</strong>
+        <span id="wallet-check-count" aria-live="polite">0 / 2</span>
+      </div>
+      <div class="wallet-check-track" id="wallet-check-progress" role="progressbar" aria-label="Wallet checks completed" aria-valuemin="0" aria-valuemax="2" aria-valuenow="0" aria-valuetext="0 of 2 checks selected">
+        <i id="wallet-check-progress-fill" style="width:0%"></i>
+      </div>
+      <p class="hint" data-i18n="walletCheckProgressHint">Check the recipient first, then the amount and any fee on your wallet's own confirmation screen.</p>
+      <span class="sr-only" id="wallet-check-live-progress" role="status" aria-live="polite" aria-atomic="true">No wallet checks selected.</span>
+    </div>
+    <label class="wallet-check-item" data-step="01"><input type="checkbox" id="wallet-check-recipient" /> <span class="wallet-check-index" aria-hidden="true">01</span><span class="wallet-check-copy" data-i18n="walletCheckRecipient">I reopened my payment app and checked the recipient number and displayed name (if shown).</span></label>
+    <label class="wallet-check-item" data-step="02"><input type="checkbox" id="wallet-check-amount" /> <span class="wallet-check-index" aria-hidden="true">02</span><span class="wallet-check-copy" data-i18n="walletCheckAmount">I checked the amount and any fee on the payment app's own confirmation screen.</span></label>
+    <p class="hint" id="wallet-check-caveat" data-i18n="walletCheckCaveat">Only tick these after checking inside the provider app yourself. PayCheckpoint cannot see that screen or verify what you did. Recording is optional.</p>
     <p class="hint" data-i18n="walletCheckOptional">You do not have to save a check here. The important step is checking the recipient, amount and fee inside your payment app.</p>
-    <button class="btn btn-p" id="btn-record-wallet-check" type="button" onclick="recordWalletCheck()" disabled data-i18n="recordWalletCheck">Record my check (user-reported)</button>
+    <button class="btn btn-p" id="btn-record-wallet-check" type="button" onclick="recordWalletCheck()" disabled aria-describedby="wallet-check-caveat" data-i18n="recordWalletCheck">Record my check (user-reported)</button>
     <p id="wallet-check-status" class="hint" role="status" aria-live="polite"></p>
   </div>
   <div class="note preflight-next-action" role="note"><strong data-i18n="nextActionLabel">Next step</strong><p data-i18n="nextActionText">Return to your payment app and decide there. Only that app can send the transfer. PayCheckpoint does not send, hold, cancel or reverse real payments.</p></div>
