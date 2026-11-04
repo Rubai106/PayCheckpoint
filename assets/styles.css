@@ -1104,3 +1104,51 @@ details[open]{background:#FCFEFC}
   .steps.journey-progress{padding:13px}
   .progress-step{font-size:10px}
 }
+
+
+/* Action-first scam review: turn rule output into a scannable decision surface. */
+#scam-coach-results:empty{display:none}
+#scam-coach-results>div{
+  position:relative;overflow:hidden;margin-top:18px;padding:22px 22px 18px;
+  border-radius:18px;box-shadow:0 12px 28px rgba(20,45,32,.065);
+}
+#scam-coach-results>.errbox{
+  border:1px solid #E9C3BE;border-left:5px solid #B74743;
+  background:linear-gradient(135deg,#FFF4F1 0%,#FFFFFF 76%);
+}
+#scam-coach-results>.warn{
+  border:1px solid #EBD8A7;border-left:5px solid #D39A25;
+  background:linear-gradient(135deg,#FFF9E9 0%,#FFFFFF 76%);
+}
+#scam-coach-results>.note{
+  border:1px solid #D9E5DC;border-left:5px solid #6F8B78;
+  background:linear-gradient(135deg,#F6FAF6 0%,#FFFFFF 76%);
+}
+#scam-coach-results>div>strong{display:block;font-size:clamp(18px,2vw,22px);line-height:1.3;letter-spacing:-.035em;margin:0 0 14px}
+#scam-coach-results ul{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0 0 18px}
+#scam-coach-results ul li{
+  border:1px solid rgba(130,90,55,.14);border-radius:9px;padding:7px 10px;
+  background:rgba(255,255,255,.78);font-size:12px;font-weight:700;color:#634B39;
+}
+#scam-coach-results>div>p{font-size:13px;line-height:1.65}
+#scam-coach-results h4{font-size:14px;letter-spacing:-.01em;margin:20px 0 10px}
+#scam-coach-results ol{
+  counter-reset:coach-action;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;list-style:none;padding:0;margin:0;
+}
+#scam-coach-results ol li{
+  counter-increment:coach-action;position:relative;min-width:0;
+  min-height:94px;padding:36px 12px 12px;border:1px solid #E0E8E1;
+  border-radius:12px;background:rgba(255,255,255,.84);
+  color:#34483D;font-size:12px;line-height:1.55;font-weight:650;
+}
+#scam-coach-results ol li:before{
+  content:counter(coach-action,decimal-leading-zero);
+  position:absolute;top:10px;left:12px;color:#08765B;font-size:11px;font-weight:850;letter-spacing:.06em;
+}
+#scam-coach-results .hint{margin:16px 0 0;padding-top:12px;border-top:1px solid rgba(120,145,128,.2);font-size:11px;color:#68786F}
+@media(max-width:640px){
+  #scam-coach-results>div{padding:17px 15px}
+  #scam-coach-results ol{grid-template-columns:1fr}
+  #scam-coach-results ol li{min-height:0;padding:34px 12px 12px}
+}
