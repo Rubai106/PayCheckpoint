@@ -196,6 +196,7 @@ function renderIncidentDossier() {
   var providerOut = document.getElementById('incident-dossier-provider'); if (providerOut) providerOut.textContent = providerName;
   incidentDossierRenderReadiness(); incidentDossierRenderSupport(); incidentDossierRenderCalls(); incidentDossierRenderQuestions(); if (typeof renderFollowupPlanner === 'function') renderFollowupPlanner();
   var script = document.getElementById('incident-dossier-call-script'); if (script && script.dataset.generated === 'true') script.value = incidentDossierCallScript();
+  if (typeof renderIncidentWorkflowHub === 'function') renderIncidentWorkflowHub();
 }
 function generateIncidentDossierCallScript() {
   var script = document.getElementById('incident-dossier-call-script'); if (!script) return;
