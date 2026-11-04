@@ -52,7 +52,16 @@ with sync_playwright() as p:
     assert page.locator('[data-evidence-source="provider"] .evidence-source-open').count() == 0
     assert page.locator('[data-evidence-source="instruction"]').get_attribute("data-evidence-conflict") == "true"
     assert page.locator('[data-evidence-source="pre-send"]').get_attribute("data-evidence-conflict") == "false"
-    checks.append("PASS | six source cards retain distinct provenance; only actionable, non-provider sources expose input links")
+    assert page.locator("#evidence-field-trail-list [data-evidence-trail-source]").count() == 6
+    assert page.locator('[data-evidence-trail-source="instruction"]').get_attribute("data-evidence-trail-state") == "mismatch"
+    assert page.locator('[data-evidence-trail-source="pre-send"]').get_attribute("data-evidence-trail-state") == "match"
+    assert page.locator('[data-evidence-trail-source="provider"]').get_attribute("data-evidence-trail-state") == "unavailable"
+    assert "01712345678" not in page.locator("#evidence-field-trail-list").inner_text(), "recipient values must remain masked"
+    assert page.locator('[data-field-count="match"] strong').inner_text() == "2"
+    assert page.locator('[data-field-count="conflict"] strong').inner_text() == "1"
+    assert page.locator('[data-field-count="review"] strong').inner_text() == "1"
+    assert page.locator('[data-field-count="unavailable"] strong').inner_text() == "1"
+    checks.append("PASS | recipient field trail exposes source-by-source match/conflict/review states, baseline and provider gap without unmasking values")
 
     assert page.locator('[data-evidence-count="all"]').inner_text() == "6"
     assert page.locator('[data-evidence-count="conflicts"]').inner_text() == "1"
@@ -67,6 +76,20 @@ with sync_playwright() as p:
     checks.append("PASS | conflict/review filters show correct live counts and retain selection when case data refreshes")
 
     page.locator('[data-evidence-filter="all"]').click()
+    page.locator("#evidence-lens-amount").click()
+    assert page.locator("#evidence-lens-amount").get_attribute("aria-pressed") == "true"
+    assert page.locator('[data-evidence-trail-source="instruction"]').get_attribute("data-evidence-trail-state") == "match"
+    assert page.locator('[data-field-count="match"] strong').inner_text() == "3"
+    assert page.locator('[data-field-count="conflict"] strong').inner_text() == "0"
+    assert page.locator('[data-field-count="review"] strong').inner_text() == "1"
+    assert "value not retained" in page.locator('[data-evidence-trail-source="screenshot"]').inner_text().lower()
+    page.locator('[data-evidence-trail-source="pre-send"] .evidence-field-open').click()
+    assert page.evaluate("document.activeElement.id") == "f-entered-amt"
+    page.locator("#evidence-source-return-action").click()
+    assert page.locator("#evidence-lens-amount").get_attribute("aria-pressed") == "true"
+    checks.append("PASS | amount lens recalculates independently and routes directly to the selected amount input")
+
+    page.locator("#evidence-lens-recipient").click()
     page.locator('[data-evidence-source="instruction"] .evidence-source-open').click()
     assert page.locator('[data-screen="intent"]').is_visible()
     assert page.locator('[data-screen="intent"] details.intent-advanced').nth(0).evaluate("(e) => e.open")
@@ -101,7 +124,10 @@ with sync_playwright() as p:
     assert page.locator("#evidence-map-filter-conflicts").inner_text() == "অমিল"
     assert "পর্যালোচনার ক্রম" in page.locator("#evidence-map-order-note").inner_text()
     assert "প্রদানকারীর সংযোগ নেই" in page.locator('[data-evidence-source="provider"]').inner_text()
-    checks.append("PASS | filters, review-order caveat and provider-not-connected state localize to Bangla")
+    assert page.locator("#evidence-lens-recipient").inner_text() == "প্রাপক"
+    assert page.locator("#evidence-lens-amount").inner_text() == "পরিমাণ"
+    assert "তথ্যভিত্তিক অনুসন্ধান" in page.locator("#evidence-field-trail-kicker").inner_text()
+    checks.append("PASS | filters, field lenses, review-order caveat and provider-not-connected state localize to Bangla")
 
     for width in [320, 360, 390, 620, 768, 1024, 1440]:
         page.set_viewport_size({"width": width, "height": 900})
