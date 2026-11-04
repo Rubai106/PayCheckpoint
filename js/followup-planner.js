@@ -177,6 +177,7 @@ function renderFollowupPlanner() {
   if (!out) return;
   if (!PC_FOLLOWUP_PLANS.length) {
     out.innerHTML = '<p class="hint">' + esc(followupPlannerCopy('No follow-ups planned for this case. Add a date based on the provider’s stated timeframe or choose your own reminder.', 'এই কেসে কোনো ফলো-আপ পরিকল্পনা নেই। প্রদানকারীর বলা সময় অনুযায়ী তারিখ দিন অথবা নিজের রিমাইন্ডার বেছে নিন।')) + '</p>';
+    if (typeof renderIncidentWorkflowHub === 'function') renderIncidentWorkflowHub();
     return;
   }
   var plans = PC_FOLLOWUP_PLANS.slice().sort(function (a, b) { return a.dueAt.localeCompare(b.dueAt); });
@@ -189,6 +190,7 @@ function renderFollowupPlanner() {
   out.querySelectorAll('[data-followup-calendar]').forEach(function (button) { button.addEventListener('click', function () { followupPlannerDownloadCalendar(button.getAttribute('data-followup-calendar')); }); });
   out.querySelectorAll('[data-followup-complete]').forEach(function (button) { button.addEventListener('click', function () { followupPlannerSetStatus(button.getAttribute('data-followup-complete'), 'completed'); }); });
   out.querySelectorAll('[data-followup-cancel]').forEach(function (button) { button.addEventListener('click', function () { followupPlannerRemove(button.getAttribute('data-followup-cancel')); }); });
+  if (typeof renderIncidentWorkflowHub === 'function') renderIncidentWorkflowHub();
 }
 function followupPlannerExportSummary() {
   return PC_FOLLOWUP_PLANS.map(function (plan) {
