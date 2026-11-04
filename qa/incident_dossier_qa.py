@@ -55,7 +55,7 @@ with sync_playwright() as p:
     assert 'reference ends 9876' in page.locator('#incident-dossier-calls').inner_text()
     assert page.locator('#incident-dossier-reference').input_value() == ''
     assert 'User-reported' in page.locator('#incident-dossier-calls').inner_text()
-    assert '1 contact entries' in page.locator('#incident-workflow-contact-status').inner_text()
+    assert '1 contact entry' in page.locator('#incident-workflow-contact-status').inner_text()
     assert page.locator('#incident-workflow-next-title').inner_text() == 'Plan the next follow-up'
     checks.append('PASS | Provider contact entry is user-reported, stores only the reference suffix and updates the case hub')
 
