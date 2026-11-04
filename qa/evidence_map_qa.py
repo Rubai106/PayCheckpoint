@@ -43,7 +43,14 @@ with sync_playwright() as p:
       S.enteredAmt = '3000';
       S.receiptReviewed = true;
       S.receipt = {recipient:'01712345678', amount:'3000'};
-      S.screenReview = null;
+      S.screenReview = {
+        intentRecipient: canonPhone(S.intendedNum),
+        intentAmountMinor: amountMinor(S.intendedAmt),
+        recipientState: 'INCOMPLETE',
+        amountState: 'INCOMPLETE',
+        overall: 'INCOMPLETE',
+        method: 'Manual visual comparison'
+      };
       renderEvidenceMap();
     }""")
 
