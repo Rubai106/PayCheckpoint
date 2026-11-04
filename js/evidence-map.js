@@ -98,4 +98,5 @@ function renderEvidenceMap() {
   var kicker = document.getElementById('evidence-map-kicker'); if (kicker) kicker.textContent = evidenceMapCopy('SOURCE-AWARE REVIEW', 'উৎস অনুযায়ী পর্যালোচনা');
   var title = document.getElementById('evidence-map-title'); if (title) title.textContent = evidenceMapCopy('Evidence Map', 'প্রমাণের মানচিত্র');
   var foot = document.getElementById('evidence-map-footnote'); if (foot) foot.textContent = evidenceMapCopy('User-provided content, manual review, parsed text and provider-confirmed facts are different evidence levels. No provider-confirmed record is attached in this prototype.', 'ব্যবহারকারীর দেওয়া তথ্য, হাতে করা পর্যালোচনা, পার্স করা লেখা এবং প্রদানকারী-নিশ্চিত তথ্য ভিন্ন প্রমাণ-স্তর। এই প্রোটোটাইপে প্রদানকারী-নিশ্চিত কোনো রেকর্ড যুক্ত নেই।');
+  if (typeof renderIncidentWorkflowHub === 'function') renderIncidentWorkflowHub();
 }
