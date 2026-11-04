@@ -33,6 +33,8 @@ The guard blocks the wallet checkpoint for:
 - a stale screenshot comparison; or
 - an incomplete or mismatched screenshot comparison.
 
+Checkpoint Intelligence now uses the same incomplete-screenshot state in its primary-action selection. It cannot recommend the wallet checkpoint merely because the manually entered values happen to match while screenshot review is still incomplete.
+
 This is defense in depth: hiding a button is not treated as sufficient, because direct calls to the preflight renderer must be guarded too. When blocked, the app stays in reconciliation and asks the user to review the unresolved source.
 
 ## Verification
