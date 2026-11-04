@@ -130,15 +130,18 @@ function checkpointPreflightBlock(sourceChecks){
  var instructionPending=!!((S.instrNumCands||[]).length&&!S.instrNumConfirmed)||!!((S.instrAmtCands||[]).length&&!S.instrAmtConfirmed);
  var screenshot=S.screenReview||null;
  var screenshotStale=!!(screenshot&&typeof evidenceMapScreenshotIsStale==='function'&&evidenceMapScreenshotIsStale(screenshot));
- var screenshotMismatch=!!(screenshot&&(screenshot.recipientState==='MISMATCH'||screenshot.amountState==='MISMATCH'||screenshot.recipientState==='INCOMPLETE'||screenshot.amountState==='INCOMPLETE'||screenshot.overall==='MISMATCH'||screenshot.overall==='INCOMPLETE'));
+ var screenshotMismatch=!!(screenshot&&(screenshot.recipientState==='MISMATCH'||screenshot.amountState==='MISMATCH'||screenshot.overall==='MISMATCH'));
+ var screenshotIncomplete=!!(screenshot&&(screenshot.recipientState==='INCOMPLETE'||screenshot.amountState==='INCOMPLETE'||screenshot.overall==='INCOMPLETE'));
  var recoveryJourney=S.journey==='recovery';
  return {
-  blocked:recoveryJourney||receiptMismatch||instructionMismatch||instructionPending||screenshotStale||screenshotMismatch,
+  blocked:recoveryJourney||receiptMismatch||instructionMismatch||instructionPending||screenshotStale||screenshotMismatch||screenshotIncomplete,
   recoveryJourney:recoveryJourney,
   receiptMismatch:receiptMismatch,
   instructionMismatch:instructionMismatch,
   instructionPending:instructionPending,
-  screenshotNeedsReview:screenshotStale||screenshotMismatch
+  screenshotNeedsReview:screenshotStale||screenshotMismatch||screenshotIncomplete,
+  screenshotMismatch:screenshotMismatch,
+  screenshotIncomplete:screenshotIncomplete
  };
 }
 function renderCheckpointIntelligence(sourceChecks,flags){
@@ -197,8 +200,8 @@ function renderCheckpointIntelligence(sourceChecks,flags){
  }else if(screenshotNeedsReview){
   var screenshotField=screenshot&&(screenshot.recipientState==='MISMATCH'||screenshot.recipientState==='INCOMPLETE'||screenshotStale)?'recipient':'amount';
   setAction('review',L('Review the screenshot comparison','স্ক্রিনশটের তুলনা পর্যালোচনা করুন'),
-   screenshotStale?L('Your intended details changed after the screenshot was reviewed. The earlier comparison is stale.','স্ক্রিনশট পর্যালোচনার পর আপনার উদ্দেশ্য করা তথ্য বদলেছে। আগের তুলনাটি এখন পুরোনো।'):screenshotIncomplete?L('The screenshot comparison is incomplete. Review the recipient and amount before relying on it.','স্ক্রিনশটের তুলনা অসম্পূর্ণ। এর ওপর নির্ভর করার আগে প্রাপক ও পরিমাণ পর্যালোচনা করুন।'):L('A value entered from the screenshot differs from your intended details.','স্ক্রিনশট থেকে লেখা একটি মান আপনার উদ্দেশ্য করা তথ্যের সঙ্গে মিলছে না।'),
-   screenshotIncomplete?L('Complete both visible fields and review them yourself. OCR suggestions are not automatically accepted, and an image is not authenticated.','দৃশ্যমান দুটি তথ্যই সম্পূর্ণ করে নিজে পর্যালোচনা করুন। OCR-এর প্রস্তাব স্বয়ংক্রিয়ভাবে গ্রহণ করা হয় না এবং ছবির সত্যতা যাচাই হয় না।'):L('Re-enter and review the visible screenshot values. OCR suggestions are not automatically accepted and an image is not authenticated.','স্ক্রিনশটে দৃশ্যমান তথ্য আবার লিখে পর্যালোচনা করুন। OCR-এর প্রস্তাব স্বয়ংক্রিয়ভাবে গ্রহণ করা হয় না এবং ছবির সত্যতা যাচাই হয় না।'),
+   (screenshotStale?L('Your intended details changed after the screenshot was reviewed. The earlier comparison is stale.','স্ক্রিনশট পর্যালোচনার পর আপনার উদ্দেশ্য করা তথ্য বদলেছে। আগের তুলনাটি এখন পুরোনো।'):(screenshotIncomplete&&screenshotMismatch)?L('The screenshot comparison is incomplete, and at least one entered value differs from your intended details. Review both fields before relying on it.','স্ক্রিনশটের তুলনা অসম্পূর্ণ এবং অন্তত একটি লেখা মান আপনার উদ্দেশ্যের সঙ্গে মেলে না। এর ওপর নির্ভর করার আগে দুটি তথ্যই পর্যালোচনা করুন।'):screenshotIncomplete?L('The screenshot comparison is incomplete. Review the recipient and amount before relying on it.','স্ক্রিনশটের তুলনা অসম্পূর্ণ। এর ওপর নির্ভর করার আগে প্রাপক ও পরিমাণ পর্যালোচনা করুন।'):L('A value entered from the screenshot differs from your intended details.','স্ক্রিনশট থেকে লেখা একটি মান আপনার উদ্দেশ্য করা তথ্যের সঙ্গে মিলছে না।')),
+   (screenshotIncomplete&&screenshotMismatch)?L('Resolve the conflicting value and complete any missing field. OCR suggestions are not automatically accepted, and an image is not authenticated.','যে মানে অমিল আছে সেটি যাচাই করুন এবং অনুপস্থিত তথ্য পূরণ করুন। OCR-এর প্রস্তাব স্বয়ংক্রিয়ভাবে গ্রহণ করা হয় না এবং ছবির সত্যতা যাচাই হয় না।'):screenshotIncomplete?L('Complete both visible fields and review them yourself. OCR suggestions are not automatically accepted, and an image is not authenticated.','দৃশ্যমান দুটি তথ্যই সম্পূর্ণ করে নিজে পর্যালোচনা করুন। OCR-এর প্রস্তাব স্বয়ংক্রিয়ভাবে গ্রহণ করা হয় না এবং ছবির সত্যতা যাচাই হয় না।'):L('Re-enter and review the visible screenshot values. OCR suggestions are not automatically accepted and an image is not authenticated.','স্ক্রিনশটে দৃশ্যমান তথ্য আবার লিখে পর্যালোচনা করুন। OCR-এর প্রস্তাব স্বয়ংক্রিয়ভাবে গ্রহণ করা হয় না এবং ছবির সত্যতা যাচাই হয় না.'),
    L('Review screenshot values','স্ক্রিনশটের তথ্য পর্যালোচনা করুন'),
    function(){if(typeof openEvidenceSource==='function')openEvidenceSource('screenshot',screenshotField);else goApp('intent')});
  }else if(S._ssOutcome==='INCOMPLETE'||!String(S.enteredNum||'').trim()||!String(S.enteredAmt||'').trim()){

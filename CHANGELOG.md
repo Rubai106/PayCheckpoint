@@ -1,4 +1,5 @@
 ## v1.31.0 — 4 November 2026 — Checkpoint Intelligence
+- Improved mixed screenshot-review guidance: when a comparison is incomplete and also contains a known mismatch, the next-step summary now discloses both states in English and Bangla. The preflight guard now tracks mismatch and incompleteness separately while blocking either condition; a focused browser regression covers the mixed case.
 
 - Hardened the final wallet-check gate: unresolved instruction candidates, instruction conflicts, reviewed-receipt conflicts, stale screenshot reviews and incomplete/mismatched screenshot comparisons cannot be bypassed through secondary actions or a direct preflight call.
 - Added a browser regression that attempts to open the wallet checkpoint while an instruction conflict remains; the app must remain in reconciliation and route the user back to source review.

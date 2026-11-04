@@ -235,6 +235,31 @@ with sync_playwright() as p:
     checks.append("PASS | incomplete screenshot review is surfaced as a review action and blocks the wallet checkpoint")
 
 
+    # A mixed screenshot state must disclose both the known mismatch and the missing field.
+    page.evaluate("""() => {
+      S.screenReview = {
+        intentRecipient: canonPhone(S.intendedNum),
+        intentAmountMinor: amountMinor(S.intendedAmt),
+        recipientState: 'MISMATCH',
+        amountState: 'INCOMPLETE',
+        overall: 'INCOMPLETE',
+        method: 'Manual visual comparison'
+      };
+      S._ssOutcome = 'MATCH';
+      S.lang = 'bn';
+      renderRecon(); goApp('recon');
+    }""")
+    summary = page.locator('#checkpoint-intelligence-summary').inner_text()
+    assert 'অসম্পূর্ণ' in summary and 'মেলে না' in summary, f"Bangla copy must disclose both states, got: {summary}"
+    assert page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').count() == 0
+    page.evaluate("S.lang='en'; renderRecon()")
+    summary = page.locator('#checkpoint-intelligence-summary').inner_text().lower()
+    assert 'incomplete' in summary and 'differs' in summary, f"English copy must disclose both states, got: {summary}"
+    page.evaluate("S.lang='bn'; renderRecon(); renderPreflightCheck()")
+    assert page.locator('[data-screen="recon"]').is_visible()
+    assert page.locator('[data-screen="preflight-check"]').is_hidden()
+    checks.append("PASS | mixed screenshot mismatch/incomplete state discloses both issues in English and Bangla and blocks preflight")
+
     # An unconfirmed value suggested from an original instruction cannot be silently treated as proof.
     page.evaluate("""() => {
       S.screenReview = null;
