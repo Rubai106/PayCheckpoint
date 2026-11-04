@@ -1,3 +1,7 @@
+## v1.31.0 follow-up — reset validation state between cases
+- Fresh-case reset now removes stale `aria-invalid` markers and clears all four pre-send validation message containers, including the entered recipient and amount errors.
+- Added a first-time browser regression proving that an invalid form followed by a new case starts with clean fields, no leftover alerts, and no stale accessibility error state.
+
 ## v1.31.0 follow-up — synchronize live comparison after programmatic changes
 - Fixed stale live source cards after programmatic updates. Mismatch correction now refreshes the interactive comparison even though the values were not typed into the inputs.
 - Starting a new case also refreshes all live comparison layers after clearing the prior case, preventing old recipient/amount values from remaining visible in a fresh case.
