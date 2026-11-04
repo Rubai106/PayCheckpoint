@@ -1,4 +1,5 @@
 ## v1.31.0 — 4 November 2026 — Checkpoint Intelligence
+- Added an explicit direct-invocation regression for a typed recipient mismatch: calling the wallet checkpoint function cannot bypass the computed intent-versus-entry mismatch, even when its UI action is absent.
 - Improved mixed screenshot-review guidance: when a comparison is incomplete and also contains a known mismatch, the next-step summary now discloses both states in English and Bangla. The preflight guard now tracks mismatch and incompleteness separately while blocking either condition; a focused browser regression covers the mixed case.
 
 - Hardened the final wallet-check gate: unresolved instruction candidates, instruction conflicts, reviewed-receipt conflicts, stale screenshot reviews and incomplete/mismatched screenshot comparisons cannot be bypassed through secondary actions or a direct preflight call.

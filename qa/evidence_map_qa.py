@@ -260,6 +260,22 @@ with sync_playwright() as p:
     assert page.locator('[data-screen="preflight-check"]').is_hidden()
     checks.append("PASS | mixed screenshot mismatch/incomplete state discloses both issues in English and Bangla and blocks preflight")
 
+    # Direct calls must also reject mismatched entered values, even if the UI action is hidden.
+    page.evaluate("""() => {
+      S.screenReview = null;
+      S.instrNumCands = []; S.instrAmtCands = [];
+      S.instrNumConfirmed = false; S.instrAmtConfirmed = false;
+      S.receiptReviewed = false; S.receipt = {}; S.receiptProv = {};
+      S.enteredNum = '01712345679'; S.enteredAmt = '3000';
+      renderRecon(); goApp('recon');
+    }""")
+    assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'stop'
+    assert page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').count() == 0
+    page.evaluate("renderPreflightCheck()")
+    assert page.locator('[data-screen="recon"]').is_visible()
+    assert page.locator('[data-screen="preflight-check"]').is_hidden()
+    checks.append("PASS | direct wallet-check invocation is rejected while entered recipient differs from intent")
+
     # An unconfirmed value suggested from an original instruction cannot be silently treated as proof.
     page.evaluate("""() => {
       S.screenReview = null;
