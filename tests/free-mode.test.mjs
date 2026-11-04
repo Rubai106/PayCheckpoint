@@ -9,7 +9,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 test('project has no npm dependencies or paid service requirements in package metadata', async () => {
   const pkg = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
-  assert.equal(pkg.version, '1.27.2');
+  assert.equal(pkg.version, '1.28.0');
   assert.deepEqual(pkg.dependencies ?? {}, {});
   assert.deepEqual(pkg.devDependencies ?? {}, {});
 });
