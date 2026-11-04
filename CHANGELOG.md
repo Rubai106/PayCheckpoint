@@ -6,6 +6,7 @@
 - The panel routes to the exact next workflow: explicit local correction of mismatched pre-send fields, review of an original instruction or screenshot, completion of missing payment details, a wallet-side verification checkpoint when entered values match, or incident preparation for recovery cases.
 - Added English/Bangla guidance, clear state labels, a concise explanation of why the action is recommended, and reduced visual weight for secondary actions.
 - Extended browser regression coverage for matched values, mismatched pre-send entries, language switching, and instruction-only mismatch source review with return to reconciliation.
+- GitHub Actions run [#41879564068](https://github.com/Rubai106/PayCheckpoint/actions/runs/41879564068) completed successfully for commit `c6c26f51bf1921409d679f204213b3b733f2e12d`; deterministic release, first-time journey, recovery dossier, Evidence Map, focus/accessibility and responsive regression stages passed.
 - No new package dependencies, external AI calls, provider connections, automatic transaction changes or identity-verification claims.
 
 ## v1.31.0 — 4 November 2026 — Evidence Map in the decision workflow
