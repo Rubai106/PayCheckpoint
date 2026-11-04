@@ -95,6 +95,7 @@ function renderRecon(){
  var entryIsDifferent=sourceChecks.recipient.entry.state==='MISMATCH'||sourceChecks.amount.entry.state==='MISMATCH';
  var receiptIsDifferent=sourceChecks.recipient.receipt.state==='MISMATCH'||sourceChecks.amount.receipt.state==='MISMATCH';
  var instructionIsDifferent=sourceChecks.recipient.instruction.state==='MISMATCH'||sourceChecks.amount.instruction.state==='MISMATCH';
+ var preflightEvidence=checkpointPreflightBlock(sourceChecks);
  var acts='';
  if(S.journey==='recovery'){
   acts+='<button class="btn btn-p" onclick="goApp(\'recovery\')">'+esc(t('continueRecovery'))+'</button><button class="btn btn-o" onclick="buildIncident()">'+L('Build incident report','ঘটনার প্রতিবেদন তৈরি করুন')+'</button>';
@@ -105,8 +106,9 @@ function renderRecon(){
   if(entryIsDifferent&&!S.receiptReviewed&&S.journey==='prevention')acts+='<button class="btn btn-p" onclick="correctMismatch()">'+esc(t('correctEntry'))+'</button>';
   if(instructionIsDifferent)acts+='<button class="btn btn-o" onclick="goApp(\'intent\')">'+L('Review original instruction / intent','মূল নির্দেশনা / উদ্দেশ্য পর্যালোচনা করুন')+'</button>';
   if(receiptIsDifferent||S.receiptReviewed)acts+='<button class="btn btn-o" onclick="goApp(\'sms\')">'+esc(t('reviewReceipt'))+'</button>';
-  if(S._ssOutcome==='MATCH')acts+='<button class="btn btn-p" onclick="renderPreflightCheck()">'+esc(t('continuePreflightCheck'))+'</button>';
-  else if(S._ssOutcome==='MISMATCH')acts+='<p class="hint" role="status">'+L('Do not continue while the entered details differ. Correct the mismatch before returning to your payment app.','লেখা বিবরণে অমিল থাকলে এগোবেন না। পেমেন্ট অ্যাপে ফেরার আগে অমিলটি সংশোধন করুন।')+'</p>'; 
+  if(S._ssOutcome==='MATCH'&&!preflightEvidence.blocked)acts+='<button class="btn btn-p" onclick="renderPreflightCheck()">'+esc(t('continuePreflightCheck'))+'</button>';
+  else if(preflightEvidence.blocked)acts+='<p class="hint" role="status">'+L('Review the unresolved evidence source before opening the wallet checkpoint. This step cannot be skipped.','ওয়ালেট যাচাইয়ের ধাপে যাওয়ার আগে অমীমাংসিত প্রমাণের উৎসটি পর্যালোচনা করুন। এই ধাপ এড়িয়ে যাওয়া যাবে না।')+'</p>';
+  else if(S._ssOutcome==='MISMATCH')acts+='<p class="hint" role="status">'+L('Do not continue while the entered details differ. Correct the mismatch before returning to your payment app.','লেখা বিবরণে অমিল থাকলে এগোনো যাবে না। পেমেন্ট অ্যাপে ফেরার আগে অমিলটি সংশোধন করুন।')+'</p>'; 
   else acts+='<button class="btn btn-o" onclick="goApp(\'intent\')">← '+L('Back to step 1 — enter / review pre-send details','← ধাপ ১-এ ফিরুন — পাঠানোর আগের বিবরণ লিখুন / পর্যালোচনা করুন')+'</button>';
   if(issues.length&&!instructionIsDifferent)acts+='<button class="btn btn-o" onclick="goApp(\'intent\')">'+L('Edit intended details','উদ্দেশ্যের বিবরণ সম্পাদনা করুন')+'</button>';
   acts+='<button class="btn btn-ghost" onclick="goApp(\'intent\')">'+esc(t('backToIntent'))+'</button>';
@@ -119,6 +121,25 @@ function renderRecon(){
   instructionPending:instrPending,
   screenshotReview:S.screenReview||null
  });
+}
+function checkpointPreflightBlock(sourceChecks){
+ sourceChecks=sourceChecks||S._sourceChecks||{};
+ var recipient=sourceChecks.recipient||{},amount=sourceChecks.amount||{};
+ var receiptMismatch=!!(recipient.receipt&&recipient.receipt.state==='MISMATCH')||!!(amount.receipt&&amount.receipt.state==='MISMATCH');
+ var instructionMismatch=!!(recipient.instruction&&recipient.instruction.state==='MISMATCH')||!!(amount.instruction&&amount.instruction.state==='MISMATCH');
+ var instructionPending=!!((S.instrNumCands||[]).length&&!S.instrNumConfirmed)||!!((S.instrAmtCands||[]).length&&!S.instrAmtConfirmed);
+ var screenshot=S.screenReview||null;
+ var screenshotStale=!!(screenshot&&typeof evidenceMapScreenshotIsStale==='function'&&evidenceMapScreenshotIsStale(screenshot));
+ var screenshotMismatch=!!(screenshot&&(screenshot.recipientState==='MISMATCH'||screenshot.amountState==='MISMATCH'||screenshot.overall==='MISMATCH'||screenshot.overall==='INCOMPLETE'));
+ var recoveryJourney=S.journey==='recovery';
+ return {
+  blocked:recoveryJourney||receiptMismatch||instructionMismatch||instructionPending||screenshotStale||screenshotMismatch,
+  recoveryJourney:recoveryJourney,
+  receiptMismatch:receiptMismatch,
+  instructionMismatch:instructionMismatch,
+  instructionPending:instructionPending,
+  screenshotNeedsReview:screenshotStale||screenshotMismatch
+ };
 }
 function renderCheckpointIntelligence(sourceChecks,flags){
  var panel=document.getElementById('checkpoint-intelligence');
@@ -243,7 +264,12 @@ function syncWalletCheckProgress(){
 }
 function renderPreflightCheck(){
  var outcome=computeOutcome();
- if(outcome!=='MATCH'){goApp('recon');return false}
+ var evidenceGate=checkpointPreflightBlock();
+ if(outcome!=='MATCH'||evidenceGate.blocked){
+  if(typeof renderRecon==='function')renderRecon();
+  goApp('recon');
+  return false;
+ }
  var summary=document.getElementById('preflight-check-summary');
  if(summary){
   summary.innerHTML='<div class="preflight-value-card"><span>'+esc(L('Recipient number compared','তুলনা করা প্রাপকের নম্বর'))+'</span><strong>'+esc(S.enteredNum)+'</strong><small>'+esc(L('Matches the number you said you intend to pay — ownership not verified','আপনার দেওয়ার উদ্দেশ্য করা নম্বরের সঙ্গে মিলেছে — মালিকানা যাচাই হয়নি'))+'</small></div><div class="preflight-value-card"><span>'+esc(L('Amount compared','তুলনা করা পরিমাণ'))+'</span><strong>'+esc(fmt(S.enteredAmt))+'</strong><small>'+esc(L('Matches the amount you said you intend to pay — provider fee not verified','আপনার দেওয়ার উদ্দেশ্য করা পরিমাণের সঙ্গে মিলেছে — প্রদানকারীর ফি যাচাই হয়নি'))+'</small></div>';

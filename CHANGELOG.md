@@ -1,5 +1,7 @@
 ## v1.31.0 — 4 November 2026 — Checkpoint Intelligence
 
+- Hardened the final wallet-check gate: unresolved instruction candidates, instruction conflicts, reviewed-receipt conflicts, stale screenshot reviews and incomplete/mismatched screenshot comparisons cannot be bypassed through secondary actions or a direct preflight call.
+- Added a browser regression that attempts to open the wallet checkpoint while an instruction conflict remains; the app must remain in reconciliation and route the user back to source review.
 - Added a source-aware, rule-based next-action panel to the reconciliation screen. It selects one primary action from the confirmed comparisons and case journey; it does not use AI to declare a message or recipient fraudulent.
 - The panel routes to the exact next workflow: explicit local correction of mismatched pre-send fields, review of an original instruction or screenshot, completion of missing payment details, a wallet-side verification checkpoint when entered values match, or incident preparation for recovery cases.
 - Added English/Bangla guidance, clear state labels, a concise explanation of why the action is recommended, and reduced visual weight for secondary actions.

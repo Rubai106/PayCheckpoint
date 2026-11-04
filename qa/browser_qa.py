@@ -632,6 +632,10 @@ with sync_playwright() as p:
         assert 'Review original instruction / intent' in txt and 'Update the values recorded here' not in txt, txt
         assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'review'
         assert page.locator('#checkpoint-intelligence-action').inner_text() == 'Review suggested values'
+        assert page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').count() == 0
+        page.evaluate('renderPreflightCheck()')
+        assert page.locator('[data-screen="recon"]').is_visible()
+        assert page.locator('[data-screen="preflight-check"]').is_hidden()
         page.locator('#checkpoint-intelligence-action').click()
         assert page.locator('[data-screen="intent"]').is_visible()
         assert page.locator('#evidence-source-return').is_visible()
