@@ -1,3 +1,8 @@
+## v1.31.0 follow-up — keyboard completion for payment comparison
+- The four-field pre-send comparison is not a native form, so pressing Enter previously did not activate its primary action. Enter now runs the same validation and comparison path from any of the four fields, while IME composition is left untouched.
+- Added a first-time browser regression that completes a valid comparison from the amount field using the keyboard.
+- No alternate validation or payment path is introduced; keyboard submission calls the same guarded `submitIntent()` function as the visible button.
+
 ## v1.31.0 follow-up — reset validation state between cases
 - Fresh-case reset now removes stale `aria-invalid` markers and clears all four pre-send validation message containers, including the entered recipient and amount errors.
 - Added a first-time browser regression proving that an invalid form followed by a new case starts with clean fields, no leftover alerts, and no stale accessibility error state.
