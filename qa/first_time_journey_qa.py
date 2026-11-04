@@ -101,6 +101,15 @@ with sync_playwright() as p:
     assert page.locator('#e-entered-num [role="alert"]').count() == 1
     assert page.locator('#e-entered-amt [role="alert"]').count() == 1
     assert page.evaluate('document.activeElement.id') == 'f-entered-num'
+
+    # A fresh case removes both the visible errors and their accessibility state.
+    page.evaluate("startJourney('prevention','intent')")
+    for selector in ['#f-intended-num', '#f-intended-amt', '#f-entered-num', '#f-entered-amt']:
+        assert page.locator(selector).get_attribute('aria-invalid') is None
+    for selector in ['#e-num', '#e-amt', '#e-entered-num', '#e-entered-amt']:
+        assert page.locator(selector + ' [role="alert"]').count() == 0
+    page.locator('#f-intended-num').fill('01712345678')
+    page.locator('#f-intended-amt').fill('3000')
     page.locator('#f-entered-num').fill('01712345678')
     page.locator('#f-entered-amt').fill('3000')
     page.locator('[data-i18n="compareDetails"]').click()
