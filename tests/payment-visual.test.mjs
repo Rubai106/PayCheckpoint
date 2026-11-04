@@ -41,6 +41,10 @@ test('entry page includes the organizer asset, 3D demo, live comparison, and loc
   const html = await readFile(resolve(root, 'index.html'), 'utf8');
   assert.match(html, /assets\/aignite-buildathon-sticker\.webp/);
   assert.match(html, /id="payment-visual-demo"/);
+  assert.match(html, /id="impact-strip"/);
+  assert.match(html, /81,423/);
+  assert.match(html, /8.7%/);
+  assert.match(html, /paymentreport_dec2025\.pdf/);
   assert.match(html, /data-demo-scenario="mismatch"/);
   assert.match(html, /data-demo-scenario="match"/);
   assert.match(html, /id="live-source-visual"/);

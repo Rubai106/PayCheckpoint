@@ -36,9 +36,23 @@ The organizer's 4 November email says the submission deadline is 5 November 2026
 - Review keyboard/focus, screen-reader and zoom/reflow behavior manually. Automated checks are not an accessibility certification.
 - Capture screenshots from the exact production build.
 
-## Scoring and evidence boundaries
+## Current published judging rubric (checked 4 November 2026)
 
-The official rules list five judging dimensions but do not publish numeric point weights. Do not claim an official 35/50 or 45+/50 score. Do not claim fraud-detection accuracy, real-world OCR accuracy, global-first novelty, user savings, fraud prevented, funds recovered, recipient verification, provider connectivity, transaction reversal or user-study outcomes without evidence.
+The official Devpost rules currently publish four weighted criteria:
+
+| Criterion | Marks |
+|---|---:|
+| Problem and User Value | 12 |
+| Solution and Innovation | 12 |
+| AI and Technical Implementation | 10 |
+| User Experience and Product Readiness | 16 |
+| **Total** | **50** |
+
+There is no separate numeric Presentation & Pitch category in the current published rubric; the live app and maximum-five-slide deck remain submission requirements, and a demo video is recommended but optional. A 45+/50 result is a target, not an official or evidence-backed score prediction. Judges assign the actual result.
+
+The homepage's Bangladesh Bank context strip uses the 2025 report's 81,423 reported cases across MFS, cheque and card segments and the 8.7% MFS fraud-value recovery rate. It links directly to the official report and explicitly says these sector figures are not an individual risk estimate or proof of PayCheckpoint outcomes.
+
+Do not claim fraud-detection accuracy, real-world OCR accuracy, global-first novelty, user savings, fraud prevented, funds recovered, recipient verification, provider connectivity, transaction reversal or user-study outcomes without evidence.
 
 ## Presentation
 

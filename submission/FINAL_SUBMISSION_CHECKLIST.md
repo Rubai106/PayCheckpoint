@@ -17,6 +17,18 @@
 - Native Tesseract CLI pilot: 24 synthetic fixtures; 23/24 both expected fields present, one decimal-loss error. Not real-world OCR accuracy or browser/WASM parity.
 - Held-out conversation/OCR validation and human usability sessions remain NOT RUN.
 
+## Current judging rubric (checked 4 November 2026)
+
+| Criterion | Marks |
+|---|---:|
+| Problem and User Value | 12 |
+| Solution and Innovation | 12 |
+| AI and Technical Implementation | 10 |
+| User Experience and Product Readiness | 16 |
+| **Total** | **50** |
+
+The official rules currently publish these four weighted criteria. A 45+/50 result remains a target, not an official score or a reliable prediction. Judges determine the actual result. The five-slide deck is mandatory; the English demo video is recommended, not mandatory.
+
 ## Mandatory submission gates
 
 - [x] Organizer registration receipt received (email confirmation); check Devpost account still reflects the correct individual entry.

@@ -1540,3 +1540,36 @@ details[open]{background:#FCFEFC}
   .payment-scene-card,.visual-demo-switch-button,.live-source-card{transition:none!important}
   .payment-scene-card--intent,.payment-scene-card--instruction,.payment-scene-card--entered{transform:none!important}
 }
+
+/* v1.29.0 — sourced Bangladesh payment-risk context, deliberately compact. */
+.impact-strip-section{padding:0 0 28px}
+.impact-strip{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:19px 28px;align-items:center;margin:0;border:1px solid #254C3D;border-radius:17px;padding:21px 24px;background:radial-gradient(ellipse at 88% 0%,rgba(67,139,100,.25),transparent 42%),linear-gradient(132deg,#193D2F 0%,#102D23 100%);color:#F4F7F3;box-shadow:0 10px 28px rgba(23,58,42,.10)}
+.impact-strip-copy{position:relative;z-index:1;max-width:400px}
+.impact-strip-copy .eyebrow{color:#A7D6B5;letter-spacing:.095em}
+.impact-strip-copy h2{margin:5px 0 7px;color:#F8FAF7;font-size:clamp(17px,1.8vw,21px);line-height:1.2;letter-spacing:-.035em}
+.impact-strip-copy>p:last-child{margin:0;color:#D2E0D5;font-size:12px;line-height:1.55;max-width:360px}
+.impact-strip-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;position:relative;z-index:1}
+.impact-stat{min-width:0;padding:2px 17px 2px 20px;border-left:1px solid rgba(213,235,218,.23)}
+.impact-stat strong{display:block;color:#F8D48C;font-size:clamp(27px,3vw,36px);font-weight:850;letter-spacing:-.055em;line-height:1.05;font-variant-numeric:tabular-nums}
+.impact-stat span{display:block;margin-top:6px;color:#F2F6F1;font-size:11px;font-weight:800;line-height:1.35}
+.impact-stat small{display:block;margin-top:4px;color:#BBD0C0;font-size:10px;line-height:1.45}
+.impact-strip-source{grid-column:1/-1;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding-top:10px;border-top:1px solid rgba(213,235,218,.17);position:relative;z-index:1}
+.impact-strip-source a{color:#C8E6CF;font-size:10px;font-weight:750;text-decoration:underline;text-underline-offset:3px}
+.impact-strip-source span{max-width:510px;color:#AFC4B4;font-size:9px;line-height:1.5;text-align:right}
+@media(max-width:760px){
+  .impact-strip{grid-template-columns:minmax(0,1fr);gap:15px;padding:18px}
+  .impact-strip-copy{max-width:none}
+  .impact-strip-copy>p:last-child{max-width:620px}
+  .impact-stat:first-child{padding-left:0;border-left:0}
+  .impact-strip-source{display:block}
+  .impact-strip-source span{display:block;margin-top:5px;text-align:left;max-width:none}
+}
+@media(max-width:380px){
+  .impact-strip{padding:15px}
+  .impact-strip-stats{gap:10px}
+  .impact-stat{padding:0 8px 0 10px}
+  .impact-stat strong{font-size:25px}
+  .impact-stat span{font-size:10px}
+  .impact-stat small{font-size:9px}
+  .impact-strip-source a{font-size:9px;overflow-wrap:anywhere}
+}

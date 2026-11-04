@@ -163,6 +163,15 @@
   function init(){
     if(root.I18N&&root.I18N.en){
       Object.assign(root.I18N.en,{
+        impactEyebrow:'BANGLADESH PAYMENT SAFETY CONTEXT',
+        impactTitle:'The cost of getting a payment wrong',
+        impactIntro:'A second check cannot stop every scam. It can make the details, evidence and next step clearer before you act.',
+        impactCasesLabel:'reported fraud cases',
+        impactCasesNote:'MFS, cheque and card segments · 2025',
+        impactRecoveryLabel:'MFS fraud-value recovery rate',
+        impactRecoveryNote:'Bangladesh Bank reported rate · 2025',
+        impactSource:'Source: Bangladesh Bank, Payment Systems Report 2025 (May 2026)',
+        impactCaveat:'Reported sector figures, not an individual risk estimate or evidence that PayCheckpoint prevents fraud.',
         visualDemoEyebrow:'INTENT → EVIDENCE → ACTION',
         visualDemoTitle:'See the payment before it moves',
         visualDemoSubtitle:'Three independent sources, one clear comparison. Change the example to see how a single digit changes the result.',
@@ -191,6 +200,15 @@
     }
     if(root.I18N&&root.I18N.bn){
       Object.assign(root.I18N.bn,{
+        impactEyebrow:'বাংলাদেশের পেমেন্ট নিরাপত্তার প্রেক্ষাপট',
+        impactTitle:'পেমেন্টের একটি ভুলের প্রভাব অনেক বড় হতে পারে',
+        impactIntro:'অতিরিক্ত যাচাই সব প্রতারণা ঠেকাতে পারে না। তবে পদক্ষেপ নেওয়ার আগে তথ্য, প্রমাণ ও পরবর্তী করণীয় পরিষ্কার করতে পারে।',
+        impactCasesLabel:'প্রতিবেদিত প্রতারণার ঘটনা',
+        impactCasesNote:'MFS, cheque ও card সেগমেন্ট · ২০২৫',
+        impactRecoveryLabel:'MFS প্রতারণায় অর্থ ফেরতের হার',
+        impactRecoveryNote:'বাংলাদেশ ব্যাংকের প্রতিবেদন অনুযায়ী · ২০২৫',
+        impactSource:'সূত্র: বাংলাদেশ ব্যাংক, Payment Systems Report 2025 (মে ২০২৬)',
+        impactCaveat:'এগুলো খাতভিত্তিক প্রতিবেদন; ব্যক্তিগত ঝুঁকির অনুমান বা PayCheckpoint প্রতারণা ঠেকায়—এমন প্রমাণ নয়।',
         visualDemoEyebrow:'উদ্দেশ্য → প্রমাণ → পদক্ষেপ',
         visualDemoTitle:'টাকা পাঠানোর আগেই তুলনা দেখুন',
         visualDemoSubtitle:'তিনটি আলাদা উৎস, একটি পরিষ্কার তুলনা। নমুনা বদলে দেখুন একটি অঙ্কের পরিবর্তনে ফল কীভাবে বদলে যায়।',

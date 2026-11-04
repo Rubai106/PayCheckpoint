@@ -30,6 +30,10 @@ with sync_playwright() as p:
     assert 'cannot return money or guarantee recovery' in (page.locator('[data-i18n="faqRefundA"]').text_content() or '').lower()
     assert 'optional copilot' in (page.locator('[data-i18n="faqStoredA"]').text_content() or '').lower()
     assert 'live example' not in page.locator('[data-i18n="mockTitle"]').inner_text().lower()
+    impact_copy = page.locator('#impact-strip').inner_text()
+    assert '81,423' in impact_copy and '8.7%' in impact_copy
+    assert 'not an individual risk estimate' in impact_copy.lower()
+    assert page.locator('#impact-strip a').get_attribute('href') == 'https://www.bb.org.bd/pub/annual/psdreport/paymentreport_dec2025.pdf'
     assert 'synthetic data' in page.locator('[data-i18n="mockEyebrow"]').inner_text().lower()
     assert page.locator('#competition-sticker img').get_attribute('src') == './assets/aignite-buildathon-sticker.webp'
     assert 'buildathon 2026' in page.locator('#competition-sticker img').get_attribute('alt').lower()
@@ -193,6 +197,9 @@ with sync_playwright() as p:
     # Run the whole first-payment path at common phone, tablet and desktop widths.
     for width in [320, 360, 390, 430, 768, 1024, 1440]:
         page.set_viewport_size({'width': width, 'height': 900})
+        page.evaluate("showView('home')")
+        assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth'), f'horizontal overflow at {width}px on home'
+        assert page.locator('#impact-strip').is_visible()
         for screen in ['start', 'message-review']:
             page.evaluate(f"goApp('{screen}')")
             assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth'), f'horizontal overflow at {width}px on {screen}'
