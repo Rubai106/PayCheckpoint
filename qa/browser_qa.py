@@ -630,6 +630,13 @@ with sync_playwright() as p:
         page.get_by_role('button',name='Confirm amount').click()
         txt=page.locator('#recon-actions').inner_text()
         assert 'Review original instruction / intent' in txt and 'Update the values recorded here' not in txt, txt
+        assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'review'
+        assert page.locator('#checkpoint-intelligence-action').inner_text() == 'Review suggested values'
+        page.locator('#checkpoint-intelligence-action').click()
+        assert page.locator('[data-screen="intent"]').is_visible()
+        assert page.locator('#evidence-source-return').is_visible()
+        page.locator('#evidence-source-return-action').click()
+        assert page.locator('[data-screen="recon"]').is_visible()
         assert page.evaluate('S._sourceChecks.recipient.entry.state')=='MATCH'
         assert page.evaluate('S._sourceChecks.recipient.instruction.state')=='MISMATCH'
         return 'instruction-only mismatch routes to instruction review, not pre-send correction'

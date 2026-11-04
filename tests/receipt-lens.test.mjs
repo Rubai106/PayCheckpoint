@@ -83,7 +83,7 @@ test('required source checks and QA command include ReceiptLens', () => {
   assert.ok(html.includes('./js/receipt-lens.js'));
   assert.ok(check.includes('js/receipt-lens.js'));
   assert.ok(check.includes('docs/STEP5_RECEIPT_LENS_OCR.md'));
-  assert.equal(pkg.version, '1.30.0');
+  assert.equal(pkg.version, '1.31.0');
   assert.equal(pkg.scripts['qa:receipt-lens'], 'python qa/receipt_lens_qa.py');
   assert.match(html, /id="btn-cancel-receipt-ocr"[^>]*hidden[^>]*>Cancel OCR<\/button>/);
   assert.match(source, /function cancelReceiptLensOCR\(\)/);

@@ -199,6 +199,6 @@ test('planner is integrated into the app, language switch, reset, exports, and r
   assert.match(shareBrief, /Follow-up plan — user-reported/);
   assert.ok(check.includes('js/followup-planner.js'));
   assert.ok(check.includes('qa/followup_planner_qa.py'));
-  assert.equal(pkg.version, '1.30.0');
+  assert.equal(pkg.version, '1.31.0');
   assert.equal(pkg.scripts['qa:followup'], 'python qa/followup_planner_qa.py');
 });

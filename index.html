@@ -339,6 +339,19 @@ Other: Send your OTP to verify."></textarea>
 <section class="panel hidden" data-screen="recon">
 <h2 data-i18n="reconH">3 · Intent-to-receipt reconciliation</h2><p class="hint" data-i18n="reconHint">Three sources compared exactly. A mismatch is a difference — it is not automatically fraud or an unauthorised transaction.</p>
 <div id="recon-body"></div>
+<section class="checkpoint-intelligence" id="checkpoint-intelligence" data-state="pending" aria-labelledby="checkpoint-intelligence-title">
+  <div class="checkpoint-intelligence-header">
+    <div><p class="eyebrow" id="checkpoint-intelligence-kicker">CHECKPOINT INTELLIGENCE · RULE-BASED GUIDANCE</p><h3 id="checkpoint-intelligence-title">Your next step</h3></div>
+    <span class="checkpoint-intelligence-state" id="checkpoint-intelligence-state" data-state="pending">Reviewing details</span>
+  </div>
+  <p class="checkpoint-intelligence-summary" id="checkpoint-intelligence-summary" role="status" aria-live="polite" aria-atomic="true">Reviewing the details you entered.</p>
+  <div class="checkpoint-intelligence-action-row">
+    <div class="checkpoint-intelligence-why"><small id="checkpoint-intelligence-why-label">WHY THIS STEP</small><p id="checkpoint-intelligence-why">Guidance is based on the sources in this case. A matching value does not verify a recipient.</p></div>
+    <button type="button" class="btn btn-p" id="checkpoint-intelligence-action">Review details</button>
+  </div>
+  <p class="checkpoint-intelligence-footnote" id="checkpoint-intelligence-footnote">Recommendations use the information you entered. PayCheckpoint cannot authenticate a wallet owner or move money.</p>
+</section>
+<p class="recon-other-actions-label" id="recon-other-actions-label">Other available actions</p>
 <div class="cta-row" id="recon-actions"></div>
 <div id="recon-evidence-map-slot"></div>
 </section>

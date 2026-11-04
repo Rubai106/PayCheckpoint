@@ -89,9 +89,15 @@ with sync_playwright() as p:
     assert page.locator('#live-source-visual').get_attribute('data-state') == 'match'
     page.locator('[data-i18n="compareDetails"]').click()
     assert page.locator('[data-screen="recon"]').is_visible()
+    assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'ready'
+    assert page.locator('#checkpoint-intelligence-action').inner_text() == 'Continue to wallet checkpoint'
+    page.evaluate('setLang(true)')
+    assert page.locator('#checkpoint-intelligence-action').inner_text() == 'ওয়ালেট যাচাইয়ের ধাপে যান'
+    assert 'আপনার পরবর্তী পদক্ষেপ' in page.locator('#checkpoint-intelligence').inner_text()
+    page.evaluate('setLang(false)')
     assert page.locator('#recon-actions button').filter(has_text='review before confirming').count() == 1
     assert page.locator('#recon-actions button[onclick*="safesend"]').count() == 0
-    page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').click()
+    page.locator('#checkpoint-intelligence-action').click()
     assert page.locator('[data-screen="preflight-check"]').is_visible()
     checkpoint_copy = page.locator('[data-screen="preflight-check"]').inner_text().lower()
     assert 'does not verify the wallet owner' in checkpoint_copy
@@ -131,10 +137,14 @@ with sync_playwright() as p:
     page.locator('#f-entered-amt').fill('3000')
     page.locator('[data-i18n="compareDetails"]').click()
     assert page.locator('[data-screen="recon"]').is_visible()
+    assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'stop'
+    assert page.locator('#checkpoint-intelligence-action').inner_text() == 'Update entered values'
     assert page.locator('#recon-actions button[onclick*="correctMismatch"]').count() == 1
     assert page.locator('#recon-actions button[onclick*="safesend"]').count() == 0
-    page.locator('#recon-actions button[onclick*="correctMismatch"]').click()
+    page.locator('#checkpoint-intelligence-action').click()
     assert '01712345678' in page.locator('#recon-body').inner_text()
+    assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'ready'
+    assert page.locator('#checkpoint-intelligence-action').inner_text() == 'Continue to wallet checkpoint'
     correction_notice = page.locator('#recon-body').inner_text().lower()
     assert 'only the values recorded in paycheckpoint changed' in correction_notice
     assert 'did not change your bkash' in correction_notice
@@ -142,7 +152,7 @@ with sync_playwright() as p:
     assert 'এতে আপনার bKash' in page.locator('#recon-body').inner_text()
     page.evaluate('setLang(false)')
     assert page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').count() == 1
-    page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').click()
+    page.locator('#checkpoint-intelligence-action').click()
     assert page.locator('[data-screen="preflight-check"]').is_visible()
     assert page.locator('#wallet-check-count').inner_text() == '0 / 2'
     assert page.locator('#wallet-check-recipient').is_checked() is False
@@ -230,7 +240,7 @@ with sync_playwright() as p:
         page.locator('#f-entered-amt').fill('3000')
         page.locator('[data-i18n="compareDetails"]').click()
         assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth'), f'horizontal overflow at {width}px on recon'
-        page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').click()
+        page.locator('#checkpoint-intelligence-action').click()
         assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth'), f'horizontal overflow at {width}px on preflight checkpoint'
     assert not errors, errors
     browser.close()

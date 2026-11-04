@@ -1431,7 +1431,7 @@ details[open]{background:#FCFEFC}
 }
 @media(prefers-reduced-motion:reduce){.evidence-field-lens,.evidence-field-open{transition:none!important}}
 
-/* v1.30.0 — purpose-built, live payment evidence stack and organizer mark. */
+/* v1.31.0 — purpose-built, live payment evidence stack and organizer mark. */
 .sticker-slot{flex:0 1 166px;max-width:166px;min-height:0;padding:0;border:0;background:transparent;display:flex;align-items:center;justify-content:center}
 .sticker-image{display:block;width:100%;height:auto;max-height:48px;object-fit:contain;filter:drop-shadow(0 3px 7px rgba(31,20,53,.10))}
 @media(max-width:640px){.sticker-slot{flex:0 1 118px;max-width:118px;min-height:0;padding:0}.sticker-image{max-height:42px}}
@@ -1541,7 +1541,7 @@ details[open]{background:#FCFEFC}
   .payment-scene-card--intent,.payment-scene-card--instruction,.payment-scene-card--entered{transform:none!important}
 }
 
-/* v1.30.0 — sourced Bangladesh payment-risk context, deliberately compact. */
+/* v1.31.0 — sourced Bangladesh payment-risk context, deliberately compact. */
 .impact-strip-section{padding:0 0 28px}
 .impact-strip{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:19px 28px;align-items:center;margin:0;border:1px solid #254C3D;border-radius:17px;padding:21px 24px;background:radial-gradient(ellipse at 88% 0%,rgba(67,139,100,.25),transparent 42%),linear-gradient(132deg,#193D2F 0%,#102D23 100%);color:#F4F7F3;box-shadow:0 10px 28px rgba(23,58,42,.10)}
 .impact-strip-copy{position:relative;z-index:1;max-width:400px}
@@ -1592,3 +1592,37 @@ details[open]{background:#FCFEFC}
   .mock:after{right:0}
   .payment-visual-demo:before{inset:8px 0 -8px 8px}
 }
+
+/* v1.31.0 — a single, source-aware next action anchors the reconciliation moment. */
+.checkpoint-intelligence{position:relative;overflow:hidden;margin:18px 0 12px;padding:clamp(17px,2.4vw,24px);border:1px solid #D7E5DA;border-radius:18px;background:radial-gradient(ellipse at 100% 0%,rgba(205,232,211,.34),transparent 48%),linear-gradient(145deg,#F8FCF8 0%,#FFFFFF 72%);box-shadow:0 9px 26px rgba(22,62,39,.055)}
+.checkpoint-intelligence:before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:#A8CDB1}
+.checkpoint-intelligence[data-state="stop"]:before{background:#C66B62}
+.checkpoint-intelligence[data-state="review"]:before{background:#C9A65E}
+.checkpoint-intelligence[data-state="ready"]:before{background:#2C946B}
+.checkpoint-intelligence-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.checkpoint-intelligence-header .eyebrow{margin:0 0 5px;color:#537260;font-size:9px;font-weight:900;letter-spacing:.11em}
+.checkpoint-intelligence-header h3{margin:0;color:#173F2D;font-size:clamp(18px,2.2vw,22px);font-weight:850;letter-spacing:-.045em;line-height:1.2}
+.checkpoint-intelligence-state{flex:0 0 auto;padding:7px 10px;border:1px solid #E0E8E0;border-radius:9px;background:#F2F6F2;color:#5D7164;font-size:10px;font-weight:850;line-height:1.25;text-align:center}
+.checkpoint-intelligence-state[data-state="stop"]{border-color:#EAC3BD;background:#FFF1EE;color:#963E36}
+.checkpoint-intelligence-state[data-state="review"]{border-color:#EBDDBA;background:#FFF8E9;color:#806123}
+.checkpoint-intelligence-state[data-state="ready"]{border-color:#C5DFCC;background:#EAF6ED;color:#1D6747}
+.checkpoint-intelligence-summary{max-width:720px;margin:13px 0 15px;color:#294636;font-size:15px;font-weight:750;line-height:1.5;letter-spacing:-.015em}
+.checkpoint-intelligence-action-row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:13px 14px;border:1px solid #E2EAE2;border-radius:13px;background:rgba(255,255,255,.88)}
+.checkpoint-intelligence-why{min-width:0;flex:1}
+.checkpoint-intelligence-why small{display:block;margin-bottom:4px;color:#78877C;font-size:9px;font-weight:900;letter-spacing:.09em}
+.checkpoint-intelligence-why p{margin:0;color:#596C5F;font-size:11px;line-height:1.55}
+.checkpoint-intelligence-action-row .btn{flex:0 0 auto;min-height:44px;max-width:280px;white-space:normal;line-height:1.25}
+.checkpoint-intelligence[data-state="stop"] .checkpoint-intelligence-action-row .btn{background:#8C3C35;box-shadow:0 5px 14px rgba(140,60,53,.14)}
+.checkpoint-intelligence-footnote{margin:11px 1px 0;color:#75837A;font-size:10px;line-height:1.5}
+.recon-other-actions-label{margin:12px 0 5px;color:#7B887F;font-size:10px;font-weight:850;letter-spacing:.06em;text-transform:uppercase}
+#recon-actions{gap:7px;margin-top:5px}
+#recon-actions .btn{min-height:36px;padding:8px 11px;border:1px solid #DFE7E0;background:#fff;color:#53665A;box-shadow:none;font-size:11px;font-weight:700}
+#recon-actions .btn:hover{border-color:#B9D2BE;background:#F7FBF7;color:#28553D}
+#recon-actions .btn-p{background:#F1F6F1;color:#315B41;border-color:#D5E2D6}
+@media(max-width:620px){
+ .checkpoint-intelligence-header{display:block}
+ .checkpoint-intelligence-state{display:inline-flex;margin-top:9px}
+ .checkpoint-intelligence-action-row{align-items:stretch;flex-direction:column;gap:11px}
+ .checkpoint-intelligence-action-row .btn{width:100%;max-width:none}
+}
+@media(prefers-reduced-motion:reduce){.checkpoint-intelligence{scroll-behavior:auto}}

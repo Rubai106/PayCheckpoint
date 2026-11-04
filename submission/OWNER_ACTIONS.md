@@ -16,7 +16,7 @@ This file covers tasks that require your personal Devpost account or a real devi
 - GitHub repository: https://github.com/Rubai106/PayCheckpoint
 - Cloudflare Production has a Workers AI binding named exactly `AI`.
 - The owner-supplied Claude report dated 4 November records a successful live Qwen3 Workers AI synthetic inference response (HTTP 200, approximately 4.6 seconds) plus consent, malformed JSON, method, quota and model-failure checks. See `PRODUCTION_VERIFICATION_2026-11-04.md`.
-- GitHub `main` is v1.30.0. The `/build-info.json` manifest is in the Pages build output; after the current source is deployed, open https://paycheckpoint.pages.dev/build-info.json and compare its full commit SHA with the then-current GitHub `main` head.
+- GitHub `main` is v1.31.0. The `/build-info.json` manifest is in the Pages build output; after the current source is deployed, open https://paycheckpoint.pages.dev/build-info.json and compare its full commit SHA with the then-current GitHub `main` head.
 - Re-run exactly one synthetic live check against the final deployment if the build SHA changes: `npm run qa:live-copilot -- --base-url https://paycheckpoint.pages.dev`. Do not use real SMS, wallet, identity or payment information.
 - Do not create an API token for Workers AI. No API key is required for the Pages binding.
 

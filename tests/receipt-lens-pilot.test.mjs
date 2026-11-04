@@ -81,7 +81,7 @@ test('independent OCR evaluation remains NOT RUN despite the separate native CLI
 
 
 test('package provides free local pilot commands and no API dependency', () => {
-  assert.equal(pkg.version, '1.30.0');
+  assert.equal(pkg.version, '1.31.0');
   assert.equal(pkg.scripts['generate:receipt-pilot'], 'python scripts/generate-receipt-lens-pilot.py');
   assert.equal(pkg.scripts['qa:receipt-pilot'], 'node scripts/run-receipt-lens-pilot.mjs --psm 6');
   assert.match(pkg.scripts['qa:receipt-pilot-psm3'], /--psm 3/);

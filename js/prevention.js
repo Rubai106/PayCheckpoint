@@ -112,6 +112,111 @@ function renderRecon(){
   acts+='<button class="btn btn-ghost" onclick="goApp(\'intent\')">'+esc(t('backToIntent'))+'</button>';
  }
  document.getElementById('recon-actions').innerHTML=acts;
+ renderCheckpointIntelligence(sourceChecks,{
+  entryMismatch:entryMismatch,
+  receiptMismatch:receiptMismatch,
+  instructionMismatch:instructionMismatch,
+  instructionPending:instrPending,
+  screenshotReview:S.screenReview||null
+ });
+}
+function renderCheckpointIntelligence(sourceChecks,flags){
+ var panel=document.getElementById('checkpoint-intelligence');
+ if(!panel)return;
+ sourceChecks=sourceChecks||S._sourceChecks||{};
+ flags=flags||{};
+ var recipient=sourceChecks.recipient||{},amount=sourceChecks.amount||{};
+ var entryMismatch=!!flags.entryMismatch||!!(recipient.entry&&recipient.entry.state==='MISMATCH')||!!(amount.entry&&amount.entry.state==='MISMATCH');
+ var receiptMismatch=!!flags.receiptMismatch||!!(recipient.receipt&&recipient.receipt.state==='MISMATCH')||!!(amount.receipt&&amount.receipt.state==='MISMATCH');
+ var instructionMismatch=!!flags.instructionMismatch||!!(recipient.instruction&&recipient.instruction.state==='MISMATCH')||!!(amount.instruction&&amount.instruction.state==='MISMATCH');
+ var instructionPending=!!flags.instructionPending||!!((S.instrNumCands||[]).length&&!S.instrNumConfirmed)||!!((S.instrAmtCands||[]).length&&!S.instrAmtConfirmed);
+ var screenshot=flags.screenshotReview||S.screenReview||null;
+ var screenshotStale=!!(screenshot&&typeof evidenceMapScreenshotIsStale==='function'&&evidenceMapScreenshotIsStale(screenshot));
+ var screenshotMismatch=!!(screenshot&&(screenshot.recipientState==='MISMATCH'||screenshot.amountState==='MISMATCH'||screenshot.overall==='MISMATCH'));
+ var screenshotNeedsReview=!!(screenshot&&(screenshotStale||screenshotMismatch));
+ var action={state:'review',status:L('Review details','তথ্য পর্যালোচনা করুন'),summary:L('Review the details recorded for this case.','এই কেসের জন্য নথিভুক্ত তথ্য পর্যালোচনা করুন।'),why:L('The next step is selected from the source comparisons. This is guidance, not a fraud verdict.','উৎসগুলোর তুলনার ভিত্তিতে পরবর্তী পদক্ষেপ বেছে নেওয়া হয়েছে। এটি নির্দেশনা, প্রতারণার রায় নয়।'),label:L('Review details','তথ্য পর্যালোচনা করুন'),run:function(){goApp('intent')}};
+
+ function setAction(state,status,summary,why,label,run){
+  action={state:state,status:status,summary:summary,why:why,label:label,run:run};
+ }
+ if(S.journey==='recovery'){
+  if(!S.receiptReviewed){
+   setAction('next',L('Next step','পরবর্তী পদক্ষেপ'),
+    L('Review the transaction message before preparing an incident report.','ঘটনার প্রতিবেদন তৈরির আগে লেনদেনের বার্তাটি পর্যালোচনা করুন।'),
+    L('The actual payment message has not been reviewed in this case. Keep original wording and extracted fields separate.','এই কেসে প্রকৃত পেমেন্টের বার্তা পর্যালোচনা করা হয়নি। মূল বার্তা ও বের করা তথ্য আলাদা রাখুন।'),
+    L('Review transaction message','লেনদেনের বার্তা পর্যালোচনা করুন'),
+    function(){goApp('sms')});
+  }else{
+   setAction(receiptMismatch?'review':'next',L('Recovery workflow','পুনরুদ্ধার কার্যধারা'),
+    receiptMismatch?L('The reviewed receipt differs from your original intent. Preserve both values and prepare a factual incident summary.','পর্যালোচিত রসিদ আপনার মূল উদ্দেশ্যের সঙ্গে মিলছে না। উভয় মান সংরক্ষণ করে তথ্যভিত্তিক ঘটনার সারাংশ তৈরি করুন।'):L('Your reviewed message is ready to support an incident summary.','আপনার পর্যালোচিত বার্তাটি ঘটনার সারাংশ তৈরিতে ব্যবহার করা যাবে।'),
+    L('This prepares information for you to review and take to the provider. It does not contact the provider or submit a complaint.','এটি আপনাকে পর্যালোচনা করে প্রদানকারীর কাছে নেওয়ার জন্য তথ্য প্রস্তুত করে। এটি প্রদানকারীর সঙ্গে যোগাযোগ বা অভিযোগ জমা দেয় না।'),
+    L('Prepare incident report','ঘটনার প্রতিবেদন তৈরি করুন'),
+    function(){buildIncident()});
+  }
+ }else if(receiptMismatch){
+  setAction('review',L('Review required','পর্যালোচনা দরকার'),
+   L('A reviewed message or receipt differs from your original intent. Do not silently replace either source.','পর্যালোচিত বার্তা বা রসিদ আপনার মূল উদ্দেশ্যের সঙ্গে মিলছে না। কোনো উৎসের তথ্য নীরবে বদলাবেন না।'),
+   L('Keep the original intent and reviewed receipt distinct. Prepare an incident summary only from facts you can support.','মূল উদ্দেশ্য ও পর্যালোচিত রসিদ আলাদা রাখুন। কেবল সমর্থনযোগ্য তথ্য দিয়ে ঘটনার সারাংশ তৈরি করুন।'),
+   L('Prepare incident report','ঘটনার প্রতিবেদন তৈরি করুন'),
+   function(){buildIncident()});
+ }else if(entryMismatch&&!S.receiptReviewed){
+  setAction('stop',L('Pause before continuing','এগোনোর আগে থামুন'),
+   L('The details you entered do not match the payment details you intended.','আপনার লেখা তথ্যের সঙ্গে উদ্দেশ্য করা পেমেন্টের তথ্য মিলছে না।'),
+   L('This action updates only the entered fields stored in this page to match your stated intent. It does not change a wallet or send a transfer.','এই পদক্ষেপে শুধু এই পৃষ্ঠায় লেখা তথ্য আপনার উল্লেখ করা উদ্দেশ্যের সঙ্গে মেলানো হবে। এতে ওয়ালেট বদলায় না বা টাকা পাঠানো হয় না।'),
+   L('Update entered values','লেখা তথ্য সংশোধন করুন'),
+   function(){correctMismatch()});
+ }else if(instructionMismatch||instructionPending){
+  var instructionField=recipient.instruction&&recipient.instruction.state==='MISMATCH'?'recipient':'amount';
+  setAction('review',L('Review the original instruction','মূল নির্দেশনা পর্যালোচনা করুন'),
+   instructionMismatch?L('The original instruction differs from the payment details you intended.','মূল নির্দেশনা আপনার উদ্দেশ্য করা পেমেন্টের তথ্যের সঙ্গে মিলছে না.'):L('A value suggested from the instruction has not been confirmed by you.','নির্দেশনা থেকে প্রস্তাবিত একটি মান আপনি এখনো নিশ্চিত করেননি।'),
+   L('A message is user-provided evidence, not proof of recipient identity. Check the original wording and confirm or reject each suggested value yourself.','বার্তা ব্যবহারকারীর দেওয়া প্রমাণ, প্রাপকের পরিচয়ের প্রমাণ নয়। মূল লেখা দেখুন এবং প্রতিটি প্রস্তাবিত মান নিজে নিশ্চিত বা বাতিল করুন।'),
+   L('Review suggested values','প্রস্তাবিত তথ্য পর্যালোচনা করুন'),
+   function(){if(typeof openEvidenceSource==='function')openEvidenceSource('instruction',instructionField);else goApp('intent')});
+ }else if(screenshotNeedsReview){
+  var screenshotField=screenshot&&(screenshot.recipientState==='MISMATCH'||screenshotStale)?'recipient':'amount';
+  setAction('review',L('Review the screenshot comparison','স্ক্রিনশটের তুলনা পর্যালোচনা করুন'),
+   screenshotStale?L('Your intended details changed after the screenshot was reviewed. The earlier comparison is stale.','স্ক্রিনশট পর্যালোচনার পর আপনার উদ্দেশ্য করা তথ্য বদলেছে। আগের তুলনাটি এখন পুরোনো।'):L('A value entered from the screenshot differs from your intended details.','স্ক্রিনশট থেকে লেখা একটি মান আপনার উদ্দেশ্য করা তথ্যের সঙ্গে মিলছে না।'),
+   L('Re-enter and review the visible screenshot values. OCR suggestions are not automatically accepted and an image is not authenticated.','স্ক্রিনশটে দৃশ্যমান তথ্য আবার লিখে পর্যালোচনা করুন। OCR-এর প্রস্তাব স্বয়ংক্রিয়ভাবে গ্রহণ করা হয় না এবং ছবির সত্যতা যাচাই হয় না।'),
+   L('Review screenshot values','স্ক্রিনশটের তথ্য পর্যালোচনা করুন'),
+   function(){if(typeof openEvidenceSource==='function')openEvidenceSource('screenshot',screenshotField);else goApp('intent')});
+ }else if(S._ssOutcome==='INCOMPLETE'||!String(S.enteredNum||'').trim()||!String(S.enteredAmt||'').trim()){
+  setAction('review',L('Complete your payment details','পেমেন্টের তথ্য সম্পূর্ণ করুন'),
+   L('The recipient number or amount you plan to enter is missing.','আপনি যে প্রাপকের নম্বর বা পরিমাণ লিখতে চান তা অনুপস্থিত।'),
+   L('Complete both fields before the final wallet check. This page does not send the payment.','চূড়ান্ত ওয়ালেট যাচাইয়ের আগে দুটি তথ্যই পূরণ করুন। এই পৃষ্ঠা থেকে পেমেন্ট পাঠানো হয় না।'),
+   L('Return to payment details','পেমেন্টের তথ্যে ফিরে যান'),
+   function(){goApp('intent');var field=document.getElementById('f-entered-num');if(field){field.scrollIntoView({behavior:'auto',block:'center'});field.focus()}});
+ }else if(S._ssOutcome==='MATCH'){
+  setAction('ready',L('Ready for your wallet check','ওয়ালেটে যাচাইয়ের জন্য প্রস্তুত'),
+   L('The recipient number and amount you entered match your stated intent.','আপনার লেখা প্রাপকের নম্বর ও পরিমাণ উল্লেখ করা উদ্দেশ্যের সঙ্গে মিলেছে।'),
+   L('Recheck the recipient and amount inside your real payment app. A match here does not verify who owns the wallet.','আপনার আসল পেমেন্ট অ্যাপে প্রাপকের নম্বর ও পরিমাণ আবার যাচাই করুন। এখানে মিল পাওয়া ওয়ালেটের মালিককে যাচাই করে না।'),
+   L('Continue to wallet checkpoint','ওয়ালেট যাচাইয়ের ধাপে যান'),
+   function(){renderPreflightCheck()});
+ }else{
+  setAction('review',L('Review payment details','পেমেন্টের তথ্য পর্যালোচনা করুন'),
+   L('Some details need attention before you continue.','এগোনোর আগে কিছু তথ্য পর্যালোচনা করা দরকার।'),
+   L('Review the original values and any unconfirmed evidence. Do not assume a missing field is a match.','মূল তথ্য এবং নিশ্চিত না করা প্রমাণ পর্যালোচনা করুন। কোনো তথ্য অনুপস্থিত থাকলে সেটিকে মিল বলে ধরে নেবেন না।'),
+   L('Return to payment details','পেমেন্টের তথ্যে ফিরে যান'),
+   function(){goApp('intent')});
+ }
+ panel.dataset.state=action.state;
+ var badge=document.getElementById('checkpoint-intelligence-state');
+ var summary=document.getElementById('checkpoint-intelligence-summary');
+ var why=document.getElementById('checkpoint-intelligence-why');
+ var button=document.getElementById('checkpoint-intelligence-action');
+ var kicker=document.getElementById('checkpoint-intelligence-kicker');
+ var title=document.getElementById('checkpoint-intelligence-title');
+ var whyLabel=document.getElementById('checkpoint-intelligence-why-label');
+ var other=document.getElementById('recon-other-actions-label');
+ var foot=document.getElementById('checkpoint-intelligence-footnote');
+ if(badge){badge.dataset.state=action.state;badge.textContent=action.status}
+ if(summary)summary.textContent=action.summary;
+ if(why)why.textContent=action.why;
+ if(button){button.textContent=action.label;button.onclick=action.run;button.setAttribute('aria-label',action.label)}
+ if(kicker)kicker.textContent=L('CHECKPOINT INTELLIGENCE · RULE-BASED GUIDANCE','চেকপয়েন্ট ইন্টেলিজেন্স · নিয়মভিত্তিক নির্দেশনা');
+ if(title)title.textContent=L('Your next step','আপনার পরবর্তী পদক্ষেপ');
+ if(whyLabel)whyLabel.textContent=L('WHY THIS STEP','কেন এই পদক্ষেপ');
+ if(other)other.textContent=L('Other available actions','অন্যান্য উপলভ্য পদক্ষেপ');
+ if(foot)foot.textContent=L('Recommendations use the information you entered. PayCheckpoint cannot authenticate a wallet owner or move money.','আপনার দেওয়া তথ্যের ভিত্তিতে পরামর্শ দেখানো হয়। PayCheckpoint ওয়ালেটের মালিক যাচাই বা টাকা স্থানান্তর করতে পারে না।');
 }
 function syncWalletCheckProgress(){
  var recipient=document.getElementById('wallet-check-recipient'),amount=document.getElementById('wallet-check-amount');

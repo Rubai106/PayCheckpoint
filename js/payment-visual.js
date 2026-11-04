@@ -1,4 +1,4 @@
-/* PayCheckpoint v1.30.0 — interactive source comparison, with no renderer or network dependency. */
+/* PayCheckpoint v1.31.0 — interactive source comparison, with no renderer or network dependency. */
 (function(root){
   'use strict';
   var BENGALI='০১২৩৪৫৬৭৮৯', ARABIC='٠١٢٣٤٥٦٧٨٩';
