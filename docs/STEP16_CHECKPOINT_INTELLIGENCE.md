@@ -50,3 +50,8 @@ The focused browser QA covers matching and mismatching pre-send values, English/
 - A correction changes only PayCheckpoint's local comparison state; it does not edit the user's bKash, Nagad or Rocket app.
 - The wallet checkpoint is a reminder for the user to inspect the provider's actual confirmation screen. PayCheckpoint does not initiate, intercept, cancel or reverse a real payment.
 - Automated browser regression is not participant usability research, a security audit or proof of fraud-prevention outcomes.
+
+
+## Final regression trigger
+
+The incomplete-screenshot edge case was added to the focused Evidence Map browser suite after the v1.31.0 release checks. The latest source should be evaluated by the normal GitHub Actions workflow before describing this additional edge case as passed.
