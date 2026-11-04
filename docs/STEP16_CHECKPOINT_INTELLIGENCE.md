@@ -52,6 +52,6 @@ The focused browser QA covers matching and mismatching pre-send values, English/
 - Automated browser regression is not participant usability research, a security audit or proof of fraud-prevention outcomes.
 
 
-## Final regression trigger
+## Final regression verification
 
-The incomplete-screenshot edge case was added to the focused Evidence Map browser suite after the v1.31.0 release checks. The latest source should be evaluated by the normal GitHub Actions workflow before describing this additional edge case as passed.
+The incomplete-screenshot edge case was added to the focused Evidence Map browser suite after the v1.31.0 release checks. GitHub Actions run [#41883387334](https://github.com/Rubai106/PayCheckpoint/actions/runs/41883387334) completed successfully on 4 November 2026 for commit `54366e57737399e44feb9391f5c4dcc2da3e2819`. It passed deterministic release validation, the first-time consumer journey, Incident Dossier, Evidence Map (including the incomplete-screenshot case), keyboard/focus accessibility and responsive layouts. The current `main` head contains only a subsequent documentation-only change from that tested commit.
