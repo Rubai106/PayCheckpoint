@@ -10,7 +10,7 @@
 - [x] Public web application: https://paycheckpoint.pages.dev
 - [x] Cloudflare Workers AI binding named `AI` is configured in the Pages Production environment.
 - [x] Owner-supplied report records one real synthetic live inference request with HTTP 200; see `submission/PRODUCTION_VERIFICATION_2026-11-04.md`.
-- [ ] Deploy and verify `/build-info.json` so the live v1.27.2 source commit can be matched to GitHub main.
+- [ ] Verify the deployed `/build-info.json` against the current GitHub `main` release (v1.28.0, commit `59e1fd6edd4dc1e005f4cf49f78d8b531b43cb74`). The Pages build now emits this manifest; the live response has not yet been independently confirmed.
 - [ ] Download the exact official sticker from the organizer's shared folder https://drive.google.com/drive/folders/1ILpnmXpegv75cNM-ACVJjh4OVmac0BIs?usp=sharing and visibly replace the navbar placeholder. Do not recreate or approximate it.
 - [ ] Submit the live URL and a deck of no more than five slides through Devpost only.
 
@@ -20,10 +20,10 @@ The organizer's 4 November email says the submission deadline is 5 November 2026
 
 ## Current project status
 
-- The application is v1.27.2 on GitHub main at commit `3c72fd93e1be662eea45eeb5e7b51d90fb1c483b`.
+- The current GitHub `main` source is v1.28.0 at commit `59e1fd6edd4dc1e005f4cf49f78d8b531b43cb74` (4 November 2026).
 - The owner-supplied live report records homepage/static assets HTTP 200, expected security headers, AI status configuration and one successful Qwen3 synthetic inference request.
-- The report says the production deployment matched v1.27.1. The source commit is therefore not assumed to match main until the provenance endpoint confirms it.
-- Local build-provenance verification: build tests 4/4; `npm run check` PASS; `npm test` 209/209; `npm run qa:release` 9/9; first-time journey PASS; 70 responsive layouts PASS; served-origin HTTP/API QA PASS.
+- The owner-supplied production report identifies the deployed code as v1.27.1. Do not assume the live site has the current v1.28.0 source until `/build-info.json` is read and its commit matches `main`.
+- GitHub Actions run [#16](https://github.com/Rubai106/PayCheckpoint/actions/runs/41837543084) for commit `59e1fd6` passed: `npm run qa:release` (9/9), first-time journey, keyboard/focus accessibility, and responsive screen regression. This is automated regression evidence, not a substitute for real-device/manual usability review.
 - Native Tesseract CLI PSM 6 pilot: 24 synthetic fixtures; both expected fields present in 23/24. This is not real-wallet/browser OCR accuracy.
 - Held-out conversation/OCR evaluation and human usability sessions remain NOT RUN.
 
