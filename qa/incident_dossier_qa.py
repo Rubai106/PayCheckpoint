@@ -9,7 +9,7 @@ css = (ROOT / 'assets/styles.css').read_text(encoding='utf-8')
 html = re.sub(r'<link rel="preconnect"[^>]*>\s*<link href="https://fonts.googleapis.com[^"]*"[^>]*>', '', html)
 html = html.replace('<link rel="stylesheet" href="./assets/styles.css" />', '<style>' + css + '</style>')
 html = re.sub(r'<script src="\./js/[^"]+"></script>', '', html)
-scripts = ['state-utils.js','simulation.js','navigation.js','official-guidance.js','provider-readiness.js','sandbox-lab.js','bkash-sandbox.js','cases.js','prevention.js','recovery.js','safesend.js','reports.js','evidence-map.js','recovery-navigator.js','incident-dossier.js','saved-cases.js','enhancements.js','receipt-lens.js','copilot.js','share-brief.js','evidence-integrity.js','bootstrap.js']
+scripts = ['state-utils.js','simulation.js','navigation.js','official-guidance.js','provider-readiness.js','sandbox-lab.js','bkash-sandbox.js','cases.js','prevention.js','recovery.js','safesend.js','reports.js','evidence-map.js','recovery-navigator.js','incident-dossier.js','followup-planner.js','saved-cases.js','enhancements.js','receipt-lens.js','copilot.js','share-brief.js','evidence-integrity.js','bootstrap.js']
 html = html.replace('</body>', '\n'.join('<script>\n' + (ROOT/'js'/name).read_text(encoding='utf-8') + '\n</script>' for name in scripts) + '</body>')
 
 checks = []
@@ -23,11 +23,23 @@ with sync_playwright() as p:
     page.evaluate("startJourney('recovery','incident')")
     assert page.locator('#incident-dossier-panel').is_visible()
     assert 'No readiness score' in page.locator('#incident-dossier-panel').inner_text()
-    checks.append('PASS | Dossier appears in incident workspace and uses completeness indicators rather than a score')
+    assert page.locator('#incident-workflow-hub').is_visible()
+    assert page.locator('#incident-workflow-next-title').inner_text() == 'Choose what happened'
+    page.locator('#incident-workflow-continue').click()
+    assert page.locator('#recovery-nav-scenario').is_visible()
+    checks.append('PASS | Connected case hub appears first and routes the user to choose a recovery path')
 
     page.locator('#recovery-nav-scenario').select_option('wrong-recipient')
     page.locator('#recovery-nav-provider').select_option('bkash')
+    assert page.locator('#incident-workflow-path-status').inner_text().startswith('Money may have gone to the wrong recipient')
+    assert page.locator('#incident-workflow-next-title').inner_text() == 'Review the transaction message'
+    page.locator('#incident-workflow-continue').click()
+    assert page.locator('[data-screen="sms"]').is_visible()
+    page.evaluate("goApp('incident')")
     page.evaluate("S.intendedNum='01712345678'; S.intendedAmt='3000'; S.receipt={recipient:'01712345678',amount:'3000',datetime:'2026-10-30 10:15',trxid:'TRX-123456789'}; S.receiptReviewed=true; renderIncidentDossier()")
+    assert 'Receipt fields reviewed by you' in page.locator('#incident-workflow-evidence-status').inner_text()
+    assert page.locator('#incident-workflow-next-title').inner_text() == 'Prepare your provider contact'
+    checks.append('PASS | Suggested next step adapts from path/provider selection to transaction-message review, then contact preparation')
     page.locator('#btn-dossier-generate').click()
     script = page.locator('#incident-dossier-call-script').input_value()
     assert 'bKash' in script and ('3,000' in script or '3000' in script) and 'has not verified' in script
@@ -43,7 +55,9 @@ with sync_playwright() as p:
     assert 'reference ends 9876' in page.locator('#incident-dossier-calls').inner_text()
     assert page.locator('#incident-dossier-reference').input_value() == ''
     assert 'User-reported' in page.locator('#incident-dossier-calls').inner_text()
-    checks.append('PASS | Provider contact entry is user-reported and stores only the reference suffix')
+    assert '1 contact entries' in page.locator('#incident-workflow-contact-status').inner_text()
+    assert page.locator('#incident-workflow-next-title').inner_text() == 'Plan the next follow-up'
+    checks.append('PASS | Provider contact entry is user-reported, stores only the reference suffix and updates the case hub')
 
     # CIPC can be contacted with a query; formal complaint requirements are a reminder checklist, not a blanket contact gate.
     option = page.locator('#incident-dossier-stage option[value="cipc"]')
@@ -97,6 +111,9 @@ with sync_playwright() as p:
     assert 'FULL-PRIVATE-TICKET-987654' not in brief
     checks.append('PASS | Structured and share-safe exports include only non-sensitive user-reported status')
 
+    page.locator('#incident-workflow-export').click()
+    assert page.locator('#share-brief-panel').is_visible()
+    checks.append('PASS | Share-safe brief can be opened directly from the case workspace')
     assert not errors, errors
     browser.close()
 
