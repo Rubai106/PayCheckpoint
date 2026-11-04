@@ -1584,3 +1584,11 @@ details[open]{background:#FCFEFC}
 @media(prefers-reduced-motion:reduce){
   .payment-scene[data-state="mismatch"] .payment-scene-card--entered{animation:none!important}
 }
+
+/* v1.29.1 — keep decorative hero depth inside the viewport on narrow phones. */
+@media(max-width:480px){
+  .hero{overflow:clip}
+  .hero:before{left:0;right:0;width:100%;max-width:100%}
+  .mock:after{right:0}
+  .payment-visual-demo:before{inset:8px 0 -8px 8px}
+}
