@@ -113,6 +113,27 @@ function renderRecon(){
  }
  document.getElementById('recon-actions').innerHTML=acts;
 }
+function syncWalletCheckProgress(){
+ var recipient=document.getElementById('wallet-check-recipient'),amount=document.getElementById('wallet-check-amount');
+ var button=document.getElementById('btn-record-wallet-check'),count=document.getElementById('wallet-check-count');
+ var track=document.getElementById('wallet-check-progress'),fill=document.getElementById('wallet-check-progress-fill');
+ var live=document.getElementById('wallet-check-live-progress');
+ var done=(recipient&&recipient.checked?1:0)+(amount&&amount.checked?1:0);
+ var total=2,percent=(done/total)*100;
+ var recipientLabel=recipient&&recipient.closest('label'),amountLabel=amount&&amount.closest('label');
+ if(count)count.textContent=done+' / '+total;
+ if(track){
+  track.setAttribute('aria-valuenow',String(done));
+  track.setAttribute('aria-label',L('Wallet checks completed','ওয়ালেট যাচাই সম্পন্ন'));
+  track.setAttribute('aria-valuetext',L(done+' of 2 checks selected', '২টির মধ্যে '+done+'টি যাচাই নির্বাচন করা হয়েছে'));
+ }
+ if(fill)fill.style.width=percent+'%';
+ if(live)live.textContent=done===0?L('No wallet checks selected. Start with the recipient.','এখনো কোনো ওয়ালেট যাচাই নির্বাচন করা হয়নি। প্রাপক দিয়ে শুরু করুন।'):done===1?L('One of two checks selected. Check the amount and fee next.','দুটি যাচাইয়ের মধ্যে একটি নির্বাচন করা হয়েছে। এবার পরিমাণ ও ফি দেখুন।'):L('Both checks selected. You may record this as user-reported.','দুটি যাচাই-ই নির্বাচন করা হয়েছে। চাইলে এটিকে ব্যবহারকারীর দেওয়া তথ্য হিসেবে সংরক্ষণ করতে পারেন।');
+ if(recipientLabel)recipientLabel.classList.toggle('is-checked',!!recipient.checked);
+ if(amountLabel)amountLabel.classList.toggle('is-checked',!!amount.checked);
+ if(button)button.disabled=done!==total;
+ return done;
+}
 function renderPreflightCheck(){
  var outcome=computeOutcome();
  if(outcome!=='MATCH'){goApp('recon');return false}
@@ -120,11 +141,14 @@ function renderPreflightCheck(){
  if(summary){
   summary.innerHTML='<div class="preflight-value-card"><span>'+esc(L('Recipient number compared','তুলনা করা প্রাপকের নম্বর'))+'</span><strong>'+esc(S.enteredNum)+'</strong><small>'+esc(L('Matches the number you said you intend to pay — ownership not verified','আপনার দেওয়ার উদ্দেশ্য করা নম্বরের সঙ্গে মিলেছে — মালিকানা যাচাই হয়নি'))+'</small></div><div class="preflight-value-card"><span>'+esc(L('Amount compared','তুলনা করা পরিমাণ'))+'</span><strong>'+esc(fmt(S.enteredAmt))+'</strong><small>'+esc(L('Matches the amount you said you intend to pay — provider fee not verified','আপনার দেওয়ার উদ্দেশ্য করা পরিমাণের সঙ্গে মিলেছে — প্রদানকারীর ফি যাচাই হয়নি'))+'</small></div>';
  }
- var recipient=document.getElementById('wallet-check-recipient'),amount=document.getElementById('wallet-check-amount'),button=document.getElementById('btn-record-wallet-check'),status=document.getElementById('wallet-check-status');
- if(recipient)recipient.checked=false;if(amount)amount.checked=false;if(button){button.disabled=true;button.textContent=t('recordWalletCheck')}
+ var recipient=document.getElementById('wallet-check-recipient'),amount=document.getElementById('wallet-check-amount'),status=document.getElementById('wallet-check-status');
+ if(recipient)recipient.checked=false;if(amount)amount.checked=false;
+ var button=document.getElementById('btn-record-wallet-check');
+ if(button){button.disabled=true;button.textContent=t('recordWalletCheck')}
  if(status)status.textContent='';
- function sync(){if(button)button.disabled=!(recipient&&recipient.checked&&amount&&amount.checked)}
- if(recipient)recipient.onchange=sync;if(amount)amount.onchange=sync;
+ if(recipient)recipient.onchange=syncWalletCheckProgress;
+ if(amount)amount.onchange=syncWalletCheckProgress;
+ syncWalletCheckProgress();
  goApp('preflight-check');
  return true;
 }
