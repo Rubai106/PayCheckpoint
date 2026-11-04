@@ -111,6 +111,11 @@ with sync_playwright() as p:
     assert 'FULL-PRIVATE-TICKET-987654' not in brief
     checks.append('PASS | Structured and share-safe exports include only non-sensitive user-reported status')
 
+    for width in [320, 360, 390, 620, 768, 1024, 1440]:
+        page.set_viewport_size({'width': width, 'height': 1000})
+        assert page.locator('#incident-workflow-hub').evaluate('(el) => el.scrollWidth <= el.clientWidth'), f'case hub overflows at {width}px'
+    page.set_viewport_size({'width': 1280, 'height': 1000})
+    checks.append('PASS | Case workflow hub fits 320–1440px viewports without internal horizontal overflow')
     page.locator('#incident-workflow-export').click()
     assert page.locator('#share-brief-panel').is_visible()
     checks.append('PASS | Share-safe brief can be opened directly from the case workspace')
