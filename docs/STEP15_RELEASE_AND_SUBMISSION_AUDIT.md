@@ -136,3 +136,28 @@ The release ZIP was extracted into a new directory and tested from that clean ex
 - `npm run qa:responsive`: 70/70 PASS.
 
 The archive contains the v1.27.2 source, rebuilt `dist/`, 224 project/submission entries, the five-slide draft deck, speaker notes, checklist and this audit. No `.env`, `.env.local` or `.dev.vars` file is included. `slides_test.py` reports no slide overflow and the deck contains exactly five slides.
+
+
+---
+
+## 4 November 2026 follow-on status — v1.31.0
+
+This section supersedes only the current-state and submission-readiness claims in this historical 30 October audit. The v1.27.2 test counts and findings above remain the record for that earlier release.
+
+### Current repository state
+
+- Current main release: v1.31.0.
+- Current main commit: `c6c26f51bf1921409d679f204213b3b733f2e12d`.
+- GitHub Actions run [#41879564068](https://github.com/Rubai106/PayCheckpoint/actions/runs/41879564068) completed successfully for that exact commit. It passed deterministic release validation, first-time consumer journey, Incident Dossier, Evidence Map, keyboard/focus accessibility and responsive-layout regression stages.
+- The current source includes the exact organizer sticker at `assets/aignite-buildathon-sticker.webp`, rendered in the navbar. It is not pending source integration.
+- v1.31.0 adds source-aware Checkpoint Intelligence and fail-closed wallet-checkpoint gates. See [Step 16](STEP16_CHECKPOINT_INTELLIGENCE.md).
+
+### Current judging and submission notes
+
+The official [Devpost event listing](https://yunet-aignite26.devpost.com/) now displays four weighted categories (12 + 12 + 10 + 16 = 50 marks). The [rules page](https://yunet-aignite26.devpost.com/rules) additionally names Presentation and Pitch as a judging dimension, but it is not a separate line in the displayed weighted breakdown. This is a later listing state than the 30 October rules snapshot described in the historical sections above.
+
+The event header and schedule currently show a 5 November 2026, 10:00 PM +06 deadline. The rules-page body also contains an 11:59 PM Bangladesh-time statement; use 10:00 PM as the conservative cutoff unless the organizer clarifies otherwise in writing.
+
+### Production parity remains a separate gate
+
+The owner-supplied 4 November production report identified the then-deployed source as v1.27.1. The green CI run above does not deploy code. The Pages build emits `/build-info.json`, but the live endpoint has not yet been independently checked against the current main SHA. Keep production parity and real-device/browser checks open until verified.
