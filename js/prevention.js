@@ -50,6 +50,13 @@ function bindIntentValidationFeedback(){
    var message=document.getElementById(rule.error);
    if(message&&message.querySelector('[role="alert"]'))message.innerHTML='';
   });
+  /* These fields are not inside a native form. Support the expected Enter-to-compare action. */
+  input.addEventListener('keydown',function(event){
+   if(event.key==='Enter'&&!event.isComposing){
+    event.preventDefault();
+    submitIntent();
+   }
+  });
  });
 }
 bindIntentValidationFeedback();
