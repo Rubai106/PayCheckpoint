@@ -71,6 +71,15 @@ with sync_playwright() as p:
     assert page.locator('#f-intended-num').get_attribute('aria-invalid') == 'true'
     assert page.locator('#e-num [role="alert"]').count() == 1
     assert page.locator('#e-amt [role="alert"]').count() == 1
+    for selector in ['#f-intended-num', '#f-intended-amt', '#f-entered-num', '#f-entered-amt']:
+        assert page.locator(selector).get_attribute('required') is not None
+    # Correcting a field clears its error and invalid state without another submit.
+    page.locator('#f-intended-num').fill('01712345678')
+    assert page.locator('#f-intended-num').get_attribute('aria-invalid') is None
+    assert page.locator('#e-num [role="alert"]').count() == 0
+    page.locator('#f-intended-amt').fill('3000')
+    assert page.locator('#f-intended-amt').get_attribute('aria-invalid') is None
+    assert page.locator('#e-amt [role="alert"]').count() == 0
     assert page.locator('[data-screen="intent"] .intent-step-card').count() == 2
     assert page.locator('[data-screen="intent"] details.intent-advanced').count() == 2
     assert page.locator('[data-screen="intent"] details.intent-advanced[open]').count() == 0
