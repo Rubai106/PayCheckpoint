@@ -1,4 +1,101 @@
 /* ---------- incident report ---------- */
+/* ---------- connected incident workspace ---------- */
+var PC_INCIDENT_WORKFLOW_NEXT = null;
+function incidentWorkflowJump(target) {
+  if (target === 'sms') { if (typeof goApp === 'function') goApp('sms'); return true; }
+  var node = document.getElementById(target);
+  if (!node) return false;
+  var reduced = false;
+  try { reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (_) {}
+  if (typeof node.scrollIntoView === 'function') node.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+  return true;
+}
+function incidentWorkflowContinue() {
+  var next = PC_INCIDENT_WORKFLOW_NEXT;
+  if (!next) { renderIncidentWorkflowHub(); next = PC_INCIDENT_WORKFLOW_NEXT; }
+  if (!next) return false;
+  if (next.action === 'sms') return incidentWorkflowJump('sms');
+  return incidentWorkflowJump(next.target);
+}
+function renderIncidentWorkflowHub() {
+  var hub = document.getElementById('incident-workflow-hub');
+  if (!hub) return;
+  var bn = S.lang === 'bn';
+  var scenario = (S.recoveryNavigator || {}).scenario || 'unsure';
+  var provider = (S.recoveryNavigator || {}).provider || 'unknown';
+  var reviewedReceipt = !!S.receiptReviewed;
+  var screenshot = S.screenReview || null;
+  var reviewedScreenshot = !!(screenshot && screenshot.overall);
+  var needsReceipt = ['wrong-recipient', 'failed-duplicate', 'unresolved-complaint'].indexOf(scenario) !== -1;
+  var readiness = typeof incidentDossierReadiness === 'function' ? incidentDossierReadiness() : [];
+  var available = readiness.filter(function (item) { return !!item.ready; }).length;
+  var dossier = typeof incidentDossierState === 'function' ? incidentDossierState() : { calls: [] };
+  var calls = dossier && Array.isArray(dossier.calls) ? dossier.calls.length : 0;
+  var plans = typeof PC_FOLLOWUP_PLANS !== 'undefined' && Array.isArray(PC_FOLLOWUP_PLANS) ? PC_FOLLOWUP_PLANS : [];
+  var activePlans = plans.filter(function (item) { return item.status === 'planned'; }).length;
+  var events = Array.isArray(S.timeline) ? S.timeline.length : 0;
+  var scenarioLabel = typeof incidentDossierScenarioLabel === 'function' ? incidentDossierScenarioLabel() : (scenario === 'unsure' ? 'Not selected' : scenario);
+  var providerLabel = typeof incidentDossierProviderLabel === 'function' ? incidentDossierProviderLabel(provider) : provider;
+  var pathStatus = scenario === 'unsure'
+    ? (bn ? 'পরিস্থিতি নির্বাচন করুন' : 'Choose your situation')
+    : scenarioLabel + (provider !== 'unknown' ? ' · ' + providerLabel : '');
+  var evidenceStatus = reviewedReceipt
+    ? (bn ? 'আপনি রসিদের তথ্য পর্যালোচনা করেছেন' : 'Receipt fields reviewed by you')
+    : reviewedScreenshot
+      ? (bn ? 'স্ক্রিনশট তুলনা করা হয়েছে' : 'Screenshot comparison recorded')
+      : (bn ? 'এখনো কোনো উৎস পর্যালোচনা হয়নি' : 'No reviewed source yet');
+  var contactStatus = bn
+    ? available + '/6টি তথ্য · ' + calls + 'টি যোগাযোগ নথি'
+    : available + '/6 information items · ' + calls + ' contact entries';
+  var historyStatus = bn
+    ? events + 'টি টাইমলাইন এন্ট্রি · ' + activePlans + 'টি সক্রিয় ফলো-আপ'
+    : events + ' timeline entries · ' + activePlans + ' active follow-ups';
+  var next;
+  if (scenario === 'unsure') {
+    next = { action: 'jump', target: 'recovery-nav-scenario', title: bn ? 'আপনার পরিস্থিতি বেছে নিন' : 'Choose what happened' };
+  } else if (provider === 'unknown') {
+    next = { action: 'jump', target: 'recovery-nav-provider', title: bn ? 'পেমেন্ট প্রদানকারী নির্বাচন করুন' : 'Select the payment provider' };
+  } else if (needsReceipt && !reviewedReceipt && !reviewedScreenshot) {
+    next = { action: 'sms', target: 'sms', title: bn ? 'লেনদেনের বার্তা পর্যালোচনা করুন' : 'Review the transaction message' };
+  } else if (!calls) {
+    next = { action: 'jump', target: 'incident-dossier-title', title: bn ? 'সহায়তার জন্য তথ্য প্রস্তুত করুন' : 'Prepare your provider contact' };
+  } else if (!activePlans) {
+    next = { action: 'jump', target: 'followup-planner-title', title: bn ? 'পরবর্তী যোগাযোগের পরিকল্পনা করুন' : 'Plan the next follow-up' };
+  } else {
+    next = { action: 'jump', target: 'timeline-title', title: bn ? 'কেসের টাইমলাইন পর্যালোচনা করুন' : 'Review the case timeline' };
+  }
+  PC_INCIDENT_WORKFLOW_NEXT = next;
+  function setText(id, value) { var el = document.getElementById(id); if (el) el.textContent = value; }
+  function setReady(id, ready) { var el = document.getElementById(id); if (el) el.classList.toggle('is-ready', !!ready); }
+  setText('incident-workflow-kicker', bn ? 'আপনার কেস ওয়ার্কস্পেস' : 'YOUR CASE WORKSPACE');
+  setText('incident-workflow-title', bn ? 'একটি কেস, চারটি সংযুক্ত ধাপ' : 'One case, four connected steps');
+  setText('incident-workflow-intro', bn ? 'ঘটনা বুঝুন, প্রমাণের উৎস দেখুন, সহায়তার জন্য প্রস্তুতি নিন এবং পরবর্তী পদক্ষেপ এক জায়গায় রাখুন।' : 'Understand the situation, review evidence sources, prepare for support contact and keep the next action visible.');
+  setText('incident-workflow-next-kicker', bn ? 'প্রস্তাবিত পরবর্তী ধাপ' : 'SUGGESTED NEXT STEP');
+  setText('incident-workflow-next-title', next.title);
+  setText('incident-workflow-continue', bn ? 'এগিয়ে যান' : 'Continue');
+  setText('incident-workflow-path-title', bn ? 'পুনরুদ্ধারের পথ' : 'Recovery path');
+  setText('incident-workflow-path-status', pathStatus);
+  setText('incident-workflow-evidence-title', bn ? 'প্রমাণের মানচিত্র' : 'Evidence Map');
+  setText('incident-workflow-evidence-status', evidenceStatus);
+  setText('incident-workflow-contact-title', bn ? 'যোগাযোগের প্রস্তুতি' : 'Contact preparation');
+  setText('incident-workflow-contact-status', contactStatus);
+  setText('incident-workflow-history-title', bn ? 'কেসের টাইমলাইন' : 'Case timeline');
+  setText('incident-workflow-history-status', historyStatus);
+  setText('incident-workflow-disclosure', bn
+    ? 'অগ্রগতি এই পৃষ্ঠায় দেওয়া তথ্য ও চিহ্নিত কাজের ওপর নির্ভর করে। এটি প্রদানকারীর রেকর্ড বা ব্যবহারকারীর জানানো কাজ যাচাই করে না।'
+    : 'Progress reflects only information entered or actions marked in this page. It does not verify provider records or user-reported actions.');
+  setText('incident-workflow-export', bn ? 'শেয়ার-সেফ সারাংশ দেখুন' : 'Preview share-safe brief');
+  setReady('incident-workflow-card-path', scenario !== 'unsure');
+  setReady('incident-workflow-card-evidence', reviewedReceipt || reviewedScreenshot);
+  setReady('incident-workflow-card-contact', available > 0 || calls > 0);
+  setReady('incident-workflow-card-history', events > 1 || activePlans > 0);
+  var cards = hub.querySelectorAll('.incident-workflow-card');
+  for (var i = 0; i < cards.length; i++) cards[i].setAttribute('aria-pressed', cards[i].classList.contains('is-ready') ? 'true' : 'false');
+  var continueButton = document.getElementById('incident-workflow-continue');
+  if (continueButton) continueButton.setAttribute('aria-label', (bn ? 'প্রস্তাবিত পরবর্তী ধাপে যান: ' : 'Continue to suggested next step: ') + next.title);
+  var exportButton = document.getElementById('incident-workflow-export');
+  if (exportButton) exportButton.setAttribute('aria-label', bn ? 'শেয়ার করার আগে গোপনীয় সারাংশ পর্যালোচনা করুন' : 'Review the privacy-safe brief before sharing');
+}
 function buildIncident(opts){if(!opts||opts.navigate!==false)goApp('incident');if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('incident-report-prepared','Incident summary prepared locally; not submitted','ঘটনার সারাংশ স্থানীয়ভাবে তৈরি হয়েছে; জমা দেওয়া হয়নি','app-recorded');
  var r=S.receipt||{},hasReviewed=!!S.receiptReviewed,hasPastedSMS=!!(hasReviewed&&S.reviewedSMS);
  var actualNum=r.recipient||'',actualAmt=r.amount||'';
