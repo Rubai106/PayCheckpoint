@@ -101,13 +101,29 @@ npm run qa:pages-build
 
 ## Latest release and submission pack (v1.31.0)
 
-The v1.28.0 release audit is recorded in `docs/STEP15_RELEASE_AND_SUBMISSION_AUDIT.md`. A 4 November 2026 owner-supplied production report records a successful real synthetic Cloudflare Workers AI inference request (HTTP 200, approximately 4.6 seconds) and API failure-path checks; see `submission/PRODUCTION_VERIFICATION_2026-11-04.md`. This report is attributed to the owner's coding agent and is not an independent reproduction.
+The historic v1.27.2 release audit is retained in `docs/STEP15_RELEASE_AND_SUBMISSION_AUDIT.md`; its dated findings describe that earlier release, not the current source. The current v1.31.0 Checkpoint Intelligence and fail-closed preflight changes are recorded in `docs/STEP16_CHECKPOINT_INTELLIGENCE.md`. A 4 November owner-supplied production report records one successful synthetic Cloudflare Workers AI request and API failure-path checks. The report was generated before the current v1.31.0 source and identifies the then-deployed source as v1.27.1; it is not evidence that the current main commit is deployed.
 
-A five-slide draft deck, English speaker notes, production verification report and final submission checklist are in `submission/`. The public app is https://paycheckpoint.pages.dev. The owner reports successful registration and a real synthetic live-AI inference check on 4 November 2026. The latest GitHub main source is v1.31.0; the production commit must be confirmed at `/build-info.json` after the build-provenance change is deployed. Checkpoint Intelligence now selects one source-aware next action after reconciliation; its guidance is deterministic and is not an AI fraud verdict. The exact organizer-provided sticker is committed at `assets/aignite-buildathon-sticker.webp` and rendered in the navbar. Verify that the live deployment shows it before submission. Independent held-out OCR/conversation evaluation and participant usability testing remain NOT RUN.
+A five-slide draft deck, English speaker notes, production verification report and final submission checklist are in `submission/`. GitHub main is v1.31.0 at `c6c26f51bf1921409d679f204213b3b733f2e12d`; GitHub Actions run [#41879564068](https://github.com/Rubai106/PayCheckpoint/actions/runs/41879564068) completed successfully for this commit. The public app is https://paycheckpoint.pages.dev, but its `/build-info.json` has not yet been independently checked against this SHA. Checkpoint Intelligence selects one source-aware next action after reconciliation; its guidance is deterministic and is not an AI fraud verdict. The exact organizer-provided sticker is committed at `assets/aignite-buildathon-sticker.webp` and rendered in the source navbar. Production display and source parity still require a live check. Independent held-out OCR/conversation evaluation and participant usability testing remain NOT RUN.
 
-## Competition alignment (verified 30 October 2026)
+## Competition alignment (checked 4 November 2026)
 
-The official [YUNet AIgnite Buildathon rules](https://yunet-aignite26.devpost.com/rules) currently list five judging dimensions: Problem and User Value; Solution and Innovation; AI and Technical Implementation; User Experience and Product Readiness; and Presentation and Pitch. The rules page says the detailed scoring system may be announced or updated; it does **not currently publish numeric point weights**. Any 35/50 or 45+/50 figure in project discussions is an internal illustrative estimate, not an official score. Mandatory project requirements include a functional B2C web app with meaningful AI, the exact organizer-provided sticker prominently near the top, a publicly accessible live link, and a presentation deck of no more than five slides. The exact official sticker remains pending integration from the organizer's [provided Drive folder](https://drive.google.com/drive/folders/1ILpnmXpegv75cNM-ACVJjh4OVmac0BIs?usp=sharing). Public deployment and one live synthetic AI inference are reported as verified in `submission/PRODUCTION_VERIFICATION_2026-11-04.md`; the deployed source commit remains pending build-provenance confirmation.
+The official Devpost event listing currently shows four weighted criteria:
+
+| Criterion | Marks |
+|---|---:|
+| Problem and User Value | 12 |
+| Solution and Innovation | 12 |
+| AI and Technical Implementation | 10 |
+| User Experience and Product Readiness | 16 |
+| **Total** | **50** |
+
+The rules page also names Presentation and Pitch as an evaluation dimension, but it is not a separate line in the currently displayed 50-mark weighted breakdown. Presentation quality still matters to the required deck and any live pitch. A 45+/50 result is an aspiration, not an official or evidence-backed score prediction. Sources: [official event listing](https://yunet-aignite26.devpost.com/) and [rules](https://yunet-aignite26.devpost.com/rules).
+
+Mandatory requirements include an individual student entry, a functional B2C web app with meaningful AI, the exact official sticker prominently near the top, a publicly accessible live URL and a deck of no more than five slides. A demo video is recommended but optional; if submitted, it must be in English. The event header and schedule currently show a submission cutoff of **5 November 2026 at 10:00 PM +06**. The rules-page body also contains an 11:59 PM Bangladesh-time statement, so use 10:00 PM as the conservative cutoff unless the organizer confirms otherwise in writing.
+
+The homepage's Bangladesh Bank context strip uses the 2025 report's 81,423 reported cases across MFS, cheque and card segments and the 8.7% MFS fraud-value recovery rate. It links directly to the official report and explicitly says these sector figures are not an individual risk estimate or proof of PayCheckpoint outcomes.
+
+Do not claim fraud-detection accuracy, real-world OCR accuracy, global-first novelty, user savings, fraud prevented, funds recovered, recipient verification, provider connectivity, transaction reversal or user-study outcomes without evidence.
 
 ## ReceiptLens lifecycle reliability (Step 13)
 
