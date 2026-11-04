@@ -1,4 +1,4 @@
-# PayCheckpoint v1.27.2
+# PayCheckpoint v1.28.0
 
 PayCheckpoint is a bilingual (English/Bangla), local-first payment-safety and incident-recovery companion for Bangladesh. It helps consumers compare payment details, review suspicious-message patterns, organize evidence, review explicitly labelled multi-message scam-pressure sequences locally, prepare for provider support with a Payment Incident Dossier, and create a share-safe incident brief. It does not control, cancel, reverse, authenticate or verify real wallet transactions.
 
