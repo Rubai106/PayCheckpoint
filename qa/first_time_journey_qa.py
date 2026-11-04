@@ -190,6 +190,13 @@ with sync_playwright() as p:
     correction_notice = page.locator('#recon-body').inner_text().lower()
     assert 'only the values recorded in paycheckpoint changed' in correction_notice
     assert 'did not change your bkash' in correction_notice
+
+    # The correction wrote values programmatically; returning to the intent screen
+    # must display the corrected values, not the earlier mismatch.
+    page.evaluate("goApp('intent')")
+    assert page.locator('#live-source-visual').get_attribute('data-state') == 'match'
+    assert page.locator('[data-live-source="entered"] [data-live-value="recipient"]').inner_text() == '01712345678'
+    page.evaluate("goApp('recon')")
     page.evaluate('setLang(true)')
     assert 'এতে আপনার bKash' in page.locator('#recon-body').inner_text()
     page.evaluate('setLang(false)')
