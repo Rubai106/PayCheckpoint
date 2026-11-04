@@ -2,12 +2,21 @@
 /* ---------- connected incident workspace ---------- */
 var PC_INCIDENT_WORKFLOW_NEXT = null;
 function incidentWorkflowJump(target) {
-  if (target === 'sms') { if (typeof goApp === 'function') goApp('sms'); return true; }
+  if (target === 'sms') {
+    if (typeof goApp === 'function') goApp('sms');
+    var smsField = document.getElementById('f-sms');
+    if (smsField && typeof smsField.focus === 'function') smsField.focus();
+    return true;
+  }
   var node = document.getElementById(target);
   if (!node) return false;
   var reduced = false;
   try { reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (_) {}
   if (typeof node.scrollIntoView === 'function') node.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+  if (typeof node.matches === 'function' && !node.matches('a,button,input,select,textarea,[tabindex]')) node.setAttribute('tabindex', '-1');
+  if (typeof node.focus === 'function') {
+    try { node.focus({ preventScroll: true }); } catch (_) { node.focus(); }
+  }
   return true;
 }
 function incidentWorkflowContinue() {
@@ -89,6 +98,13 @@ function renderIncidentWorkflowHub() {
   setReady('incident-workflow-card-evidence', reviewedReceipt || reviewedScreenshot);
   setReady('incident-workflow-card-contact', (readiness.length > 0 && available === readiness.length) || calls > 0);
   setReady('incident-workflow-card-history', events > 1 || activePlans > 0);
+  var cardLabels = [
+    ['incident-workflow-card-path', bn ? 'রিকভারি নেভিগেটর খুলুন' : 'Open Recovery Navigator'],
+    ['incident-workflow-card-evidence', bn ? 'প্রমাণের মানচিত্র খুলুন' : 'Open Evidence Map'],
+    ['incident-workflow-card-contact', bn ? 'পেমেন্ট ইনসিডেন্ট ডসিয়ার খুলুন' : 'Open Payment Incident Dossier'],
+    ['incident-workflow-card-history', bn ? 'কেসের টাইমলাইন খুলুন' : 'Open case timeline']
+  ];
+  cardLabels.forEach(function (item) { var card = document.getElementById(item[0]); if (card) card.setAttribute('aria-label', item[1]); });
   var continueButton = document.getElementById('incident-workflow-continue');
   if (continueButton) continueButton.setAttribute('aria-label', (bn ? 'প্রস্তাবিত পরবর্তী ধাপে যান: ' : 'Continue to suggested next step: ') + next.title);
   var exportButton = document.getElementById('incident-workflow-export');
