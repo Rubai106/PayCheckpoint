@@ -314,3 +314,9 @@ I18N.en.faqRefundA='PayCheckpoint cannot return money or guarantee recovery. Con
 I18N.bn.faqRefundA='PayCheckpoint টাকা ফেরত দিতে বা ফেরতের নিশ্চয়তা দিতে পারে না। দ্রুত প্রদানকারীর অফিসিয়াল মাধ্যমে যোগাযোগ করে তাদের বর্তমান প্রক্রিয়া অনুসরণ করুন। ফলাফল প্রদানকারীর নীতি ও ঘটনার পরিস্থিতির ওপর নির্ভর করে। টাকা ফেরতের নামে কোনো ফি দেবেন না বা PIN/OTP শেয়ার করবেন না।';
 I18N.en.faqStoredA='Case details stay in this page’s memory by default and are not saved to a PayCheckpoint account. On a hosted build, the optional Copilot can send a best-effort-redacted summary and broad categories to Cloudflare Workers AI only after your consent. Redaction is not guaranteed anonymization. Do not include identifying details or secrets. Clear page data in Privacy & Settings.';
 I18N.bn.faqStoredA='ডিফল্টভাবে কেসের তথ্য এই পৃষ্ঠার মেমরিতেই থাকে; PayCheckpoint অ্যাকাউন্টে সংরক্ষণ করা হয় না। Hosted সংস্করণে ঐচ্ছিক Copilot আপনার সম্মতির পর যতটা সম্ভব রেড্যাক্ট করা সারাংশ ও সাধারণ শ্রেণি Cloudflare Workers AI-তে পাঠাতে পারে। রেড্যাকশন সম্পূর্ণ পরিচয় গোপন রাখার নিশ্চয়তা নয়। পরিচয়-সংক্রান্ত তথ্য বা গোপন কোড দেবেন না। Privacy & Settings থেকে পৃষ্ঠার তথ্য মুছুন।';
+
+/* v1.28.0 — progressive wallet checkpoint labels. */
+I18N.en.walletCheckProgressTitle='Your final wallet check';
+I18N.bn.walletCheckProgressTitle='শেষবারের মতো ওয়ালেট যাচাই';
+I18N.en.walletCheckProgressHint='Check the recipient first, then the amount and any fee on your wallet’s own confirmation screen.';
+I18N.bn.walletCheckProgressHint='প্রথমে প্রাপকের তথ্য দেখুন, এরপর ওয়ালেটের নিজস্ব নিশ্চিতকরণ স্ক্রিনে পরিমাণ ও ফি মিলিয়ে নিন।';
