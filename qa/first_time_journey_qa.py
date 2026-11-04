@@ -86,7 +86,7 @@ with sync_playwright() as p:
     assert page.locator('#btn-record-wallet-check').is_enabled()
     assert page.locator('#wallet-check-count').inner_text() == '2 / 2'
     assert page.locator('#wallet-check-progress').get_attribute('aria-valuenow') == '2'
-    assert page.locator('#wallet-check-progress-fill').get_attribute('style') == 'width:100%'
+    assert page.locator('#wallet-check-progress-fill').evaluate('(el) => el.style.width') == '100%'
     page.evaluate('setLang(true)')
     assert page.locator('#wallet-check-progress').get_attribute('aria-label') == 'ওয়ালেট যাচাই সম্পন্ন'
     assert page.locator('#btn-record-wallet-check').is_enabled()
