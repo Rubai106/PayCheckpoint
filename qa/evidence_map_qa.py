@@ -222,6 +222,12 @@ with sync_playwright() as p:
     }""")
     assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'review'
     assert page.locator('#checkpoint-intelligence-action').inner_text().lower() in ('review screenshot values', 'স্ক্রিনশটের তথ্য পর্যালোচনা করুন')
+    summary = page.locator('#checkpoint-intelligence-summary').inner_text().lower()
+    assert 'অসম্পূর্ণ' in summary, f"Bangla copy should describe an incomplete screenshot, got: {summary}"
+    page.evaluate("S.lang='en'; renderRecon()")
+    summary = page.locator('#checkpoint-intelligence-summary').inner_text().lower()
+    assert 'incomplete' in summary, f"English copy should describe an incomplete screenshot, got: {summary}"
+    page.evaluate("S.lang='bn'; renderRecon()")
     assert page.locator('#recon-actions button[onclick*="renderPreflightCheck"]').count() == 0
     page.evaluate("renderPreflightCheck()")
     assert page.locator('[data-screen="recon"]').is_visible()
