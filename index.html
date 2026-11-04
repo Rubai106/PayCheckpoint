@@ -225,20 +225,20 @@ Other: Send your OTP to verify."></textarea>
 <div class="intent-step-card">
   <p class="intent-step-label" data-i18n="intentStepOne">STEP 1 · WHAT YOU INTEND TO PAY</p>
   <label for="f-intended-num" data-i18n="lblIntendedNum">Intended recipient number *</label>
-  <input id="f-intended-num" type="tel" inputmode="numeric" autocomplete="off" placeholder="e.g. 01712-345678" data-i18n-placeholder="numPlaceholder" aria-describedby="e-num" />
+  <input id="f-intended-num" type="tel" inputmode="numeric" autocomplete="off" placeholder="e.g. 01712-345678" data-i18n-placeholder="numPlaceholder" aria-describedby="e-num" required />
   <div id="e-num"></div>
   <label for="f-intended-amt" data-i18n="lblIntendedAmt">Intended amount (৳) *</label>
-  <input id="f-intended-amt" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 3000 / ৩০০০" data-i18n-placeholder="amtPlaceholder" aria-describedby="e-amt" />
+  <input id="f-intended-amt" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 3000 / ৩০০০" data-i18n-placeholder="amtPlaceholder" aria-describedby="e-amt" required />
   <div id="e-amt"></div>
 </div>
 <div class="intent-step-card">
   <p class="intent-step-label" data-i18n="intentStepTwo">STEP 2 · WHAT YOU ARE ABOUT TO ENTER IN YOUR PAYMENT APP</p>
   <p class="hint" data-i18n="intentStepTwoHelp">Open your bKash, Nagad, Rocket or other payment app yourself. Read the recipient and amount you are preparing to enter, then type those same values here. Do not send money from PayCheckpoint.</p>
   <label for="f-entered-num" data-i18n="lblEnteredNum">Recipient number you are about to enter *</label>
-  <input id="f-entered-num" type="tel" inputmode="numeric" autocomplete="off" placeholder="Exact number from your payment app" data-i18n-placeholder="enteredNumPlaceholder" aria-describedby="e-entered-num" />
+  <input id="f-entered-num" type="tel" inputmode="numeric" autocomplete="off" placeholder="Exact number from your payment app" data-i18n-placeholder="enteredNumPlaceholder" aria-describedby="e-entered-num" required />
   <div id="e-entered-num"></div>
   <label for="f-entered-amt" data-i18n="lblEnteredAmt">Amount you are about to enter (৳) *</label>
-  <input id="f-entered-amt" type="text" inputmode="decimal" autocomplete="off" placeholder="Exact amount in your payment app" data-i18n-placeholder="enteredAmtPlaceholder" aria-describedby="e-entered-amt" />
+  <input id="f-entered-amt" type="text" inputmode="decimal" autocomplete="off" placeholder="Exact amount in your payment app" data-i18n-placeholder="enteredAmtPlaceholder" aria-describedby="e-entered-amt" required />
   <div id="e-entered-amt"></div>
 </div>
 <section class="live-source-visual" id="live-source-visual" data-state="pending" aria-labelledby="live-source-visual-title">
