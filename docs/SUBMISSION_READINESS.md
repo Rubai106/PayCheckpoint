@@ -10,7 +10,7 @@
 - [x] Public web application: https://paycheckpoint.pages.dev
 - [x] Cloudflare Workers AI binding named `AI` is configured in the Pages Production environment.
 - [x] Owner-supplied report records one real synthetic live inference request with HTTP 200; see `submission/PRODUCTION_VERIFICATION_2026-11-04.md`.
-- [ ] Verify the deployed `/build-info.json` against the current GitHub `main` release (v1.28.0, commit `1201182b1ab65fdf9687b47ba0292a1eb89f315d`). The Pages build now emits this manifest; the live response has not yet been independently confirmed.
+- [ ] Verify the deployed `/build-info.json` against the current GitHub `main` head at the time of inspection. It must report v1.28.0, branch `main`, and the same commit SHA shown by GitHub. The Pages build now emits this manifest; the live response has not yet been independently confirmed.
 - [ ] Download the exact official sticker from the organizer's shared folder https://drive.google.com/drive/folders/1ILpnmXpegv75cNM-ACVJjh4OVmac0BIs?usp=sharing and visibly replace the navbar placeholder. Do not recreate or approximate it.
 - [ ] Submit the live URL and a deck of no more than five slides through Devpost only.
 
