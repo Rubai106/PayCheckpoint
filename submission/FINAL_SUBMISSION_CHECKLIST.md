@@ -9,7 +9,7 @@
 
 - Repository: https://github.com/Rubai106/PayCheckpoint
 - Public application: https://paycheckpoint.pages.dev
-- Current GitHub `main` source is v1.29.0 (4 November 2026), head `40b275680230f2b79d5e7a4136e19050b102dd33`, with a three-layer interactive payment visual, live field comparison, and the exact organizer sticker in the navbar. Verify the exact latest `main` SHA against production `/build-info.json` before submission.
+- Current GitHub `main` source is v1.29.0 (4 November 2026), with a three-layer interactive payment visual, live field comparison, the exact organizer sticker in the navbar, and sourced Bangladesh Bank context. Verify the exact latest `main` SHA against production `/build-info.json` before submission.
 - The organizer's registration email begins “Thank you for registering”; registration receipt is therefore reported as received. Confirm the registered participant and solo submission in Devpost before final submission.
 - The owner-supplied Claude report records one successful live Cloudflare Workers AI synthetic inference request: HTTP 200, Qwen3, approximately 4.6 seconds, seven structured fields and an uncertainty notice. See `PRODUCTION_VERIFICATION_2026-11-04.md`. This is reported evidence, not an independently reproduced accuracy test.
 - The owner-supplied report still identifies the deployed source as v1.27.1. GitHub `main` is now v1.29.0. The Pages build includes `/build-info.json`, but the live deployment has not yet been independently checked against the latest main SHA.

@@ -138,4 +138,4 @@ The hosted Pages demo has no encrypted case-storage backend or live payment-prov
 
 ## Buildathon submission requirements
 
-The official “Built For Ostad Presents YUNet AIgnite Buildathon 2026” sticker must be added using the exact organizer-provided asset, visibly near the top of the deployed application. The current package does not invent or recreate that sticker; add the official file before submission. Verify the public URL from a clean browser and prepare the required maximum-five-slide deck.
+The exact organizer-provided “Built For Ostad Presents YUNet AIgnite Buildathon 2026” artwork is included as `assets/aignite-buildathon-sticker.webp` and displayed in the navbar in `main`. The landing page now includes the interactive Intent → Instruction → Entered Details payment stack, a live source comparison below the pre-send form, and a compact Bangladesh Bank problem-context strip. The public deployment still needs to be checked against the current source commit via `/build-info.json`; verify the navbar and main flow on clean desktop and mobile browsers after redeployment. The required presentation deck must contain no more than five slides.

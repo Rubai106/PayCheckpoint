@@ -1,6 +1,6 @@
 # PayCheckpoint — remaining owner actions (4 November 2026)
 
-This file covers tasks that require your personal Devpost account, the organizer's official asset, or a real device/browser. Do not put credentials, API tokens or real payment data in GitHub or test cases.
+This file covers tasks that require your personal Devpost account or a real device/browser. The exact organizer sticker has already been supplied and committed to the repository. Do not put credentials, API tokens or real payment data in GitHub or test cases.
 
 ## 1. Devpost registration and submission
 
@@ -16,23 +16,15 @@ This file covers tasks that require your personal Devpost account, the organizer
 - GitHub repository: https://github.com/Rubai106/PayCheckpoint
 - Cloudflare Production has a Workers AI binding named exactly `AI`.
 - The owner-supplied Claude report dated 4 November records a successful live Qwen3 Workers AI synthetic inference response (HTTP 200, approximately 4.6 seconds) plus consent, malformed JSON, method, quota and model-failure checks. See `PRODUCTION_VERIFICATION_2026-11-04.md`.
-- GitHub main is v1.27.2 at `3c72fd93e1be662eea45eeb5e7b51d90fb1c483b`, while the supplied production report identifies the deployed code as v1.27.1. A build-provenance manifest is being added. After that change is merged and deployed, open https://paycheckpoint.pages.dev/build-info.json and compare its full commit SHA with GitHub main.
+- GitHub `main` is v1.29.0. The `/build-info.json` manifest is in the Pages build output; after the current source is deployed, open https://paycheckpoint.pages.dev/build-info.json and compare its full commit SHA with the then-current GitHub `main` head.
 - Re-run exactly one synthetic live check against the final deployment if the build SHA changes: `npm run qa:live-copilot -- --base-url https://paycheckpoint.pages.dev`. Do not use real SMS, wallet, identity or payment information.
 - Do not create an API token for Workers AI. No API key is required for the Pages binding.
 
-## 3. Exact official buildathon sticker — mandatory
+## 3. Exact official buildathon sticker — source complete
 
-The organizer supplied the official asset folder in the registration email:
-
-https://drive.google.com/drive/folders/1ILpnmXpegv75cNM-ACVJjh4OVmac0BIs?usp=sharing
-
-1. Open the folder using the same Google account that can access the organizer materials.
-2. Download the exact official image file (prefer the original PNG or SVG, not a screenshot or compressed preview).
-3. Upload that original image file in this ChatGPT conversation, or place it in `assets/` and push it to GitHub.
-4. The exact image must be visibly displayed in the navbar or another prominent area near the top of the app.
-5. After integrating, verify it on desktop and mobile and redeploy.
-
-Do not recreate, redraw, approximate or substitute the sticker with a generic YUNet logo or text. The app currently still contains a clearly marked placeholder; until the original file is integrated and visible on the live website, this mandatory requirement is NOT complete.
+- The exact organizer-provided artwork is committed at `assets/aignite-buildathon-sticker.webp`.
+- The navbar renders that local asset through `#competition-sticker`; no recreated text/logo is used.
+- The source-level desktop/mobile sizing is implemented. The remaining owner action is to redeploy and visually verify the actual production navbar at desktop and mobile widths.
 
 ## 4. Final production verification
 
@@ -46,8 +38,8 @@ After the provenance update is deployed:
 
 ## 5. Five-slide presentation
 
-- The updated five-slide draft is `PayCheckpoint-AIgnite-Updated-5slides.pptx` in the working handoff. It includes the live URL and reported synthetic AI integration result, while stating that the exact sticker and final commit confirmation remain pending.
-- Replace any pending statement only after the official sticker is integrated and the final deployment SHA is confirmed.
+- The updated five-slide draft is `PayCheckpoint-AIgnite-Updated-5slides.pptx` in the working handoff. It includes the live URL and reported synthetic AI integration result. Refresh its screenshots and source/deployment reference after the current `main` commit is deployed and verified.
+- Replace any pending deployment statement only after the final production SHA is confirmed; the organizer sticker is already integrated in source.
 - Keep the deck at no more than five slides. The product demo video is optional; if submitted, it must be in English.
 
 ## 6. Validation and safe claims

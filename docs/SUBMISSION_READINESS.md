@@ -20,7 +20,7 @@ The organizer's 4 November email says the submission deadline is 5 November 2026
 
 ## Current project status
 
-- The current GitHub `main` source is v1.29.0 (4 November 2026), head `40b275680230f2b79d5e7a4136e19050b102dd33`. It includes the three-layer interactive payment evidence stack, live pre-send comparison, strict amount-format validation, and the original buildathon sticker in the navbar. Recheck the exact SHA from GitHub `main` immediately before comparing it with production.
+- The current GitHub `main` source is v1.29.0 and includes the three-layer interactive payment evidence stack, live pre-send comparison, strict amount-format validation, bilingual impact strip, and the exact buildathon sticker in the navbar. Read the live `main` head directly before comparing it with production; do not rely on a copied SHA in this document.
 - The owner-supplied live report records homepage/static assets HTTP 200, expected security headers, AI status configuration and one successful Qwen3 synthetic inference request.
 - The owner-supplied production report identifies the deployed code as v1.27.1. Do not assume the live site has the current v1.29.0 source until `/build-info.json` is read and its commit matches the then-current `main` SHA.
 - The last completed successful Actions run before v1.29.0 was [#41848007949](https://github.com/Rubai106/PayCheckpoint/actions/runs/41848007949) on commit `44cfd151e79022a5b9c51ab0e2f30a17ccd2daa7`. The v1.29.0 validation run for current `main` (`40b27568`) is queued and has not passed yet. Automated regression evidence is not a substitute for real-device/manual usability review.
@@ -56,4 +56,4 @@ Do not claim fraud-detection accuracy, real-world OCR accuracy, global-first nov
 
 ## Presentation
 
-The five-slide draft and English speaker notes are in `submission/`. Refresh the deck after the exact sticker is installed and production source commit is confirmed. Demo video is optional; if submitted, it must be in English.
+The five-slide draft and English speaker notes are in `submission/`. Refresh the deck screenshots and production source reference after the current `main` build is deployed and verified; the exact sticker is already integrated in source. Demo video is optional; if submitted, it must be in English.

@@ -29,12 +29,13 @@ with sync_playwright() as p:
     assert 'optionally review the original instruction' in page.locator('[data-i18n="preventText"]').inner_text().lower()
     assert 'cannot return money or guarantee recovery' in (page.locator('[data-i18n="faqRefundA"]').text_content() or '').lower()
     assert 'optional copilot' in (page.locator('[data-i18n="faqStoredA"]').text_content() or '').lower()
-    assert 'live example' not in page.locator('[data-i18n="mockTitle"]').inner_text().lower()
+    assert 'see the payment' in page.locator('[data-i18n="visualDemoTitle"]').inner_text().lower()
     impact_copy = page.locator('#impact-strip').inner_text()
     assert '81,423' in impact_copy and '8.7%' in impact_copy
     assert 'not an individual risk estimate' in impact_copy.lower()
     assert page.locator('#impact-strip a').get_attribute('href') == 'https://www.bb.org.bd/pub/annual/psdreport/paymentreport_dec2025.pdf'
-    assert 'synthetic data' in page.locator('[data-i18n="mockEyebrow"]').inner_text().lower()
+    assert 'sample' in page.locator('#payment-visual-demo .demo-mark').inner_text().lower()
+    assert 'all details are fictional' in page.locator('#payment-visual-demo .mock-footnote').inner_text().lower()
     assert page.locator('#competition-sticker img').get_attribute('src') == './assets/aignite-buildathon-sticker.webp'
     assert 'buildathon 2026' in page.locator('#competition-sticker img').get_attribute('alt').lower()
     assert page.locator('#payment-visual-demo .payment-scene-card').count() == 3

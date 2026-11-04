@@ -1,4 +1,6 @@
 ## v1.29.0 — 4 November 2026 — Intent → Evidence → Action visual stack
+- Moved all new visual-demo and Bangladesh Bank impact-strip English/Bangla labels into the shared I18N dictionaries so the existing completeness audit covers them; the visual module no longer mutates the dictionaries at runtime.
+- Updated the first-time journey browser assertions to target the new interactive hero instead of the removed static mock selectors.
 - Added a compact, bilingual Bangladesh Bank context strip to the landing page: 81,423 reported 2025 cases across MFS, cheque and card segments and an 8.7% MFS fraud-value recovery rate. The source opens the official Payment Systems Report 2025; the UI states that sector figures are not an individual risk estimate or PayCheckpoint outcome.
 - Added first-time journey and viewport assertions for the sourced figures, attribution link and homepage reflow.
 
