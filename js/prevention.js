@@ -153,8 +153,9 @@ function renderCheckpointIntelligence(sourceChecks,flags){
  var instructionPending=!!flags.instructionPending||!!((S.instrNumCands||[]).length&&!S.instrNumConfirmed)||!!((S.instrAmtCands||[]).length&&!S.instrAmtConfirmed);
  var screenshot=flags.screenshotReview||S.screenReview||null;
  var screenshotStale=!!(screenshot&&typeof evidenceMapScreenshotIsStale==='function'&&evidenceMapScreenshotIsStale(screenshot));
- var screenshotMismatch=!!(screenshot&&(screenshot.recipientState==='MISMATCH'||screenshot.amountState==='MISMATCH'||screenshot.overall==='MISMATCH'||screenshot.overall==='INCOMPLETE'));
- var screenshotNeedsReview=!!(screenshot&&(screenshotStale||screenshotMismatch));
+ var screenshotMismatch=!!(screenshot&&(screenshot.recipientState==='MISMATCH'||screenshot.amountState==='MISMATCH'||screenshot.overall==='MISMATCH'));
+ var screenshotIncomplete=!!(screenshot&&(screenshot.recipientState==='INCOMPLETE'||screenshot.amountState==='INCOMPLETE'||screenshot.overall==='INCOMPLETE'));
+ var screenshotNeedsReview=!!(screenshot&&(screenshotStale||screenshotMismatch||screenshotIncomplete));
  var action={state:'review',status:L('Review details','তথ্য পর্যালোচনা করুন'),summary:L('Review the details recorded for this case.','এই কেসের জন্য নথিভুক্ত তথ্য পর্যালোচনা করুন।'),why:L('The next step is selected from the source comparisons. This is guidance, not a fraud verdict.','উৎসগুলোর তুলনার ভিত্তিতে পরবর্তী পদক্ষেপ বেছে নেওয়া হয়েছে। এটি নির্দেশনা, প্রতারণার রায় নয়।'),label:L('Review details','তথ্য পর্যালোচনা করুন'),run:function(){goApp('intent')}};
 
  function setAction(state,status,summary,why,label,run){
@@ -194,10 +195,10 @@ function renderCheckpointIntelligence(sourceChecks,flags){
    L('Review suggested values','প্রস্তাবিত তথ্য পর্যালোচনা করুন'),
    function(){if(typeof openEvidenceSource==='function')openEvidenceSource('instruction',instructionField);else goApp('intent')});
  }else if(screenshotNeedsReview){
-  var screenshotField=screenshot&&(screenshot.recipientState==='MISMATCH'||screenshotStale)?'recipient':'amount';
+  var screenshotField=screenshot&&(screenshot.recipientState==='MISMATCH'||screenshot.recipientState==='INCOMPLETE'||screenshotStale)?'recipient':'amount';
   setAction('review',L('Review the screenshot comparison','স্ক্রিনশটের তুলনা পর্যালোচনা করুন'),
-   screenshotStale?L('Your intended details changed after the screenshot was reviewed. The earlier comparison is stale.','স্ক্রিনশট পর্যালোচনার পর আপনার উদ্দেশ্য করা তথ্য বদলেছে। আগের তুলনাটি এখন পুরোনো।'):L('A value entered from the screenshot differs from your intended details.','স্ক্রিনশট থেকে লেখা একটি মান আপনার উদ্দেশ্য করা তথ্যের সঙ্গে মিলছে না।'),
-   L('Re-enter and review the visible screenshot values. OCR suggestions are not automatically accepted and an image is not authenticated.','স্ক্রিনশটে দৃশ্যমান তথ্য আবার লিখে পর্যালোচনা করুন। OCR-এর প্রস্তাব স্বয়ংক্রিয়ভাবে গ্রহণ করা হয় না এবং ছবির সত্যতা যাচাই হয় না।'),
+   screenshotStale?L('Your intended details changed after the screenshot was reviewed. The earlier comparison is stale.','স্ক্রিনশট পর্যালোচনার পর আপনার উদ্দেশ্য করা তথ্য বদলেছে। আগের তুলনাটি এখন পুরোনো।'):screenshotIncomplete?L('The screenshot comparison is incomplete. Review the recipient and amount before relying on it.','স্ক্রিনশটের তুলনা অসম্পূর্ণ। এর ওপর নির্ভর করার আগে প্রাপক ও পরিমাণ পর্যালোচনা করুন।'):L('A value entered from the screenshot differs from your intended details.','স্ক্রিনশট থেকে লেখা একটি মান আপনার উদ্দেশ্য করা তথ্যের সঙ্গে মিলছে না।'),
+   screenshotIncomplete?L('Complete both visible fields and review them yourself. OCR suggestions are not automatically accepted, and an image is not authenticated.','দৃশ্যমান দুটি তথ্যই সম্পূর্ণ করে নিজে পর্যালোচনা করুন। OCR-এর প্রস্তাব স্বয়ংক্রিয়ভাবে গ্রহণ করা হয় না এবং ছবির সত্যতা যাচাই হয় না।'):L('Re-enter and review the visible screenshot values. OCR suggestions are not automatically accepted and an image is not authenticated.','স্ক্রিনশটে দৃশ্যমান তথ্য আবার লিখে পর্যালোচনা করুন। OCR-এর প্রস্তাব স্বয়ংক্রিয়ভাবে গ্রহণ করা হয় না এবং ছবির সত্যতা যাচাই হয় না।'),
    L('Review screenshot values','স্ক্রিনশটের তথ্য পর্যালোচনা করুন'),
    function(){if(typeof openEvidenceSource==='function')openEvidenceSource('screenshot',screenshotField);else goApp('intent')});
  }else if(S._ssOutcome==='INCOMPLETE'||!String(S.enteredNum||'').trim()||!String(S.enteredAmt||'').trim()){
