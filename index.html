@@ -96,6 +96,10 @@
 <div id="view-app" class="hidden"><div class="app-shell">
 <button class="btn btn-ghost" onclick="showView('home')" data-i18n="backHome">← Back to homepage</button>
 <div class="steps" id="stepBar" aria-label="Progress"></div>
+<div class="evidence-source-return hidden" id="evidence-source-return" role="status" aria-live="polite">
+  <div><strong id="evidence-source-return-title">Reviewing a source</strong><span id="evidence-source-return-copy">Your case is unchanged. Return when you are ready.</span></div>
+  <button class="btn btn-o btn-sm" type="button" onclick="returnToEvidenceMap()" id="evidence-source-return-action">Return to Evidence Map</button>
+</div>
 
 <!-- START -->
 <section class="panel" data-screen="start">
@@ -379,7 +383,17 @@ Other: Send your OTP to verify."></textarea>
     <span id="evidence-map-count" class="tag tag-n">No comparison yet</span>
   </div>
   <div id="evidence-map-summary" class="evidence-map-summary" role="status" aria-live="polite"></div>
+  <div class="evidence-map-tools">
+    <div class="evidence-map-filters" role="group" aria-label="Filter evidence sources" id="evidence-map-filters">
+      <button type="button" class="evidence-map-filter is-active" data-evidence-filter="all" aria-pressed="true"><span id="evidence-map-filter-all">All sources</span><b data-evidence-count="all">6</b></button>
+      <button type="button" class="evidence-map-filter" data-evidence-filter="conflicts" aria-pressed="false"><span id="evidence-map-filter-conflicts">Conflicts</span><b data-evidence-count="conflicts">0</b></button>
+      <button type="button" class="evidence-map-filter" data-evidence-filter="review" aria-pressed="false"><span id="evidence-map-filter-review">Needs review</span><b data-evidence-count="review">0</b></button>
+    </div>
+    <p class="evidence-map-order-note" id="evidence-map-order-note">01 → 06 is the review order, not a timestamped transaction history.</p>
+  </div>
+  <p id="evidence-map-filter-status" class="evidence-map-filter-status" role="status" aria-live="polite"></p>
   <div id="evidence-map-body" class="evidence-map-grid" aria-live="polite"></div>
+  <p id="evidence-map-filter-empty" class="evidence-map-filter-empty" hidden>No sources match this filter. Choose another view.</p>
   <p class="hint evidence-map-footnote" id="evidence-map-footnote">User-provided content, manual review, parsed text and provider-confirmed facts are different evidence levels. No provider-confirmed record is attached in this prototype.</p>
 </section>
 <section class="evidence-integrity-panel" id="evidence-integrity-panel" aria-labelledby="evidence-integrity-title">
