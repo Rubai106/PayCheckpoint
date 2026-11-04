@@ -1,3 +1,12 @@
+## v1.28.1 — 4 November 2026 — Interactive Evidence Map investigation
+
+- Added conflict and review-needed filters across all six Evidence Map source cards, with live counts and keyboard-readable active states.
+- Added per-source relationship summaries against the user-entered intent, while keeping recipient and amount states visible separately.
+- Added direct, focus-managed routes from each available source card back to its original input, plus a clear return path to the Evidence Map without resetting the case.
+- Added a numbered review path and explicitly stated that it is not a timestamped transaction history; no event times or external provenance are inferred.
+- Preserved the distinction between user-reported intent, pasted instruction text, manual pre-send entry, manually reviewed/OCR-assisted screenshot, user-reviewed message fields and the unattached provider record.
+- Added dedicated browser regression coverage for filtering, state refresh, source handoff, case return, English/Bangla labels and responsive widths. No new dependencies or provider/payment behavior.
+
 ## v1.28.0 — 4 November 2026 — Progressive pre-send wallet checkpoint
 
 - Turned the final pre-send wallet re-check into a two-step, user-controlled checklist: recipient first, then amount and any displayed fee.
