@@ -9,11 +9,11 @@
 
 - Repository: https://github.com/Rubai106/PayCheckpoint
 - Public application: https://paycheckpoint.pages.dev
-- Current GitHub `main` source is v1.31.0 (4 November 2026), with a three-layer interactive payment visual, live field comparison, source-aware Checkpoint Intelligence, the same six-source Evidence Map available immediately after reconciliation and in incident review, the exact organizer sticker in the navbar, and sourced Bangladesh Bank context. Verify the exact latest `main` SHA against production `/build-info.json` before submission.
+- Current GitHub `main` source is v1.31.0 at `c6c26f51bf1921409d679f204213b3b733f2e12d` (4 November 2026), with a three-layer interactive payment visual, live field comparison, source-aware Checkpoint Intelligence, the shared six-source Evidence Map, strict preflight conflict gates, the exact organizer sticker in the navbar, and sourced Bangladesh Bank context. GitHub Actions run [#41879564068](https://github.com/Rubai106/PayCheckpoint/actions/runs/41879564068) completed successfully for this exact commit. Verify the live `/build-info.json` against the current `main` SHA before submission.
 - The organizer's registration email begins “Thank you for registering”; registration receipt is therefore reported as received. Confirm the registered participant and solo submission in Devpost before final submission.
 - The owner-supplied Claude report records one successful live Cloudflare Workers AI synthetic inference request: HTTP 200, Qwen3, approximately 4.6 seconds, seven structured fields and an uncertainty notice. See `PRODUCTION_VERIFICATION_2026-11-04.md`. This is reported evidence, not an independently reproduced accuracy test.
 - The owner-supplied report still identifies the deployed source as v1.27.1. GitHub `main` is now v1.31.0. The Pages build includes `/build-info.json`, but the live deployment has not yet been independently checked against the latest main SHA.
-- Current `main` commit `ed75fcf88ac485fca19097277e167795e06e065f` passed [GitHub Actions run #41875762064](https://github.com/Rubai106/PayCheckpoint/actions/runs/41875762064) on 4 November 2026: deterministic release validation 9/9, first-time journey, Incident Dossier 10/10, Evidence Map 9/9, keyboard/focus accessibility and responsive layouts 70/70. Live production parity and manual real-device checks remain separate.
+- Current `main` commit `c6c26f51bf1921409d679f204213b3b733f2e12d` passed [GitHub Actions run #41879564068](https://github.com/Rubai106/PayCheckpoint/actions/runs/41879564068) on 4 November 2026: deterministic release validation, first-time journey, Incident Dossier, Evidence Map, keyboard/focus accessibility and responsive-layout regression stages all passed. Live production parity and manual real-device checks remain separate.
 - Native Tesseract CLI pilot: 24 synthetic fixtures; 23/24 both expected fields present, one decimal-loss error. Not real-world OCR accuracy or browser/WASM parity.
 - Held-out conversation/OCR validation and human usability sessions remain NOT RUN.
 
@@ -27,7 +27,7 @@
 | User Experience and Product Readiness | 16 |
 | **Total** | **50** |
 
-The official rules currently publish these four weighted criteria. A 45+/50 result remains a target, not an official score or a reliable prediction. Judges determine the actual result. The five-slide deck is mandatory; the English demo video is recommended, not mandatory.
+The current Devpost event listing displays these four weighted criteria. The rules page also names Presentation and Pitch as an evaluation dimension, but it is not a separate line in the displayed 50-mark weighted breakdown. A 45+/50 result remains a target, not an official score or a reliable prediction. Judges determine the actual result. The five-slide deck is mandatory; the demo video is recommended but optional and must be in English if submitted. Sources: [event listing](https://yunet-aignite26.devpost.com/) and [rules](https://yunet-aignite26.devpost.com/rules).
 
 ## Mandatory submission gates
 
