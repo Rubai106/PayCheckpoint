@@ -8,6 +8,7 @@
 - Extended browser regression coverage for matched values, mismatched pre-send entries, language switching, and instruction-only mismatch source review with return to reconciliation.
 - GitHub Actions run [#41879564068](https://github.com/Rubai106/PayCheckpoint/actions/runs/41879564068) completed successfully for commit `c6c26f51bf1921409d679f204213b3b733f2e12d`; deterministic release, first-time journey, recovery dossier, Evidence Map, focus/accessibility and responsive regression stages passed.
 - Fixed a Checkpoint Intelligence state mismatch: an incomplete screenshot review now recommends source review instead of implying readiness from matching manually entered values; added direct preflight-block regression coverage.
+- Split screenshot evidence states in Checkpoint Intelligence: incomplete review now says it is incomplete (in English and Bangla), while actual field disagreement retains mismatch wording; preflight also blocks an incomplete field state even if its overall status is stale or inconsistent.
 - No new package dependencies, external AI calls, provider connections, automatic transaction changes or identity-verification claims.
 
 ## v1.31.0 — 4 November 2026 — Evidence Map in the decision workflow
