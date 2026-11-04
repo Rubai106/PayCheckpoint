@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "projectVersion": "1.27.2",
+  "projectVersion": "1.28.0",
   "status": "protocol-prepared-no-independent-data-collected",
   "conversationPlan": {
     "plannedSlots": 48,
