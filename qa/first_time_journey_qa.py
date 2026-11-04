@@ -112,7 +112,8 @@ with sync_playwright() as p:
     page.locator('#f-intended-amt').fill('3000')
     page.locator('#f-entered-num').fill('01712345678')
     page.locator('#f-entered-amt').fill('3000')
-    page.locator('[data-i18n="compareDetails"]').click()
+    # The final field supports keyboard completion; no mouse-only CTA is required.
+    page.locator('#f-entered-amt').press('Enter')
     assert page.locator('[data-screen="recon"]').is_visible()
 
     page.evaluate("startJourney('prevention','intent')")
