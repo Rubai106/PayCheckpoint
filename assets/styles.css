@@ -1081,3 +1081,26 @@ details[open]{background:#FCFEFC}
 @media(prefers-reduced-motion:reduce){
   .mock,.stepbox,.journey-choice,.btn{transition:none!important;transform:none!important}
 }
+
+
+/* Responsive progress rail: preserve readable stage labels on narrow phones. */
+.steps.journey-progress{
+  border-color:#DCE6DE;background:rgba(255,255,255,.92);
+  box-shadow:0 8px 24px rgba(20,45,32,.045);
+}
+.journey-progress-head strong{color:#203A2F}
+.journey-progress-head>span{color:#687A70}
+.journey-progress-track{background:#E7EFE9}
+.journey-progress-track i{background:linear-gradient(90deg,#08765B,#67BD8B)}
+.journey-stage-list{grid-template-columns:repeat(4,minmax(0,1fr))}
+.progress-step{color:#748279}
+.progress-step-mark{border-color:#DCE6DE;background:#F6FAF6;color:#64766B}
+.progress-step.done{color:#287A59}
+.progress-step.current{color:#173C2D}
+.progress-step.current .progress-step-mark{border-color:#08765B;background:#08765B;box-shadow:0 0 0 3px #E1F1E6}
+@media(max-width:760px){.journey-stage-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px 7px}}
+@media(max-width:420px){
+  .journey-stage-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .steps.journey-progress{padding:13px}
+  .progress-step{font-size:10px}
+}
