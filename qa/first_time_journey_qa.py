@@ -206,11 +206,16 @@ with sync_playwright() as p:
         page.evaluate("showView('home')")
         home_layout = page.evaluate("""() => {
           const root = document.documentElement, body = document.body, width = window.innerWidth;
-          const offenders = [...document.querySelectorAll('body *')].map(el => {
+          const nodes = [...document.querySelectorAll('body *')];
+          const offenders = nodes.map(el => {
             const r = el.getBoundingClientRect(), css = getComputedStyle(el);
             return {tag: el.tagName.toLowerCase(), id: el.id, className: typeof el.className === 'string' ? el.className.slice(0,100) : '', left: Math.round(r.left*10)/10, right: Math.round(r.right*10)/10, width: Math.round(r.width*10)/10, scrollWidth: el.scrollWidth, clientWidth: el.clientWidth, overflowX: css.overflowX, transform: css.transform};
-          }).filter(x => x.right > width + 1 || x.left < -1).sort((a,b) => b.right-a.right).slice(0,12);
-          return {viewport: width, rootScroll: root.scrollWidth, bodyScroll: body.scrollWidth, bodyClient: body.clientWidth, offenders};
+          }).filter(x => x.scrollWidth > x.clientWidth + 1 || x.right > width + 1 || x.left < -1).sort((a,b) => (b.scrollWidth-b.clientWidth)-(a.scrollWidth-a.clientWidth)).slice(0,25);
+          const pseudo = nodes.flatMap(el => ['::before','::after'].map(which => {
+            const p = getComputedStyle(el, which), r = el.getBoundingClientRect();
+            return {id:el.id,className:typeof el.className==='string'?el.className.slice(0,80):'',which,content:p.content,position:p.position,left:p.left,right:p.right,width:p.width,transform:p.transform,parentLeft:Math.round(r.left*10)/10,parentRight:Math.round(r.right*10)/10};
+          })).filter(p => p.content !== 'none' && p.content !== 'normal' && (p.position==='absolute'||p.position==='fixed'));
+          return {viewport: width, rootScroll: root.scrollWidth, bodyScroll: body.scrollWidth, bodyClient: body.clientWidth, offenders, pseudo};
         }""")
         assert home_layout['rootScroll'] <= width, f'horizontal overflow at {width}px on home: {home_layout}'
         assert page.locator('#impact-strip').is_visible()
