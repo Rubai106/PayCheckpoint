@@ -1,3 +1,13 @@
+## v1.28.0 — 4 November 2026 — Progressive pre-send wallet checkpoint
+
+- Turned the final pre-send wallet re-check into a two-step, user-controlled checklist: recipient first, then amount and any displayed fee.
+- Added live 0/2 → 2/2 progress, semantic progressbar values, screen-reader announcements and checked-state feedback. The record action remains disabled until both checks are selected.
+- Kept the core safety boundary unchanged: PayCheckpoint cannot inspect the provider app, verify wallet ownership, send or reverse transfers. The optional timeline event remains explicitly user-reported.
+- Added English/Bangla copy and a language-switch regression assertion so progress announcements stay in the selected language without clearing the user's checkboxes.
+- Added focused first-time journey assertions for progress state, button gating, CSS progress width and localized accessible labeling.
+- No provider, cloud AI, storage, network or payment-state behavior changed. No new dependencies.
+- Automated test suites have not yet been executed in this environment; the new regression assertions are committed but are not claimed as passing until run.
+
 ## 4 November 2026 — Production verification and build provenance
 
 - Recorded the owner-supplied live production report for https://paycheckpoint.pages.dev: homepage/static asset HTTP 200, security headers, Cloudflare Workers AI status, one successful real Qwen3 synthetic inference request (HTTP 200, approximately 4.6 seconds), and documented consent/error/fallback API checks. The report is explicitly attributed to the owner's coding agent, not an independent reproduction.
