@@ -32,6 +32,27 @@ function submitIntent(){
  if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('payment-intent-recorded','User recorded intended recipient and amount','ব্যবহারকারী উদ্দেশ্য করা প্রাপক ও পরিমাণ লিখেছেন','app-recorded');
  renderRecon();if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('details-compared','Payment details compared; results retain source labels','পেমেন্টের তথ্য তুলনা করা হয়েছে; ফলাফলে উৎসের পরিচয় রাখা হয়েছে','app-recorded');goApp('recon');
 }
+/* Clear a field's announced validation error as soon as the corrected value is valid. */
+function bindIntentValidationFeedback(){
+ var rules=[
+  {input:'f-intended-num',error:'e-num',valid:function(v){return !!canonPhone(v)}},
+  {input:'f-entered-num',error:'e-entered-num',valid:function(v){return !!canonPhone(v)}},
+  {input:'f-intended-amt',error:'e-amt',valid:function(v){var n=amountMinor(v);return n!=null&&n>0}},
+  {input:'f-entered-amt',error:'e-entered-amt',valid:function(v){var n=amountMinor(v);return n!=null&&n>0}}
+ ];
+ rules.forEach(function(rule){
+  var input=document.getElementById(rule.input);
+  if(!input||input.dataset.validationFeedbackBound==='true')return;
+  input.dataset.validationFeedbackBound='true';
+  input.addEventListener('input',function(){
+   if(!rule.valid(input.value.trim()))return;
+   input.removeAttribute('aria-invalid');
+   var message=document.getElementById(rule.error);
+   if(message&&message.querySelector('[role="alert"]'))message.innerHTML='';
+  });
+ });
+}
+bindIntentValidationFeedback();
 function instrNum(){return S.instrNum||''}
 /* Candidate extraction: never blindly takes the first value. All plausible numbers/amounts are collected; when more than one exists the user must confirm which are the payment details. */
 function parseInstruction(msg){
