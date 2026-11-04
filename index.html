@@ -340,6 +340,38 @@ Other: Send your OTP to verify."></textarea>
 <!-- INCIDENT -->
 <section class="panel hidden" data-screen="incident">
 <h2 data-i18n="incidentH">Incident evidence &amp; complaint summary</h2><p class="hint" data-i18n="incidentHint">Masked by default. This report is not submitted anywhere — copy or download it and submit it yourself through official channels.</p>
+<section class="incident-workflow-hub" id="incident-workflow-hub" aria-labelledby="incident-workflow-title">
+  <div class="incident-workflow-header">
+    <div class="incident-workflow-heading">
+      <p class="eyebrow" id="incident-workflow-kicker">YOUR CASE WORKSPACE</p>
+      <h3 id="incident-workflow-title">One case, four connected steps</h3>
+      <p class="hint" id="incident-workflow-intro">Move from understanding the situation to reviewing evidence, preparing support contact and keeping the next action visible.</p>
+    </div>
+    <div class="incident-workflow-next" aria-live="polite">
+      <span id="incident-workflow-next-kicker">SUGGESTED NEXT STEP</span>
+      <strong id="incident-workflow-next-title">Choose what happened</strong>
+      <button class="btn btn-p" id="incident-workflow-continue" type="button" onclick="incidentWorkflowContinue()">Continue</button>
+    </div>
+  </div>
+  <div class="incident-workflow-grid" aria-label="Case workspace sections">
+    <button class="incident-workflow-card" id="incident-workflow-card-path" type="button" onclick="incidentWorkflowJump('recovery-nav-scenario')" aria-label="Open Recovery Navigator">
+      <span class="incident-workflow-number">01</span><span class="incident-workflow-card-copy"><strong id="incident-workflow-path-title">Recovery path</strong><small id="incident-workflow-path-status">Choose your situation</small></span><span class="incident-workflow-arrow" aria-hidden="true">↗</span>
+    </button>
+    <button class="incident-workflow-card" id="incident-workflow-card-evidence" type="button" onclick="incidentWorkflowJump('evidence-map-title')" aria-label="Open Evidence Map">
+      <span class="incident-workflow-number">02</span><span class="incident-workflow-card-copy"><strong id="incident-workflow-evidence-title">Evidence Map</strong><small id="incident-workflow-evidence-status">No reviewed source yet</small></span><span class="incident-workflow-arrow" aria-hidden="true">↗</span>
+    </button>
+    <button class="incident-workflow-card" id="incident-workflow-card-contact" type="button" onclick="incidentWorkflowJump('incident-dossier-title')" aria-label="Open Payment Incident Dossier">
+      <span class="incident-workflow-number">03</span><span class="incident-workflow-card-copy"><strong id="incident-workflow-contact-title">Contact preparation</strong><small id="incident-workflow-contact-status">0 of 6 information items</small></span><span class="incident-workflow-arrow" aria-hidden="true">↗</span>
+    </button>
+    <button class="incident-workflow-card" id="incident-workflow-card-history" type="button" onclick="incidentWorkflowJump('timeline-title')" aria-label="Open case timeline">
+      <span class="incident-workflow-number">04</span><span class="incident-workflow-card-copy"><strong id="incident-workflow-history-title">Case timeline</strong><small id="incident-workflow-history-status">No events recorded</small></span><span class="incident-workflow-arrow" aria-hidden="true">↗</span>
+    </button>
+  </div>
+  <div class="incident-workflow-footer">
+    <p id="incident-workflow-disclosure">Progress reflects only information entered or actions marked in this page. It does not verify provider records or user-reported actions.</p>
+    <button type="button" class="btn btn-o btn-sm" id="incident-workflow-export" onclick="openShareBrief()">Preview share-safe brief</button>
+  </div>
+</section>
 <div id="incident-body"></div>
 <section class="evidence-map-panel" aria-labelledby="evidence-map-title">
   <div class="evidence-map-heading">
