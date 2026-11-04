@@ -11,7 +11,7 @@
 - [x] Cloudflare Workers AI binding named `AI` is configured in the Pages Production environment.
 - [x] Owner-supplied report records one real synthetic live inference request with HTTP 200; see `submission/PRODUCTION_VERIFICATION_2026-11-04.md`.
 - [ ] Verify the deployed `/build-info.json` against the current GitHub `main` head at the time of inspection. It must report v1.29.0, branch `main`, and the same current commit SHA shown by GitHub. The Pages build now emits this manifest; the live response has not yet been independently confirmed.
-- [ ] Download the exact official sticker from the organizer's shared folder https://drive.google.com/drive/folders/1ILpnmXpegv75cNM-ACVJjh4OVmac0BIs?usp=sharing and visibly replace the navbar placeholder. Do not recreate or approximate it.
+- [x] Exact organizer-provided sticker supplied in the project conversation, optimized to `assets/aignite-buildathon-sticker.webp`, committed to `main`, and rendered in the navbar. Do not recreate or approximate the organizer artwork.
 - [ ] Submit the live URL and a deck of no more than five slides through Devpost only.
 
 ## Deadline discrepancy
@@ -20,10 +20,10 @@ The organizer's 4 November email says the submission deadline is 5 November 2026
 
 ## Current project status
 
-- The current GitHub `main` source is v1.29.0 (4 November 2026), including the interactive recipient/amount evidence trail. Recheck the exact SHA from GitHub `main` immediately before comparing it with production.
+- The current GitHub `main` source is v1.29.0 (4 November 2026), head `40b275680230f2b79d5e7a4136e19050b102dd33`. It includes the three-layer interactive payment evidence stack, live pre-send comparison, strict amount-format validation, and the original buildathon sticker in the navbar. Recheck the exact SHA from GitHub `main` immediately before comparing it with production.
 - The owner-supplied live report records homepage/static assets HTTP 200, expected security headers, AI status configuration and one successful Qwen3 synthetic inference request.
 - The owner-supplied production report identifies the deployed code as v1.27.1. Do not assume the live site has the current v1.29.0 source until `/build-info.json` is read and its commit matches the then-current `main` SHA.
-- GitHub Actions run [#18](https://github.com/Rubai106/PayCheckpoint/actions/runs/41838097128) for commit `1201182` passed: `npm run qa:release` (9/9), first-time journey, keyboard/focus accessibility, and responsive screen regression. This is automated regression evidence, not a substitute for real-device/manual usability review.
+- The last completed successful Actions run before v1.29.0 was [#41848007949](https://github.com/Rubai106/PayCheckpoint/actions/runs/41848007949) on commit `44cfd151e79022a5b9c51ab0e2f30a17ccd2daa7`. The v1.29.0 validation run for current `main` (`40b27568`) is queued and has not passed yet. Automated regression evidence is not a substitute for real-device/manual usability review.
 - Native Tesseract CLI PSM 6 pilot: 24 synthetic fixtures; both expected fields present in 23/24. This is not real-wallet/browser OCR accuracy.
 - Held-out conversation/OCR evaluation and human usability sessions remain NOT RUN.
 
