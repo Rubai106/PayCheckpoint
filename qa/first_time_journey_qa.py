@@ -58,7 +58,7 @@ with sync_playwright() as p:
     assert 'fictional confirmation messages only' in start_note
     assert 'do not paste real sms' in start_note
     assert 'never' not in start_note or 'otp' in start_note
-    assert page.get_by_text('I received a suspicious message', exact=True).is_visible()
+    assert 'suspicious message' in page.locator('[data-screen="start"] .journey-choice').nth(2).inner_text().lower()
     assert page.locator('[data-screen="start"] #scam-coach-panel').count() == 0
     assert page.locator('[data-screen="start"] #sequence-intelligence-panel').count() == 0
 
