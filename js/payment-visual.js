@@ -160,6 +160,9 @@
     setText(byId('live-source-visual-summary'),summary);
   }
 
+  /* Public refresh hook for programmatic case resets/corrections that do not emit input events. */
+  root.refreshPayCheckpointComparison=updateLiveComparison;
+
   function init(){
     doc.querySelectorAll('[data-demo-scenario]').forEach(function(button){
       button.addEventListener('click',function(){setDemoScenario(button.dataset.demoScenario)});
