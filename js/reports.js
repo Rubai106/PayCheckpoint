@@ -66,7 +66,7 @@ function renderIncidentWorkflowHub() {
   }
   PC_INCIDENT_WORKFLOW_NEXT = next;
   function setText(id, value) { var el = document.getElementById(id); if (el) el.textContent = value; }
-  function setReady(id, ready) { var el = document.getElementById(id); if (el) el.classList.toggle('is-ready', !!ready); }
+  function setReady(id, ready) { var el = document.getElementById(id); if (el) { el.classList.toggle('is-ready', !!ready); el.setAttribute('data-status', ready ? 'ready' : 'incomplete'); } }
   setText('incident-workflow-kicker', bn ? 'আপনার কেস ওয়ার্কস্পেস' : 'YOUR CASE WORKSPACE');
   setText('incident-workflow-title', bn ? 'একটি কেস, চারটি সংযুক্ত ধাপ' : 'One case, four connected steps');
   setText('incident-workflow-intro', bn ? 'ঘটনা বুঝুন, প্রমাণের উৎস দেখুন, সহায়তার জন্য প্রস্তুতি নিন এবং পরবর্তী পদক্ষেপ এক জায়গায় রাখুন।' : 'Understand the situation, review evidence sources, prepare for support contact and keep the next action visible.');
@@ -89,8 +89,6 @@ function renderIncidentWorkflowHub() {
   setReady('incident-workflow-card-evidence', reviewedReceipt || reviewedScreenshot);
   setReady('incident-workflow-card-contact', available > 0 || calls > 0);
   setReady('incident-workflow-card-history', events > 1 || activePlans > 0);
-  var cards = hub.querySelectorAll('.incident-workflow-card');
-  for (var i = 0; i < cards.length; i++) cards[i].setAttribute('aria-pressed', cards[i].classList.contains('is-ready') ? 'true' : 'false');
   var continueButton = document.getElementById('incident-workflow-continue');
   if (continueButton) continueButton.setAttribute('aria-label', (bn ? 'প্রস্তাবিত পরবর্তী ধাপে যান: ' : 'Continue to suggested next step: ') + next.title);
   var exportButton = document.getElementById('incident-workflow-export');
