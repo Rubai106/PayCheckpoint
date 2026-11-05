@@ -39,7 +39,8 @@
     "qa:first-time": "python qa/first_time_journey_qa.py",
     "qa:served-origin": "python qa/served_origin_qa.py",
     "qa:responsive": "python qa/responsive_app_screens_qa.py",
-    "qa:live-copilot": "node scripts/verify-live-copilot.mjs"
+    "qa:live-copilot": "node scripts/verify-live-copilot.mjs",
+    "qa:ai-safety": "node scripts/run-ai-response-safety.mjs"
   },
   "engines": {
     "node": ">=20"

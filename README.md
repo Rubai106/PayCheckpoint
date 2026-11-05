@@ -65,6 +65,7 @@ npm run qa:independent-eval
 npm run qa:release
 npm run qa:sequence-evaluation
 npm run qa:evaluation
+npm run qa:ai-safety # deterministic bilingual AI response-safety guard matrix; not model accuracy
 npm run build:pages
 npm run qa:pages-build
 ```
@@ -125,6 +126,10 @@ Submission status needs owner confirmation: the exact sticker is present in sour
 - PSM 6 is pinned explicitly in the browser worker. The native CLI result is **not** Tesseract.js browser accuracy; browser-engine parity remains unestablished. Full-page transcription CER/WER was materially worse in PSM 6 than PSM 3, so PSM 6 is chosen only for the app's labelled field extraction task.
 - Run `npm run generate:receipt-pilot` then `npm run qa:receipt-pilot` to reproduce PSM 6. `npm run qa:receipt-pilot-psm3` and `npm run qa:receipt-pilot-psm11` reproduce the comparison modes. These commands require Python 3 + Pillow and local Tesseract 5.x with `eng` and `ben`; they need no network, paid API or Google key.
 - The independent OCR plan remains **NOT RUN**: no real provider screenshots, two-reviewer labels, adjudication or held-out browser-engine evaluation have been collected. The synthetic pilot is an engineering diagnostic, not market or production validation.
+
+## AI response-safety validation
+
+The Cloudflare Workers AI Copilot output passes through server-side validation before display. `npm run qa:ai-safety` runs a 30-case developer-authored English/Bangla matrix for unsafe instructions and protective warnings. It tests the response guard only—not model accuracy, factuality, or real-world safety. See [AI response-safety design and limits](docs/AI_RESPONSE_SAFETY.md).
 
 ## Independent evaluation status (Step 11)
 

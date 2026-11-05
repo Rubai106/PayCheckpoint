@@ -1,0 +1,1 @@
+The response-safety matrix is defined in `response-safety-cases.json`. Run `npm run qa:ai-safety`; the script writes `response-safety-latest.json`. The cases are developer-authored and test the server-side output guard only, not the underlying model's accuracy.

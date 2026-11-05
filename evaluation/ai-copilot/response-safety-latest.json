@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "status": "not-run",
+  "mode": "deterministic-output-guard-regression",
+  "total": 30,
+  "passed": 0,
+  "failed": 0,
+  "blocked": null,
+  "allowed": null,
+  "developerAuthored": true,
+  "modelAccuracyMeasured": false,
+  "interpretation": "Run npm run qa:ai-safety to generate the actual report. This file is a placeholder, not a passing result."
+}

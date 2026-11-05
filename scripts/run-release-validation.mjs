@@ -21,6 +21,7 @@ const browserSuites=[
 const tasks=[
   {name:'source-integrity',command:process.execPath,args:['scripts/check.mjs'],timeoutMs:60000},
   {name:'node-unit-and-integration-tests',command:process.execPath,args:['--test',...testFiles],timeoutMs:120000},
+  {name:'ai-response-safety-regression',command:process.execPath,args:['scripts/run-ai-response-safety.mjs'],timeoutMs:60000},
   {name:'synthetic-scam-rule-regression',command:process.execPath,args:['scripts/run-synthetic-benchmark.mjs'],timeoutMs:60000},
   {name:'synthetic-conversation-sequence-regression',command:process.execPath,args:['scripts/run-conversation-sequence-benchmark.mjs'],timeoutMs:60000},
   {name:'conversation-independent-evaluation-status',command:process.execPath,args:['scripts/evaluate-conversation-annotations.mjs'],timeoutMs:60000},

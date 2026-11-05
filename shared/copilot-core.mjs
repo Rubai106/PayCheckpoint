@@ -103,15 +103,18 @@ const UNSAFE_OUTPUT_PATTERNS = [
   /(?:লেনদেন|ট্রান্সফার|পেমেন্ট).{0,24}(?:বাতিল|ফেরত|উল্টে দেওয়া).{0,24}(?:হয়েছে|হবে|নিশ্চিত)/i
 ];
 const UNSAFE_ACTION_PATTERNS = [
-  /\b(?:send|share|provide|tell|read\s+out|enter|submit)\s+(?:your\s+)?(?:pin|otp|one[- ]time password|password|passcode|verification code)\b/i,
-  /(?:পিন|ওটিপি|পাসওয়ার্ড|পাসকোড|যাচাইকরণ কোড).{0,36}(?:দিন|পাঠান|শেয়ার করুন|বলুন|জানান|দেবেন)/u,
+  /\b(?:send|share|provide|tell|read\s+out|enter|submit)\s+(?:(?:me|us|them|the\s+agent|the\s+support\s+agent|support|the\s+provider)\s+)?(?:(?:the|your)\s+)?(?:pin|otp|one[- ]time password|password|passcode|verification code)\b/i,
+  /(?:পিন|ওটিপি|পাসওয়ার্ড|পাসকোড|যাচাইকরণ কোড).{0,36}(?:দিন|পাঠান|পাঠিয়ে দিন|শেয়ার করুন|বলুন|জানান|জানিয়ে দিন|বলে দিন|দেবেন)/u,
   /\b(?:install|download|enable|open|grant|allow)\s+(?:the\s+)?(?:anydesk|teamviewer|rustdesk|remote access|screen sharing|remote desktop)\b/i,
   /(?:anydesk|teamviewer|rustdesk|রিমোট অ্যাক্সেস|স্ক্রিন শেয়ারিং).{0,40}(?:ইনস্টল|ডাউনলোড|চালু|অনুমতি দিন)/iu,
   /\b(?:pay|send|transfer|deposit)\s+(?:(?:a|an|the)\s+)?(?:recovery|release|verification|unlocking|processing)\s+fee\b/i,
   /(?:রিকভারি|রিফান্ড|আনলক|যাচাই|প্রসেসিং).{0,20}(?:ফি|চার্জ).{0,12}(?:দিন|পাঠান|জমা দিন|দেবেন)/iu,
   /\b(?:payment|transfer|transaction)\s+(?:is|was|has been)\s+(?:completed|successful|received|settled)\b/i,
   /(?:লেনদেন|ট্রানজ্যাকশন|পেমেন্ট|টাকা পাঠানো).{0,15}(?:সম্পন্ন|সফল|পেয়েছে|জমা হয়েছে)/u,
-  /\b(?:this|the|it)\s+(?:message|payment|request)\s+(?:is|looks|seems)\s+(?:safe|legitimate|genuine)\b/i
+  /\b(?:this|the)\s+(?:message|payment|request)\s+(?:is|looks|seems)\s+(?:safe|legitimate|genuine)\b/i,
+  /\b(?:it|this)\s+(?:is|looks|seems)\s+(?:safe|legitimate|genuine)\b/i,
+  /\b(?:safe|legitimate|genuine)\s+(?:to|and)\s+(?:pay|send|trust|proceed)\b/i,
+  /(?:পেমেন্ট|লেনদেন|বার্তা|অনুরোধ).{0,24}(?:নিরাপদ|বৈধ|আসল|বিশ্বস্ত)/u
 ];
 
 function isNegatedSafetyWarning(sentence, match) {
@@ -125,8 +128,16 @@ function isNegatedSafetyWarning(sentence, match) {
 }
 
 function hasUnsafeActionInstruction(text) {
-  const sentences = String(text).split(/(?<=[.!?।;])\s+|\n+/u);
+  const sentences = String(text).split(/(?<=[.!?।;,])\s+|\n+/u);
   return sentences.some(sentence => UNSAFE_ACTION_PATTERNS.some(pattern => {
+    const match = pattern.exec(sentence);
+    return !!match && !isNegatedSafetyWarning(sentence, match);
+  }));
+}
+
+function hasUnsafeModelClaim(text) {
+  const sentences = String(text).split(/(?<=[.!?।;,])\s+|\n+/u);
+  return sentences.some(sentence => UNSAFE_OUTPUT_PATTERNS.some(pattern => {
     const match = pattern.exec(sentence);
     return !!match && !isNegatedSafetyWarning(sentence, match);
   }));
@@ -140,7 +151,7 @@ function assertSafeModelText(value) {
     else if (v && typeof v === 'object') Object.values(v).forEach(visit);
   };
   visit(value);
-  if (all.some(text => UNSAFE_OUTPUT_PATTERNS.some(pattern => pattern.test(text)) || hasUnsafeActionInstruction(text))) {
+  if (all.some(text => hasUnsafeModelClaim(text) || hasUnsafeActionInstruction(text))) {
     throw new Error('Model output included an unsupported safety or outcome claim');
   }
 }
