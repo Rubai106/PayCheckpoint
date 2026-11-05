@@ -25,6 +25,13 @@ with sync_playwright() as p:
     errors = []
     page.on('pageerror', lambda exc: errors.append(str(exc)))
     page.set_content(html, wait_until='load', timeout=30000)
+    # The first-render English homepage must match the product's actual consumer workflow.
+    initial_how = page.locator('[data-i18n="howSub"]').inner_text().lower()
+    assert 'alongside your wallet' in initial_how
+    assert 'before you confirm' in initial_how and 'if a payment goes wrong' in initial_how
+    assert 'undo (simulation)' not in initial_how
+    initial_prevent = page.locator('[data-i18n="preventText"]').inner_text().lower()
+    assert 'compare them' in initial_prevent and 'cannot see or change that app' in initial_prevent
     page.evaluate('setLang(false)')
     # Trust copy must explain the consumer job without implying PayCheckpoint controls a wallet.
     how_title = page.locator('[data-i18n="howH"]').inner_text()
