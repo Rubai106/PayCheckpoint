@@ -29,6 +29,7 @@ var PC_SEQUENCE_COPY = {
     reset: 'Clear the transcript before reviewing another incident.',
     roles: { other: 'Other party', self: 'You', unknown: 'Speaker not labelled' },
     noSignal: 'No configured warning pattern matched',
+    patternsCheckedNone: 'Checked {count} configured progressions; none matched.',
     msg: 'Message',
     labelRequired: 'Use “Other:” to identify messages from the person you are reviewing. Messages without a role label are not linked into an escalation sequence.',
     patternsMap: {
@@ -72,6 +73,7 @@ var PC_SEQUENCE_COPY = {
     reset: 'নতুন ঘটনা পর্যালোচনার আগে কথোপকথন মুছে ফেলুন।',
     roles: { other: 'অপর পক্ষ', self: 'আপনি', unknown: 'বক্তা চিহ্নিত নয়' },
     noSignal: 'নির্ধারিত সতর্কতার ধারা মেলেনি',
+    patternsCheckedNone: 'নির্ধারিত {count}টি ধারাবাহিকতা পরীক্ষা করা হয়েছে; কোনোটিই মেলেনি।',
     msg: 'বার্তা',
     labelRequired: 'যে ব্যক্তির বার্তা পর্যালোচনা করছেন, তার জন্য “Other:” ব্যবহার করুন। ভূমিকা না-জানা বার্তাগুলো ক্রমিক ধারায় যুক্ত হয় না।',
     patternsMap: {
@@ -261,13 +263,15 @@ function renderConversationSequenceResult(result) {
   if (result.patterns.length) {
     html += '<h5>' + pcSequenceEscape(copy.patternsHeading) + '</h5><ol class="sequence-pattern-list">' + result.patterns.map(function(p){return '<li><strong>' + pcSequenceEscape(copy.patternsMap[p.id] || p.id) + '</strong><span>' + pcSequenceEscape(copy.msg + ' ' + p.from + ' → ' + copy.msg + ' ' + p.to) + '</span></li>';}).join('') + '</ol>';
   } else {
+    var patternTotal = Object.keys(copy.patternsMap || {}).length;
     html += '<p class="hint">' + pcSequenceEscape(result.band === 'no-pattern' ? copy.noPatterns : copy.single) + '</p>';
+    html += '<p class="hint">' + pcSequenceEscape(copy.patternsCheckedNone.replace('{count}', String(patternTotal))) + '</p>';
   }
   if (result.unknownSpeakerCount) html += '<p class="warn">' + pcSequenceEscape(copy.unknown) + '</p>';
   if (result.timestampOrderWarning) html += '<p class="warn">' + pcSequenceEscape(copy.orderWarning) + '</p>';
   html += '<h5>' + pcSequenceEscape(copy.stage) + '</h5><ol class="sequence-message-list">' + result.messages.map(function(m){
     var role = copy.roles[m.role] || copy.roles.unknown;
-    var signalText = m.signalIds.length ? m.signalIds.map(function(id){return pcSequenceSignalLabel(id, copy);}).join(' · ') : copy.noSignal;
+    var signalText = m.signalIds.length ? m.signalIds.map(function(id){return pcSequenceSignalLabel(id, copy);}).join(' · ') : '';
     var tags = m.stages.length ? m.stages.map(function(id){return pcSequenceStageLabel(id, copy);}).join(' · ') : '';
     return '<li><div class="sequence-message-meta"><strong>' + pcSequenceEscape(copy.msg + ' ' + m.index) + '</strong><span>' + pcSequenceEscape(role) + (m.timestamp ? ' · ' + pcSequenceEscape(m.timestamp) : '') + '</span></div><p>' + pcSequenceEscape(m.excerpt) + '</p><small>' + pcSequenceEscape(signalText) + (tags ? ' — ' + pcSequenceEscape(tags) : '') + '</small></li>';
   }).join('') + '</ol>';

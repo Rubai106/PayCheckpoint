@@ -1,5 +1,20 @@
 /* ---------- SMS parsing (local, no network) ---------- */
 function fillSampleSMS(missing){document.getElementById('f-sms').value=missing?'You have sent Tk 3,000.00 to 01712345687. Balance Tk 1,240.50. Date: 28/10/2026 10:42 AM.':'bKash: You have sent Tk 3,000.00 to 01712345687. TrxID 9HX2K7DEMO. Balance Tk 1,240.50. Date: 28/10/2026 10:42 AM.';parseSMS()}
+/* SMS datetime formats seen in MFS confirmations: DD/MM/YYYY (with or without
+   a time), and month-name variants such as "05 Nov 2026", "Nov 05, 2026" and
+   "05-Nov-2026", each optionally followed by "at HH:MM AM/PM". The extracted
+   string is shown for review and can be edited; it is never treated as an
+   authenticated timestamp. */
+function parseSmsDatetime(txt){
+ var month='(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)';
+ var time='(?:\\s+at\\s+\\d{1,2}:\\d{2}\\s*(?:AM|PM))?';
+ var m=txt.match(new RegExp('\\d{1,2}\\/\\d{1,2}\\/\\d{4}[^.\\n]*?(?:AM|PM)','i'))
+  ||txt.match(new RegExp('\\d{1,2}\\s+'+month+'\\s+\\d{4}'+time,'i'))
+  ||txt.match(new RegExp(month+'\\s+\\d{1,2},?\\s+\\d{4}'+time,'i'))
+  ||txt.match(new RegExp('\\d{1,2}-'+month+'-\\d{4}'+time,'i'))
+  ||txt.match(/\d{1,2}\/\d{1,2}\/\d{4}/);
+ return m?m[0].trim():'';
+}
 function parseSMS(){
  var myReq=++S.parseReqId;S.parseStatus='parsing';
  /* Starting a new extraction invalidates any older receipt review; stale details cannot survive a new request. */
@@ -11,7 +26,7 @@ function parseSMS(){
   if(myReq!==S.parseReqId)return;S.parseStatus='done';S.parsedSMS=(raw||'').trim();
   var token='(?:\\d{1,3}(?:,\\d{3})+|\\d+)(?:\\.\\d{1,2})?',amtM=txt.match(new RegExp('\\b(?:sent|transferred|paid|payment\\s+of)\\s+(?:(?:Tk\\.?|BDT|৳)\\s*)?('+token+')(?!\\d)(?=\\s*(?:to\\b|for\\b|taka\\b|Tk\\.?\\b|BDT\\b|৳|[.,;\\n]|$))','i'))||txt.match(new RegExp('(?:Tk\\.?|BDT|৳)\\s*('+token+')(?!\\d)(?=\\s*(?:to\\b|sent\\b|transferred\\b|for\\b|[.,;\\n]|$))','i'))||txt.match(new RegExp('\\bamount\\s*[:=]\\s*('+token+')(?!\\d)','i'));
   if(amtM&&/\b(?:available\s+)?balance\b(?:(?![.;\n]).){0,32}$/i.test(txt.slice(Math.max(0,amtM.index-44),amtM.index)))amtM=null;
-  var amt=amtM?amtM[1]:null,rec=(txt.match(/(?:\+?880[\s-]*|0)1[3-9](?:[\s-]?\d){8}(?![\s-]?\d)/g)||[]).map(function(x){return canonPhone(x)}).filter(function(x){return!!x})[0]||'',trx=(txt.match(/TrxID[:\s]*([A-Z0-9]+)/i)||[])[1],dt=(txt.match(/\d{1,2}\/\d{1,2}\/\d{4}[^.\n]*?(AM|PM)/i)||[])[0];
+  var amt=amtM?amtM[1]:null,rec=(txt.match(/(?:\+?880[\s-]*|0)1[3-9](?:[\s-]?\d){8}(?![\s-]?\d)/g)||[]).map(function(x){return canonPhone(x)}).filter(function(x){return!!x})[0]||'',trx=(txt.match(/TrxID[:\s]*([A-Z0-9]+)/i)||[])[1],dt=parseSmsDatetime(txt);
   var providerFound=/bkash/i.test(txt)?'bKash':/nagad/i.test(txt)?'Nagad':/rocket|dbbl/i.test(txt)?'Rocket':'';
   var prov=providerFound||'Unknown — confirm manually';
   S.parsedRaw={provider:providerFound,amount:amt?amt.replace(/,/g,''):'',recipient:rec||'',trxid:trx||'',datetime:dt||''};
