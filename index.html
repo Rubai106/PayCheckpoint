@@ -30,7 +30,7 @@
 <div class="wrap">
 <section class="hero">
 <div class="hero-copy">
-<div class="pill"><span class="status-dot" aria-hidden="true"></span><span data-i18n="pill">Payment safety · Bangladesh · No account needed</span></div>
+<div class="pill"><span class="status-dot" aria-hidden="true"></span><span data-i18n="pill">● Payment safety · Bangladesh · No account needed</span></div>
 <h1><span class="hero-title-en" data-i18n="heroTitleEn">Check before you send.</span><span class="hero-title-bn bn" data-i18n="heroTitleBn">টাকা পাঠানোর আগে যাচাই করুন।</span></h1>
 <p class="lead" data-i18n="lead">Compare the number and amount you intend to send with the details you enter. If money has already left, organize the evidence and choose a sensible next step.</p>
 <div class="cta-row hero-actions">
@@ -119,7 +119,7 @@
 
 <section class="section" id="can"><h2 data-i18n="canH">What PayCheckpoint can — and cannot — do</h2>
 <div class="grid2">
-<div class="stepbox"><h3 style="color:var(--teal)" data-i18n="canTitle">✓ It can</h3><ul class="checklist"><li data-i18n="can1">✓ Compare intended, instructed and receipt numbers &amp; amounts digit-by-digit</li><li data-i18n="can2">✓ Parse a pasted SMS into editable fields — missing fields stay missing</li><li data-i18n="can3">✓ Build a private offline action plan and optionally request a redacted AI plan</li><li data-i18n="can4">✓ Organise evidence, timeline and a factual complaint draft you copy yourself</li><li data-i18n="can5">✓ Review labelled multi-message conversations for ordered warning patterns locally — not a fraud verdict</li></ul></div>
+<div class="stepbox"><h3 style="color:var(--teal)" data-i18n="canTitle">✓ It can</h3><ul class="checklist"><li data-i18n="can1">✓ Compare intended, instructed and receipt numbers &amp; amounts digit-by-digit</li><li data-i18n="can2">✓ Parse a pasted SMS into editable fields — missing fields stay missing</li><li data-i18n="can3">✓ Build a private offline action plan or request an optional AI plan with consent</li><li data-i18n="can4">✓ Organise evidence, timeline and a factual complaint draft you copy yourself</li><li data-i18n="can5">✓ Review labelled multi-message conversations for ordered warning patterns locally — not a fraud verdict</li></ul></div>
 <div class="stepbox"><h3 style="color:var(--red)" data-i18n="cannotTitle">✕ It cannot</h3><ul class="checklist"><li data-i18n="cannot1">✕ Intercept, cancel, reverse or freeze a real MFS transfer or wallet</li><li data-i18n="cannot2">✕ Verify who owns a number without authorised provider data</li><li data-i18n="cannot3">✕ Guarantee a refund or submit a complaint on your behalf</li><li data-i18n="cannot4">✕ Act without provider cooperation &amp; regulatory approval — none is claimed</li></ul></div>
 </div></section>
 
@@ -131,7 +131,7 @@
 <details><summary data-i18n="faqRefundQ">Will I get my money back?</summary><p data-i18n="faqRefundA">PayCheckpoint cannot return money or guarantee recovery. Contact your provider through its official channel promptly and follow its current process. Outcomes depend on the provider and the circumstances. Never pay a recovery fee or share a PIN or OTP.</p></details>
 <details><summary data-i18n="faqIntegrationQ">Are you integrated with bKash, Nagad or Rocket?</summary><p data-i18n="faqIntegrationA">No integration is claimed. The Recovery Assistant links to official provider and regulator contact pages checked on 28 October 2026. Contact details may change, so verify them at the source before acting. PayCheckpoint does not place calls or submit complaints.</p></details>
 <details><summary data-i18n="faqStoredQ">Is my transaction data stored?</summary><p data-i18n="faqStoredA">Case details stay in this page’s memory by default and are not saved to a PayCheckpoint account. On a hosted build, the optional Copilot can send a best-effort-redacted summary and broad categories to Cloudflare Workers AI only after your consent. Redaction is not guaranteed anonymization. Do not include identifying details or secrets. Clear page data in Privacy &amp; Settings.</p></details>
-<details><summary data-i18n="faqVerifyQ">Why does it say “recipient not verified”?</summary><p data-i18n="faqVerifyA">Because it isn't. Without authorised provider data, showing a name as “verified” would be misleading. The comparison uses numbers and amounts only.</p></details>
+<details><summary data-i18n="faqVerifyQ">Why does it say “recipient not verified”?</summary><p data-i18n="faqVerifyA">Because it isn’t. Without authorised provider data, showing a name as “verified” would be misleading. The comparison uses numbers and amounts only.</p></details>
 </section>
 </div>
 <footer><div class="wrap"><div class="footer-top"><div class="logo"><span class="logo-mark" aria-hidden="true">P</span> PayCheckpoint</div><nav class="footer-links" aria-label="Footer links"><a href="#privacy" data-i18n="navPriv">Safety &amp; Privacy</a><a href="#faq" data-i18n="footerFaq">FAQs</a><button type="button" class="footer-link" onclick="goApp('settings')" data-i18n="privacySettings">Privacy &amp; Settings →</button></nav></div><p data-i18n="footerCopy">Prototype only. Uses sample data. No real payment is sent, held or reversed.</p></div></footer>
@@ -151,19 +151,19 @@
 <h2 id="t-start">Where are you right now?</h2><p class="hint" data-i18n="startSub">No account. No PIN. No OTP — ever. Pick the path that matches your situation.</p>
 <div class="grid3 journey-choices">
 <button class="journey-choice" onclick="startJourney('prevention','intent')">
-<span class="choice-kicker" data-i18n="journeyPreventKicker">Before you pay</span><span class="choice-title" data-i18n="startCheckButton">Check before sending</span><span class="choice-copy" data-i18n="startCheckSub">Review details before you confirm</span><span class="choice-arrow" aria-hidden="true">↗</span>
+<span class="choice-kicker" data-i18n="journeyPreventKicker">Before you pay</span><span class="choice-title" data-i18n="startCheckButton">Check Before Sending</span><span class="choice-copy" data-i18n="startCheckSub">Review details before you confirm</span><span class="choice-arrow" aria-hidden="true">↗</span>
 </button>
 <button class="journey-choice" onclick="startJourney('recovery','recovery')">
-<span class="choice-kicker" data-i18n="journeyRecoverKicker">After a transfer</span><span class="choice-title" data-i18n="startRecoveryButton">I already sent the money</span><span class="choice-copy" data-i18n="startRecoverySub">Try the evidence workflow with a fictional receipt</span><span class="choice-arrow" aria-hidden="true">↗</span>
+<span class="choice-kicker" data-i18n="journeyRecoverKicker">After a transfer</span><span class="choice-title" data-i18n="startRecoveryButton">I Already Sent the Money</span><span class="choice-copy" data-i18n="startRecoverySub">Try the evidence workflow with a fictional receipt</span><span class="choice-arrow" aria-hidden="true">↗</span>
 </button>
 <button class="journey-choice" onclick="startJourney('prevention','message-review')">
-<span class="choice-kicker" data-i18n="journeyMessageKicker">Before you respond</span><span class="choice-title" data-i18n="startMessageButton">I received a suspicious message</span><span class="choice-copy" data-i18n="startMessageSub">Review a message or a conversation</span><span class="choice-arrow" aria-hidden="true">↗</span>
+<span class="choice-kicker" data-i18n="journeyMessageKicker">Before you respond</span><span class="choice-title" data-i18n="startMessageButton">Suspicious Message</span><span class="choice-copy" data-i18n="startMessageSub">Review a message or a conversation</span><span class="choice-arrow" aria-hidden="true">↗</span>
 </button>
 </div>
-<div class="cta-row"><button class="btn btn-ghost" onclick="startNewCase();goApp('start')" data-i18n="newCase">Start a new case (clears this case)</button><button class="btn btn-o" id="btn-resume-tx" style="display:none" hidden onclick="returnToPending()" data-i18n="resumeTx">Return to simulated transaction</button></div>
+<div class="cta-row"><button class="btn btn-o" id="btn-new-case" onclick="startNewCase();goApp('start')" data-i18n="newCase">Start a new case (clears this case)</button><button class="btn btn-o" id="btn-resume-tx" style="display:none" hidden onclick="returnToPending()" data-i18n="resumeTx">Return to simulated transaction</button></div>
 <div class="warn"><strong data-i18n="tipNeedStrong">Before you begin:</strong> <span data-i18n="tipNeed">Choose the path that matches your situation. Recovery examples use fictional confirmation messages only. Do not paste real SMS, names, phone or account numbers, payment references, PINs, OTPs, passwords or wallet login details.</span></div>
 <details class="scenario-disclosure">
-<summary data-i18n="guidedScenario">Explore guided examples</summary>
+<summary data-i18n="guidedScenario">Try a guided scenario</summary>
 <p class="hint" data-i18n="scenarioIntro">All examples use fictional information. B and C are hypothetical undo demonstrations only; PayCheckpoint cannot cancel a real wallet payment.</p>
 <div class="scen">
 <button onclick="loadScenario('A')"><b data-i18n="scenarioA">A · Prevention</b><span data-i18n="scenarioAD">Mismatch flagged &amp; corrected</span></button>
@@ -188,7 +188,7 @@
   <textarea id="scam-message" maxlength="6000" rows="5" data-i18n-placeholder="scamMessagePlaceholder" placeholder="Paste the message here; do not include secrets."></textarea>
   <div class="coach-examples-group">
   <span class="coach-examples-label" id="scam-examples-label" data-i18n="scamExamplesLabel">Try an example:</span>
-  <div class="cta-row coach-examples" role="group" aria-labelledby="scam-examples-label"><button class="btn btn-o" type="button" onclick="loadScamExample('fee')" data-i18n="scamExampleFee">Example: recovery fee</button><button class="btn btn-o" type="button" onclick="loadScamExample('pin')" data-i18n="scamExamplePin">Example: OTP request</button><button class="btn btn-o" type="button" onclick="loadScamExample('benign')" data-i18n="scamExampleBenign">Example: ordinary receipt</button><button class="btn btn-ghost" type="button" id="btn-clear-scam-message" onclick="clearScamMessage()" data-i18n="clearScamMessage">Clear message</button></div>
+  <div class="cta-row coach-examples" role="group" aria-labelledby="scam-examples-label"><button class="btn btn-o" type="button" onclick="loadScamExample('fee')" data-i18n="scamExampleFee">Example: recovery fee</button><button class="btn btn-o" type="button" onclick="loadScamExample('pin')" data-i18n="scamExamplePin">Example: OTP request</button><button class="btn btn-o" type="button" onclick="loadScamExample('benign')" data-i18n="scamExampleBenign">Example: ordinary receipt</button><button class="btn btn-o" type="button" id="btn-clear-scam-message" onclick="clearScamMessage()" data-i18n="clearScamMessage">Clear message</button></div>
   </div>
   <div class="cta-row"><button class="btn btn-p" type="button" id="btn-analyze-scam" onclick="runScamCoach()" data-i18n="analyzeScam">Analyze locally</button><button class="btn btn-o hidden" type="button" id="btn-run-scam-benchmark" onclick="runScamBenchmarkUi()" data-i18n="runRuleBenchmark">Run synthetic rule checks</button></div>
   <div id="scam-coach-results" aria-live="polite" aria-atomic="true"></div><div id="scam-benchmark-results" aria-live="polite" aria-atomic="true"></div>
@@ -208,7 +208,7 @@ Other: Share your OTP."></textarea>
     <button class="btn btn-o" type="button" onclick="loadConversationSequenceExample('staged')" id="btn-sequence-sample" data-i18n="sequenceBtnStaged">Load staged example</button>
     <button class="btn btn-o" type="button" onclick="loadConversationSequenceExample('benign')" id="btn-sequence-benign" data-i18n="sequenceBtnBenign">Load benign example</button>
     <button class="btn btn-p" type="button" onclick="runConversationSequenceReview()" id="btn-sequence-analyze" data-i18n="sequenceBtnReview">Review sequence locally</button>
-    <button class="btn btn-ghost" type="button" onclick="clearConversationSequence()" id="btn-sequence-clear" data-i18n="sequenceBtnClear">Clear transcript</button>
+    <button class="btn btn-o" type="button" onclick="clearConversationSequence()" id="btn-sequence-clear" data-i18n="sequenceBtnClear">Clear transcript</button>
   </div>
   <div id="sequence-results" aria-live="polite" aria-atomic="true"></div>
   <div class="cta-row"><button class="btn btn-o" type="button" onclick="addConversationSequenceToTimeline()" id="btn-sequence-add-timeline" data-i18n="sequenceBtnTimeline" disabled>Add summary to case timeline</button></div>
@@ -223,8 +223,8 @@ Other: Share your OTP."></textarea>
 <!-- INTENT -->
 <section class="panel hidden" data-screen="intent">
 <h2 data-i18n="intentH">Record your payment details</h2>
-<p class="hint" data-i18n="intentSub">First record what you intend to pay. Then compare it with the details you are preparing to enter in your payment app. PayCheckpoint cannot see or control that app.</p>
-<p class="hint" data-i18n="intentStepTwoHelp">Open your bKash, Nagad, Rocket or other payment app yourself. Read the recipient and amount you are preparing to enter, then type those same values here. Do not send money from PayCheckpoint.</p>
+<p class="hint" data-i18n="intentSub">Record what you intend to pay, then compare it with the details you are about to enter. PayCheckpoint cannot see or control your payment app.</p>
+<p class="hint" data-i18n="intentStepTwoHelp">Open your payment app yourself and type the same recipient and amount here. Do not send money from PayCheckpoint.</p>
 <div class="intent-details-grid">
 <div class="intent-step-card">
   <p class="intent-step-label" data-i18n="intentStepOne">YOUR INTENDED PAYMENT</p>
@@ -232,16 +232,16 @@ Other: Share your OTP."></textarea>
   <input id="f-intended-num" type="tel" inputmode="numeric" autocomplete="off" placeholder="e.g. 01712-345678" data-i18n-placeholder="numPlaceholder" aria-describedby="e-num" required />
   <div id="e-num"></div>
   <label for="f-intended-amt" data-i18n="lblIntendedAmt">Intended amount (৳) *</label>
-  <input id="f-intended-amt" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 3000 / ৩০০০" data-i18n-placeholder="amtPlaceholder" aria-describedby="e-amt" required />
+  <input id="f-intended-amt" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 3000" data-i18n-placeholder="amtPlaceholder" aria-describedby="e-amt" required />
   <div id="e-amt"></div>
 </div>
 <div class="intent-step-card">
   <p class="intent-step-label" data-i18n="intentStepTwo">DETAILS YOU ARE PREPARING TO ENTER</p>
   <label for="f-entered-num" data-i18n="lblEnteredNum">Recipient number you are about to enter *</label>
-  <input id="f-entered-num" type="tel" inputmode="numeric" autocomplete="off" placeholder="Exact number from your payment app" data-i18n-placeholder="enteredNumPlaceholder" aria-describedby="e-entered-num" required />
+  <input id="f-entered-num" type="tel" inputmode="numeric" autocomplete="off" placeholder="e.g. 01712-345679" data-i18n-placeholder="enteredNumPlaceholder" aria-describedby="e-entered-num" required />
   <div id="e-entered-num"></div>
   <label for="f-entered-amt" data-i18n="lblEnteredAmt">Amount you are about to enter (৳) *</label>
-  <input id="f-entered-amt" type="text" inputmode="decimal" autocomplete="off" placeholder="Exact amount in your payment app" data-i18n-placeholder="enteredAmtPlaceholder" aria-describedby="e-entered-amt" required />
+  <input id="f-entered-amt" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 3000" data-i18n-placeholder="enteredAmtPlaceholder" aria-describedby="e-entered-amt" required />
   <div id="e-entered-amt"></div>
 </div>
 </div>
@@ -270,10 +270,11 @@ Other: Share your OTP."></textarea>
   </div>
   <p class="live-source-visual-summary" id="live-source-visual-summary" role="status" aria-live="polite" aria-atomic="true" data-i18n="liveVisualWaitingCopy">Enter your intended details and the values you are preparing to enter. Nothing is sent from this page.</p>
 </section>
+<div class="cta-row"><button class="btn btn-p" onclick="submitIntent()" data-i18n="compareDetails">Compare details →</button><button class="btn btn-ghost" onclick="goApp('start')" data-i18n="back">Back</button></div>
 <details class="intent-advanced">
   <summary data-i18n="intentInstructionDisclosure">Optional · Compare the original seller or recipient instruction</summary>
   <p class="hint" data-i18n="intentInstructionHelp">Use this when the payment request arrived by SMS, chat or another message. Candidate details are suggestions only and must be confirmed.</p>
-  <label for="f-instruction" data-i18n="lblInstruction">Original instruction (optional — paste the seller's message)</label>
+  <label for="f-instruction" data-i18n="lblInstruction">Original instruction (optional — paste the seller’s message)</label>
   <textarea id="f-instruction" rows="3" placeholder="e.g. Please send 3000 taka to 01712-345678 (bKash personal)" data-i18n-placeholder="instructionPlaceholder"></textarea>
 </details>
 <details class="intent-advanced">
@@ -317,7 +318,7 @@ Other: Share your OTP."></textarea>
     <p class="hint" id="screenshot-privacy-note" data-i18n="screenReviewPrivacy">Image pixels and raw OCR text stay in page memory and are not uploaded, included in the evidence pack, or saved to case storage. The OCR engine/language assets may be fetched on first use. A match is not proof of recipient ownership.</p>
   </section>
 </details>
-<div class="cta-row"><button class="btn btn-p" onclick="submitIntent()" data-i18n="compareDetails">Compare details →</button><button class="btn btn-ghost" onclick="goApp('start')" data-i18n="back">Back</button></div>
+
 <p class="hint" data-i18n="correctionHint">Corrections are explicit: if you edit a field, the previous value is shown in the comparison — nothing is silently overwritten.</p>
 </section>
 
@@ -364,8 +365,8 @@ Other: Share your OTP."></textarea>
 
 <section class="panel hidden" data-screen="preflight-check">
   <p class="eyebrow" data-i18n="preflightCheckKicker">PRE-SEND CHECKPOINT</p>
-  <h2 data-i18n="preflightCheckTitle">Comparison complete — verify inside your payment app</h2>
-  <p class="hint" data-i18n="preflightCheckIntro">The values you entered here match each other. This does not verify the wallet owner, the payee's identity, or the payment request. Recheck the details in your real payment app before you confirm there.</p>
+  <h2 data-i18n="preflightCheckTitle">Verify inside your payment app</h2>
+  <p class="hint" data-i18n="preflightCheckIntro">Check the recipient, amount and fee in your real payment app before you confirm there. This does not verify the wallet owner, the payee's identity, or the payment request.</p>
   <div id="preflight-check-summary" class="preflight-check-summary"></div>
   <div class="preflight-checklist">
     <p class="intent-step-label" data-i18n="preflightCheckListTitle">BEFORE YOU CONFIRM IN YOUR PAYMENT APP</p>
@@ -418,12 +419,12 @@ Other: Share your OTP."></textarea>
 
 <!-- RECOVERY -->
 <section class="panel hidden" data-screen="recovery">
-<h2 data-i18n="recoveryH">Recovery Assistant</h2><p class="hint" data-i18n="recoveryHint">For a completed transfer. Your plan: identify what happened → review the message → compare the details → gather the facts → follow the guidance → build the incident summary.</p>
+<h2 data-i18n="recoveryH">Recovery Assistant</h2><p class="hint" data-i18n="recoveryHint">For a completed transfer. Work through the steps above to build your incident summary.</p>
 <ol style="line-height:2">
 <li data-i18n="recStep1">Act promptly &amp; preserve evidence — keep the confirmation SMS and TrxID exactly as received. Do not delete the thread.</li>
 <li data-i18n="recStep2"><strong>Contact the provider through its official channel</strong> — use the number published inside the official app / on the provider's official site. <em>Source: provider's official channel · Conditions: provider policy applies · Verify the channel in the official app or site before calling.</em></li>
 <li data-i18n="recStep3"><strong>Message the receiver factually</strong> if you have their number — use the neutral script in your incident report. Never send PIN/OTP or pay a “recovery fee”.</li>
-<li data-i18n="recStep4"><strong>Prepare a complaint</strong> with intended vs actual details, TrxID, date/time and timeline (Screen 9).</li>
+<li data-i18n="recStep4"><strong>Prepare a complaint</strong> with intended vs actual details, TrxID, date/time and timeline.</li>
 <li data-i18n="recStep5"><strong>Escalate</strong> only through an applicable official complaint process if the provider does not resolve it.</li>
 </ol>
 <div class="errbox" data-i18n="recoveryWarn">No guarantee: PayCheckpoint cannot reverse a transfer or compel a refund. Anyone promising guaranteed recovery for a fee is a warning sign.</div>
@@ -434,6 +435,7 @@ Other: Share your OTP."></textarea>
 <!-- INCIDENT -->
 <section class="panel hidden" data-screen="incident">
 <h2 data-i18n="incidentH">Incident evidence &amp; complaint summary</h2><p class="hint" data-i18n="incidentHint">Masked by default. This report is not submitted anywhere — copy or download it and submit it yourself through official channels.</p>
+<nav class="incident-jump-nav" aria-label="Sections on this page"><a href="#incident-workflow-hub" data-i18n="incidentNavWorkspace">Workspace</a><a href="#incident-evidence-map-slot" data-i18n="incidentNavEvidenceMap">Evidence Map</a><a href="#evidence-integrity-panel" data-i18n="incidentNavManifest">Manifest</a><a href="#recovery-navigator-panel" data-i18n="incidentNavNavigator">Navigator</a><a href="#incident-dossier-panel" data-i18n="incidentNavDossier">Dossier</a><a href="#copilot-card" data-i18n="incidentNavCopilot">Copilot</a><a href="#evidence-timeline-panel" data-i18n="incidentNavTimeline">Timeline</a><a href="#f-complaint" data-i18n="incidentNavComplaint">Complaint draft</a></nav>
 <section class="incident-workflow-hub" id="incident-workflow-hub" aria-labelledby="incident-workflow-title">
   <div class="incident-workflow-header">
     <div class="incident-workflow-heading">
@@ -476,12 +478,12 @@ Other: Share your OTP."></textarea>
   </div>
   <div id="evidence-integrity-list" class="evidence-integrity-list" aria-live="polite"></div>
   <section class="evidence-integrity-verify" aria-labelledby="evidence-integrity-verify-title"><h4 id="evidence-integrity-verify-title">Compare a file with a saved fingerprint</h4><div class="evidence-integrity-controls"><div><label id="evidence-integrity-verify-record-label" for="evidence-integrity-verify-record">Which fingerprint?</label><select id="evidence-integrity-verify-record"><option value="">Choose a saved fingerprint…</option></select></div><div><label id="evidence-integrity-verify-file-label" for="evidence-integrity-verify-file">File to check</label><input id="evidence-integrity-verify-file" type="file" accept=".pdf,.png,.jpg,.jpeg,.webp,.txt,.csv,.eml,application/pdf,image/png,image/jpeg,image/webp,text/plain,text/csv,message/rfc822"><button class="btn btn-o" id="btn-evidence-integrity-verify" type="button" onclick="verifyEvidenceIntegritySelectedFile()">Verify selected file</button></div></div></section>
-  <div class="evidence-integrity-manifest-actions"><button class="btn btn-o" id="btn-evidence-integrity-export" type="button" onclick="exportEvidenceIntegrityManifest()">Download manifest JSON</button><div><label id="evidence-integrity-import-label" for="evidence-integrity-import-file">Manifest JSON file</label><input id="evidence-integrity-import-file" type="file" accept="application/json,.json"><button class="btn btn-ghost" id="btn-evidence-integrity-import" type="button" onclick="importEvidenceIntegrityManifest()">Import saved manifest</button></div></div>
+  <div class="evidence-integrity-manifest-actions"><button class="btn btn-o" id="btn-evidence-integrity-export" type="button" onclick="exportEvidenceIntegrityManifest()">Download manifest JSON</button><div><label id="evidence-integrity-import-label" for="evidence-integrity-import-file">Manifest JSON file</label><input id="evidence-integrity-import-file" type="file" accept="application/json,.json"><button class="btn btn-o" type="button" id="btn-evidence-integrity-import" onclick="importEvidenceIntegrityManifest()">Import saved manifest</button></div></div>
   <p class="hint" id="evidence-integrity-limit">Up to 8 files; 10 MB each. PDF, PNG, JPG, WEBP, TXT, CSV or EML.</p>
   <p class="evidence-integrity-warning" id="evidence-integrity-warning">A hash compares file bytes only. It does not prove authenticity, source, owner, capture time, transaction occurrence, or legal chain of custody. Imported manifests are unsigned.</p>
   <div id="evidence-integrity-status" class="note evidence-integrity-status" role="status" aria-live="polite"></div>
 </section>
-<section class="recovery-navigator-panel" aria-labelledby="recovery-nav-title">
+<section class="recovery-navigator-panel" id="recovery-navigator-panel" aria-labelledby="recovery-nav-title">
   <div class="recovery-navigator-heading"><div><p class="eyebrow" id="recovery-nav-kicker">SITUATION-SPECIFIC GUIDANCE</p><h3 id="recovery-nav-title">Recovery Navigator</h3><p class="hint" id="recovery-nav-intro">Choose what happened to receive an ordered, source-linked checklist. PayCheckpoint does not contact providers or submit complaints.</p></div><span class="tag tag-n" id="recovery-nav-local-tag">Local guidance</span></div>
   <div class="recovery-nav-selects">
     <div><label for="recovery-nav-scenario" id="recovery-nav-scenario-label">What best describes your situation?</label><select id="recovery-nav-scenario"><option value="unsure">I am not sure yet</option><option value="suspicious-request">Suspicious request; no payment sent</option><option value="wrong-recipient">Money may have gone to the wrong recipient</option><option value="failed-duplicate">Failed, pending or duplicate payment</option><option value="account-security">PIN/OTP may be shared or account at risk</option><option value="unresolved-complaint">Provider has not resolved my complaint</option></select></div>
@@ -492,7 +494,7 @@ Other: Share your OTP."></textarea>
 <section class="incident-dossier-panel" id="incident-dossier-panel" aria-labelledby="incident-dossier-title">
   <div class="incident-dossier-heading"><div><p class="eyebrow">LOCAL CASE PREPARATION · NO PROVIDER CONNECTION</p><h3 id="incident-dossier-title">Payment Incident Dossier</h3><p class="hint" id="incident-dossier-intro">Prepare information for provider contact, generate a call script, and record contact actions you actually made. PayCheckpoint does not call providers or submit complaints.</p></div><span class="tag tag-n" id="incident-dossier-provider">Not selected</span></div>
   <section class="dossier-subpanel" aria-labelledby="incident-dossier-readiness-title"><div class="dossier-section-head"><div><h4 id="incident-dossier-readiness-title">Information to prepare before contacting support</h4><p id="incident-dossier-readiness-count" class="hint">0 of 6 information items available</p></div><span class="tag tag-n">No readiness score</span></div><div id="incident-dossier-readiness" aria-live="polite"></div></section>
-  <section class="dossier-subpanel" aria-labelledby="incident-dossier-call-title"><h4 id="incident-dossier-call-title">Call preparation script</h4><p id="incident-dossier-call-help" class="hint">Generated locally from the current case. Missing information stays labelled “Not recorded”. Review every detail before using it.</p><div class="cta-row"><button class="btn btn-o" type="button" id="btn-dossier-generate" onclick="generateIncidentDossierCallScript()">Generate call script</button><button class="btn btn-ghost" type="button" id="btn-dossier-copy" onclick="copyIncidentDossierCallScript()">Copy script</button></div><label class="sr-only" for="incident-dossier-call-script">Call script preview</label><textarea id="incident-dossier-call-script" rows="10" readonly aria-label="Locally generated call script"></textarea><p class="hint">Use contact details only after verifying them in the provider’s official app or website. Do not share PINs, OTPs, passwords or remote access.</p></section>
+  <section class="dossier-subpanel" aria-labelledby="incident-dossier-call-title"><h4 id="incident-dossier-call-title">Call preparation script</h4><p id="incident-dossier-call-help" class="hint">Generated locally from the current case. Missing information stays labelled “Not recorded”. Review every detail before using it.</p><div class="cta-row"><button class="btn btn-o" type="button" id="btn-dossier-generate" onclick="generateIncidentDossierCallScript()">Generate call script</button><button class="btn btn-o" type="button" id="btn-dossier-copy" onclick="copyIncidentDossierCallScript()">Copy script</button></div><label class="sr-only" for="incident-dossier-call-script">Call script preview</label><textarea id="incident-dossier-call-script" rows="10" readonly aria-label="Locally generated call script" placeholder="No call script yet — press “Generate call script” above." data-i18n-placeholder="callScriptPlaceholder"></textarea><p class="hint">Use contact details only after verifying them in the provider’s official app or website. Do not share PINs, OTPs, passwords or remote access.</p></section>
   <section class="dossier-subpanel" aria-labelledby="incident-dossier-questions-title"><h4 id="incident-dossier-questions-title">Questions to ask the provider</h4><p class="hint" id="incident-dossier-questions-help">These are prompts, not statements about what the provider must do. Ask for the applicable process and response timeframe.</p><div id="incident-dossier-questions" aria-live="polite"></div></section>
   <section class="dossier-subpanel" aria-labelledby="incident-dossier-record-title"><h4 id="incident-dossier-record-title">Record a contact you actually made</h4><div class="dossier-record-grid"><div><label id="incident-dossier-stage-label" for="incident-dossier-stage">Which stage did you contact?</label><select id="incident-dossier-stage"><option value="provider-support">Provider customer support</option><option value="provider-complaint-cell">Provider complaint cell</option><option value="cipc">Bangladesh Bank CIPC (query / later complaint)</option></select></div><div><label id="incident-dossier-outcome-label" for="incident-dossier-outcome">What happened?</label><select id="incident-dossier-outcome"><option value="">Choose an outcome…</option><option value="reached">Reached support</option><option value="no-answer">No answer</option><option value="reference-received">Reference received</option><option value="unresolved">Still unresolved</option><option value="final-response-received">Provider final response received</option><option value="resolved-reported">Resolved (reported by me)</option></select></div><div class="dossier-reference-field"><label id="incident-dossier-reference-label" for="incident-dossier-reference">Last 4 characters of complaint reference (optional; only last 4 kept)</label><input id="incident-dossier-reference" type="text" maxlength="64" autocomplete="off" placeholder="Optional reference suffix" /></div></div><div id="incident-dossier-support" class="dossier-support-slot" aria-live="polite"></div><div class="cta-row"><button class="btn btn-p" type="button" id="btn-dossier-record" onclick="incidentDossierRecordContact()">Add user-reported update</button></div><p id="incident-dossier-status" class="note" role="status" aria-live="polite"></p></section>
   <section class="dossier-subpanel" aria-labelledby="incident-dossier-log-title"><h4 id="incident-dossier-log-title">Contact history</h4><div id="incident-dossier-calls" aria-live="polite"></div></section>
@@ -515,7 +517,7 @@ Other: Share your OTP."></textarea>
   </section>
   <p class="incident-dossier-disclaimer" id="incident-dossier-disclaimer">All contact entries are user-reported and not independently verified. Full ticket references and free-text notes are not stored here. Check Bangladesh Bank’s current requirements before CIPC escalation.</p>
 </section>
-<section class="copilot-card" aria-labelledby="copilot-title">
+<section class="copilot-card" id="copilot-card" aria-labelledby="copilot-title">
   <div class="copilot-head">
     <div><p class="eyebrow">CASE ASSIST · OPTIONAL FREE-TIER CLOUD AI</p><h3 id="copilot-title">Evidence-to-Action Copilot</h3><p class="hint" id="copilot-intro">Turn this case into a short, practical action plan. The offline plan stays in your browser; cloud AI is optional.</p></div>
     <span class="tag tag-n" id="copilot-status-badge">Checking cloud AI</span>
@@ -530,10 +532,11 @@ Other: Share your OTP."></textarea>
   <details class="copilot-privacy-details"><summary id="copilot-privacy-summary">What is sent if I choose cloud AI?</summary><p id="copilot-privacy-copy">After explicit consent, a best-effort redacted note, local warning categories and categorical comparison states are sent to Cloudflare Workers AI for processing. The separate SMS field and screenshot bytes are not sent by this feature. Redaction can miss details, so do not include names, full phone numbers, account details, transaction references, PINs, OTPs or full messages. Cloudflare documents zero retention for standard stateless Workers AI inference after processing and says customer content is not used to train models; operational metadata may be retained. The documented free allocation is currently 10,000 Neurons per day and is limited; requests can fail after it is exhausted. This external request occurs only after explicit consent. Check current Cloudflare terms and quota before use.</p></details>
   <label class="copilot-consent"><input type="checkbox" id="copilot-cloud-consent"><span id="copilot-consent-copy">I have read the data-sharing notice and consent to send this redacted summary to Cloudflare Workers AI for this request only.</span></label>
   <div class="cta-row copilot-actions"><button class="btn btn-p" type="button" id="btn-copilot-cloud" onclick="runCloudCopilot()">Generate AI action plan</button><button class="btn btn-o" type="button" id="btn-copilot-offline" onclick="runOfflineCopilot()">Build private offline plan</button></div>
+  <p class="hint" id="copilot-consent-hint" hidden>Tick the consent box above to enable the AI plan.</p>
   <div id="copilot-status" class="note" role="status" aria-live="polite">The offline plan works without an API key or external AI request.</div>
   <div id="copilot-results" class="copilot-results" aria-live="polite" aria-atomic="true"></div>
 </section>
-<section class="evidence-timeline-panel" aria-labelledby="timeline-title">
+<section class="evidence-timeline-panel" id="evidence-timeline-panel" aria-labelledby="timeline-title">
   <div class="coach-head"><div><p class="eyebrow">LOCAL CASE HISTORY</p><h3 id="timeline-title" data-i18n="timelineTitle">Evidence and follow-up timeline</h3><p class="hint" data-i18n="timelineIntro">App workflow events are automatically listed. Follow-up actions you add are explicitly marked as user-reported and are not independently verified.</p></div></div>
   <div id="timeline-events" aria-live="polite"></div>
   <div class="timeline-add">
@@ -545,8 +548,8 @@ Other: Share your OTP."></textarea>
   <div id="evidence-pack-status" aria-live="polite"></div>
 </section>
 <label for="f-complaint" data-i18n="complaintLabel">Complaint draft (editable, factual &amp; neutral) — your edits are preserved when you reveal numbers, copy or navigate within this case</label>
-<textarea id="f-complaint" style="min-height:150px" oninput="onComplaintEdit()"></textarea>
-<div class="cta-row"><button class="btn btn-p" onclick="copyComplaint()" data-i18n="copyComplaintOnly">Copy complaint only</button><button class="btn btn-o" onclick="copyFullReport()" data-i18n="copyFullReportBtn">Copy full report</button><button class="btn btn-o" onclick="downloadReport()" data-i18n="downloadReportBtn">Download report (.txt)</button><button class="btn btn-ghost" onclick="regenerateComplaint(this)" data-i18n="regenerateDraft">Regenerate draft</button><button class="btn btn-ghost" id="btn-reveal" onclick="toggleReveal()" data-i18n="revealNumbers">Reveal full numbers</button></div>
+<textarea id="f-complaint" style="min-height:150px" oninput="onComplaintEdit()" placeholder="No complaint draft yet — it appears here once the incident report is built from your case." data-i18n-placeholder="complaintPlaceholder"></textarea>
+<div class="cta-row"><button class="btn btn-p" onclick="copyComplaint()" data-i18n="copyComplaintOnly">Copy complaint only</button><button class="btn btn-o" onclick="copyFullReport()" data-i18n="copyFullReportBtn">Copy full report</button><button class="btn btn-o" onclick="downloadReport()" data-i18n="downloadReportBtn">Download report (.txt)</button><button class="btn btn-o" onclick="regenerateComplaint(this)" data-i18n="regenerateDraft">Regenerate draft</button><button class="btn btn-o" id="btn-reveal" onclick="toggleReveal()" data-i18n="revealNumbers">Reveal full numbers</button></div>
 <div id="copy-note" aria-live="polite"></div>
 <div class="cta-row share-brief-launch"><button class="btn btn-p" type="button" id="btn-open-share-brief" onclick="openShareBrief()">Preview share-safe brief · Print / Save as PDF</button></div>
 <section id="share-brief-panel" class="share-brief-panel hidden" aria-labelledby="share-brief-title">
@@ -606,7 +609,6 @@ Other: Share your OTP."></textarea>
 <!-- SETTINGS -->
 <section class="panel hidden" data-screen="settings">
 <h2 data-i18n="settingsH">Privacy &amp; settings</h2>
-<label data-i18n="languagePreference">Language preference</label><div class="langtog" style="max-width:200px"><button id="langEn2" class="on">English</button><button id="langBn2">বাংলা</button></div>
 <h3 data-i18n="aiDisclosureH">AI-processing disclosure</h3><p class="hint" data-i18n="aiDisclosureP">SMS parsing runs locally. The optional Evidence-to-Action Copilot sends only after you consent, but its free-text note is best-effort redacted and may still reveal information if you include it. Do not paste full SMS, names, phone/account details, payment references, PINs or OTPs. Cloudflare documents zero retention for standard stateless Workers AI inference after processing and says customer content is not used to train models; operational metadata may be retained. The currently documented free allocation is 10,000 Neurons/day and can be exhausted. No AI API key is required; the hosted deployment needs a Cloudflare Pages Workers AI binding. The local offline plan never calls AI.</p>
 <h3 data-i18n="dataHandlingH">Data handling</h3><p class="hint" data-i18n="dataHandlingP">Default: data stays in this page. Optional case storage is available only when the local encrypted backend is configured, and requires explicit consent.</p>
 <div class="privacy-save">
