@@ -77,7 +77,7 @@ async function main() {
   const report = evaluateResponseSafetyCases(data.cases);
   await mkdir(dirname(outputPath), { recursive: true });
   await writeFile(outputPath, JSON.stringify(report, null, 2) + '\n');
-  console.log(\`AI response-safety guard: \${report.passed}/\${report.total} cases passed (\${report.blocked} blocked, \${report.allowed} allowed).\`);
+  console.log('AI response-safety guard: ' + report.passed + '/' + report.total + ' cases passed (' + report.blocked + ' blocked, ' + report.allowed + ' allowed).');
   console.log('This is a developer-authored output-guard regression, not model accuracy.');
   if (report.failed) process.exitCode = 1;
 }

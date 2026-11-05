@@ -1,3 +1,6 @@
+## v1.31.0 follow-up — fix AI response-safety runner syntax
+- Corrected the benchmark runner's summary output so the script parses cleanly under the Node version used by GitHub Actions.
+
 ## v1.31.0 follow-up — add reproducible bilingual AI response-safety benchmark
 - Added a 31-case developer-authored English/Bangla matrix covering credential requests, remote-access installation, recovery fees, unsupported completion claims and unsafe reassurance, alongside protective warnings that must remain allowed.
 - Added `npm run qa:ai-safety` and integrated the matrix into deterministic release validation. The report explicitly measures output-guard regression only, not model quality or real-world accuracy.
