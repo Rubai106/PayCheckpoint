@@ -8,13 +8,15 @@
 ## Current source and validation
 
 - Repository: https://github.com/Rubai106/PayCheckpoint
-- Application code baseline: `8d4e7afc0994bad89e367dab1003d112cc933571` (`main`), including first-render B2C value copy, English/Bangla conversation-review privacy guidance, the missing Bangla disclaimer fix, and first-use regression isolation.
-- CI for that exact baseline: [GitHub Actions #41982907829](https://github.com/Rubai106/PayCheckpoint/actions/runs/41982907829) — success. All six stages passed: deterministic release validation, first-time journey, recovery workspace, Evidence Map, keyboard/focus and responsive regression.
-- Public application URL: https://paycheckpoint.pages.dev. The current public deployment could not be independently inspected from this review; do not assume it serves the current GitHub head.
-- The 4 November owner-supplied production report describes an older deployed source and one successful synthetic Workers AI request. It is a point-in-time owner report, not independent proof of current production parity or model accuracy.
-- Exact organizer sticker is in the current source at `assets/aignite-buildathon-sticker.webp` and rendered in the source navbar. Production display remains unverified.
-- Repository contains only `PayCheckpoint-AIgnite-Draft-5slides.pptx`; it is a draft, not a confirmed final deck. Two older notes refer to updated deck filenames that are not tracked in this repository.
-- Held-out conversation/OCR evaluation and participant usability sessions remain NOT RUN.
+- Current `main` head: `7e38c623e11e1a7e4406557b398e746f25f558a6` (speaker-notes alignment; no application-source change after the validated app commit `4f48a535a938da0cb1d30bd45d50fcd31fbace9f`).
+- Latest CI: [GitHub Actions #41985234172](https://github.com/Rubai106/PayCheckpoint/actions/runs/41985234172) — **success** on the current `main` head. Deterministic release validation, first-use journey, recovery workspace, Evidence Map, keyboard/focus and responsive checks all passed. The synthetic Copilot pilot fixture test also passes after the regex correction in `4f48a53`.
+- Cloudflare Pages check for current `main`: **success** for commit `7e38c62`; preview deployment: https://593e2966.paycheckpoint.pages.dev. This confirms a successful Pages deployment for that exact commit. The default alias `https://paycheckpoint.pages.dev` and live `/build-info.json` were not directly inspected in this review, so public-domain visual/manifest parity remains a manual gate.
+- Exact organizer sticker is in source at `assets/aignite-buildathon-sticker.webp` and rendered in the source navbar. Its visibility on the default public domain still needs visual confirmation.
+- The hosted AI route has one reported synthetic smoke-test response (4 November, HTTP 200). This is connectivity evidence only, not model quality, accuracy, reliability or continuous availability.
+- Updated speaker notes are tracked in `submission/SPEAKER_NOTES.md` and aligned to the refined deck. The Git-tracked `submission/PayCheckpoint-AIgnite-Draft-5slides.pptx` remains an older draft. A refined five-slide candidate was generated separately, rendered slide-by-slide and passed `slides_test.py` with no overflow; it is not yet committed as the repository binary.
+- Usability quick-start and six synthetic task cards now exist in `evaluation/USABILITY-PILOT-QUICKSTART.md` and `evaluation/USABILITY-PILOT-TASKS.csv`. **Participant sessions remain 0 / NOT RUN.**
+- The bilingual Copilot pilot now has 12 synthetic cases, a blinded scoring protocol and a reviewer scorecard under `evaluation/ai-copilot/`. **No live model outputs or independent reviewer ratings have been collected; AI quality remains NOT RUN.**
+- Held-out conversation/OCR evaluation, human usability, full manual accessibility review and independent security review remain NOT RUN.
 
 ## Judge-readiness estimate (not an organizer score)
 
@@ -45,23 +47,25 @@ The official event page currently displays these four weighted criteria. The rul
 ## Mandatory submission gates
 
 - [ ] Confirm the Devpost participant record and individual/solo project entry.
-- [ ] Deploy the final source from `main`.
-- [ ] Open https://paycheckpoint.pages.dev/build-info.json and verify the full commit SHA equals the then-current GitHub `main` head.
-- [ ] Open the live homepage in a clean desktop browser and real mobile browser. Verify all three user journeys, English/Bangla, main prevention and recovery flows, AI offline fallback, and the exact sticker near the top.
-- [ ] Refresh and inspect the final five-slide deck. Submit no more than five slides.
+- [x] Cloudflare Pages reports a successful deployment for current `main` commit `7e38c62` (preview URL above).
+- [ ] Open https://paycheckpoint.pages.dev/build-info.json and verify the full commit SHA equals the then-current GitHub `main` head; this endpoint could not be fetched directly during this review.
+- [ ] Open the default public homepage in a clean desktop browser and a real Android browser. Verify all three user journeys, English/Bangla, prevention and recovery flows, AI offline fallback, and the exact sticker near the top. The Cloudflare preview deploy check is green, but manual visual review is still outstanding.
+- [x] Refined five-slide candidate rendered and passed `slides_test.py` with no overflow; updated English speaker notes are tracked.
+- [ ] Replace the Git-tracked old draft binary with the refined deck, then confirm the exact submitted binary is the same file. (The refined candidate is currently available as a local artifact, not yet committed in `submission/`.)
+- [ ] Submit no more than five slides through Devpost and verify the entry is submitted, not a draft.
 - [ ] Submit the public app URL and final deck through Devpost; verify that the project is submitted, not a draft.
 - [x] Source contains the exact official organizer sticker in the navbar.
-- [x] Application baseline `d3863a8` passed all six stages in CI run #41980096503.
+- [x] Current `main` head `7e38c62` passed all six CI stages in run #41985234172.
 - [x] Homepage first-render and English/Bangla copy now explain the real consumer journey: independent intent-vs-wallet-entry comparison, suspicious-request review, and evidence organisation.
-- [x] One synthetic hosted AI request was reported by the owner on 4 November for an earlier deployment only; do not claim it verifies this current SHA.
+- [x] Twelve synthetic bilingual Copilot quality cases, reviewer protocol and blinded scorecard are in the repository; this is evaluation preparation, not measured model quality.
 
 ## Highest-value evidence improvements
 
-- [ ] Conduct 5–8 consented first-use sessions with fictional cases only. Record task success, completion time, missed mismatches, false confidence about recipient identity, and points of confusion. Report the actual sample size and limitations.
+- [ ] Conduct 5–8 consented first-use sessions with fictional cases only using `evaluation/USABILITY-PILOT-QUICKSTART.md` and `evaluation/USABILITY-PILOT-TASKS.csv`. Current session count is 0. Record task success, completion time, missed mismatches, false confidence about recipient identity, and points of confusion. Report the actual sample size and limitations.
 - [ ] Have a fluent Bangla reviewer inspect critical flows, errors, warnings, complaint text and AI responses.
-- [ ] Evaluate AI action plans across a documented bilingual scenario set; measure factual grounding, actionability, uncertainty, unsafe claims and failure/fallback handling. Do not call developer-authored tests independent accuracy.
+- [ ] Run the 12-case English/Bangla Copilot pilot using `evaluation/ai-copilot/MODEL-QUALITY-PILOT.md`, `MODEL-QUALITY-CASES.json` and `MODEL-QUALITY-SCORECARD.csv`. Capture actual offline and consented AI outputs; use two blinded human reviewers. No model-quality ratings exist yet. Measure grounding, actionability, uncertainty, safety, language quality and incremental value. Do not call developer-authored scenarios independent accuracy.
 - [ ] Complete manual keyboard, zoom/reflow and screen-reader review; automated checks are not WCAG certification.
-- [ ] Capture screenshots/video from the exact verified production build.
+- [ ] Capture screenshots/video from the exact verified public build after checking the default domain and organizer sticker.
 
 ## Novelty and positioning
 
