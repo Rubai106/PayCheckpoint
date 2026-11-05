@@ -1,6 +1,6 @@
 # YUNet AIgnite Buildathon 2026 — PayCheckpoint submission readiness
 
-**Last checked:** 4 November 2026  
+**Last checked:** 5 November 2026  
 **Official listing:** https://yunet-aignite26.devpost.com/  
 **Official rules:** https://yunet-aignite26.devpost.com/rules
 
@@ -20,11 +20,13 @@ The organizer's 4 November email says the submission deadline is 5 November 2026
 
 ## Current project status
 
+- Current GitHub `main` head: `b21f592a133621186f1d99b3e1ba24b2d94b3cac` ([commit](https://github.com/Rubai106/PayCheckpoint/commit/b21f592a133621186f1d99b3e1ba24b2d94b3cac)). PR #7's final tree (PR head `4118b65bd4f1b2b9c685fc321c50de617c11c0b3`) passed [Actions run #216](https://github.com/Rubai106/PayCheckpoint/actions/runs/42008374616) before squash merge. All seven stages passed, including deterministic release/unit tests, first-time journey, recovery workspace, Evidence Map, keyboard/focus, responsive, and UI-consistency/served-origin checks. The merge commit above is the current `main` ref.
+- The merged recovery update adds optional intended recipient/amount capture to SMS review and recovery-only allowance for unknown post-payment entered fields; prevention validation remains strict. Incident jump navigation now stays inside the incident workspace.
 - The current GitHub `main` source is v1.32.0 and includes the three-layer interactive payment evidence stack, live pre-send comparison, source-aware Checkpoint Intelligence, the same six-source Evidence Map in reconciliation and incident review, strict amount-format validation, bilingual impact strip, and the exact buildathon sticker in the navbar. Read the live `main` head directly before comparing it with production; do not rely on a copied SHA in this document.
 - The owner-supplied live report records homepage/static assets HTTP 200, expected security headers, AI status configuration and one successful Qwen3 synthetic inference request.
 - The owner-supplied production report identifies the deployed code as v1.27.1. Do not assume the live site has the current v1.32.0 source until `/build-info.json` is read and its commit matches the then-current `main` SHA.
 - Current GitHub `main` source is v1.32.0. Read the live branch head for the exact commit SHA before comparing with production. It includes the three-layer interactive payment evidence stack, live pre-send comparison, source-aware Checkpoint Intelligence, the shared six-source Evidence Map, strict preflight conflict gates, bilingual impact strip, and the exact buildathon sticker in the navbar.
-- GitHub Actions run [#41879564068](https://github.com/Rubai106/PayCheckpoint/actions/runs/41879564068) completed successfully for that exact commit on 4 November 2026. The regression job passed deterministic release validation, first-time consumer journey, Incident Dossier, Evidence Map, keyboard/focus accessibility and responsive-layout stages. These automated checks are not a substitute for real-device or participant usability review.
+- Historical GitHub Actions run [#41879564068](https://github.com/Rubai106/PayCheckpoint/actions/runs/41879564068) completed successfully for the earlier 4 November commit. It is not the latest validation. The latest PR validation is run #216 above; these automated checks are not a substitute for real-device or participant usability review.
 - The owner-supplied production report records homepage/static assets HTTP 200, expected security headers, AI status configuration and one successful Qwen3 synthetic inference request. That report identifies the deployed version at the time as v1.27.1; it predates the current v1.32.0 main commit.
 - Do not assume the live site has the current v1.32.0 source until `https://paycheckpoint.pages.dev/build-info.json` is read and its full commit matches the then-current GitHub main SHA. Production parity remains unverified.
 - Native Tesseract CLI PSM 6 pilot: 24 synthetic fixtures; both expected fields present in 23/24. This is not real-wallet/browser OCR accuracy.
