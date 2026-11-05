@@ -8,9 +8,9 @@
 ## Current source and validation
 
 - Repository: https://github.com/Rubai106/PayCheckpoint
-- Current `main` head: `e185ca7acc58689ff04be0add2584c1c5efc15de` (submission-checklist refresh; application source unchanged after the validated app code commit `4f48a535a938da0cb1d30bd45d50fcd31fbace9f`).
-- Latest CI: [GitHub Actions #41985558479](https://github.com/Rubai106/PayCheckpoint/actions/runs/41985558479) — **success** on the current `main` head. Deterministic release validation, first-use journey, recovery workspace, Evidence Map, keyboard/focus and responsive checks all passed. The synthetic Copilot pilot fixture test passes after the regex correction in `4f48a53`.
-- Cloudflare Pages check for current `main`: **success** for commit `e185ca7`; preview deployment: https://cfc5de24.paycheckpoint.pages.dev. This confirms a successful Pages deployment for that exact commit. The default alias `https://paycheckpoint.pages.dev` and live `/build-info.json` were not directly inspected in this review, so public-domain visual/manifest parity remains a manual gate.
+- Current `main` head: `b21f592a133621186f1d99b3e1ba24b2d94b3cac` ([commit](https://github.com/Rubai106/PayCheckpoint/commit/b21f592a133621186f1d99b3e1ba24b2d94b3cac)); this is the squash merge of [PR #7](https://github.com/Rubai106/PayCheckpoint/pull/7).
+- Latest relevant CI: [GitHub Actions #216](https://github.com/Rubai106/PayCheckpoint/actions/runs/42008374616) — **success** on PR #7 head `4118b65bd4f1b2b9c685fc321c50de617c11c0b3` immediately before merge. All seven stages passed, including deterministic release validation (unit/integration and source checks), first-time journey, recovery workspace, Evidence Map, keyboard/focus, responsive, and UI-consistency/served-origin. The validated final tree is now merged as `b21f592a133621186f1d99b3e1ba24b2d94b3cac`; a separate post-merge push run was not independently confirmed in this review.
+- Historical Cloudflare Pages check: **success** for the earlier commit `e185ca7` and preview URL https://cfc5de24.paycheckpoint.pages.dev. This does not prove that the merged `main` commit above is deployed. The default alias and live `/build-info.json` were not accessible during this review; current public-domain visual/manifest parity remains unverified.
 - Exact organizer sticker is in source at `assets/aignite-buildathon-sticker.webp` and rendered in the source navbar. Its visibility on the default public domain still needs visual confirmation.
 - The hosted AI route has one reported synthetic smoke-test response (4 November, HTTP 200). This is connectivity evidence only, not model quality, accuracy, reliability or continuous availability.
 - Updated speaker notes are tracked in `submission/SPEAKER_NOTES.md` and aligned to the refined deck. The Git-tracked `submission/PayCheckpoint-AIgnite-Draft-5slides.pptx` remains an older draft. A refined five-slide candidate was generated separately, rendered slide-by-slide and passed `slides_test.py` with no overflow; it is not yet committed as the repository binary.
@@ -47,7 +47,7 @@ The official event page currently displays these four weighted criteria. The rul
 ## Mandatory submission gates
 
 - [ ] Confirm the Devpost participant record and individual/solo project entry.
-- [x] Cloudflare Pages reports a successful deployment for current `main` commit `7e38c62` (preview URL above).
+- [ ] Verify Cloudflare Pages deployment for the merged `main` commit above. The earlier successful preview deployment was for a different commit and is not evidence of current production parity.
 - [ ] Open https://paycheckpoint.pages.dev/build-info.json and verify the full commit SHA equals the then-current GitHub `main` head; this endpoint could not be fetched directly during this review.
 - [ ] Open the default public homepage in a clean desktop browser and a real Android browser. Verify all three user journeys, English/Bangla, prevention and recovery flows, AI offline fallback, and the exact sticker near the top. The Cloudflare preview deploy check is green, but manual visual review is still outstanding.
 - [x] Refined five-slide candidate rendered and passed `slides_test.py` with no overflow; updated English speaker notes are tracked.
@@ -55,7 +55,8 @@ The official event page currently displays these four weighted criteria. The rul
 - [ ] Submit no more than five slides through Devpost and verify the entry is submitted, not a draft.
 - [ ] Submit the public app URL and final deck through Devpost; verify that the project is submitted, not a draft.
 - [x] Source contains the exact official organizer sticker in the navbar.
-- [x] Current `main` head `7e38c62` passed all six CI stages in run #41985234172.
+- [x] PR #7's final tree passed all seven CI stages in run #216 before squash merge to the current `main` commit above.
+- [x] Incident jump navigation remains inside the incident workspace, and recovery SMS review can compare optional user-supplied intent against reviewed receipt values.
 - [x] Homepage first-render and English/Bangla copy now explain the real consumer journey: independent intent-vs-wallet-entry comparison, suspicious-request review, and evidence organisation.
 - [x] Twelve synthetic bilingual Copilot quality cases, reviewer protocol and blinded scorecard are in the repository; this is evaluation preparation, not measured model quality.
 
