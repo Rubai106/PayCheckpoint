@@ -206,7 +206,7 @@ with sync_playwright() as p:
     assert page.locator('#stepBar .progress-step.current .progress-step-label').inner_text() == 'Verify in wallet'
     page.evaluate("goApp('pending')")
     assert not page.locator('#stepBar').is_visible()
-    page.evaluate("startJourney('prevention','intent')")
+    page.evaluate("goApp('intent')")
     assert 'Step 1 of 3' in page.locator('#stepBar').inner_text()
     page.evaluate("goApp('recon')")
     assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'ready'
