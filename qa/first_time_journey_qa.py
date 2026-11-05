@@ -40,10 +40,6 @@ with sync_playwright() as p:
     assert 'alongside your wallet' in how_copy
     assert 'before you confirm' in how_copy and 'if a payment goes wrong' in how_copy
     assert 'undo (simulation)' not in how_copy
-    assert 'B and C are hypothetical undo demonstrations' in page.locator('[data-i18n="scenarioIntro"]').inner_text()
-    assert 'cannot cancel a real wallet payment' in page.locator('[data-i18n="scenarioIntro"]').inner_text()
-    assert 'fictional/example text only' in page.locator('[data-i18n="messageReviewPrivacy"]').inner_text()
-    assert 'fictional/example conversations only' in page.locator('[data-i18n="sequencePrivacy"]').inner_text()
     prevent_copy = page.locator('[data-i18n="preventText"]').inner_text().lower()
     assert 'compare them' in prevent_copy and 'confirmation screen' in prevent_copy
     assert 'cannot see or change that app' in prevent_copy
@@ -76,15 +72,24 @@ with sync_playwright() as p:
     assert 'অফলাইন করণীয় পরিকল্পনা' in page.locator('[data-i18n="can3"]').inner_text()
     assert 'সম্মতি' in page.locator('[data-i18n="can3"]').inner_text()
     assert 'অভিযোগ জমা দেয় না' in page.locator('[data-i18n="recoverText"]').inner_text()
-    assert 'কাল্পনিক তথ্য' in page.locator('[data-i18n="scenarioIntro"]').inner_text()
-    assert 'বাস্তব ওয়ালেট পেমেন্ট বাতিল করতে পারে না' in page.locator('[data-i18n="scenarioIntro"]').inner_text()
-    assert 'কাল্পনিক/উদাহরণ কথোপকথন' in page.locator('[data-i18n="sequencePrivacy"]').inner_text()
-    assert 'কথোপকথনের ধারাবাহিকতা পর্যালোচনা' in page.locator('[data-i18n="sequenceTitle"]').inner_text()
     page.locator('#langEn').click()
     assert 'alongside your wallet' in page.locator('[data-i18n="howSub"]').inner_text().lower()
     page.locator('[data-demo-scenario="mismatch"]').click()
     assert page.locator('#payment-demo-result').get_attribute('data-state') == 'mismatch'
     page.evaluate("showView('app'); goApp('start')")
+
+    # The app-specific safety and sequence-review copy must be visible and bilingual.
+    assert 'B and C are hypothetical undo demonstrations' in page.locator('[data-i18n="scenarioIntro"]').inner_text()
+    assert 'cannot cancel a real wallet payment' in page.locator('[data-i18n="scenarioIntro"]').inner_text()
+    assert 'fictional/example text only' in page.locator('[data-i18n="messageReviewPrivacy"]').inner_text()
+    assert 'fictional/example conversations only' in page.locator('[data-i18n="sequencePrivacy"]').inner_text()
+    page.locator('#langBn').click()
+    assert 'কাল্পনিক তথ্য' in page.locator('[data-i18n="scenarioIntro"]').inner_text()
+    assert 'বাস্তব ওয়ালেট পেমেন্ট বাতিল করতে পারে না' in page.locator('[data-i18n="scenarioIntro"]').inner_text()
+    assert 'কাল্পনিক/উদাহরণ কথোপকথন' in page.locator('[data-i18n="sequencePrivacy"]').inner_text()
+    assert 'কথোপকথনের ধারাবাহিকতা পর্যালোচনা' in page.locator('[data-i18n="sequenceTitle"]').inner_text()
+    assert 'কাল্পনিক/উদাহরণ বার্তা' in page.locator('[data-i18n="messageReviewPrivacy"]').inner_text()
+    page.locator('#langEn').click()
 
     # First-use chooser: three explicit consumer situations, no specialist tools in the chooser.
     assert page.locator('[data-screen="start"]').is_visible()
