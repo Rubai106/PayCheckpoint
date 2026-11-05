@@ -194,24 +194,23 @@
   <details class="message-advanced">
     <summary id="sequence-review-toggle" data-i18n="sequenceReviewToggle">Review a full conversation (optional)</summary>
 <section class="sequence-panel" id="sequence-intelligence-panel" aria-labelledby="sequence-intelligence-title">
-  <div class="coach-head"><div><p class="eyebrow">LOCAL ONLY · MESSAGE ORDER MATTERS</p><h3 id="sequence-intelligence-title">Conversation sequence review</h3><p class="hint">Review a conversation as a sequence, not as isolated messages. Paste one message per line. Use “Other:” and “Me:” labels when possible. Analysis runs locally in this browser; the transcript is not uploaded or added to exports.</p></div></div>
-  <p class="sequence-format-note" id="sequence-format-note">Supported examples: Other: I am from customer care. | Me: What happened? | Other: Your account will be blocked. | Other: Send your OTP. Optional timestamps: [10:05] Other: ...</p>
-  <label for="sequence-transcript" id="sequence-transcript-label">Conversation transcript (max 30 messages / 12,000 characters)</label>
-  <textarea id="sequence-transcript" maxlength="12000" rows="7" aria-describedby="sequence-privacy-note sequence-format-note" placeholder="Other: I am calling from customer care.
-Me: What is the issue?
-Other: Your account will be blocked immediately.
-Other: Send your OTP to verify."></textarea>
-  <p class="hint" id="sequence-privacy-note">Do not paste PINs, OTPs, passwords, full account numbers or private keys. Although analysis is local, pasted text stays visible in this page until you clear it. The transcript is never included in the case timeline or export.</p>
+  <div class="coach-head"><div><p class="eyebrow" data-i18n="sequenceEyebrow">LOCAL ONLY · MESSAGE ORDER MATTERS</p><h3 id="sequence-intelligence-title" data-i18n="sequenceTitle">Conversation sequence review</h3><p class="hint" data-i18n="sequenceIntro">Use fictional messages only in this prototype. Paste one message per line; label the other person “Other:” and yourself “Me:” where possible. Analysis runs in this browser; the transcript is not uploaded or added to exports.</p></div></div>
+  <p class="sequence-format-note" id="sequence-format-note" data-i18n="sequenceFormatHelp">Example: Other: Your account will be blocked. | Me: Why? | Other: Share your OTP. Optional timestamp: [10:05] Other: ...</p>
+  <label for="sequence-transcript" id="sequence-transcript-label" data-i18n="sequenceTranscriptLabel">Fictional conversation (max 30 messages / 12,000 characters)</label>
+  <textarea id="sequence-transcript" maxlength="12000" rows="7" aria-describedby="sequence-privacy-note sequence-format-note" data-i18n-placeholder="sequencePlaceholder" placeholder="Other: Your account will be blocked.
+Me: Why?
+Other: Share your OTP."></textarea>
+  <p class="hint" id="sequence-privacy-note" data-i18n="sequencePrivacy">Use fictional/example conversations only in this prototype. Do not paste real chats, PINs, OTPs, passwords, full account numbers or identifying details. Pasted text remains visible in this page until you clear it. It is processed locally and never added to exports.</p>
   <div class="cta-row sequence-actions">
-    <button class="btn btn-o" type="button" onclick="loadConversationSequenceExample('staged')" id="btn-sequence-sample">Load staged example</button>
-    <button class="btn btn-o" type="button" onclick="loadConversationSequenceExample('benign')" id="btn-sequence-benign">Load benign example</button>
-    <button class="btn btn-p" type="button" onclick="runConversationSequenceReview()" id="btn-sequence-analyze">Review sequence locally</button>
-    <button class="btn btn-ghost" type="button" onclick="clearConversationSequence()" id="btn-sequence-clear">Clear transcript</button>
+    <button class="btn btn-o" type="button" onclick="loadConversationSequenceExample('staged')" id="btn-sequence-sample" data-i18n="sequenceBtnStaged">Load staged example</button>
+    <button class="btn btn-o" type="button" onclick="loadConversationSequenceExample('benign')" id="btn-sequence-benign" data-i18n="sequenceBtnBenign">Load benign example</button>
+    <button class="btn btn-p" type="button" onclick="runConversationSequenceReview()" id="btn-sequence-analyze" data-i18n="sequenceBtnReview">Review sequence locally</button>
+    <button class="btn btn-ghost" type="button" onclick="clearConversationSequence()" id="btn-sequence-clear" data-i18n="sequenceBtnClear">Clear transcript</button>
   </div>
   <div id="sequence-results" aria-live="polite" aria-atomic="true"></div>
-  <div class="cta-row"><button class="btn btn-o" type="button" onclick="addConversationSequenceToTimeline()" id="btn-sequence-add-timeline" disabled>Add summary to case timeline</button></div>
+  <div class="cta-row"><button class="btn btn-o" type="button" onclick="addConversationSequenceToTimeline()" id="btn-sequence-add-timeline" data-i18n="sequenceBtnTimeline" disabled>Add summary to case timeline</button></div>
   <p class="hint" id="sequence-timeline-status" role="status" aria-live="polite"></p>
-  <p class="hint" id="sequence-disclaimer">This local rule/sequence review does not establish sender identity, intent, message authenticity, or fraud. No detected pattern does not mean safe.</p>
+  <p class="hint" id="sequence-disclaimer" data-i18n="sequenceDisclaimer">This local rule/sequence review does not establish sender identity, intent, message authenticity, or fraud. No detected pattern does not mean safe.</p>
 </section>
   </details>
   <div class="message-review-next"><p class="hint" data-i18n="messageReviewNextHint">A warning is a reason to pause and verify independently—not proof that a person or message is fraudulent.</p>    <div class="cta-row"><button class="btn btn-o" type="button" onclick="startJourney('prevention','intent')" data-i18n="messageReviewNextPrevent">Continue to payment check</button>      <button class="btn btn-p" type="button" onclick="startJourney('recovery','recovery')" data-i18n="messageReviewNextRecover">I already sent money</button></div>

@@ -390,3 +390,49 @@ I18N.en.walletCheckProgressTitle='Your final wallet check';
 I18N.bn.walletCheckProgressTitle='শেষবারের মতো ওয়ালেট যাচাই';
 I18N.en.walletCheckProgressHint='Check the recipient first, then the amount and any fee on your wallet’s own confirmation screen.';
 I18N.bn.walletCheckProgressHint='প্রথমে প্রাপকের তথ্য দেখুন, এরপর ওয়ালেটের নিজস্ব নিশ্চিতকরণ স্ক্রিনে পরিমাণ ও ফি মিলিয়ে নিন।';
+
+/* v1.33.0 — keep the optional conversation-review workflow usable in Bangla and reinforce synthetic-only demo inputs at the point of entry. */
+Object.assign(I18N.en,{
+  messageReviewPrivacy:'For this prototype, use fictional/example text only. Do not paste a real SMS, PIN, OTP, password, wallet login or account details. The basic checks run in this browser and do not identify the sender.',
+  scenarioIntro:'All examples use fictional information. B and C are hypothetical undo demonstrations only; PayCheckpoint cannot cancel a real wallet payment.',
+  scenarioB:'B · Simulated undo',
+  scenarioBD:'Simulated Pending → Cancelled',
+  scenarioC:'C · Missed simulated window',
+  scenarioCD:'Simulation window ends → Recovery',
+  startRecoverySub:'Try the evidence workflow with a fictional receipt',
+  sequenceEyebrow:'LOCAL ONLY · MESSAGE ORDER MATTERS',
+  sequenceTitle:'Conversation sequence review',
+  sequenceIntro:'Use fictional messages only in this prototype. Paste one message per line; label the other person “Other:” and yourself “Me:” where possible. Analysis runs in this browser; the transcript is not uploaded or added to exports.',
+  sequenceFormatHelp:'Example: Other: Your account will be blocked. | Me: Why? | Other: Share your OTP. Optional timestamp: [10:05] Other: ...',
+  sequenceTranscriptLabel:'Fictional conversation (max 30 messages / 12,000 characters)',
+  sequencePlaceholder:'Other: Your account will be blocked.\nMe: Why?\nOther: Share your OTP.',
+  sequencePrivacy:'Use fictional/example conversations only in this prototype. Do not paste real chats, PINs, OTPs, passwords, full account numbers or identifying details. Pasted text remains visible in this page until you clear it. It is processed locally and never added to exports.',
+  sequenceBtnStaged:'Load staged example',
+  sequenceBtnBenign:'Load benign example',
+  sequenceBtnReview:'Review sequence locally',
+  sequenceBtnClear:'Clear transcript',
+  sequenceBtnTimeline:'Add summary to case timeline',
+  sequenceDisclaimer:'This local rule/sequence review does not establish sender identity, intent, message authenticity or fraud. No detected pattern does not mean safe.'
+});
+Object.assign(I18N.bn,{
+  messageReviewPrivacy:'এই প্রোটোটাইপে শুধু কাল্পনিক/উদাহরণ বার্তা ব্যবহার করুন। আসল SMS, PIN, OTP, পাসওয়ার্ড, ওয়ালেট লগইন বা অ্যাকাউন্টের তথ্য পেস্ট করবেন না। সাধারণ পরীক্ষা এই ব্রাউজারেই চলে এবং প্রেরকের পরিচয় শনাক্ত করে না।',
+  scenarioIntro:'সব উদাহরণে কাল্পনিক তথ্য ব্যবহার করা হয়েছে। B ও C শুধু সম্ভাব্য Undo সুবিধার সিমুলেশন; PayCheckpoint বাস্তব ওয়ালেট পেমেন্ট বাতিল করতে পারে না।',
+  scenarioB:'B · Undo সিমুলেশন',
+  scenarioBD:'সিমুলেশনে Pending → Cancelled',
+  scenarioC:'C · সিমুলেটেড সময়সীমা শেষ',
+  scenarioCD:'সিমুলেশনের সময় শেষ → পুনরুদ্ধার',
+  startRecoverySub:'কাল্পনিক রসিদ দিয়ে প্রমাণ গুছানোর প্রক্রিয়া দেখুন',
+  sequenceEyebrow:'শুধু ব্রাউজারে · বার্তার ক্রম গুরুত্বপূর্ণ',
+  sequenceTitle:'কথোপকথনের ধারাবাহিকতা পর্যালোচনা',
+  sequenceIntro:'এই প্রোটোটাইপে শুধু কাল্পনিক বার্তা ব্যবহার করুন। প্রতি লাইনে একটি বার্তা লিখুন; সম্ভব হলে অন্য ব্যক্তির বার্তার আগে “Other:” এবং নিজের বার্তার আগে “Me:” লিখুন। বিশ্লেষণ এই ব্রাউজারেই চলে; কথোপকথন আপলোড বা এক্সপোর্টে যোগ হয় না।',
+  sequenceFormatHelp:'উদাহরণ: Other: আপনার অ্যাকাউন্ট বন্ধ হয়ে যাবে। | Me: কেন? | Other: আপনার OTP দিন। ঐচ্ছিক সময়: [10:05] Other: ...',
+  sequenceTranscriptLabel:'কাল্পনিক কথোপকথন (সর্বোচ্চ ৩০টি বার্তা / ১২,০০০ অক্ষর)',
+  sequencePlaceholder:'Other: আপনার অ্যাকাউন্ট বন্ধ হয়ে যাবে।\nMe: কেন?\nOther: আপনার OTP দিন।',
+  sequencePrivacy:'এই প্রোটোটাইপে শুধু কাল্পনিক/উদাহরণ কথোপকথন ব্যবহার করুন। আসল চ্যাট, PIN, OTP, পাসওয়ার্ড, সম্পূর্ণ অ্যাকাউন্ট নম্বর বা পরিচয় শনাক্ত করা যায় এমন তথ্য দেবেন না। মুছে ফেলা পর্যন্ত লেখা এই পৃষ্ঠায় দেখা যাবে। এটি স্থানীয়ভাবে বিশ্লেষণ করা হয় এবং এক্সপোর্টে যোগ হয় না।',
+  sequenceBtnStaged:'ধাপে সাজানো উদাহরণ লোড করুন',
+  sequenceBtnBenign:'সাধারণ উদাহরণ লোড করুন',
+  sequenceBtnReview:'স্থানীয়ভাবে কথোপকথন পর্যালোচনা',
+  sequenceBtnClear:'কথোপকথন মুছুন',
+  sequenceBtnTimeline:'সারাংশ কেসের সময়রেখায় যোগ করুন',
+  sequenceDisclaimer:'এই স্থানীয় নিয়ম/ধারাবাহিকতা পর্যালোচনা প্রেরকের পরিচয়, উদ্দেশ্য, বার্তার সত্যতা বা প্রতারণা প্রমাণ করে না। কোনো সতর্ক সংকেত না পেলেও বার্তাটি নিরাপদ প্রমাণ হয় না।'
+});
