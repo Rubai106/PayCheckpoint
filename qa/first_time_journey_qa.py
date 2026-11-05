@@ -316,6 +316,10 @@ with sync_playwright() as p:
     assert page.locator('#sequence-intelligence-panel').is_visible()
     page.locator('#btn-sequence-sample').click()
     assert 'not a fraud verdict' in page.locator('#sequence-results').inner_text().lower()
+    # The copy test opened this optional panel; close it so the next journey starts clean.
+    if sequence_details.evaluate('(el) => el.open'):
+        sequence_details.locator('summary').click()
+    assert not page.locator('#sequence-intelligence-panel').is_visible()
 
     # Returning preserves the tool route; next-step actions reset into their chosen flow.
     page.locator('[data-screen="message-review"] button[data-i18n="messageReviewBack"]').click()
