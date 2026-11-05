@@ -174,6 +174,13 @@ with sync_playwright() as p:
     assert page.locator('[data-live-source="entered"] [data-live-value="recipient"]').inner_text() == '01712345678'
     assert page.locator('[data-live-source="entered"] [data-live-value="amount"]').inner_text() == '৳3,000'
 
+    # Preloaded example scenarios write fields programmatically; their live comparison must update immediately.
+    page.evaluate("loadScenario('B')")
+    assert page.locator('[data-screen="safesend"]').is_visible()
+    assert page.locator('#live-source-visual').get_attribute('data-state') == 'match'
+    assert page.locator('[data-live-source="entered"] [data-live-value="recipient"]').inner_text() == '01712345678'
+    assert page.locator('[data-live-source="entered"] [data-live-value="amount"]').inner_text() == '৳3,000'
+
     # Starting a new case clears the form and all live comparison layers.
     page.evaluate("startJourney('prevention','intent')")
     assert page.locator('#live-source-visual').get_attribute('data-state') == 'pending'
