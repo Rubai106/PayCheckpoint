@@ -1,3 +1,7 @@
+## v1.31.0 follow-up — preserve provider-field provenance during SMS review
+- When a pasted SMS does not identify bKash, Nagad or Rocket, the form still offers the editable “Unknown — confirm manually” fallback, but the source record now stays empty. Confirming that unchanged fallback is therefore labelled as manually entered rather than extracted from the message.
+- Added a recovery-workspace browser regression proving that the fallback remains visible and editable while its provenance is recorded as manual.
+
 - Submitting a payment instruction now refreshes the live source comparison after parsing and candidate extraction, so the instruction card immediately enters review instead of retaining its pre-submit state.
 - Extended the first-time journey regression to assert the unconfirmed candidate state before confirming either extracted value.
 

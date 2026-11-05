@@ -37,6 +37,18 @@ with sync_playwright() as p:
     page.locator('#incident-workflow-continue').click()
     assert page.locator('[data-screen="sms"]').is_visible()
     assert page.evaluate("document.activeElement && document.activeElement.id") == 'f-sms'
+    # A fallback label is UI guidance, not a fact extracted from the message.
+    page.locator('#f-sms').fill('You have sent Tk 3,000.00 to 01712345678. TrxID ABCD123456. Date: 28/10/2026 10:42 AM.')
+    page.evaluate('parseSMS()')
+    page.wait_for_timeout(600)
+    assert page.locator('#x-provider').input_value() == 'Unknown — confirm manually'
+    assert page.evaluate("S.parsedRaw.provider") == ''
+    assert page.locator('#sms-fields').is_visible()
+    page.get_by_role('button', name='Confirm & compare →').click()
+    assert page.evaluate("S.receiptRaw.provider") == ''
+    assert page.evaluate("S.receiptProv.provider") == 'manual'
+    checks.append('PASS | Unknown-provider fallback remains editable but is not mislabelled as extracted receipt evidence')
+    page.evaluate("goApp('incident')")
     page.evaluate("goApp('incident')")
     page.evaluate("S.intendedNum='01712345678'; S.intendedAmt='3000'; S.receipt={recipient:'01712345678',amount:'3000',datetime:'2026-10-30 10:15',trxid:'TRX-123456789'}; S.receiptReviewed=true; renderIncidentDossier()")
     assert 'Receipt fields reviewed by you' in page.locator('#incident-workflow-evidence-status').inner_text()
