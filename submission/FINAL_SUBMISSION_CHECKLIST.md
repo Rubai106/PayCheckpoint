@@ -8,8 +8,8 @@
 ## Current source and validation
 
 - Repository: https://github.com/Rubai106/PayCheckpoint
-- Application code baseline: `d3863a8dce0c764d6b78bfe2179a663ce5606b2b` (`main`, v1.32.0), including the first-render and bilingual B2C value-copy alignment.
-- CI for that exact application baseline: [GitHub Actions #41980096503](https://github.com/Rubai106/PayCheckpoint/actions/runs/41980096503) — success. Deterministic release validation, first-time consumer journey, recovery workspace, Evidence Map, keyboard/focus and responsive stages all passed.
+- Application code baseline: `8d4e7afc0994bad89e367dab1003d112cc933571` (`main`), including first-render B2C value copy, English/Bangla conversation-review privacy guidance, the missing Bangla disclaimer fix, and first-use regression isolation.
+- CI for that exact baseline: [GitHub Actions #41982907829](https://github.com/Rubai106/PayCheckpoint/actions/runs/41982907829) — success. All six stages passed: deterministic release validation, first-time journey, recovery workspace, Evidence Map, keyboard/focus and responsive regression.
 - Public application URL: https://paycheckpoint.pages.dev. The current public deployment could not be independently inspected from this review; do not assume it serves the current GitHub head.
 - The 4 November owner-supplied production report describes an older deployed source and one successful synthetic Workers AI request. It is a point-in-time owner report, not independent proof of current production parity or model accuracy.
 - Exact organizer sticker is in the current source at `assets/aignite-buildathon-sticker.webp` and rendered in the source navbar. Production display remains unverified.

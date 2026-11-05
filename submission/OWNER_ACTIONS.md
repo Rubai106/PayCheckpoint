@@ -13,9 +13,9 @@ This file covers tasks that require your personal Devpost account or a real devi
 
 - Public application: https://paycheckpoint.pages.dev
 - GitHub repository: https://github.com/Rubai106/PayCheckpoint
-- Current application-code baseline: `d3863a8dce0c764d6b78bfe2179a663ce5606b2b` (`main`, v1.32.0). It includes the first-render English copy, bilingual dictionary alignment, and regression assertions for the B2C wallet-side workflow.
-- CI for that exact code baseline: [run #41980096503](https://github.com/Rubai106/PayCheckpoint/actions/runs/41980096503) — success across deterministic release validation, first-time journey, recovery workspace, Evidence Map, keyboard/focus, and responsive regression.
-- Current `main` head as this owner-action note is updated: `479cda474208c0484259adc14061f11103746f25` (documentation follow-up after the verified application-code baseline).
+- Current application-code baseline: `8d4e7afc0994bad89e367dab1003d112cc933571` (`main`). It includes the B2C wallet-side value proposition, English/Bangla safety copy in the conversation-review module, the missing Bangla disclaimer, and the regression-test cleanup.
+- CI for that exact code baseline: [run #41982907829](https://github.com/Rubai106/PayCheckpoint/actions/runs/41982907829) — success across all six stages (deterministic release, first-time journey, recovery workspace, Evidence Map, keyboard/focus and responsive checks).
+- Verify the public deployment's `/build-info.json` against this SHA on your own browser/device before submission; the deployment could not be independently fetched in this review.
 - The owner-supplied 4 November report records a synthetic Qwen3 Workers AI request on an older deployed source. It does not verify current source parity or AI accuracy.
 - After deployment, open https://paycheckpoint.pages.dev/build-info.json and compare its full `commit` SHA with the then-current `main` head. Do not say the live site is current until these match.
 - If the deployed source changes and Cloudflare Workers AI remains configured, run one synthetic live check with `npm run qa:live-copilot -- --base-url https://paycheckpoint.pages.dev`. Never use real SMS, account, identity or payment information.

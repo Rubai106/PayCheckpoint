@@ -1,7 +1,7 @@
 # Judge-readiness audit — 5 November 2026
 
-**Application code baseline reviewed:** `d3863a8dce0c764d6b78bfe2179a663ce5606b2b` (`main`, package v1.32.0; first-render and bilingual B2C copy alignment).  
-**CI for that exact application baseline:** [GitHub Actions #41980096503](https://github.com/Rubai106/PayCheckpoint/actions/runs/41980096503) — success; deterministic release validation, first-time journey, recovery workspace, Evidence Map, keyboard/focus and responsive stages all passed.  
+**Application code baseline reviewed:** `8d4e7afc0994bad89e367dab1003d112cc933571` (`main`; B2C value-copy, conversation-review privacy/localization and regression isolation fixes).  
+**CI for that exact application baseline:** [GitHub Actions #41982907829](https://github.com/Rubai106/PayCheckpoint/actions/runs/41982907829) — success; all six stages passed: deterministic release validation, first-time consumer journey, recovery workspace, Evidence Map, keyboard/focus accessibility and responsive regression.  
 **Production parity:** the current live `/build-info.json` could not be independently fetched in this review; do not assume the public site serves this SHA.  
 **Scoring basis:** the four weighted criteria currently displayed on the [official Devpost event page](https://yunet-aignite26.devpost.com/). This is an independent, provisional reviewer estimate from source and documented evidence—not an organizer score or prediction of the judges' result.
 
