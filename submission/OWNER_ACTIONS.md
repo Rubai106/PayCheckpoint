@@ -13,11 +13,11 @@ This file covers tasks that require your personal Devpost account or a real devi
 
 - Public application: https://paycheckpoint.pages.dev
 - GitHub repository: https://github.com/Rubai106/PayCheckpoint
-- Current `main` baseline: `b21f592a133621186f1d99b3e1ba24b2d94b3cac` ([commit](https://github.com/Rubai106/PayCheckpoint/commit/b21f592a133621186f1d99b3e1ba24b2d94b3cac)). It includes the B2C experience, bilingual conversation review, the incident jump-navigation fix, and optional intended-value capture for recovery SMS comparison.
-- Latest full validation: [Actions run #216](https://github.com/Rubai106/PayCheckpoint/actions/runs/42008374616) passed all seven stages on PR #7's final tree (`4118b65bd4f1b2b9c685fc321c50de617c11c0b3`) before it was squash-merged to the `main` SHA above. A separate post-merge push run was not independently confirmed.
+- Latest application-code merge on `main`: `b21f592a133621186f1d99b3e1ba24b2d94b3cac` ([commit](https://github.com/Rubai106/PayCheckpoint/commit/b21f592a133621186f1d99b3e1ba24b2d94b3cac)). It includes the B2C experience, bilingual conversation review, the incident jump-navigation fix, and optional intended-value capture for recovery SMS comparison. Documentation-only sync commits follow it; use the live branch ref for the current `main` SHA.
+- Latest full validation: [Actions run #216](https://github.com/Rubai106/PayCheckpoint/actions/runs/42008374616) passed all seven stages on PR #7's final tree (`4118b65bd4f1b2b9c685fc321c50de617c11c0b3`) before it was squash-merged as application commit `b21f592a133621186f1d99b3e1ba24b2d94b3cac`. A separate post-merge push run was not independently confirmed.
 - Verify the public deployment's `/build-info.json` against this SHA on your own browser/device before submission. The public domain and manifest could not be fetched in this review; production parity remains unverified.
 - The owner-supplied 4 November report records a synthetic Qwen3 Workers AI request on an older deployed source. It does not verify current source parity or AI accuracy.
-- After deployment, open https://paycheckpoint.pages.dev/build-info.json and compare its full `commit` SHA with the then-current `main` head. Do not say the live site is current until these match.
+- After deployment, open https://paycheckpoint.pages.dev/build-info.json and compare its full `commit` SHA with the live, then-current `main` head (including any documentation-only commits). Do not say the live site is current until these match.
 - If the deployed source changes and Cloudflare Workers AI remains configured, run one synthetic live check with `npm run qa:live-copilot -- --base-url https://paycheckpoint.pages.dev`. Never use real SMS, account, identity or payment information.
 - Do not create an API token for Workers AI; the Pages integration uses a server-side binding named `AI`.
 
