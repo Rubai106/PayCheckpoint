@@ -237,6 +237,20 @@ test('Copilot reads current payment form values ahead of previously submitted st
   assert.ok(start >= 0 && end > start);
 });
 
+test('Copilot cancels obsolete fetches and bounds cloud request duration', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { resolve, dirname } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+  const source = await readFile(resolve(root, 'js/copilot.js'), 'utf8');
+  assert.match(source, /var PC_COPILOT_ABORT_CONTROLLER = null/);
+  assert.match(source, /var PC_COPILOT_REQUEST_TIMEOUT_MS = 30000/);
+  assert.match(source, /obsoleteController\.abort\(\)/);
+  assert.match(source, /requestOptions\.signal = abortController\.signal/);
+  assert.match(source, /Cloud AI took too long to respond/);
+  assert.match(source, /clearTimeout\(PC_COPILOT_REQUEST_TIMEOUT_HANDLE\)/);
+});
+
 test('Copilot invalidates plans when their source context changes and consumes consent per request', async () => {
   const { readFile } = await import('node:fs/promises');
   const { resolve, dirname } = await import('node:path');

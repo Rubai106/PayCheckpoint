@@ -1,3 +1,8 @@
+## v1.31.0 follow-up — abort obsolete Cloud Copilot requests
+- Added an AbortController for hosted Copilot requests. Starting a new case, switching to offline guidance, or changing the source context now aborts the obsolete fetch instead of only ignoring its eventual response.
+- Added a 30-second request timeout with a clear timeout message; it makes no claim about payment status and leaves the private offline plan available.
+- Extended browser regressions to assert the actual fetch signal is aborted for new-case, offline-choice and context-edit invalidations.
+
 ## v1.31.0 follow-up — make live-form regression independent of screen visibility
 - Adjusted the Copilot live-input browser regression to update the hidden payment field through the DOM and dispatch its normal input event. The recovery workspace intentionally hides the payment form; the test now verifies source precedence without trying to interact with an invisible control.
 

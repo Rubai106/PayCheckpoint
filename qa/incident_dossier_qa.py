@@ -222,13 +222,19 @@ with sync_playwright() as p:
             { timing: 'next', action: 'Old case next action.', reason: 'Old case next reason.' }
           ], avoid: [], complaintOutline: [], notice: 'Old case output.' }
       }) };
-      window.fetch = (url, options = {}) => String(url).endsWith('/api/copilot/analyze')
-        ? new Promise(resolve => { window.__copilotResolve = resolve; })
-        : Promise.resolve({ ok: true, json: async () => ({ cloudAiConfigured: true }) });
+      window.__copilotSignal = null;
+      window.fetch = (url, options = {}) => {
+        if (String(url).endsWith('/api/copilot/analyze')) {
+          window.__copilotSignal = options.signal;
+          return new Promise(resolve => { window.__copilotResolve = resolve; });
+        }
+        return Promise.resolve({ ok: true, json: async () => ({ cloudAiConfigured: true }) });
+      };
       runCloudCopilot();
     }''')
     page.wait_for_function("typeof window.__copilotResolve === 'function'")
     page.evaluate("startNewCase('recovery')")
+    assert page.evaluate('window.__copilotSignal && window.__copilotSignal.aborted === true')
     assert page.evaluate('PC_COPILOT_LAST_RESULT === null')
     assert page.locator('.copilot-result-card').count() == 0
     page.evaluate('window.__copilotResolve(window.__oldCopilotResponse)')
@@ -241,15 +247,21 @@ with sync_playwright() as p:
     page.evaluate('''() => {
       document.getElementById('copilot-cloud-consent').checked = true;
       window.__copilotResolve = null;
-      window.fetch = (url, options = {}) => String(url).endsWith('/api/copilot/analyze')
-        ? new Promise(resolve => { window.__copilotResolve = resolve; })
-        : Promise.resolve({ ok: true, json: async () => ({ cloudAiConfigured: true }) });
+      window.__copilotSignal = null;
+      window.fetch = (url, options = {}) => {
+        if (String(url).endsWith('/api/copilot/analyze')) {
+          window.__copilotSignal = options.signal;
+          return new Promise(resolve => { window.__copilotResolve = resolve; });
+        }
+        return Promise.resolve({ ok: true, json: async () => ({ cloudAiConfigured: true }) });
+      };
       runCloudCopilot();
     }''')
     page.wait_for_function("typeof window.__copilotResolve === 'function'")
     page.locator('#copilot-note').fill('A changed note while inference is pending.')
     assert page.evaluate('PC_COPILOT_LAST_RESULT === null')
     assert page.evaluate('PC_COPILOT_PENDING_CONTEXT_KEY === null')
+    assert page.evaluate('window.__copilotSignal && window.__copilotSignal.aborted === true')
     assert page.locator('.copilot-result-card').count() == 0
     page.evaluate('window.__copilotResolve(window.__oldCopilotResponse)')
     page.wait_for_timeout(40)
@@ -261,13 +273,19 @@ with sync_playwright() as p:
     page.evaluate('''() => {
       document.getElementById('copilot-cloud-consent').checked = true;
       window.__copilotResolve = null;
-      window.fetch = (url, options = {}) => String(url).endsWith('/api/copilot/analyze')
-        ? new Promise(resolve => { window.__copilotResolve = resolve; })
-        : Promise.resolve({ ok: true, json: async () => ({ cloudAiConfigured: true }) });
+      window.__copilotSignal = null;
+      window.fetch = (url, options = {}) => {
+        if (String(url).endsWith('/api/copilot/analyze')) {
+          window.__copilotSignal = options.signal;
+          return new Promise(resolve => { window.__copilotResolve = resolve; });
+        }
+        return Promise.resolve({ ok: true, json: async () => ({ cloudAiConfigured: true }) });
+      };
       runCloudCopilot();
     }''')
     page.wait_for_function("typeof window.__copilotResolve === 'function'")
     page.evaluate('runOfflineCopilot()')
+    assert page.evaluate('window.__copilotSignal && window.__copilotSignal.aborted === true')
     assert page.evaluate("PC_COPILOT_LAST_RESULT && PC_COPILOT_LAST_RESULT.mode === 'offline-guide'")
     page.evaluate('window.__copilotResolve(window.__oldCopilotResponse)')
     page.wait_for_timeout(40)

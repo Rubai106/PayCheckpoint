@@ -3,6 +3,9 @@ var PC_COPILOT_LAST_RESULT = null;
 var PC_COPILOT_STATUS = null;
 var PC_COPILOT_REQUEST_ID = 0;
 var PC_COPILOT_PENDING_CONTEXT_KEY = null;
+var PC_COPILOT_ABORT_CONTROLLER = null;
+var PC_COPILOT_REQUEST_TIMEOUT_HANDLE = null;
+var PC_COPILOT_REQUEST_TIMEOUT_MS = 30000;
 
 function resetCopilotCloudButton() {
   var btn = document.getElementById('btn-copilot-cloud');
@@ -15,6 +18,15 @@ function resetCopilotCloudButton() {
 function invalidateCopilotRequest(message) {
   PC_COPILOT_REQUEST_ID += 1;
   PC_COPILOT_PENDING_CONTEXT_KEY = null;
+  if (PC_COPILOT_REQUEST_TIMEOUT_HANDLE !== null) {
+    clearTimeout(PC_COPILOT_REQUEST_TIMEOUT_HANDLE);
+    PC_COPILOT_REQUEST_TIMEOUT_HANDLE = null;
+  }
+  if (PC_COPILOT_ABORT_CONTROLLER) {
+    var obsoleteController = PC_COPILOT_ABORT_CONTROLLER;
+    PC_COPILOT_ABORT_CONTROLLER = null;
+    obsoleteController.abort();
+  }
   PC_COPILOT_LAST_RESULT = null;
   var out = document.getElementById('copilot-results');
   if (out) out.replaceChildren();
@@ -253,6 +265,14 @@ async function runCloudCopilot() {
     consent?.focus(); return;
   }
   var requestId = invalidateCopilotRequest();
+  var abortController = typeof AbortController === 'function' ? new AbortController() : null;
+  PC_COPILOT_ABORT_CONTROLLER = abortController;
+  var timedOut = false;
+  PC_COPILOT_REQUEST_TIMEOUT_HANDLE = window.setTimeout(function() {
+    PC_COPILOT_REQUEST_TIMEOUT_HANDLE = null;
+    timedOut = true;
+    if (abortController) abortController.abort();
+  }, PC_COPILOT_REQUEST_TIMEOUT_MS);
   var ctx = copilotCurrentContext();
   // This assignment is reachable only after the explicit checkbox gate above.
   ctx.consent = true;
@@ -268,7 +288,9 @@ async function runCloudCopilot() {
   if (status) status.textContent = copilotCopy('Sending the redacted summary to Cloudflare Workers AI after your consent…', 'আপনার সম্মতির পর রেড্যাক্ট করা সারাংশ Cloudflare Workers AI-তে পাঠানো হচ্ছে…');
   if (out) out.replaceChildren();
   try {
-    var response = await fetch('/api/copilot/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(ctx), cache: 'no-store' });
+    var requestOptions = { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(ctx), cache: 'no-store' };
+    if (abortController) requestOptions.signal = abortController.signal;
+    var response = await fetch('/api/copilot/analyze', requestOptions);
     if (requestId !== PC_COPILOT_REQUEST_ID) return;
     var payload = await response.json().catch(function() { return {}; });
     if (requestId !== PC_COPILOT_REQUEST_ID) return;
@@ -283,10 +305,15 @@ async function runCloudCopilot() {
   } catch (error) {
     if (requestId !== PC_COPILOT_REQUEST_ID) return;
     PC_COPILOT_PENDING_CONTEXT_KEY = null;
-    if (status) status.textContent = String(error && error.message || copilotCopy('AI plan failed. No claim was made about the case. Try the private offline plan.', 'AI পরিকল্পনা তৈরি হয়নি। কেস সম্পর্কে কোনো সিদ্ধান্ত দেওয়া হয়নি। ব্যক্তিগত অফলাইন পরিকল্পনা চেষ্টা করুন।'));
+    if (status) status.textContent = timedOut
+      ? copilotCopy('Cloud AI took too long to respond. No case outcome was established. Try again with fresh consent or use the private offline plan.', 'Cloud AI উত্তর দিতে বেশি সময় নিয়েছে। কেসের কোনো ফলাফল প্রতিষ্ঠিত হয়নি। নতুন সম্মতি দিয়ে আবার চেষ্টা করুন অথবা ব্যক্তিগত অফলাইন পরিকল্পনা ব্যবহার করুন।')
+      : String(error && error.message || copilotCopy('AI plan failed. No claim was made about the case. Try the private offline plan.', 'AI পরিকল্পনা তৈরি হয়নি। কেস সম্পর্কে কোনো সিদ্ধান্ত দেওয়া হয়নি। ব্যক্তিগত অফলাইন পরিকল্পনা চেষ্টা করুন।'));
   } finally {
+    if (PC_COPILOT_REQUEST_TIMEOUT_HANDLE !== null) clearTimeout(PC_COPILOT_REQUEST_TIMEOUT_HANDLE);
+    PC_COPILOT_REQUEST_TIMEOUT_HANDLE = null;
     if (requestId === PC_COPILOT_REQUEST_ID) {
       PC_COPILOT_PENDING_CONTEXT_KEY = null;
+      if (PC_COPILOT_ABORT_CONTROLLER === abortController) PC_COPILOT_ABORT_CONTROLLER = null;
       resetCopilotCloudButton();
     }
   }
