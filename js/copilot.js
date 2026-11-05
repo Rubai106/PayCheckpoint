@@ -1,6 +1,28 @@
 /* Step 1: evidence-to-action copilot. Cloud analysis is strictly opt-in; the private offline plan makes no requests. */
 var PC_COPILOT_LAST_RESULT = null;
 var PC_COPILOT_STATUS = null;
+var PC_COPILOT_REQUEST_ID = 0;
+
+function resetCopilotCloudButton() {
+  var btn = document.getElementById('btn-copilot-cloud');
+  if (!btn) return;
+  delete btn.dataset.busy;
+  btn.disabled = !(PC_COPILOT_STATUS && PC_COPILOT_STATUS.cloudAiConfigured);
+  btn.textContent = copilotCopy('Generate AI action plan', 'AI করণীয় পরিকল্পনা তৈরি করুন');
+}
+
+function invalidateCopilotRequest(message) {
+  PC_COPILOT_REQUEST_ID += 1;
+  PC_COPILOT_LAST_RESULT = null;
+  var out = document.getElementById('copilot-results');
+  if (out) out.replaceChildren();
+  resetCopilotCloudButton();
+  if (message) {
+    var status = document.getElementById('copilot-status');
+    if (status) status.textContent = message;
+  }
+  return PC_COPILOT_REQUEST_ID;
+}
 var PC_COPILOT_SIGNAL_LABELS = {
   'credential-request': ['requests for PIN / OTP / password', 'PIN / OTP / পাসওয়ার্ড চাওয়া'],
   'recovery-fee': ['recovery fee demand', 'টাকা উদ্ধারের ফি দাবি'],
@@ -168,6 +190,7 @@ async function runCloudCopilot() {
     if (status) status.textContent = copilotCopy('To use cloud AI, first read the sharing notice and tick the explicit consent checkbox. You can always use the offline plan without sharing data.', 'ক্লাউড AI ব্যবহারের আগে তথ্য ভাগাভাগির নোটিশ পড়ে সম্মতির বাক্সে টিক দিন। তথ্য না পাঠিয়ে সবসময় অফলাইন পরিকল্পনা ব্যবহার করতে পারবেন।');
     consent?.focus(); return;
   }
+  var requestId = invalidateCopilotRequest();
   var ctx = copilotCurrentContext();
   // This assignment is reachable only after the explicit checkbox gate above.
   ctx.consent = true;
@@ -180,17 +203,21 @@ async function runCloudCopilot() {
   if (out) out.replaceChildren();
   try {
     var response = await fetch('/api/copilot/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(ctx), cache: 'no-store' });
+    if (requestId !== PC_COPILOT_REQUEST_ID) return;
     var payload = await response.json().catch(function() { return {}; });
+    if (requestId !== PC_COPILOT_REQUEST_ID) return;
     if (!response.ok) throw new Error(payload.message || copilotCopy('The AI service is unavailable. Use the offline plan instead.', 'AI সেবা এখন পাওয়া যাচ্ছে না। এর বদলে অফলাইন পরিকল্পনা ব্যবহার করুন।'));
     PC_COPILOT_LAST_RESULT = { result: payload.result, mode: payload.mode, model: payload.model };
     renderCopilotResult(payload.result, payload.mode, payload.model);
   } catch (error) {
+    if (requestId !== PC_COPILOT_REQUEST_ID) return;
     if (status) status.textContent = String(error && error.message || copilotCopy('AI plan failed. No claim was made about the case. Try the private offline plan.', 'AI পরিকল্পনা তৈরি হয়নি। কেস সম্পর্কে কোনো সিদ্ধান্ত দেওয়া হয়নি। ব্যক্তিগত অফলাইন পরিকল্পনা চেষ্টা করুন।'));
   } finally {
-    if (btn) { btn.disabled = !(PC_COPILOT_STATUS && PC_COPILOT_STATUS.cloudAiConfigured); delete btn.dataset.busy; btn.textContent = copilotCopy('Generate AI action plan', 'AI করণীয় পরিকল্পনা তৈরি করুন'); }
+    if (requestId === PC_COPILOT_REQUEST_ID) resetCopilotCloudButton();
   }
 }
 function runOfflineCopilot() {
+  invalidateCopilotRequest();
   var ctx = copilotCurrentContext();
   // Deliberately do not inspect or use the free-text note in offline mode.
   var result = createOfflineCopilotResult(ctx);

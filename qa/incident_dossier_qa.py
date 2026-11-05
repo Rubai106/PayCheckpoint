@@ -164,6 +164,52 @@ with sync_playwright() as p:
     assert 'private' in page.locator('.copilot-result-top .tag').inner_text().lower()
     checks.append('PASS | Cloud AI sends literal boolean consent only after user opt-in; offline plan sends no request')
 
+    # A response from a previous case must not overwrite a newly-started case.
+    page.evaluate('''() => {
+      PC_COPILOT_STATUS = { cloudAiConfigured: true };
+      document.getElementById('copilot-cloud-consent').checked = true;
+      window.__copilotResolve = null;
+      window.__oldCopilotResponse = { ok: true, json: async () => ({
+        mode: 'cloudflare-ai', model: 'old-case-model',
+        result: { heading: 'OLD CASE PLAN', summary: 'This belongs to the previous case.', unknowns: [],
+          nextSteps: [
+            { timing: 'now', action: 'Old case action.', reason: 'Old case reason.' },
+            { timing: 'next', action: 'Old case next action.', reason: 'Old case next reason.' }
+          ], avoid: [], complaintOutline: [], notice: 'Old case output.' }
+      }) };
+      window.fetch = (url, options = {}) => String(url).endsWith('/api/copilot/analyze')
+        ? new Promise(resolve => { window.__copilotResolve = resolve; })
+        : Promise.resolve({ ok: true, json: async () => ({ cloudAiConfigured: true }) });
+      runCloudCopilot();
+    }''')
+    page.wait_for_function("typeof window.__copilotResolve === 'function'")
+    page.evaluate("startNewCase('recovery')")
+    assert page.evaluate('PC_COPILOT_LAST_RESULT === null')
+    assert page.locator('.copilot-result-card').count() == 0
+    page.evaluate('window.__copilotResolve(window.__oldCopilotResponse)')
+    page.wait_for_timeout(40)
+    assert page.evaluate('PC_COPILOT_LAST_RESULT === null')
+    assert page.locator('.copilot-result-card').count() == 0
+    checks.append('PASS | Late cloud response from an earlier case is discarded after starting a new case')
+
+    # Choosing offline guidance while cloud inference is pending must keep the offline result in control.
+    page.evaluate('''() => {
+      document.getElementById('copilot-cloud-consent').checked = true;
+      window.__copilotResolve = null;
+      window.fetch = (url, options = {}) => String(url).endsWith('/api/copilot/analyze')
+        ? new Promise(resolve => { window.__copilotResolve = resolve; })
+        : Promise.resolve({ ok: true, json: async () => ({ cloudAiConfigured: true }) });
+      runCloudCopilot();
+    }''')
+    page.wait_for_function("typeof window.__copilotResolve === 'function'")
+    page.evaluate('runOfflineCopilot()')
+    assert page.evaluate("PC_COPILOT_LAST_RESULT && PC_COPILOT_LAST_RESULT.mode === 'offline-guide'")
+    page.evaluate('window.__copilotResolve(window.__oldCopilotResponse)')
+    page.wait_for_timeout(40)
+    assert page.evaluate("PC_COPILOT_LAST_RESULT && PC_COPILOT_LAST_RESULT.mode === 'offline-guide'")
+    assert 'private' in page.locator('.copilot-result-top .tag').inner_text().lower()
+    checks.append('PASS | Pending cloud response cannot overwrite a user-selected offline plan')
+
     # Bangla view and new-case reset.
     page.locator('#langBn').click()
     assert 'পেমেন্ট ঘটনার ডসিয়ে' in page.locator('#incident-dossier-title').inner_text()

@@ -1,3 +1,8 @@
+## v1.31.0 follow-up — invalidate late Copilot responses across case changes
+- Added a monotonic request-generation guard. Starting a new case, starting a newer cloud request or choosing the offline plan invalidates older in-flight Copilot responses. Late results/errors are discarded and cannot overwrite the current case or the user's offline plan.
+- Resetting a case also clears the previous Copilot result and restores the cloud button state.
+- Added recovery-workspace browser regressions for both races: old cloud response after a new case, and old cloud response after the user chooses offline.
+
 ## v1.31.0 follow-up — publish AI response-safety benchmark result
 - Recorded the latest deterministic bilingual response-guard run: 31/31 developer-authored cases passed (17 unsafe examples blocked; 14 protective/uncertainty examples allowed) in GitHub Actions run #41949838344 for commit `48b291c28d791c78c620069099a28c1f621fbc4b`.
 - Published case-level expected/actual outcomes at `evaluation/ai-copilot/response-safety-latest.json`. This remains a regression of the output validator, not model accuracy.

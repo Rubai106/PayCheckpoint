@@ -190,6 +190,25 @@ test('starting a new cloud Copilot request invalidates the previous result befor
   assert.ok(invalidate >= 0 && request > invalidate, 'old result must clear before the network request begins');
 });
 
+test('new cases and offline choice invalidate older cloud Copilot generations', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { resolve, dirname } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+  const client = await readFile(resolve(root, 'js/copilot.js'), 'utf8');
+  const cases = await readFile(resolve(root, 'js/cases.js'), 'utf8');
+  const cloudStart = client.indexOf('async function runCloudCopilot()');
+  const offlineStart = client.indexOf('function runOfflineCopilot()');
+  const refreshStart = client.indexOf('function refreshCopilotLanguage()');
+  const cloud = client.slice(cloudStart, offlineStart);
+  const offline = client.slice(offlineStart, refreshStart);
+  assert.ok(cloudStart >= 0 && offlineStart > cloudStart && refreshStart > offlineStart);
+  assert.match(cases, /invalidateCopilotRequest\(S\.lang==='bn'/);
+  assert.match(offline, /invalidateCopilotRequest\(\)/);
+  assert.match(cloud, /requestId !== PC_COPILOT_REQUEST_ID/);
+  assert.match(client, /var PC_COPILOT_REQUEST_ID = 0/);
+});
+
 test('copilot API retains per-IP rate limiting in local Node mode', async t => {
   let attempts = 0;
   const fakeService = {
