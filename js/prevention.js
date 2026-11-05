@@ -77,7 +77,20 @@ function parseInstruction(msg){
  S.instrNum='';S.instrNumConfirmed=false;S.instrAmt='';S.instrAmtConfirmed=false;
 }
 function confirmInstr(which,selId){var el=document.getElementById(selId);if(!el)return;var v=el.value;if(which==='num'){if(S.instrNumCands.indexOf(v)<0)return;S.instrNum=v;S.instrNumConfirmed=true}if(which==='amt'){if(S.instrAmtCands.indexOf(v)<0)return;S.instrAmt=v;S.instrAmtConfirmed=true}if(typeof window!=='undefined'&&typeof window.refreshPayCheckpointComparison==='function')window.refreshPayCheckpointComparison();renderRecon()}
-function markUnknown(which){S.intentUnknown[which]=true;if(which==='num')S.intendedNum='';if(which==='amt')S.intendedAmt='';renderRecon();goApp('recon')}
+function markUnknown(which){
+ if(which!=='num'&&which!=='amt')return;
+ S.intentUnknown[which]=true;
+ var id=which==='num'?'f-intended-num':'f-intended-amt';
+ var errorId=which==='num'?'e-num':'e-amt';
+ if(which==='num')S.intendedNum='';else S.intendedAmt='';
+ var field=document.getElementById(id);
+ if(field){field.value='';field.removeAttribute('aria-invalid');}
+ var error=document.getElementById(errorId);
+ if(error)error.textContent='';
+ if(typeof window!=='undefined'&&typeof window.refreshPayCheckpointComparison==='function')window.refreshPayCheckpointComparison();
+ renderRecon();
+ goApp('recon');
+}
 /* ---------- reconciliation (provenance-preserving) ---------- */
 function renderRecon(){
  var issues=[],incomplete=false,entryMismatch=false,receiptMismatch=false,instructionMismatch=false;

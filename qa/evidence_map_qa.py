@@ -30,6 +30,60 @@ with sync_playwright() as p:
     page.on("pageerror", lambda error: errors.append(str(error)))
     page.set_content(html, wait_until="load", timeout=30000)
 
+    # Evidence Map must use live form values, not a stale submitted S.* snapshot.
+    page.evaluate("""() => {
+      startJourney('prevention', 'intent');
+      S.intentUnknown = {num:false,amt:false};
+      S.intendedNum = '01712345678'; S.intendedAmt = '3000';
+      S.enteredNum = '01712345678'; S.enteredAmt = '3000';
+      S.instrNumConfirmed = false; S.instrAmtConfirmed = false;
+      S.receiptReviewed = false; S.savedCaseSnapshot = false;
+      S.screenReview = {
+        intentRecipient: canonPhone(S.intendedNum),
+        intentAmountMinor: amountMinor(S.intendedAmt),
+        recipientState: 'MATCH',
+        amountState: 'MATCH',
+        overall: 'MATCH',
+        method: 'Manual visual comparison'
+      };
+      document.getElementById('f-intended-num').value = '01712345679';
+      document.getElementById('f-intended-amt').value = '3500';
+      document.getElementById('f-entered-num').value = '01712345680';
+      document.getElementById('f-entered-amt').value = '3400';
+      renderEvidenceMap();
+    }""")
+    live_values = page.evaluate("""() => ({
+      intent: evidenceMapCurrentIntent(),
+      entries: evidenceMapCurrentEntries(),
+      screenshotStale: evidenceMapScreenshotIsStale(S.screenReview),
+      recipientAgainstOldValue: evidenceMapCompare('01712345678','recipient',true),
+      amountAgainstOldValue: evidenceMapCompare('3000','amount',true)
+    })""")
+    assert live_values['intent'] == {'recipient':'01712345679','amount':'3500'}, live_values
+    assert live_values['entries'] == {'recipient':'01712345680','amount':'3400'}, live_values
+    assert live_values['screenshotStale'] is True, live_values
+    assert live_values['recipientAgainstOldValue'] == 'mismatch', live_values
+    assert live_values['amountAgainstOldValue'] == 'mismatch', live_values
+    assert page.locator('[data-evidence-source="screenshot"]').get_attribute('data-evidence-review') == 'true'
+    assert page.locator('[data-evidence-trail-source="pre-send"]').get_attribute('data-evidence-trail-state') == 'mismatch'
+    checks.append("PASS | Evidence Map and screenshot freshness follow live intent/entry fields instead of stale submitted state")
+
+    # Explicitly marking a value unknown must clear the visible input as well as state.
+    page.evaluate("""() => {
+      document.getElementById('f-intended-num').value = '01712345679';
+      S.intendedNum = '01712345679';
+      S.intentUnknown = {num:false,amt:false};
+      markUnknown('num');
+      renderEvidenceMap();
+    }""")
+    unknown_state = page.evaluate("""() => ({
+      field: document.getElementById('f-intended-num').value,
+      intent: evidenceMapCurrentIntent().recipient,
+      comparison: evidenceMapCompare('01712345680','recipient',true)
+    })""")
+    assert unknown_state == {'field':'','intent':'','comparison':'incomplete'}, unknown_state
+    checks.append("PASS | Mark unknown clears the visible intent field so old values cannot re-enter the Evidence Map")
+
     # The same Evidence Map is available immediately after reconciliation.
     # Source inspection must return to the screen that launched it.
     page.evaluate("""() => {

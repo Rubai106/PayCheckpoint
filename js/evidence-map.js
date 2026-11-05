@@ -25,9 +25,26 @@ function evidenceMapNormalize(value, kind) {
   if (kind === 'recipient') return canonPhone(value);
   return amountMinor(value);
 }
+function evidenceMapCurrentIntent() {
+  var recipientField = document.getElementById('f-intended-num');
+  var amountField = document.getElementById('f-intended-amt');
+  return {
+    recipient: recipientField ? String(recipientField.value || '') : String(S.intendedNum || ''),
+    amount: amountField ? String(amountField.value || '') : String(S.intendedAmt || '')
+  };
+}
+function evidenceMapCurrentEntries() {
+  var recipientField = document.getElementById('f-entered-num');
+  var amountField = document.getElementById('f-entered-amt');
+  return {
+    recipient: recipientField ? String(recipientField.value || '') : String(S.enteredNum || ''),
+    amount: amountField ? String(amountField.value || '') : String(S.enteredAmt || '')
+  };
+}
 function evidenceMapCompare(value, kind, confirmed) {
   if (!confirmed) return 'not-confirmed';
-  var intended = kind === 'recipient' ? S.intendedNum : S.intendedAmt;
+  var liveIntent = evidenceMapCurrentIntent();
+  var intended = kind === 'recipient' ? liveIntent.recipient : liveIntent.amount;
   if (!String(intended || '').trim()) return 'incomplete';
   if (!String(value || '').trim()) return 'missing';
   var a = evidenceMapNormalize(intended, kind), b = evidenceMapNormalize(value, kind);
@@ -211,20 +228,23 @@ function returnToEvidenceMap() {
 }
 function evidenceMapScreenshotIsStale(review) {
   if (!review) return false;
-  return !Object.prototype.hasOwnProperty.call(review, 'intentRecipient') || !Object.prototype.hasOwnProperty.call(review, 'intentAmountMinor') || review.intentRecipient !== canonPhone(S.intendedNum) || review.intentAmountMinor !== amountMinor(S.intendedAmt);
+  var liveIntent = evidenceMapCurrentIntent();
+  return !Object.prototype.hasOwnProperty.call(review, 'intentRecipient') || !Object.prototype.hasOwnProperty.call(review, 'intentAmountMinor') || review.intentRecipient !== canonPhone(liveIntent.recipient) || review.intentAmountMinor !== amountMinor(liveIntent.amount);
 }
 function renderEvidenceMap() {
   var body = document.getElementById('evidence-map-body');
   if (!body) return;
-  var num = S.intendedNum || (document.getElementById('f-intended-num') || {}).value || '';
-  var amt = S.intendedAmt || (document.getElementById('f-intended-amt') || {}).value || '';
+  var liveIntent = evidenceMapCurrentIntent();
+  var num = liveIntent.recipient;
+  var amt = liveIntent.amount;
   var receipt = S.receipt || {};
   var instrNum = S.instrNumConfirmed ? (S.instrNum || '') : (S.instrNumCands && S.instrNumCands.length ? S.instrNumCands[0] : '');
   var instrAmt = S.instrAmtConfirmed ? (S.instrAmt || '') : (S.instrAmtCands && S.instrAmtCands.length ? S.instrAmtCands[0] : '');
   var instrNumState = S.instrNumConfirmed ? evidenceMapCompare(instrNum, 'recipient', true) : ((S.instrNumCands || []).length ? 'not-confirmed' : 'missing');
   var instrAmtState = S.instrAmtConfirmed ? evidenceMapCompare(instrAmt, 'amount', true) : ((S.instrAmtCands || []).length ? 'not-confirmed' : 'missing');
-  var entryNum = S.enteredNum || (document.getElementById('f-entered-num') || {}).value || '';
-  var entryAmt = S.enteredAmt || (document.getElementById('f-entered-amt') || {}).value || '';
+  var liveEntries = evidenceMapCurrentEntries();
+  var entryNum = liveEntries.recipient;
+  var entryAmt = liveEntries.amount;
   var receiptAvailable = !!S.receiptReviewed;
   var receiptNumState = receiptAvailable ? evidenceMapCompare(receipt.recipient, 'recipient', !!receipt.recipient) : (S.savedCaseSnapshot && receipt.recipient ? 'saved' : 'not-reviewed');
   var receiptAmtState = receiptAvailable ? evidenceMapCompare(receipt.amount, 'amount', !!receipt.amount) : (S.savedCaseSnapshot && receipt.amount ? 'saved' : 'not-reviewed');

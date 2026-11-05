@@ -1,3 +1,8 @@
+## v1.31.0 follow-up — keep Evidence Map aligned with live payment fields
+- Added shared live-field resolvers for intended and pre-send recipient/amount. Evidence Map baseline, source comparisons, field trail and screenshot staleness now read the visible fields before any cached state, so post-submit edits cannot leave the map showing old values.
+- Mark unknown now clears the corresponding visible intent input and validation error as well as state, preventing the previous value from reappearing in the evidence baseline.
+- Added browser regressions for stale cached values versus changed live inputs, screenshot review invalidation, and the explicit unknown action.
+
 ## v1.31.0 follow-up — verify the Cloud Copilot timeout path
 - Added a browser regression with a deliberately stalled fetch. It verifies the 25 ms test timeout aborts the request, clears controller/pending state, restores the cloud button and leaves the private offline plan usable.
 - The production request limit remains 30 seconds; the shortened value is used only inside the isolated browser test.
