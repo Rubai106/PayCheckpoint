@@ -57,6 +57,32 @@ test('smsCoachLink bilingual copy is present (previously stayed English in Bangl
   assert.match(I18N.en.smsCoachLink, /offline coach/);
 });
 
+function htmlFallbackText(key) {
+  const pattern = new RegExp(
+    `<([a-z][a-z0-9-]*)\\b(?=[^>]*\\bdata-i18n="${key}")[^>]*>([\\s\\S]*?)<\\/\\1>`,
+    'i'
+  );
+  const match = html.match(pattern);
+  assert.ok(match, `missing static HTML fallback for ${key}`);
+  return match[2]
+    .replace(/<[^>]*>/g, '')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .trim();
+}
+
+test('English privacy and provider disclosures match their first-paint fallbacks', () => {
+  for (const key of [
+    'safetyP', 'faqIntegrationA', 'faqCancelA', 'faqRefundA', 'faqStoredA',
+    'intentSub', 'messageReviewPrivacy'
+  ]) {
+    assert.equal(I18N.en[key], htmlFallbackText(key), `${key} changes meaning after switching language`);
+  }
+});
+
 test('no dictionary value is an empty string', () => {
   for (const lang of ['en', 'bn']) {
     const empty = Object.entries(I18N[lang]).filter(([, v]) => !String(v).trim()).map(([k]) => k);
