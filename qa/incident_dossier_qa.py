@@ -23,6 +23,18 @@ with sync_playwright() as p:
     page.evaluate("startJourney('recovery','incident')")
     assert page.locator('#incident-dossier-panel').is_visible()
     assert 'No readiness score' in page.locator('#incident-dossier-panel').inner_text()
+    dossier_visual = page.evaluate("""() => ({
+      panelRadius: getComputedStyle(document.getElementById('incident-dossier-panel')).borderRadius,
+      panelShadow: getComputedStyle(document.getElementById('incident-dossier-panel')).boxShadow,
+      subpanelRadius: getComputedStyle(document.querySelector('.incident-dossier-panel .dossier-subpanel')).borderRadius,
+      readinessColumns: getComputedStyle(document.querySelector('.dossier-readiness-list')).gridTemplateColumns,
+      scriptRadius: getComputedStyle(document.getElementById('incident-dossier-call-script')).borderRadius
+    })""")
+    assert dossier_visual['panelRadius'] == '22px', dossier_visual
+    assert dossier_visual['subpanelRadius'] == '16px', dossier_visual
+    assert dossier_visual['scriptRadius'] == '13px', dossier_visual
+    assert dossier_visual['panelShadow'] != 'none', dossier_visual
+    checks.append('PASS | Incident Dossier uses a clear layered visual hierarchy and readable action panels')
     assert page.locator('#incident-workflow-hub').is_visible()
     assert page.locator('#incident-workflow-next-title').inner_text() == 'Choose what happened'
     page.locator('#incident-workflow-continue').click()

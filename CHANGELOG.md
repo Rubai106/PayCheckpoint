@@ -1,3 +1,8 @@
+## v1.32.0 follow-up — premium Payment Incident Dossier presentation
+- Reworked the incident-preparation surface with stronger hierarchy, clear readiness indicators, more legible script preview, structured provider-contact panels and a chronological contact-history rail.
+- Added responsive spacing, touch-friendly controls and consistent keyboard-focus styling while preserving all existing provenance and safety copy.
+- Added browser assertions for the dossier's visual hierarchy and preview treatment.
+
 ## v1.32.0 follow-up — measure the mobile Evidence Map in its parked test state
 - The Evidence Map is intentionally parked while its source screen is inactive. The responsive browser assertion now temporarily reveals its ancestor chain for geometry measurement and restores the original hidden state afterward; it no longer mistakes a hidden component's zero-size box for a mobile layout defect.
 

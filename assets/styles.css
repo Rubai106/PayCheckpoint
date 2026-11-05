@@ -1765,3 +1765,90 @@ details[open]{background:#FCFEFC}
   .evidence-map-filter,.evidence-field-lens,.evidence-field-open,.evidence-source-open,.evidence-field-count,.evidence-field-row,.evidence-source-card{transition:none!important}
   .evidence-field-row:hover,.evidence-source-card:hover,.evidence-field-count:hover{transform:none!important}
 }
+
+
+/* v1.32.0 — Payment Incident Dossier: calmer hierarchy and action-first case preparation. */
+.incident-dossier-panel{
+  position:relative;isolation:isolate;overflow:hidden;
+  padding:clamp(16px,2.3vw,25px);
+  border:1px solid #D4E4D9;border-radius:22px;
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(176,218,187,.25),transparent 40%),
+    radial-gradient(ellipse at 0% 100%,rgba(229,241,231,.45),transparent 42%),
+    linear-gradient(150deg,#F7FBF8 0%,#FFFFFF 65%,#FAFCFA 100%);
+  box-shadow:0 15px 40px rgba(20,58,37,.07),inset 0 1px 0 rgba(255,255,255,.95)
+}
+.incident-dossier-panel:before{content:"";position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,#1C7654,#9ACBA4,transparent)}
+.incident-dossier-heading{align-items:center;margin-bottom:18px}
+.incident-dossier-heading .eyebrow{color:#4C8060;letter-spacing:.12em}
+.incident-dossier-heading h3{font-size:clamp(22px,2.5vw,28px);letter-spacing:-.055em;color:#183C2B}
+.incident-dossier-heading .hint{font-size:13px;line-height:1.65}
+.incident-dossier-heading>.tag{padding:8px 11px;border-radius:999px}
+.dossier-subpanel{
+  position:relative;margin:12px 0;padding:clamp(13px,1.8vw,18px);
+  border:1px solid #E0EAE2;border-radius:16px;
+  background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(250,253,250,.96));
+  box-shadow:0 5px 15px rgba(25,65,41,.035);
+  transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease
+}
+.dossier-subpanel:hover{border-color:#D1E2D5;box-shadow:0 8px 19px rgba(25,65,41,.055)}
+.dossier-subpanel h4{margin:0 0 7px;color:#214631;font-size:16px;letter-spacing:-.025em}
+.dossier-subpanel>.hint{font-size:12px;line-height:1.65}
+.dossier-section-head{align-items:center}
+.dossier-section-head .hint{font-size:12px}
+.dossier-section-head>.tag{border-radius:999px;padding:7px 10px}
+.dossier-readiness-list{gap:9px;margin-top:13px}
+.dossier-readiness-list li{
+  min-height:48px;padding:10px 12px;border:1px solid #E5ECE6;border-radius:12px;
+  background:linear-gradient(110deg,#FFFFFF,#FAFCFA);font-size:12px;
+  box-shadow:0 2px 7px rgba(25,65,41,.025)
+}
+.dossier-readiness-list li:before{content:"";width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:#D2B46F;box-shadow:0 0 0 4px rgba(210,180,111,.12)}
+.dossier-readiness-list li:has(.is-ready):before{background:#4B9A6B;box-shadow:0 0 0 4px rgba(75,154,107,.12)}
+.dossier-readiness-list li:has(.is-saved):before{background:#B28C46;box-shadow:0 0 0 4px rgba(178,140,70,.12)}
+.dossier-readiness-list li>span{flex:1;min-width:0;line-height:1.45}
+.dossier-readiness-list strong{font-size:10px;white-space:normal;text-align:right}
+.dossier-readiness-list .is-ready{color:#176746}
+.dossier-readiness-list .is-missing{color:#946D28}
+.dossier-readiness-list .is-saved{color:#80652C}
+#incident-dossier-call-script{
+  width:100%;margin-top:12px;min-height:170px;padding:14px;
+  border:1px solid #DCE8DE;border-radius:13px;background:#F8FBF8;
+  color:#294634;font-size:13px;line-height:1.7;resize:vertical
+}
+#incident-dossier-call-script:focus-visible{outline:3px solid rgba(45,133,82,.22);outline-offset:2px}
+.dossier-record-grid{gap:14px;margin:15px 0}
+.dossier-record-grid label{font-size:12px;color:#47604E}
+.dossier-record-grid select,.dossier-record-grid input{min-height:46px;border-radius:11px;border-color:#D9E5DB;background:#fff}
+.dossier-support-card{padding:15px;border:1px solid #DCE8DE;border-radius:13px;background:linear-gradient(130deg,#F5FAF6,#FFFFFF)}
+.dossier-support-card>div:first-child{align-items:center}
+.dossier-support-card strong{color:#214631}
+.dossier-support-card span{font-size:12px;line-height:1.5}
+.dossier-support-card .source-link{font-size:12px;font-weight:800;text-underline-offset:3px}
+.dossier-call-list{position:relative;margin:12px 0;padding-left:23px}
+.dossier-call-list:before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,#8DBB98,#E2ECE4)}
+.dossier-call-list li{position:relative;padding:12px 12px 12px 15px;margin:0 0 8px;border:1px solid #E4ECE5;border-radius:12px;background:#fff}
+.dossier-call-list li:before{content:"";position:absolute;left:-21px;top:17px;width:9px;height:9px;border:2px solid #fff;border-radius:50%;background:#5B9D70;box-shadow:0 0 0 2px #BBD9C2}
+.dossier-call-list time,.dossier-call-list span{font-size:11px;line-height:1.5}
+.dossier-call-list strong{font-size:13px;color:#254632}
+.dossier-cipc-preparation{padding-top:15px;border-top:1px solid #E3ECE4}
+.dossier-cipc-check{min-height:46px;align-items:center;padding:11px 12px;border-color:#E1EAE2;border-radius:11px;background:#FBFDFC}
+.dossier-cipc-check input{width:20px;height:20px;flex:0 0 20px;accent-color:#28764D}
+.dossier-cipc-count{color:#356348;font-size:12px}
+.incident-dossier-panel .cta-row .btn{min-height:44px}
+.incident-dossier-panel button:focus-visible,.incident-dossier-panel select:focus-visible,.incident-dossier-panel input:focus-visible{outline:3px solid rgba(45,133,82,.22);outline-offset:2px}
+@media(max-width:620px){
+  .incident-dossier-panel{padding:14px 12px;border-radius:17px}
+  .incident-dossier-heading{display:flex;align-items:flex-start;flex-direction:column;gap:8px}
+  .incident-dossier-heading>.tag{margin:0}
+  .dossier-subpanel{padding:13px;border-radius:13px}
+  .dossier-section-head{align-items:flex-start}
+  .dossier-readiness-list{grid-template-columns:1fr}
+  .dossier-readiness-list li{min-height:46px}
+  .dossier-record-grid{grid-template-columns:1fr;gap:10px}
+  .dossier-reference-field{grid-column:auto}
+  .dossier-support-card>div:first-child{display:grid;gap:4px}
+  .incident-dossier-panel .cta-row{display:grid;grid-template-columns:1fr}
+  .incident-dossier-panel .cta-row .btn{width:100%}
+}
+@media(prefers-reduced-motion:reduce){.dossier-subpanel{transition:none!important}.dossier-subpanel:hover{transform:none}}
