@@ -1,3 +1,6 @@
+## v1.32.0 follow-up — synchronize release metadata and regression expectations
+- Updated the source-integrity gate, package-version assertions, Pages build metadata expectation, README and submission-readiness summary to consistently identify v1.32.0.
+
 ## v1.32.0 — premium Evidence Map visual system
 - Reworked the Evidence Map with a clearer visual hierarchy, layered depth, source-state accents, tactile interactive cards, more legible field summaries, and stronger keyboard focus styling.
 - Reflowed the field investigation into a compact, single-column mobile layout with touch-friendly controls and overflow checks.

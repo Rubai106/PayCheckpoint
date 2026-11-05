@@ -10,7 +10,7 @@
 - [x] Public web application: https://paycheckpoint.pages.dev
 - [x] Cloudflare Workers AI binding named `AI` is configured in the Pages Production environment.
 - [x] Owner-supplied report records one real synthetic live inference request with HTTP 200; see `submission/PRODUCTION_VERIFICATION_2026-11-04.md`.
-- [ ] Verify the deployed `/build-info.json` against the current GitHub `main` head at the time of inspection. It must report v1.31.0, branch `main`, and the same current commit SHA shown by GitHub. The Pages build now emits this manifest; the live response has not yet been independently confirmed.
+- [ ] Verify the deployed `/build-info.json` against the current GitHub `main` head at the time of inspection. It must report v1.32.0, branch `main`, and the same current commit SHA shown by GitHub. The Pages build now emits this manifest; the live response has not yet been independently confirmed.
 - [x] Exact organizer-provided sticker supplied in the project conversation, optimized to `assets/aignite-buildathon-sticker.webp`, committed to `main`, and rendered in the navbar. Do not recreate or approximate the organizer artwork.
 - [ ] Submit the live URL and a deck of no more than five slides through Devpost only.
 
@@ -20,13 +20,13 @@ The organizer's 4 November email says the submission deadline is 5 November 2026
 
 ## Current project status
 
-- The current GitHub `main` source is v1.31.0 and includes the three-layer interactive payment evidence stack, live pre-send comparison, source-aware Checkpoint Intelligence, the same six-source Evidence Map in reconciliation and incident review, strict amount-format validation, bilingual impact strip, and the exact buildathon sticker in the navbar. Read the live `main` head directly before comparing it with production; do not rely on a copied SHA in this document.
+- The current GitHub `main` source is v1.32.0 and includes the three-layer interactive payment evidence stack, live pre-send comparison, source-aware Checkpoint Intelligence, the same six-source Evidence Map in reconciliation and incident review, strict amount-format validation, bilingual impact strip, and the exact buildathon sticker in the navbar. Read the live `main` head directly before comparing it with production; do not rely on a copied SHA in this document.
 - The owner-supplied live report records homepage/static assets HTTP 200, expected security headers, AI status configuration and one successful Qwen3 synthetic inference request.
-- The owner-supplied production report identifies the deployed code as v1.27.1. Do not assume the live site has the current v1.31.0 source until `/build-info.json` is read and its commit matches the then-current `main` SHA.
-- Current GitHub `main` source is v1.31.0 at commit `c6c26f51bf1921409d679f204213b3b733f2e12d`. It includes the three-layer interactive payment evidence stack, live pre-send comparison, source-aware Checkpoint Intelligence, the shared six-source Evidence Map, strict preflight conflict gates, bilingual impact strip, and the exact buildathon sticker in the navbar.
+- The owner-supplied production report identifies the deployed code as v1.27.1. Do not assume the live site has the current v1.32.0 source until `/build-info.json` is read and its commit matches the then-current `main` SHA.
+- Current GitHub `main` source is v1.32.0. Read the live branch head for the exact commit SHA before comparing with production. It includes the three-layer interactive payment evidence stack, live pre-send comparison, source-aware Checkpoint Intelligence, the shared six-source Evidence Map, strict preflight conflict gates, bilingual impact strip, and the exact buildathon sticker in the navbar.
 - GitHub Actions run [#41879564068](https://github.com/Rubai106/PayCheckpoint/actions/runs/41879564068) completed successfully for that exact commit on 4 November 2026. The regression job passed deterministic release validation, first-time consumer journey, Incident Dossier, Evidence Map, keyboard/focus accessibility and responsive-layout stages. These automated checks are not a substitute for real-device or participant usability review.
-- The owner-supplied production report records homepage/static assets HTTP 200, expected security headers, AI status configuration and one successful Qwen3 synthetic inference request. That report identifies the deployed version at the time as v1.27.1; it predates the current v1.31.0 main commit.
-- Do not assume the live site has the current v1.31.0 source until `https://paycheckpoint.pages.dev/build-info.json` is read and its full commit matches the then-current GitHub main SHA. Production parity remains unverified.
+- The owner-supplied production report records homepage/static assets HTTP 200, expected security headers, AI status configuration and one successful Qwen3 synthetic inference request. That report identifies the deployed version at the time as v1.27.1; it predates the current v1.32.0 main commit.
+- Do not assume the live site has the current v1.32.0 source until `https://paycheckpoint.pages.dev/build-info.json` is read and its full commit matches the then-current GitHub main SHA. Production parity remains unverified.
 - Native Tesseract CLI PSM 6 pilot: 24 synthetic fixtures; both expected fields present in 23/24. This is not real-wallet/browser OCR accuracy.
 - Held-out conversation/OCR evaluation and human usability sessions remain NOT RUN.
 
