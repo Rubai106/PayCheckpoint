@@ -610,7 +610,8 @@ with sync_playwright() as p:
     def correction_is_source_specific():
         page.evaluate("loadScenario('A')")
         original=page.evaluate('S.instrRaw'); intended=page.evaluate('S.intendedNum')
-        page.get_by_role('button',name=re.compile('Update the values recorded here')).click()
+        # The correction action is available once, in Checkpoint Intelligence.
+        page.locator('#checkpoint-intelligence-action').click()
         assert page.evaluate('S._localFieldsCorrected') is True
         assert 'only the values recorded in paycheckpoint changed' in page.locator('#recon-body').inner_text().lower()
         assert 'did not change your bkash' in page.locator('#recon-body').inner_text().lower()
