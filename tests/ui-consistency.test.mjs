@@ -208,6 +208,15 @@ test('copilot: disabled cloud button reads disabled and explains why', async () 
   assert.match(js, /syncCopilotCloudButton/, 'copilot must sync the button state with consent');
 });
 
+test('copilot: a failed cloud request shows the localised message, never the server English text', async () => {
+  const js = await read('js/copilot.js');
+  assert.doesNotMatch(js, /payload\.message/, 'cloud failure must not surface the server English message');
+  assert.match(js, /throw new Error\(copilotCopy\('The AI service is unavailable/,
+    'cloud failure must throw the localised copy');
+  assert.match(js, /Re-localize the already-fetched readiness badge/,
+    'readiness badge must re-localise on a language switch');
+});
+
 test('incident: workspace card status wraps instead of truncating', async () => {
   const css = await read('assets/styles.css');
   const rule = css.match(/\.incident-workflow-card-copy small\{[^}]*\}/);

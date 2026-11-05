@@ -16,11 +16,11 @@
 
 ## Slide 4 — What makes it different
 
-“Our differentiation hypothesis is continuity across intent, request, evidence and action—not a new fraud model. The default plan uses deterministic local rules and visible reasoning. The optional Qwen3 Copilot is consent-gated, uses minimized and best-effort-redacted context, validates output and falls back to the offline plan. One owner-reported synthetic HTTP 200 request on 4 November demonstrates connectivity only. It does not demonstrate model quality, fraud-detection accuracy or continuous availability. ScamCheck and bKash e-CMS already cover adjacent capabilities, so the product claim is the connected cross-step workflow.”
+“Our differentiation hypothesis is continuity across intent, request, evidence and action—not a new fraud model. The default plan uses deterministic local rules and visible reasoning. The optional Qwen3 Copilot is consent-gated, uses minimized and best-effort-redacted context, validates output and falls back to the offline plan. It was evaluated on 5 November in a developer-run bilingual test on eight fictional scenarios: seven of eight English cloud plans returned and passed every rated check; none of the four Bangla cloud plans returned — the service failed with an HTTP 502 on every attempt — so the bilingual offline plan is the fallback for Bangla users. That evaluation is developer-run, not independent or blinded, and it does not demonstrate model quality, fraud-detection accuracy or continuous availability. ScamCheck and bKash e-CMS already cover adjacent capabilities, so the product claim is the connected cross-step workflow.”
 
 ## Slide 5 — Demo and honest boundary
 
-“Use only the fictional sample. Load a recipient mismatch, explain the exact field difference, review a synthetic suspicious request and prepare the evidence handoff. Close with the limitations: PayCheckpoint has no live wallet access, no identity verification, no transfer cancellation or reversal, no complaint filing and no refund guarantee. Human usability, AI output quality and independent OCR/conversation evaluations remain not run. The value proposition is a separate intent check before confirmation and one organised place to prepare the next step—not a claim that the prototype prevents fraud.”
+“Use only the fictional sample. Load a recipient mismatch, explain the exact field difference, review a synthetic suspicious request and prepare the evidence handoff. Close with the limitations: PayCheckpoint has no live wallet access, no identity verification, no transfer cancellation or reversal, no complaint filing and no refund guarantee. AI output quality has a developer-run bilingual evaluation on eight fictional scenarios; human usability and independent OCR/conversation evaluations remain not run. The value proposition is a separate intent check before confirmation and one organised place to prepare the next step—not a claim that the prototype prevents fraud.”
 
 ## Sources and factual boundaries
 
@@ -36,6 +36,6 @@
 - The example is synthetic; never open a real wallet during the demo.
 - A match does not verify wallet ownership or request legitimacy.
 - The local warning rules are not an AI fraud classifier.
-- One synthetic inference smoke test is connectivity evidence, not an AI quality benchmark.
+- The developer-run bilingual evaluation (8 fictional scenarios, 5 November 2026) is the AI evidence; it is not an independent benchmark. The Bangla cloud failure (HTTP 502 on every attempt) must be stated, not hidden.
 - Do not claim user-study results, independent OCR/conversation accuracy, funds recovered, or losses prevented.
 - The exact organizer sticker is present in the live app's source navbar; verify it on the public build before the presentation.

@@ -221,6 +221,34 @@ with sync_playwright() as p:
     assert page.locator('.copilot-language-note').count() == 0
     checks.append('PASS | Cloud AI sends literal boolean consent only after user opt-in; offline plan sends no request')
 
+    # H1 (lockdown): a failed cloud request must show the localised failure message,
+    # not the server's English error text, and the readiness badge must follow the language.
+    page.evaluate('''() => {
+      window.__copilotCalls = [];
+      window.fetch = async (url, options = {}) => {
+        if (String(url).endsWith('/api/copilot/analyze')) {
+          window.__copilotCalls.push(String(url));
+          return { ok: false, status: 502, json: async () => ({
+            error: 'AI_UNAVAILABLE',
+            message: 'The AI service returned an unavailable or invalid result. No financial conclusion was generated; use the private offline plan.'
+          }) };
+        }
+        return { ok: true, json: async () => ({ cloudAiConfigured: true }) };
+      };
+      PC_COPILOT_STATUS = { cloudAiConfigured: true };
+    }''')
+    page.locator('#langBn').click()
+    assert page.locator('#copilot-status-badge').inner_text() == 'ক্লাউড AI প্রস্তুত'
+    page.locator('#copilot-cloud-consent').check()
+    page.evaluate('runCloudCopilot()')
+    page.wait_for_timeout(800)
+    assert page.evaluate('window.__copilotCalls.length') == 1
+    status_text = page.locator('#copilot-status').inner_text()
+    assert status_text == 'AI সেবা এখন পাওয়া যাচ্ছে না। এর বদলে অফলাইন পরিকল্পনা ব্যবহার করুন।', status_text
+    assert 'The AI service returned' not in status_text
+    page.locator('#langEn').click()
+    checks.append('PASS | Cloud failure shows the localised message and the readiness badge follows the language')
+
     # A response from a previous case must not overwrite a newly-started case.
     page.evaluate('''() => {
       PC_COPILOT_STATUS = { cloudAiConfigured: true };

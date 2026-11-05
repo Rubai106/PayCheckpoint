@@ -313,7 +313,7 @@ async function runCloudCopilot() {
       invalidateCopilotRequest(copilotCopy('Case details changed while AI was working. Generate a fresh plan.', 'AI কাজ করার সময় কেসের তথ্য পরিবর্তিত হয়েছে। নতুন পরিকল্পনা তৈরি করুন।'));
       return;
     }
-    if (!response.ok) throw new Error(payload.message || copilotCopy('The AI service is unavailable. Use the offline plan instead.', 'AI সেবা এখন পাওয়া যাচ্ছে না। এর বদলে অফলাইন পরিকল্পনা ব্যবহার করুন।'));
+    if (!response.ok) throw new Error(copilotCopy('The AI service is unavailable. Use the offline plan instead.', 'AI সেবা এখন পাওয়া যাচ্ছে না। এর বদলে অফলাইন পরিকল্পনা ব্যবহার করুন।'));
     PC_COPILOT_PENDING_CONTEXT_KEY = null;
     PC_COPILOT_LAST_RESULT = { result: payload.result, mode: payload.mode, model: payload.model, language: ctx.language, contextKey: contextKey };
     renderCopilotResult(payload.result, payload.mode, payload.model, ctx.language);
@@ -389,6 +389,9 @@ function refreshCopilotLanguage() {
     }
   }
   // Readiness is checked at panel initialization only; a language switch never triggers a request.
+  // Re-localize the already-fetched readiness badge so it does not stay English after a switch to Bangla.
+  var badge = document.getElementById('copilot-status-badge');
+  if (badge && PC_COPILOT_STATUS) badge.textContent = PC_COPILOT_STATUS.cloudAiConfigured ? copilotCopy('Cloud AI ready', 'ক্লাউড AI প্রস্তুত') : copilotCopy('Offline ready', 'অফলাইন প্রস্তুত');
 }
 function initCopilotPanel() {
   if (!document.getElementById('copilot-title')) return;

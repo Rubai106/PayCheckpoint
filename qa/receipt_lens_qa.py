@@ -133,7 +133,7 @@ with sync_playwright() as p:
     checks.append('PASS | new case resets OCR results and sensitive field selection')
 
     # Engine failure must preserve manual fallback and clearly disclose the issue.
-    page.evaluate("startJourney('prevention','intent'); S.intendedNum='01712345678'; S.intendedAmt='3000'; document.getElementById('f-intended-num').value='01712345678'; document.getElementById('f-intended-amt').value='3000'; window.Tesseract={createWorker:async()=>{throw new Error('fake network download failed')}}")
+    page.evaluate("startJourney('prevention','intent'); S.intendedNum='01712345678'; S.intendedAmt='3000'; document.getElementById('f-intended-num').value='01712345678'; document.getElementById('f-intended-amt').value='3000'; document.querySelectorAll('details.intent-advanced')[1].open=true; window.Tesseract={createWorker:async()=>{throw new Error('fake network download failed')}}")
     page.locator('#preflight-screenshot').set_input_files(str(FIXTURE))
     page.wait_for_function("document.getElementById('preflight-screenshot-preview').naturalWidth > 0")
     page.locator('#screen-recipient-num').fill('01712345678')
@@ -147,7 +147,7 @@ with sync_playwright() as p:
     # Cancellation during recognition terminates the active worker. A later stale
     # rejection must not clear a newer successful OCR run.
     page.set_viewport_size({'width': 390, 'height': 844})
-    page.evaluate("startJourney('prevention','intent'); S.intendedNum='01712345678'; S.intendedAmt='3000'; document.getElementById('f-intended-num').value='01712345678'; document.getElementById('f-intended-amt').value='3000'; window.__firstRecognizeReject=null; window.__createCount=0; window.__terminateCount=0; window.Tesseract={createWorker:async()=>{const run=++window.__createCount; return {setParameters:async()=>{},recognize:()=>run===1?new Promise((resolve,reject)=>{window.__firstRecognizeReject=reject}):Promise.resolve({data:{text:'Receiver: 01888888888\\nAmount: 750.00',lines:[{text:'Receiver: 01888888888',confidence:94,bbox:{x0:20,y0:20,x1:300,y1:50}},{text:'Amount: 750.00',confidence:92,bbox:{x0:20,y0:65,x1:240,y1:95}}]}}),terminate:async()=>{window.__terminateCount++}}}}")
+    page.evaluate("startJourney('prevention','intent'); S.intendedNum='01712345678'; S.intendedAmt='3000'; document.getElementById('f-intended-num').value='01712345678'; document.getElementById('f-intended-amt').value='3000'; document.querySelectorAll('details.intent-advanced')[1].open=true; window.__firstRecognizeReject=null; window.__createCount=0; window.__terminateCount=0; window.Tesseract={createWorker:async()=>{const run=++window.__createCount; return {setParameters:async()=>{},recognize:()=>run===1?new Promise((resolve,reject)=>{window.__firstRecognizeReject=reject}):Promise.resolve({data:{text:'Receiver: 01888888888\\nAmount: 750.00',lines:[{text:'Receiver: 01888888888',confidence:94,bbox:{x0:20,y0:20,x1:300,y1:50}},{text:'Amount: 750.00',confidence:92,bbox:{x0:20,y0:65,x1:240,y1:95}}]}}),terminate:async()=>{window.__terminateCount++}}}}")
     page.locator('#preflight-screenshot').set_input_files(str(FIXTURE))
     page.wait_for_function("document.getElementById('preflight-screenshot-preview').naturalWidth > 0")
     page.locator('#btn-run-receipt-ocr').click()

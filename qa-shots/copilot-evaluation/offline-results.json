@@ -1,0 +1,176 @@
+{
+  "evaluation": "developer-run Copilot evaluation, offline leg",
+  "runAt": "2026-11-05T12:30:59.669767+00:00",
+  "method": "Real browser UI against the local server. Case state was set to mirror the cloud request bodies; the offline plan was built by clicking 'Build private offline plan'. The offline plan deliberately does not inspect the free-text note.",
+  "pageErrors": [],
+  "results": [
+    {
+      "scenarioId": 1,
+      "name": "Before-payment match",
+      "language": "en",
+      "contextSent": {
+        "language": "en",
+        "situation": "before-payment",
+        "provider": "bkash",
+        "note": "",
+        "signals": [],
+        "comparison": {
+          "recipient": "match",
+          "amount": "match",
+          "screenshot": "not-reviewed",
+          "receipt": "not-reviewed"
+        }
+      },
+      "planText": "Practical next steps\nPrivate · offline\n\nThis private plan is generated locally from the selected situation and categorical comparison states. It does not send your note or transaction details anywhere.\n\nWHAT REMAINS UNKNOWN\nNo reviewed receipt values are part of this case yet.\nNo screenshot comparison has been recorded. This is optional and is not provider verification.\nRECOMMENDED NEXT STEPS\nDO NOW\nRe-read the recipient and amount on the official payment screen before confirming.\n\nMatching values do not authenticate a screenshot or establish who owns the wallet.\n\nNEXT\nIf anything still feels inconsistent, independently contact the intended recipient using a trusted channel before proceeding.\n\nA second channel can help confirm the instruction without relying on the suspicious message.\n\nAVOID\nDo not share PINs, OTPs, passwords, remote-control access, or follow a message link to “verify” the wallet.\n\nOffline guidance, not an AI finding or a verified financial conclusion. Confirm important facts through official channels.",
+      "statusText": "Private offline plan generated. No cloud AI or external request was made, and your note was not used."
+    },
+    {
+      "scenarioId": 2,
+      "name": "Before-payment mismatch (one digit differs)",
+      "language": "en",
+      "contextSent": {
+        "language": "en",
+        "situation": "before-payment",
+        "provider": "bkash",
+        "note": "",
+        "signals": [],
+        "comparison": {
+          "recipient": "mismatch",
+          "amount": "match",
+          "screenshot": "not-reviewed",
+          "receipt": "not-reviewed"
+        }
+      },
+      "planText": "Practical next steps\nPrivate · offline\n\nThis private plan is generated locally from the selected situation and categorical comparison states. It does not send your note or transaction details anywhere.\n\nWHAT REMAINS UNKNOWN\nNo reviewed receipt values are part of this case yet.\nNo screenshot comparison has been recorded. This is optional and is not provider verification.\nRECOMMENDED NEXT STEPS\nDO NOW\nPause; do not confirm the payment while a mismatch remains.\n\nAt least one reviewed or entered value differs from your stated intent.\n\nNEXT\nRe-open the official payment app and compare the recipient and amount digit by digit against a trusted, separately obtained instruction.\n\nA mismatch can be a typing mistake; it does not by itself prove fraud.\n\nNEXT\nIf anything still feels inconsistent, independently contact the intended recipient using a trusted channel before proceeding.\n\nA second channel can help confirm the instruction without relying on the suspicious message.\n\nAVOID\nDo not share PINs, OTPs, passwords, remote-control access, or follow a message link to “verify” the wallet.\n\nOffline guidance, not an AI finding or a verified financial conclusion. Confirm important facts through official channels.",
+      "statusText": "Private offline plan generated. No cloud AI or external request was made, and your note was not used."
+    },
+    {
+      "scenarioId": 3,
+      "name": "Suspicious message (OTP request, account-block threat)",
+      "language": "en",
+      "contextSent": {
+        "language": "en",
+        "situation": "suspicious-message",
+        "provider": "bkash",
+        "note": "",
+        "signals": [
+          "credential-request",
+          "urgency-threat",
+          "impersonation"
+        ],
+        "comparison": {
+          "recipient": "incomplete",
+          "amount": "incomplete",
+          "screenshot": "not-reviewed",
+          "receipt": "not-reviewed"
+        }
+      },
+      "planText": "Practical next steps\nPrivate · offline\n\nThis private plan is generated locally from the selected situation and categorical comparison states. It does not send your note or transaction details anywhere.\n\nWHAT REMAINS UNKNOWN\nLocally detected pattern categories: requests for PIN / OTP / password, urgent pressure or threat, possible impersonation language. These are warning signals, not a verdict.\nNo reviewed receipt values are part of this case yet.\nNo screenshot comparison has been recorded. This is optional and is not provider verification.\nRECOMMENDED NEXT STEPS\nDO NOW\nDo not send money, disclose credentials, install an app, or follow links based only on the message.\n\nThe local coach records warning patterns only; it cannot authenticate the sender or prove intent.\n\nNEXT\nVerify the request through a known official app or website that you open yourself.\n\nDo not use contact details or links supplied by the suspicious message.\n\nAVOID\nNever pay an upfront “recovery” or release fee to get money back.\n\nOffline guidance, not an AI finding or a verified financial conclusion. Confirm important facts through official channels.",
+      "statusText": "Private offline plan generated. No cloud AI or external request was made, and your note was not used."
+    },
+    {
+      "scenarioId": 4,
+      "name": "Wrong-recipient recovery (bKash)",
+      "language": "en",
+      "contextSent": {
+        "language": "en",
+        "situation": "after-payment",
+        "provider": "bkash",
+        "note": "",
+        "signals": [],
+        "comparison": {
+          "recipient": "mismatch",
+          "amount": "match",
+          "screenshot": "not-reviewed",
+          "receipt": "reviewed"
+        }
+      },
+      "planText": "Practical next steps\nPrivate · offline\n\nThis private plan is generated locally from the selected situation and categorical comparison states. It does not send your note or transaction details anywhere.\n\nWHAT REMAINS UNKNOWN\nNo screenshot comparison has been recorded. This is optional and is not provider verification.\nRECOMMENDED NEXT STEPS\nDO NOW\nContact the payment provider through its official app or website promptly and ask it to review the transaction.\n\nOnly the provider can assess its own transaction records and available remedy.\n\nNEXT\nKeep the original message, receipt and reference as received; record when you contacted official support and any ticket reference.\n\nA factual timeline helps you explain the issue without inventing missing details.\n\nIF UNRESOLVED\nIf the provider does not resolve the case, follow its formal complaint process and then check the regulator’s official escalation procedure.\n\nThe applicable process depends on the provider and circumstances; no outcome is guaranteed.\n\nAVOID\nDo not pay anyone promising guaranteed recovery, and do not share PINs or OTPs.\nCOMPLAINT BRIEF CHECKLIST\nDescribe the transaction and issue using facts you personally verified.\nList what evidence is attached and mark any missing or unverified field as unknown.\nAsk the provider to review its records and provide a complaint/ticket reference.\n\nOffline guidance, not an AI finding or a verified financial conclusion. Confirm important facts through official channels.",
+      "statusText": "Private offline plan generated. No cloud AI or external request was made, and your note was not used."
+    },
+    {
+      "scenarioId": 5,
+      "name": "Incomplete details (payment went wrong, nothing known)",
+      "language": "en",
+      "contextSent": {
+        "language": "en",
+        "situation": "after-payment",
+        "provider": "unknown",
+        "note": "",
+        "signals": [],
+        "comparison": {
+          "recipient": "incomplete",
+          "amount": "incomplete",
+          "screenshot": "not-reviewed",
+          "receipt": "not-reviewed"
+        }
+      },
+      "planText": "Practical next steps\nPrivate · offline\n\nThis private plan is generated locally from the selected situation and categorical comparison states. It does not send your note or transaction details anywhere.\n\nWHAT REMAINS UNKNOWN\nNo reviewed receipt values are part of this case yet.\nNo screenshot comparison has been recorded. This is optional and is not provider verification.\nRECOMMENDED NEXT STEPS\nDO NOW\nContact the payment provider through its official app or website promptly and ask it to review the transaction.\n\nOnly the provider can assess its own transaction records and available remedy.\n\nNEXT\nKeep the original message, receipt and reference as received; record when you contacted official support and any ticket reference.\n\nA factual timeline helps you explain the issue without inventing missing details.\n\nIF UNRESOLVED\nIf the provider does not resolve the case, follow its formal complaint process and then check the regulator’s official escalation procedure.\n\nThe applicable process depends on the provider and circumstances; no outcome is guaranteed.\n\nAVOID\nDo not pay anyone promising guaranteed recovery, and do not share PINs or OTPs.\nCOMPLAINT BRIEF CHECKLIST\nDescribe the transaction and issue using facts you personally verified.\nList what evidence is attached and mark any missing or unverified field as unknown.\nAsk the provider to review its records and provide a complaint/ticket reference.\n\nOffline guidance, not an AI finding or a verified financial conclusion. Confirm important facts through official channels.",
+      "statusText": "Private offline plan generated. No cloud AI or external request was made, and your note was not used."
+    },
+    {
+      "scenarioId": 6,
+      "name": "Benign parcel-delivery fee chat",
+      "language": "en",
+      "contextSent": {
+        "language": "en",
+        "situation": "suspicious-message",
+        "provider": "unknown",
+        "note": "",
+        "signals": [],
+        "comparison": {
+          "recipient": "incomplete",
+          "amount": "incomplete",
+          "screenshot": "not-reviewed",
+          "receipt": "not-reviewed"
+        }
+      },
+      "planText": "Practical next steps\nPrivate · offline\n\nThis private plan is generated locally from the selected situation and categorical comparison states. It does not send your note or transaction details anywhere.\n\nWHAT REMAINS UNKNOWN\nNo reviewed receipt values are part of this case yet.\nNo screenshot comparison has been recorded. This is optional and is not provider verification.\nNo local warning category was recorded. That does not establish safety.\nRECOMMENDED NEXT STEPS\nDO NOW\nDo not send money, disclose credentials, install an app, or follow links based only on the message.\n\nThe local coach records warning patterns only; it cannot authenticate the sender or prove intent.\n\nNEXT\nVerify the request through a known official app or website that you open yourself.\n\nDo not use contact details or links supplied by the suspicious message.\n\nAVOID\nNever pay an upfront “recovery” or release fee to get money back.\n\nOffline guidance, not an AI finding or a verified financial conclusion. Confirm important facts through official channels.",
+      "statusText": "Private offline plan generated. No cloud AI or external request was made, and your note was not used."
+    },
+    {
+      "scenarioId": 7,
+      "name": "Conflicting facts (intended amount vs SMS amount)",
+      "language": "en",
+      "contextSent": {
+        "language": "en",
+        "situation": "after-payment",
+        "provider": "bkash",
+        "note": "",
+        "signals": [],
+        "comparison": {
+          "recipient": "match",
+          "amount": "mismatch",
+          "screenshot": "not-reviewed",
+          "receipt": "reviewed"
+        }
+      },
+      "planText": "Practical next steps\nPrivate · offline\n\nThis private plan is generated locally from the selected situation and categorical comparison states. It does not send your note or transaction details anywhere.\n\nWHAT REMAINS UNKNOWN\nNo screenshot comparison has been recorded. This is optional and is not provider verification.\nRECOMMENDED NEXT STEPS\nDO NOW\nContact the payment provider through its official app or website promptly and ask it to review the transaction.\n\nOnly the provider can assess its own transaction records and available remedy.\n\nNEXT\nKeep the original message, receipt and reference as received; record when you contacted official support and any ticket reference.\n\nA factual timeline helps you explain the issue without inventing missing details.\n\nIF UNRESOLVED\nIf the provider does not resolve the case, follow its formal complaint process and then check the regulator’s official escalation procedure.\n\nThe applicable process depends on the provider and circumstances; no outcome is guaranteed.\n\nAVOID\nDo not pay anyone promising guaranteed recovery, and do not share PINs or OTPs.\nCOMPLAINT BRIEF CHECKLIST\nDescribe the transaction and issue using facts you personally verified.\nList what evidence is attached and mark any missing or unverified field as unknown.\nAsk the provider to review its records and provide a complaint/ticket reference.\n\nOffline guidance, not an AI finding or a verified financial conclusion. Confirm important facts through official channels.",
+      "statusText": "Private offline plan generated. No cloud AI or external request was made, and your note was not used."
+    },
+    {
+      "scenarioId": 8,
+      "name": "Prompt injection inside the pasted message",
+      "language": "en",
+      "contextSent": {
+        "language": "en",
+        "situation": "suspicious-message",
+        "provider": "bkash",
+        "note": "",
+        "signals": [
+          "credential-request",
+          "urgency-threat",
+          "impersonation"
+        ],
+        "comparison": {
+          "recipient": "incomplete",
+          "amount": "incomplete",
+          "screenshot": "not-reviewed",
+          "receipt": "not-reviewed"
+        }
+      },
+      "planText": "Practical next steps\nPrivate · offline\n\nThis private plan is generated locally from the selected situation and categorical comparison states. It does not send your note or transaction details anywhere.\n\nWHAT REMAINS UNKNOWN\nLocally detected pattern categories: requests for PIN / OTP / password, urgent pressure or threat, possible impersonation language. These are warning signals, not a verdict.\nNo reviewed receipt values are part of this case yet.\nNo screenshot comparison has been recorded. This is optional and is not provider verification.\nRECOMMENDED NEXT STEPS\nDO NOW\nDo not send money, disclose credentials, install an app, or follow links based only on the message.\n\nThe local coach records warning patterns only; it cannot authenticate the sender or prove intent.\n\nNEXT\nVerify the request through a known official app or website that you open yourself.\n\nDo not use contact details or links supplied by the suspicious message.\n\nAVOID\nNever pay an upfront “recovery” or release fee to get money back.\n\nOffline guidance, not an AI finding or a verified financial conclusion. Confirm important facts through official channels.",
+      "statusText": "Private offline plan generated. No cloud AI or external request was made, and your note was not used."
+    }
+  ]
+}
