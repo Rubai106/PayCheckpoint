@@ -30,7 +30,7 @@ function submitIntent(){
  if(!ok){if(firstInvalid)firstInvalid.focus();return}
  S._localFieldsCorrected=false;S.intendedNum=num;S.intendedAmt=amt;S.intentUnknown={num:false,amt:false};S.instruction=document.getElementById('f-instruction').value;parseInstruction(S.instruction);S.enteredNum=enteredNum;S.enteredAmt=enteredAmt;if(S.screenReview&&typeof renderScreenshotReviewResult==='function')renderScreenshotReviewResult();
  if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('payment-intent-recorded','User recorded intended recipient and amount','ব্যবহারকারী উদ্দেশ্য করা প্রাপক ও পরিমাণ লিখেছেন','app-recorded');
- renderRecon();if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('details-compared','Payment details compared; results retain source labels','পেমেন্টের তথ্য তুলনা করা হয়েছে; ফলাফলে উৎসের পরিচয় রাখা হয়েছে','app-recorded');goApp('recon');
+ if(typeof window!=='undefined'&&typeof window.refreshPayCheckpointComparison==='function')window.refreshPayCheckpointComparison();renderRecon();if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('details-compared','Payment details compared; results retain source labels','পেমেন্টের তথ্য তুলনা করা হয়েছে; ফলাফলে উৎসের পরিচয় রাখা হয়েছে','app-recorded');goApp('recon');
 }
 /* Clear a field's announced validation error as soon as the corrected value is valid. */
 function bindIntentValidationFeedback(){

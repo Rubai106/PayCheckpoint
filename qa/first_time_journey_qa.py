@@ -185,6 +185,8 @@ with sync_playwright() as p:
     # even when the confirmation function is invoked without a DOM click event.
     page.evaluate("loadScenario('A')")
     assert page.locator('[data-screen="recon"]').is_visible()
+    assert page.locator('[data-live-source="instruction"]').get_attribute('data-state') == 'review'
+    assert page.locator('[data-live-source="instruction"] [data-live-value="recipient"]').inner_text() == 'Confirm a candidate first'
     assert page.locator('#sel-instr-num option').count() > 1
     assert page.locator('#sel-instr-amt option').count() > 1
     page.locator('#sel-instr-num').select_option('01712345678')

@@ -1,3 +1,6 @@
+- Submitting a payment instruction now refreshes the live source comparison after parsing and candidate extraction, so the instruction card immediately enters review instead of retaining its pre-submit state.
+- Extended the first-time journey regression to assert the unconfirmed candidate state before confirming either extracted value.
+
 - Instruction candidate confirmation now refreshes the live source comparison directly in the state-changing function, not only through the delegated UI click listener.
 - Added a browser regression that confirms extracted recipient and amount candidates through direct function calls and verifies the instruction source card updates to a match.
 
