@@ -1,3 +1,9 @@
+## v1.32.0 follow-up — B2C value proposition and trust-copy alignment
+- Replaced the stale “Prevent → Undo (simulation) → Recover” headline with the real consumer journey: use PayCheckpoint alongside a wallet to compare details before confirmation, review suspicious requests, and organise facts after a problem.
+- Aligned English and Bangla capability copy with implemented behavior: the optional AI plan is consent-based; the simulation is no longer presented as a core user benefit; recovery examples are fictional and complaint drafts are copied/submitted by the user.
+- Expanded first-time journey browser assertions for the key B2C promise, wallet-control boundaries, and both language versions.
+- No new payment rail, provider integration, account-linking or unsupported fraud-detection claim was added.
+
 ## v1.32.0 follow-up — premium Payment Incident Dossier presentation
 - Reworked the incident-preparation surface with stronger hierarchy, clear readiness indicators, more legible script preview, structured provider-contact panels and a chronological contact-history rail.
 - Added responsive spacing, touch-friendly controls and consistent keyboard-focus styling while preserving all existing provenance and safety copy.
