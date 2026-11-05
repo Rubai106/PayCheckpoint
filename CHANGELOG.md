@@ -1,3 +1,8 @@
+## v1.31.0 follow-up — refresh live comparison for preloaded scenarios
+- `setFields()` now refreshes the live source comparison after writing the five scenario fields programmatically, so preloaded examples do not leave a stale visual until the user navigates or types.
+- Added a first-time browser regression for the matching example scenario, including the displayed recipient and amount.
+- The comparison remains a local comparison only; this change does not verify wallet ownership or perform a payment.
+
 ## v1.31.0 follow-up — keyboard completion for payment comparison
 - The four-field pre-send comparison is not a native form, so pressing Enter previously did not activate its primary action. Enter now runs the same validation and comparison path from any of the four fields, while IME composition is left untouched.
 - Added a first-time browser regression that completes a valid comparison from the amount field using the keyboard.
