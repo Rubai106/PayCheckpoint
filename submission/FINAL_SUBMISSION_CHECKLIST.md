@@ -8,8 +8,8 @@
 ## Current source and validation
 
 - Repository: https://github.com/Rubai106/PayCheckpoint
-- Current `main` head reviewed: `6101e3f79d0b3a3b9913b4852ed9d4edee004095` (v1.31.0).
-- Latest CI for that exact head: [GitHub Actions #41946092409](https://github.com/Rubai106/PayCheckpoint/actions/runs/41946092409) — success. Deterministic release validation, first-time consumer journey, recovery workspace, Evidence Map, keyboard/focus and responsive stages all passed.
+- Application code baseline: `d3863a8dce0c764d6b78bfe2179a663ce5606b2b` (`main`, v1.32.0), including the first-render and bilingual B2C value-copy alignment.
+- CI for that exact application baseline: [GitHub Actions #41980096503](https://github.com/Rubai106/PayCheckpoint/actions/runs/41980096503) — success. Deterministic release validation, first-time consumer journey, recovery workspace, Evidence Map, keyboard/focus and responsive stages all passed.
 - Public application URL: https://paycheckpoint.pages.dev. The current public deployment could not be independently inspected from this review; do not assume it serves the current GitHub head.
 - The 4 November owner-supplied production report describes an older deployed source and one successful synthetic Workers AI request. It is a point-in-time owner report, not independent proof of current production parity or model accuracy.
 - Exact organizer sticker is in the current source at `assets/aignite-buildathon-sticker.webp` and rendered in the source navbar. Production display remains unverified.
@@ -19,6 +19,16 @@
 ## Judge-readiness estimate (not an organizer score)
 
 The provisional source-and-evidence review is **39/50** (reviewer variation band approximately 37–42). Full rationale and the 45+ plan are in [Judge-readiness audit](../docs/JUDGE_READINESS_AUDIT_2026-11-05.md). Do not state this estimate as an official result.
+
+## B2C user and value proposition
+
+The target is an **individual MFS consumer in Bangladesh**. This is not an employer, payroll, merchant-operations or bank-admin product. The user records their intended recipient and amount separately, compares those values with what they are preparing to enter in their own wallet app, can review suspicious requests, and can organise a factual evidence/support pack after a problem.
+
+Why use another screen when the wallet already has a confirmation page? The wallet displays its own payment details; PayCheckpoint adds an independent intent-vs-entry comparison before the user returns to the wallet to decide. It also connects the before-payment and after-incident steps in one bilingual consumer flow. A MATCH is only agreement between entered fields—it does not verify recipient identity or payment legitimacy.
+
+**Current build boundary:** the submission prototype uses fictional/synthetic data only. It is not yet a production service for real SMS, phone/account identifiers, transaction references or credentials. The app never sends, holds, cancels or reverses real payments, and it does not submit provider complaints. Production launch would need privacy/security review, human usability testing and verified provider guidance.
+
+**Competitor boundary:** Government [ScamCheck](https://scamcheck.gov.bd/) already offers AI-assisted scam checks and reporting. bKash's [Self Complaint (e-CMS)](https://www.tbsnews.net/economy/corporates/bkash-introduces-self-complaint-system-faster-service-1338251) handles complaints and tracking for specified bKash services. Do not claim either generic scam detection or complaint tracking as new. Pitch the combined consumer-side intent comparison, source-aware review and evidence continuity as the differentiation hypothesis—not as proven global novelty.
 
 ## Official scoring rubric
 
@@ -41,7 +51,8 @@ The official event page currently displays these four weighted criteria. The rul
 - [ ] Refresh and inspect the final five-slide deck. Submit no more than five slides.
 - [ ] Submit the public app URL and final deck through Devpost; verify that the project is submitted, not a draft.
 - [x] Source contains the exact official organizer sticker in the navbar.
-- [x] Current main-head CI run #41946092409 passed.
+- [x] Application baseline `d3863a8` passed all six stages in CI run #41980096503.
+- [x] Homepage first-render and English/Bangla copy now explain the real consumer journey: independent intent-vs-wallet-entry comparison, suspicious-request review, and evidence organisation.
 - [x] One synthetic hosted AI request was reported by the owner on 4 November for an earlier deployment only; do not claim it verifies this current SHA.
 
 ## Highest-value evidence improvements

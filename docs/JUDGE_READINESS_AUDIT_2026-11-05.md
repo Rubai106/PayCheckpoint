@@ -1,7 +1,8 @@
 # Judge-readiness audit — 5 November 2026
 
-**Repository head reviewed:** `6101e3f79d0b3a3b9913b4852ed9d4edee004095`  
-**Latest workflow:** [GitHub Actions #41946092409](https://github.com/Rubai106/PayCheckpoint/actions/runs/41946092409) — all six stages passed.  
+**Application code baseline reviewed:** `d3863a8dce0c764d6b78bfe2179a663ce5606b2b` (`main`, package v1.32.0; first-render and bilingual B2C copy alignment).  
+**CI for that exact application baseline:** [GitHub Actions #41980096503](https://github.com/Rubai106/PayCheckpoint/actions/runs/41980096503) — success; deterministic release validation, first-time journey, recovery workspace, Evidence Map, keyboard/focus and responsive stages all passed.  
+**Production parity:** the current live `/build-info.json` could not be independently fetched in this review; do not assume the public site serves this SHA.  
 **Scoring basis:** the four weighted criteria currently displayed on the [official Devpost event page](https://yunet-aignite26.devpost.com/). This is an independent, provisional reviewer estimate from source and documented evidence—not an organizer score or prediction of the judges' result.
 
 ## Provisional score
@@ -16,12 +17,31 @@
 
 A reasonable reviewer-variation band is approximately **37–42/50**. If the public site is still serving the older build documented in the 4 November owner-supplied report, judges will not see all of the current source work and the effective score could be lower. Do not quote this estimate as an official score.
 
+## B2C user, job-to-be-done and reason to use it
+
+**Target user:** an individual consumer in Bangladesh who uses bKash, Nagad, Rocket or another MFS wallet for personal transfers or purchases. The user is the person making or receiving the payment—not a merchant operations team, employer, payroll administrator or financial institution. This is a B2C product, not a B2B dashboard.
+
+**Job-to-be-done:** “Before I confirm a wallet payment, help me compare the recipient and amount I intend with the values I am about to enter. If a request looks suspicious or something goes wrong, help me understand the warning signals and organise the facts for the next safe step.”
+
+**Why use it alongside a wallet?** A wallet’s own confirmation screen shows the details entered in that wallet. PayCheckpoint adds a separate, consumer-entered intent baseline and compares it with the values the user is preparing to enter. That second comparison can expose a transcription or selection mismatch before the user returns to the wallet to make the final decision. It also gives the user a reasoned, uncertainty-aware review of a suspicious message and a structured way to organise evidence and provider questions after an incident. It is not a substitute for the provider’s confirmation screen, and a MATCH result does not authenticate the recipient or prove that a request is legitimate.
+
+**Prototype boundary:** this build is a functional B2C demonstration that uses fictional/synthetic data only. It must not be pitched as ready to process live customer SMS, phone/account identifiers, transaction references or credentials. Production use would require explicit privacy/security review, independent usability and accessibility validation, and verified official guidance. It does not move money or submit complaints.
+
+### Competitive reality
+
+Generic AI scam detection/reporting is not a novel claim: the Government of Bangladesh's [ScamCheck](https://scamcheck.gov.bd/) already describes AI-assisted checks of suspicious links, emails and messages plus scam reporting. Complaint tracking is not unique either: bKash introduced [Self Complaint (e-CMS)](https://www.tbsnews.net/economy/corporates/bkash-introduces-self-complaint-system-faster-service-1338251) for specified bKash services, including complaint-progress tracking. Bangladesh Bank documents the official consumer escalation route through the [Customer Interest Protection Centre](https://www.bb.org.bd/en/index.php/services/cipc_procedure).
+
+The defensible differentiation hypothesis is the **combined consumer-side workflow**: separate intent-vs-entry comparison before a payment, explainable local review of a suspicious message or conversation, field-level provenance across evidence sources, and a structured handoff pack the user can take to official provider/regulator channels. This combination is not claimed to be globally first; it needs user testing to establish whether consumers find it materially more useful than existing wallet and government services.
+
+Problem evidence is real but must be represented with correct denominators: Innovations for Poverty Action's [Bangladesh 2025 Financial Consumer Protection Survey](https://poverty-action.org/sites/default/files/2026-02/Bangladesh-2025-Financial-Consumer-Protection-Survey-FCPS.pdf) reports that 11% of payment-service users had *ever* sent money to a wrong number; 42% of that subgroup were unable to recover the funds. Separately, Bangladesh Bank's [Payment Systems Report 2025](https://www.bb.org.bd/pub/annual/psdreport/paymentreport_dec2025.pdf) reports 81,423 fraud cases across MFS, cheque and card segments and an 8.7% MFS fraud-value recovery rate. These are sector/survey findings—not PayCheckpoint performance, a per-transaction risk estimate, or proof that the product prevents losses.
+
 ## What is genuinely strong
 
 - The user problem is specific and understandable: compare intent with the payment details before confirming, and organize the next steps when something goes wrong.
 - The product keeps a careful boundary between local comparison, user-reported information and provider-authoritative facts. It does not claim to authenticate a wallet, reverse a payment or guarantee a refund.
 - The core code is supported by repeatable Node and browser regression suites. The latest main-branch run passed deterministic release validation, the first-time journey, recovery workspace, Evidence Map, keyboard/focus and responsive checks.
 - The product has a coherent bilingual consumer journey rather than a collection of unrelated AI widgets.
+- The 5 November copy pass removes the obsolete simulated-Undo headline and makes the independent intent-vs-wallet-entry check explicit on first render and after language switching. It improves comprehension; it does not justify increasing the provisional score without user evidence.
 
 ## Where a strict judge will deduct
 
