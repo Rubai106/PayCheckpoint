@@ -196,6 +196,44 @@ def run_inline_checks():
         check('MISMATCH' in recon_text and 'Differs at position' in recon_text,
               'recovery comparison reports the mismatched number and exact digit position')
 
+        # Friction fix #4: a reviewed SMS refreshes dossier readiness and
+        # derives provider/scenario for the call-support workflow.
+        page.evaluate("startNewCase('recovery'); goApp('sms')")
+        page.locator('#f-sms').fill(
+            'bKash: You have sent Tk 3000.00 to 01712345679 on 05/11/2026 at 2:41 PM. '
+            'TrxID 9HX7F2K1QZ. Balance Tk 1,240.50.')
+        page.locator('#btn-parse').click()
+        page.wait_for_timeout(900)
+        page.locator('#x-intended-num').fill('01712345678')
+        page.locator('#x-intended-amt').fill('3000')
+        page.locator('button[onclick="confirmSMS()"]').click()
+        page.wait_for_timeout(600)
+        page.locator('#recon-actions button[onclick="buildIncident()"]').click()
+        page.wait_for_timeout(600)
+        ready_count = page.evaluate(
+            "document.querySelectorAll('#incident-dossier-readiness li strong.is-ready').length")
+        check(ready_count == 6,
+              f'incident dossier readiness is fresh after SMS parse (ready={ready_count}/6)')
+        dossier_provider = page.evaluate(
+            "document.getElementById('incident-dossier-provider').textContent")
+        check(dossier_provider not in ('Not selected', 'নির্বাচিত নয়'),
+              f'dossier provider comes from the parsed SMS ({dossier_provider!r})')
+
+        # Friction fix #3: preflight offers a guarded route to the Undo simulation.
+        page.evaluate("startNewCase('prevention'); goApp('intent')")
+        page.locator('#f-intended-num').fill('01712345678')
+        page.locator('#f-intended-amt').fill('3000')
+        page.locator('#f-entered-num').fill('01712345678')
+        page.locator('#f-entered-amt').fill('3000')
+        page.locator('button[data-i18n="compareDetails"]').click()
+        page.wait_for_timeout(500)
+        page.locator('#checkpoint-intelligence-action').click()
+        page.wait_for_timeout(500)
+        page.locator('button[onclick="goToUndoSimulation()"]').click()
+        page.wait_for_timeout(500)
+        check(page.evaluate("!document.querySelector('[data-screen=safesend]').classList.contains('hidden')"),
+              'preflight Undo link reaches the SafeSend simulation')
+
         check(not errors, f'no JS page errors during inline checks (got {errors[:3]})')
         browser.close()
 

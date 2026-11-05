@@ -440,7 +440,9 @@ Object.assign(I18N.en,{
   smsIntendedTitle:'What did you mean to send?',
   smsIntendedHint:'Enter the number and amount you intended, so the receipt can be compared with your intent. Leave them blank if you do not know them — the comparison will stay incomplete instead of guessing.',
   smsIntendedNum:'Intended recipient number',
-  smsIntendedAmt:'Intended amount (৳)'
+  smsIntendedAmt:'Intended amount (৳)',
+  preflightTryUndo:'Try the Undo simulation with these details →',
+  evidencePackMaskNote:'Full numbers and the transaction reference are masked in the pack unless you reveal them first.'
 });
 Object.assign(I18N.bn,{
   messageReviewPrivacy:'এই প্রোটোটাইপে শুধু কাল্পনিক/উদাহরণ বার্তা ব্যবহার করুন। আসল SMS, PIN, OTP, পাসওয়ার্ড, ওয়ালেট লগইন বা অ্যাকাউন্টের তথ্য পেস্ট করবেন না। সাধারণ পরীক্ষা এই ব্রাউজারেই চলে এবং প্রেরকের পরিচয় শনাক্ত করে না।',
@@ -468,5 +470,7 @@ Object.assign(I18N.bn,{
   smsIntendedTitle:'আপনি কী পাঠাতে চেয়েছিলেন?',
   smsIntendedHint:'আপনি যে নম্বর ও পরিমাণ পাঠাতে চেয়েছিলেন তা লিখুন, যাতে রসিদের সঙ্গে উদ্দেশ্যের তুলনা করা যায়। না জানলে ফাঁকা রাখুন — অনুমান না করে তুলনা অসম্পূর্ণ থাকবে।',
   smsIntendedNum:'উদ্দেশ্য করা প্রাপকের নম্বর',
-  smsIntendedAmt:'উদ্দেশ্য করা পরিমাণ (৳)'
+  smsIntendedAmt:'উদ্দেশ্য করা পরিমাণ (৳)',
+  preflightTryUndo:'এই তথ্য দিয়ে Undo সিমুলেশন চেষ্টা করুন →',
+  evidencePackMaskNote:'পূর্ণ নম্বর ও লেনদেনের রেফারেন্স প্যাকে আড়াল থাকে, যদি না আগে প্রকাশ করেন.'
 });

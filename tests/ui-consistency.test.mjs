@@ -290,3 +290,55 @@ test('recovery: intent-only submission is allowed only after payment', async () 
   assert.ok(js.includes('eea.innerHTML=invalid(enteredAmtInput'),
     'invalid entered amounts must still be rejected in prevention');
 });
+
+
+test('incident: building the report re-renders the dossier and navigator', async () => {
+  const js = await read('js/reports.js');
+  assert.ok(js.includes('renderIncidentDossier()'),
+    'buildIncident must re-render the dossier so readiness is fresh, not the stale first render');
+  assert.ok(js.includes('renderRecoveryNavigator()'),
+    'buildIncident must re-render the navigator so derived provider/scenario show in the selects');
+});
+
+test('recovery: confirming an SMS seeds the navigator provider and scenario', async () => {
+  const js = await read('js/recovery.js');
+  assert.ok(js.includes('S.recoveryNavigator.provider=smsProvider'),
+    'confirmSMS must seed the navigator provider from the parsed SMS when none is chosen');
+  assert.ok(js.includes("S.recoveryNavigator.scenario='wrong-recipient'"),
+    'confirmSMS must derive the wrong-recipient scenario from a receipt recipient mismatch');
+});
+
+test('preflight: a guarded link leads to the Undo simulation', async () => {
+  const html = await read('index.html');
+  assert.ok(html.includes('onclick="goToUndoSimulation()"'),
+    'preflight screen must link to the Undo simulation');
+  assert.ok(html.includes('data-i18n="preflightTryUndo"'), 'Undo link must be localizable');
+  const js = await read('js/prevention.js');
+  assert.ok(js.includes('function goToUndoSimulation()'),
+    'guarded Undo entry must exist');
+  assert.ok(js.includes("if(outcome!=='MATCH'||evidenceGate.blocked)"),
+    'Undo entry must re-check the MATCH gate so direct navigation cannot open it incomplete');
+  for (const key of ['preflightTryUndo', 'evidencePackMaskNote']) {
+    assert.ok(I18N.en[key] && I18N.en[key].length > 3, 'EN ' + key + ' missing');
+    assert.ok(I18N.bn[key] && I18N.bn[key].length > 3, 'BN ' + key + ' missing');
+  }
+});
+
+test('evidence pack: masking is stated at download and in the pack notice', async () => {
+  const html = await read('index.html');
+  assert.ok(html.includes('data-i18n="evidencePackMaskNote"'),
+    'pack download must carry a visible masking note');
+  const js = await read('js/enhancements.js');
+  assert.ok(js.includes('Full numbers and the transaction reference are masked in this pack because they were not revealed before download.'),
+    'pack importantNotice must state the masking when numbers are hidden');
+  assert.ok(js.includes('Full numbers and the transaction reference are masked in this pack. Use “Reveal full numbers” before downloading if the provider needs them.'),
+    'post-download status must warn that identifiers are masked when hidden');
+});
+
+test('recon: the correction is offered exactly once, in the intelligence panel', async () => {
+  const js = await read('js/prevention.js');
+  assert.doesNotMatch(js, /recon-actions[\s\S]{0,400}correctMismatch\(\)/,
+    'recon-actions must not duplicate the correction button');
+  assert.ok(js.includes('function(){correctMismatch()}'),
+    'the intelligence panel must still offer the correction');
+});
