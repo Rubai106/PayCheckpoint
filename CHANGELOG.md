@@ -1,3 +1,7 @@
+## v1.31.0 follow-up — verify the Cloud Copilot timeout path
+- Added a browser regression with a deliberately stalled fetch. It verifies the 25 ms test timeout aborts the request, clears controller/pending state, restores the cloud button and leaves the private offline plan usable.
+- The production request limit remains 30 seconds; the shortened value is used only inside the isolated browser test.
+
 ## v1.31.0 follow-up — isolate Copilot timeout cleanup by request
 - Made timeout cleanup request-owned. An older request that settles late can no longer clear a newer request's timeout handle.
 - Added a regression assertion for the ownership check to prevent this concurrency race from returning.

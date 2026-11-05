@@ -293,6 +293,30 @@ with sync_playwright() as p:
     assert 'private' in page.locator('.copilot-result-top .tag').inner_text().lower()
     checks.append('PASS | Pending cloud response cannot overwrite a user-selected offline plan')
 
+    # A stalled cloud request must time out, release its controller and leave offline guidance available.
+    page.evaluate('''() => {
+      PC_COPILOT_REQUEST_TIMEOUT_MS = 25;
+      document.getElementById('copilot-cloud-consent').checked = true;
+      window.fetch = (url, options = {}) => {
+        if (!String(url).endsWith('/api/copilot/analyze')) {
+          return Promise.resolve({ ok: true, json: async () => ({ cloudAiConfigured: true }) });
+        }
+        return new Promise((resolve, reject) => {
+          if (options.signal) options.signal.addEventListener('abort', () => reject(new DOMException('The operation was aborted.', 'AbortError')));
+        });
+      };
+      runCloudCopilot();
+    }''')
+    page.wait_for_function("document.getElementById('copilot-status').textContent.includes('too long')", timeout=2000)
+    assert page.evaluate('PC_COPILOT_LAST_RESULT === null')
+    assert page.evaluate('PC_COPILOT_PENDING_CONTEXT_KEY === null')
+    assert page.evaluate('PC_COPILOT_ABORT_CONTROLLER === null')
+    assert page.evaluate('PC_COPILOT_REQUEST_TIMEOUT_HANDLE === null')
+    assert page.evaluate("!document.getElementById('btn-copilot-cloud').dataset.busy")
+    page.evaluate('PC_COPILOT_REQUEST_TIMEOUT_MS = 30000; runOfflineCopilot()')
+    assert page.evaluate("PC_COPILOT_LAST_RESULT && PC_COPILOT_LAST_RESULT.mode === 'offline-guide'")
+    checks.append('PASS | Cloud timeout aborts, restores controls and leaves the private offline plan available')
+
     # Bangla view and new-case reset.
     page.locator('#langBn').click()
     assert 'পেমেন্ট ঘটনার ডসিয়ে' in page.locator('#incident-dossier-title').inner_text()

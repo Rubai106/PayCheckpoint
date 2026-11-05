@@ -249,6 +249,7 @@ test('Copilot cancels obsolete fetches and bounds cloud request duration', async
   assert.match(source, /requestOptions\.signal = abortController\.signal/);
   assert.match(source, /Cloud AI took too long to respond/);
   assert.match(source, /PC_COPILOT_REQUEST_TIMEOUT_HANDLE === requestTimeoutHandle/);
+  assert.match(source, /PC_COPILOT_REQUEST_TIMEOUT_HANDLE === requestTimeoutHandle/);
   assert.match(source, /clearTimeout\(requestTimeoutHandle\)/);
 });
 
