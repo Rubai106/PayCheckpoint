@@ -62,7 +62,7 @@ test('Copilot pilot inputs match the strict server allowlist schema', () => {
 
 test('Copilot pilot notes contain no real phone-number or URL-shaped identifiers', () => {
   for (const item of fixture.cases) {
-    assert.doesNotMatch(item.input.note, /(?:\\+?880[\\s-]?)?01[3-9](?:[\\s().-]*[0-9]){8}/, item.id);
-    assert.doesNotMatch(item.input.note, /https?:\\/\\/|www\\./i, item.id);
+    assert.doesNotMatch(item.input.note, /(?:\+?880[\s-]?)?01[3-9](?:[\s().-]*[0-9]){8}/, item.id);
+    assert.doesNotMatch(item.input.note, /https?:\/\/|www\./i, item.id);
   }
 });
