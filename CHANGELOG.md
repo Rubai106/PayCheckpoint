@@ -1,3 +1,8 @@
+## v1.31.0 follow-up — strengthen AI response safety validation
+- Extended the server-side model-output gate to reject instructions that request PINs/OTPs/passwords, install remote-access tools, pay a recovery/release fee, assert unsupported transaction completion, or declare an unverified payment request safe.
+- Added English and Bangla regression cases for unsafe instructions and for legitimate negated safety warnings, so protective copy such as “Never share your OTP” remains allowed.
+- Added a Pages-function regression proving unsafe model responses fail closed with the normal offline-fallback response instead of reaching the UI.
+
 ## v1.31.0 follow-up — block empty receipt confirmations
 - Confirmation now requires at least one transaction-identifying detail: amount, recipient or transaction reference. A generated provider placeholder or a date/time alone cannot create a reviewed receipt record.
 - Added a recovery-workspace browser regression for unsupported messages with no transaction details; confirmation must remain blocked and the receipt must remain unreviewed.

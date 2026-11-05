@@ -102,6 +102,35 @@ const UNSAFE_OUTPUT_PATTERNS = [
   /(?:প্রাপক|ওয়ালেটের মালিক|অ্যাকাউন্টের মালিক).{0,24}(?:যাচাই\s*হয়েছে|নিশ্চিত\s*হয়েছে)/i,
   /(?:লেনদেন|ট্রান্সফার|পেমেন্ট).{0,24}(?:বাতিল|ফেরত|উল্টে দেওয়া).{0,24}(?:হয়েছে|হবে|নিশ্চিত)/i
 ];
+const UNSAFE_ACTION_PATTERNS = [
+  /\\b(?:send|share|provide|tell|read\\s+out|enter|submit)\\s+(?:your\\s+)?(?:pin|otp|one[- ]time password|password|passcode|verification code)\\b/i,
+  /(?:পিন|ওটিপি|পাসওয়ার্ড|পাসকোড|যাচাইকরণ কোড).{0,12}(?:দিন|পাঠান|শেয়ার করুন|বলুন|জানান)/u,
+  /\\b(?:install|download|enable|open|grant|allow)\\s+(?:the\\s+)?(?:anydesk|teamviewer|rustdesk|remote access|screen sharing|remote desktop)\\b/i,
+  /(?:anydesk|teamviewer|rustdesk|রিমোট অ্যাক্সেস|স্ক্রিন শেয়ারিং).{0,24}(?:ইনস্টল|ডাউনলোড|চালু|অনুমতি দিন)/iu,
+  /\\b(?:pay|send|transfer|deposit)\\s+(?:(?:a|an|the)\\s+)?(?:recovery|release|verification|unlocking|processing)\\s+fee\\b/i,
+  /(?:রিকভারি|রিফান্ড|আনলক|যাচাই|প্রসেসিং).{0,20}(?:ফি|চার্জ).{0,12}(?:দিন|পাঠান|জমা দিন)/iu,
+  /\\b(?:payment|transfer|transaction)\\s+(?:is|was|has been)\\s+(?:completed|successful|received|settled)\\b/i,
+  /(?:লেনদেন|ট্রানজ্যাকশন|পেমেন্ট|টাকা পাঠানো).{0,15}(?:সম্পন্ন|সফল|পেয়েছে|জমা হয়েছে)/u,
+  /\\b(?:this|the|it)\\s+(?:message|payment|request)\\s+(?:is|looks|seems)\\s+(?:safe|legitimate|genuine)\\b/i
+];
+
+function isNegatedSafetyWarning(sentence, match) {
+  const prefix = sentence.slice(0, match.index);
+  const suffix = sentence.slice(match.index + match[0].length);
+  const englishNegation = /\\b(?:never|do not|don't|dont|must not|mustn't|should not|shouldn't|avoid|not|cannot|can't)\\b/i.test(prefix);
+  const banglaNegation = /(?:কখনোই|কখনও|কোনোভাবেই|করবেন না|দেবেন না|পাঠাবেন না|শেয়ার করবেন না)/u.test(prefix) ||
+    /^\\s*(?:না|নয়|হয়নি|হয় নি)(?:[।.!?;,\\s]|$)/u.test(suffix);
+  return englishNegation || banglaNegation;
+}
+
+function hasUnsafeActionInstruction(text) {
+  const sentences = String(text).split(/(?<=[.!?।;])\\s+|\\n+/u);
+  return sentences.some(sentence => UNSAFE_ACTION_PATTERNS.some(pattern => {
+    const match = pattern.exec(sentence);
+    return !!match && !isNegatedSafetyWarning(sentence, match);
+  }));
+}
+
 function assertSafeModelText(value) {
   const all = [];
   const visit = v => {
@@ -110,7 +139,7 @@ function assertSafeModelText(value) {
     else if (v && typeof v === 'object') Object.values(v).forEach(visit);
   };
   visit(value);
-  if (all.some(text => UNSAFE_OUTPUT_PATTERNS.some(pattern => pattern.test(text)))) {
+  if (all.some(text => UNSAFE_OUTPUT_PATTERNS.some(pattern => pattern.test(text)) || hasUnsafeActionInstruction(text))) {
     throw new Error('Model output included an unsupported safety or outcome claim');
   }
 }

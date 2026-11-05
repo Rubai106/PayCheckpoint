@@ -84,6 +84,61 @@ test('model output rejects unsafe certainty and validates all required fields', 
   assert.throws(() => normalizeModelOutput({ ...safe, extra: 'x' }, 'en'), /unexpected or missing/i);
 });
 
+test('model output blocks credential requests, remote-access instructions, recovery fees and invented completion while allowing clear warnings', () => {
+  const dangerous = [
+    'Send your OTP to the support agent.',
+    'Please install AnyDesk so the support team can inspect your phone.',
+    'Pay a recovery fee to release the transfer.',
+    'Your transaction is completed; you can close the case.',
+    'This payment is safe to proceed with.'
+  ];
+  for (const summary of dangerous) {
+    assert.throws(() => normalizeModelOutput({ ...safeModelOutput(), summary }, 'en'), /unsupported safety|Invalid|Model/i, summary);
+  }
+  const dangerousBangla = [
+    'আপনার ওটিপি support agent-কে পাঠান।',
+    'AnyDesk ইনস্টল করুন যাতে support সাহায্য করতে পারে।',
+    'টাকা ফেরত পেতে রিকভারি ফি জমা দিন।',
+    'আপনার লেনদেন সম্পন্ন হয়েছে।'
+  ];
+  for (const summary of dangerousBangla) {
+    assert.throws(() => normalizeModelOutput({ ...safeModelOutput(), summary }, 'bn'), /unsupported safety|Invalid|Model/i, summary);
+  }
+  const safeWarnings = [
+    'Never share your PIN or OTP with anyone.',
+    'Do not install AnyDesk or grant remote access.',
+    'Do not pay a recovery or release fee.',
+    'The provider has not confirmed whether the payment completed.',
+    'It is not safe to proceed until the provider confirms.'
+  ];
+  for (const summary of safeWarnings) {
+    assert.doesNotThrow(() => normalizeModelOutput({ ...safeModelOutput(), summary }, 'en'), summary);
+  }
+  const safeBanglaWarnings = [
+    'আপনার পিন বা ওটিপি কাউকে দেবেন না।',
+    'AnyDesk ইনস্টল করবেন না বা রিমোট অ্যাক্সেস দেবেন না।',
+    'রিকভারি ফি দেবেন না।',
+    'প্রদানকারী লেনদেন সম্পন্ন হয়েছে কি না নিশ্চিত করেনি।'
+  ];
+  for (const summary of safeBanglaWarnings) {
+    assert.doesNotThrow(() => normalizeModelOutput({ ...safeModelOutput(), summary }, 'bn'), summary);
+  }
+});
+
+function safeModelOutput() {
+  return {
+    heading: 'Review the details',
+    summary: 'The provider has not confirmed the transaction.',
+    unknowns: ['The wallet owner has not been independently verified.'],
+    nextSteps: [
+      { timing: 'now', action: 'Pause before proceeding.', reason: 'The details need independent checking.' },
+      { timing: 'next', action: 'Contact official provider support.', reason: 'The provider can check its own records.' }
+    ],
+    avoid: ['Never share a PIN or OTP.'],
+    complaintOutline: ['Use facts you can support.']
+  };
+}
+
 test('copilot status is read-only and local Node mode never advertises hosted AI as configured', async t => {
   const base = await serverFor(t, createCopilotService());
   const get = await fetch(`${base}/api/copilot/status`);

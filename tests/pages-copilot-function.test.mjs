@@ -107,6 +107,23 @@ test('Pages AI function refuses unsafe model claims and returns an offline-fallb
   assert.equal((await readJson(response)).error, 'AI_UNAVAILABLE');
 });
 
+test('Pages AI function rejects model instructions for OTPs, remote access and recovery fees', async () => {
+  const unsafeSummaries = [
+    'Send your OTP to the support agent.',
+    'Install AnyDesk so support can inspect your device.',
+    'Pay a recovery fee to release the transfer.',
+    'Your transaction is completed.'
+  ];
+  for (const summary of unsafeSummaries) {
+    const response = await onRequestPost({
+      request: makeRequest(validInput, { ip: '198.51.100.' + (20 + unsafeSummaries.indexOf(summary)) }),
+      env: fakeEnv(async () => ({ response: { ...safeModelResult, summary } }))
+    });
+    assert.equal(response.status, 502, summary);
+    assert.equal((await readJson(response)).error, 'AI_UNAVAILABLE');
+  }
+});
+
 test('Pages AI function surfaces quota/rate exhaustion without a fabricated result', async () => {
   const response = await onRequestPost({
     request: makeRequest(validInput, { ip: '192.0.2.12' }),
