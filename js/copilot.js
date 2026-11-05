@@ -129,7 +129,7 @@ function createOfflineCopilotResult(ctx) {
   };
 }
 function copilotEl(tag, cls, text) { var el = document.createElement(tag); if (cls) el.className = cls; if (text != null) el.textContent = text; return el; }
-function renderCopilotResult(result, mode, model, generatedLanguage) {
+function renderCopilotResult(result, mode, model, requestedLanguage) {
   var out = document.getElementById('copilot-results'); if (!out) return; out.replaceChildren();
   var card = copilotEl('article', 'copilot-result-card');
   var top = copilotEl('div', 'copilot-result-top');
@@ -137,12 +137,12 @@ function renderCopilotResult(result, mode, model, generatedLanguage) {
   top.appendChild(copilotEl('span', 'tag ' + (mode === 'cloudflare-ai' ? 'tag-g' : 'tag-n'), mode === 'cloudflare-ai' ? copilotCopy('AI-assisted', 'AI সহায়তাপ্রাপ্ত') : copilotCopy('Private · offline', 'ব্যক্তিগত · অফলাইন')));
   card.appendChild(top);
   card.appendChild(copilotEl('p', 'copilot-result-summary', result.summary || ''));
-  var outputLanguage = generatedLanguage === 'bn' ? 'bn' : generatedLanguage === 'en' ? 'en' : (S.lang === 'bn' ? 'bn' : 'en');
+  var outputLanguage = requestedLanguage === 'bn' ? 'bn' : requestedLanguage === 'en' ? 'en' : (S.lang === 'bn' ? 'bn' : 'en');
   var currentLanguage = S.lang === 'bn' ? 'bn' : 'en';
   if (outputLanguage !== currentLanguage) {
     var languageNotice = outputLanguage === 'en'
-      ? copilotCopy('This plan was generated in English. The interface is now in Bangla; generate a new cloud plan if you need Bangla output.', 'এই পরিকল্পনাটি ইংরেজিতে তৈরি হয়েছে। এখন ইন্টারফেস বাংলায়; বাংলায় পরিকল্পনা পেতে নতুন ক্লাউড পরিকল্পনা তৈরি করুন।')
-      : copilotCopy('This plan was generated in Bangla. The interface is now in English; generate a new cloud plan if you need English output.', 'এই পরিকল্পনাটি বাংলায় তৈরি হয়েছে। এখন ইন্টারফেস ইংরেজিতে; ইংরেজিতে পরিকল্পনা পেতে নতুন ক্লাউড পরিকল্পনা তৈরি করুন।');
+      ? copilotCopy('This plan was requested in English. The interface is now in Bangla; switching the interface does not translate the plan. Generate a new cloud plan to request Bangla output.', 'এই পরিকল্পনাটি ইংরেজিতে চাওয়া হয়েছিল। ইন্টারফেস এখন বাংলায়, কিন্তু ভাষা বদলালে পরিকল্পনাটি অনুবাদ হয় না। বাংলায় উত্তর চাইলে নতুন ক্লাউড পরিকল্পনা তৈরি করুন।')
+      : copilotCopy('This plan was requested in Bangla. The interface is now in English; switching the interface does not translate the plan. Generate a new cloud plan to request English output.', 'এই পরিকল্পনাটি বাংলায় চাওয়া হয়েছিল। ইন্টারফেস এখন ইংরেজিতে, কিন্তু ভাষা বদলালে পরিকল্পনাটি অনুবাদ হয় না। ইংরেজিতে উত্তর চাইলে নতুন ক্লাউড পরিকল্পনা তৈরি করুন।');
     card.appendChild(copilotEl('p', 'hint copilot-language-note', languageNotice));
   }
   if (result.unknowns && result.unknowns.length) {

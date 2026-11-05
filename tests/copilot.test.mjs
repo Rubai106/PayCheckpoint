@@ -199,6 +199,8 @@ test('Copilot records the plan language and distinguishes cloud output from loca
   assert.match(source, /language: ctx\.language/);
   assert.match(source, /mode === 'offline-guide' && PC_COPILOT_LAST_RESULT\.language !== selectedLanguage/);
   assert.match(source, /copilot-language-note/);
+  assert.match(source, /This plan was requested in English/);
+  assert.doesNotMatch(source, /This plan was generated in English/);
   assert.match(source, /generate a new cloud plan/i);
 });
 

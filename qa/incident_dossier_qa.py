@@ -158,7 +158,7 @@ with sync_playwright() as p:
     # Cloud output must retain its generation language and must not silently auto-send on language switch.
     page.locator('#langBn').click()
     assert page.locator('.copilot-language-note').is_visible()
-    assert 'ইংরেজিতে' in page.locator('.copilot-language-note').inner_text()
+    assert 'ইংরেজিতে চাওয়া হয়েছিল' in page.locator('.copilot-language-note').inner_text()
     assert page.evaluate('window.__copilotCalls.length') == 1
     page.locator('#langEn').click()
     assert page.locator('.copilot-language-note').count() == 0

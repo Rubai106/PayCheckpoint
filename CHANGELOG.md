@@ -1,3 +1,7 @@
+## v1.31.0 follow-up — describe requested, not detected, Copilot language
+- Changed the language-mismatch notice to say which language was requested, not to claim the model's actual output language was detected. The interface explicitly says language switching does not translate an existing cloud response.
+- Added a regression that prevents the UI copy from overstating the available language evidence.
+
 ## v1.31.0 follow-up — keep Copilot output language honest
 - Copilot results now retain the language in which they were generated. Switching the interface does not silently present old cloud output as translated; a localized notice tells the user the plan's language and how to request a new one.
 - Private offline plans are regenerated locally in the newly selected language without a cloud call or use of the free-text note.
