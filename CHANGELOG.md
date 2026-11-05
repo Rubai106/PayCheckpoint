@@ -1,3 +1,7 @@
+## v1.31.0 follow-up — refine multilingual AI response guard
+- Corrected regex escaping in the new response-safety guard and expanded Bangla matching to cover credential-sharing, remote-access and recovery-fee instructions while recognizing common Bengali negation placement.
+- Kept a regression matrix for unsafe instructions and clear English/Bangla warnings so the fail-closed guard does not suppress protective advice.
+
 ## v1.31.0 follow-up — strengthen AI response safety validation
 - Extended the server-side model-output gate to reject instructions that request PINs/OTPs/passwords, install remote-access tools, pay a recovery/release fee, assert unsupported transaction completion, or declare an unverified payment request safe.
 - Added English and Bangla regression cases for unsafe instructions and for legitimate negated safety warnings, so protective copy such as “Never share your OTP” remains allowed.
