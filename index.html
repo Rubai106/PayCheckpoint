@@ -338,6 +338,12 @@ Other: Share your OTP."></textarea>
 <label for="x-recipient" data-i18n="recipientDest">Recipient / destination</label><input id="x-recipient" type="text"/>
 <label for="x-trxid" data-i18n="trxid">Transaction reference (TrxID)</label><input id="x-trxid" type="text" aria-describedby="x-trxid-note"/><div id="x-trxid-note"></div>
 <label for="x-datetime" data-i18n="datetime">Date &amp; time</label><input id="x-datetime" type="text"/>
+<div id="sms-intended-fields">
+<h3 data-i18n="smsIntendedTitle">What did you mean to send?</h3><p class="hint" data-i18n="smsIntendedHint">Enter the number and amount you intended, so the receipt can be compared with your intent. Leave them blank if you do not know them — the comparison will stay incomplete instead of guessing.</p>
+<label for="x-intended-num" data-i18n="smsIntendedNum">Intended recipient number</label><input id="x-intended-num" type="text" placeholder="e.g. 01712-345678" data-i18n-placeholder="numPlaceholder"/>
+<label for="x-intended-amt" data-i18n="smsIntendedAmt">Intended amount (৳)</label><input id="x-intended-amt" type="text" placeholder="e.g. 3000" data-i18n-placeholder="amtPlaceholder"/>
+<div id="x-intended-err" aria-live="polite"></div>
+</div>
 <div class="cta-row"><button class="btn btn-p" onclick="confirmSMS()" data-i18n="confirmCompare">Confirm &amp; compare →</button></div>
 </div>
 </section>
