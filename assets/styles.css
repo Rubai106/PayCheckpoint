@@ -1852,3 +1852,124 @@ details[open]{background:#FCFEFC}
   .incident-dossier-panel .cta-row .btn{width:100%}
 }
 @media(prefers-reduced-motion:reduce){.dossier-subpanel{transition:none!important}.dossier-subpanel:hover{transform:none}}
+
+
+/* v1.33.0 — unified journey hierarchy and payment-intent form layout. */
+#view-app .app-shell{
+  width:min(100%,1240px);
+  max-width:1240px;
+  margin-inline:auto;
+  padding:clamp(20px,2.4vw,32px) clamp(14px,2.8vw,34px) 76px;
+}
+#view-app .panel{
+  padding:clamp(22px,2.5vw,36px);
+}
+#view-app .panel>h2{
+  max-width:900px;
+  margin:0 0 9px;
+  font-size:clamp(26px,2.5vw,34px);
+  line-height:1.18;
+  letter-spacing:-.045em;
+}
+#view-app .panel>p.hint{
+  max-width:900px;
+  margin:0 0 18px;
+  font-size:14px;
+  line-height:1.7;
+}
+#view-app .steps.journey-progress{
+  margin:14px 0 20px;
+  padding:16px 18px;
+  border:1px solid #DCE7DE;
+  border-radius:17px;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 7px 22px rgba(24,57,37,.045);
+}
+#view-app .journey-progress-head{margin-bottom:10px}
+#view-app .journey-progress-head strong{font-size:14px;color:#244331}
+#view-app .journey-progress-head>span{font-size:12px;color:#687B70}
+#view-app .journey-progress-track{height:4px;background:#E8EFE9}
+#view-app .journey-progress-track i{background:linear-gradient(90deg,#08765B,#74BD8D)}
+#view-app .journey-stage-list{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin:12px 0 0;
+}
+#view-app .progress-step{
+  min-width:0;
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:8px 11px;
+  border:1px solid #E2EAE3;
+  border-radius:12px;
+  background:#FBFDFB;
+  color:#748278;
+  font-size:12px;
+  line-height:1.35;
+}
+#view-app .progress-step-mark{
+  width:23px;height:23px;flex:0 0 23px;
+  border:1px solid #DCE6DE;border-radius:8px;
+  background:#F5F9F5;color:#63766A;
+}
+#view-app .progress-step.done{border-color:#D5E8D9;background:#F6FBF6;color:#28714F}
+#view-app .progress-step.done .progress-step-mark{border-color:#B9D9C1;background:#E6F4E8;color:#24734C}
+#view-app .progress-step.current{border-color:#A9CEB2;background:#EEF7F0;color:#184A32;font-weight:800}
+#view-app .progress-step.current .progress-step-mark{border-color:#08765B;background:#08765B;color:#fff;box-shadow:0 0 0 3px #E1F1E6}
+#view-app .progress-step-label{min-width:0;overflow-wrap:anywhere}
+#view-app .intent-details-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+  gap:16px;
+  margin:18px 0 20px;
+}
+#view-app .intent-details-grid>.intent-step-card{
+  min-width:0;
+  margin:0;
+  padding:clamp(16px,2vw,22px);
+  border:1px solid #DCE7DE;
+  border-radius:18px;
+  background:linear-gradient(155deg,#FBFDFB,#F6FAF6);
+  box-shadow:0 4px 14px rgba(25,65,41,.025);
+}
+#view-app .intent-details-grid>.intent-step-card:nth-child(2){
+  background:linear-gradient(155deg,#F8FBF9,#F2F7F3);
+}
+#view-app .intent-step-label{
+  margin:0 0 15px;
+  color:#557064;
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:.075em;
+  line-height:1.5;
+}
+#view-app .intent-step-card>.hint{
+  margin:0 0 12px;
+  font-size:13px;
+  line-height:1.6;
+}
+#view-app .intent-details-grid label{margin-top:12px}
+#view-app .intent-details-grid input{min-width:0}
+@media(max-width:900px){
+  #view-app .app-shell{padding:22px 18px 58px}
+  #view-app .intent-details-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:640px){
+  #view-app .app-shell{padding:16px 12px 46px}
+  #view-app .panel{padding:20px 16px;border-radius:18px}
+  #view-app .steps.journey-progress{padding:13px 12px;margin:12px 0 16px}
+  #view-app .journey-progress-head strong{font-size:12px}
+  #view-app .journey-progress-head>span{font-size:11px}
+  #view-app .journey-stage-list{gap:7px;margin-top:10px}
+  #view-app .progress-step{padding:7px 6px;gap:5px;font-size:10px;align-items:flex-start}
+  #view-app .progress-step-mark{width:21px;height:21px;flex-basis:21px}
+  #view-app .intent-details-grid{gap:10px;margin:14px 0 17px}
+  #view-app .intent-details-grid>.intent-step-card{padding:15px 13px;border-radius:15px}
+}
+@media(max-width:420px){
+  #view-app .journey-stage-list:has(.progress-step:nth-child(4)){grid-template-columns:repeat(2,minmax(0,1fr))}
+}

@@ -3,15 +3,28 @@ function updateResumeButton(){var b=document.getElementById('btn-resume-tx');if(
 function showView(v){if(v==='system'&&typeof isDevMode==='function'&&!isDevMode())v='home';['home','app','system'].forEach(function(x){document.getElementById('view-'+x).classList.toggle('hidden',x!==v)});updateResumeButton();window.scrollTo(0,0)}
 function renderJourneyProgress(screen){
  var bar=document.getElementById('stepBar');if(!bar)return;
- if(screen==='start'){bar.classList.add('hidden');bar.innerHTML='';return}
- bar.classList.remove('hidden');
  var bn=S.lang==='bn';
- var stages=screen==='settings'?['settings']:screen==='message-review'?['message-review']:screen==='preflight-check'?['intent','recon','preflight-check']:S.journey==='recovery'?['recovery','sms','recon','incident']:['intent','recon','preflight-check'];
- var labels=bn?{'message-review':'বার্তা পর্যালোচনা',intent:'উদ্দেশ্য লিখুন',sms:'বার্তা পর্যালোচনা',recon:'তথ্য মিলিয়ে দেখুন','preflight-check':'ওয়ালেটে আবার যাচাই করুন',safesend:'চূড়ান্ত পর্যালোচনা',pending:'সিমুলেশন',result:'ফলাফল',recovery:'করণীয়',incident:'ঘটনার প্রতিবেদন',settings:'সেটিংস'}:{'message-review':'Message review',intent:'Your intent',sms:'Review transaction message',recon:'Compare details','preflight-check':'Verify in wallet',safesend:'Final review',pending:'Simulation',result:'Outcome',recovery:'Next steps',incident:'Incident report',settings:'Settings'};
- var idx=stages.indexOf(screen);if(idx<0)idx=0;
- var title=screen==='settings'?(bn?'গোপনীয়তা ও সেটিংস':'Privacy & settings'):screen==='message-review'?(bn?'সন্দেহজনক বার্তা যাচাই':'Suspicious message review'):bn?(S.journey==='recovery'?'পুনরুদ্ধারের ধাপ':'পেমেন্ট নিরাপত্তা যাচাই'):(S.journey==='recovery'?'Recovery plan':'Payment safety check');
- var stageList=stages.map(function(st,i){var state=i<idx?'done':i===idx?'current':'upcoming';var mark=i<idx?'✓':String(i+1);return '<li class="progress-step '+state+'"'+(i===idx?' aria-current="step"':'')+'><span class="progress-step-mark">'+mark+'</span><span class="progress-step-label">'+esc(labels[st]||st)+'</span></li>'}).join('');
- bar.setAttribute('aria-label',title);bar.innerHTML='<div class="journey-progress-head"><strong>'+esc(title)+'</strong><span>'+(bn?'ধাপ ':'Step ')+(idx+1)+' '+(bn?' / ':'of ')+stages.length+'</span></div><div class="journey-progress-track" role="progressbar" aria-label="'+esc(title)+'" aria-valuemin="1" aria-valuemax="'+stages.length+'" aria-valuenow="'+(idx+1)+'"><i style="width:'+(((idx+1)/stages.length)*100)+'%"></i></div><ol class="journey-stage-list">'+stageList+'</ol>';
+ var hiddenScreens=['start','settings','pending','result'];
+ if(hiddenScreens.indexOf(screen)>=0){
+  bar.classList.add('hidden');bar.classList.remove('journey-progress');bar.innerHTML='';return;
+ }
+ var labels=bn?{'message-review':'বার্তা পর্যালোচনা',intent:'আপনার উদ্দেশ্য',sms:'বার্তা পর্যালোচনা',recon:'বিবরণ তুলনা', 'preflight-check':'ওয়ালেটে যাচাই',recovery:'করণীয়',incident:'ঘটনার প্রতিবেদন'}:{'message-review':'Message review',intent:'Your intent',sms:'Review message',recon:'Compare details','preflight-check':'Verify in wallet',recovery:'Next steps',incident:'Incident report'};
+ var isRecovery=S.journey==='recovery'||screen==='incident';
+ var stages=isRecovery?['recovery','sms','recon','incident']:screen==='message-review'?['message-review']:['intent','recon','preflight-check'];
+ var active=screen;
+ if(!isRecovery&&screen==='sms')active='recon';
+ if(!isRecovery&&screen==='safesend')active='preflight-check';
+ if(isRecovery&&screen==='safesend')active='recovery';
+ var idx=stages.indexOf(active);if(idx<0)idx=0;
+ var title=screen==='message-review'?(bn?'বার্তা নিরাপত্তা যাচাই':'Message safety check'):isRecovery?(bn?'পুনরুদ্ধার পরিকল্পনা':'Recovery plan'):(bn?'পেমেন্ট নিরাপত্তা যাচাই':'Payment safety check');
+ var stageList=stages.map(function(st,i){
+  var state=i<idx?'done':i===idx?'current':'upcoming';
+  var mark=i<idx?'✓':String(i+1);
+  return '<li class="progress-step '+state+'"'+(i===idx?' aria-current="step"':'')+'><span class="progress-step-mark" aria-hidden="true">'+mark+'</span><span class="progress-step-label">'+esc(labels[st]||st)+'</span></li>';
+ }).join('');
+ bar.classList.remove('hidden');bar.classList.add('journey-progress');
+ bar.setAttribute('aria-label',title);
+ bar.innerHTML='<div class="journey-progress-head"><strong>'+esc(title)+'</strong><span>'+(bn?'ধাপ ':'Step ')+(idx+1)+(bn?' / ':' of ')+stages.length+'</span></div><div class="journey-progress-track" role="progressbar" aria-label="'+esc(title)+'" aria-valuemin="1" aria-valuemax="'+stages.length+'" aria-valuenow="'+(idx+1)+'"><i style="width:'+(((idx+1)/stages.length)*100)+'%"></i></div><ol class="journey-stage-list">'+stageList+'</ol>';
 }
 function positionEvidenceMap(screen){var panel=document.getElementById('evidence-map-panel');if(!panel)return;var target=screen==='recon'?document.getElementById('recon-evidence-map-slot'):screen==='incident'?document.getElementById('incident-evidence-map-slot'):document.getElementById('evidence-map-parking');if(target&&panel.parentNode!==target)target.appendChild(panel);var visible=screen==='recon'||screen==='incident';panel.classList.toggle('hidden',!visible);if(visible&&typeof renderEvidenceMap==='function')renderEvidenceMap()}
 function goApp(screen){showView('app');/* The message-review route starts with the simple single-message path. Keep the multi-message sequence tool collapsed on each entry so a previous visit cannot turn the first-use screen into an advanced workspace. */if(screen==='message-review'){var advancedReview=document.querySelector('#view-app details.message-advanced');if(advancedReview)advancedReview.open=false}var homeBack=document.querySelector('#view-app .app-shell>.btn-ghost');if(homeBack)homeBack.classList.toggle('hidden',screen==='message-review');var jo=JOURNEY_OF[screen];if(jo&&jo!=='shared'&&jo!=='settings')S.journey=jo;if(screen==='safesend'&&S.journey==='recovery'){screen='recovery';document.querySelectorAll('[data-screen]').forEach(function(pan){pan.classList.toggle('hidden',pan.dataset.screen!==screen)});renderJourneyProgress(screen);positionEvidenceMap(screen);window.scrollTo(0,0);return}document.querySelectorAll('[data-screen]').forEach(function(p){p.classList.toggle('hidden',p.dataset.screen!==screen)});renderJourneyProgress(screen);positionEvidenceMap(screen);window.scrollTo(0,0)}

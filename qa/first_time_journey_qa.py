@@ -142,6 +142,13 @@ with sync_playwright() as p:
     assert page.locator('#f-intended-amt').get_attribute('aria-invalid') is None
     assert page.locator('#e-amt [role="alert"]').count() == 0
     assert page.locator('[data-screen="intent"] .intent-step-card').count() == 2
+    assert page.locator('[data-screen="intent"] .intent-details-grid').count() == 1
+    assert not page.locator('[data-screen="intent"] h2').inner_text().strip().startswith('1 ·')
+    group_labels = page.locator('[data-screen="intent"] .intent-step-label').all_inner_texts()
+    assert len(group_labels) == 2
+    assert all(not label.strip().upper().startswith('STEP ') and not label.strip().startswith('ধাপ ') for label in group_labels), group_labels
+    assert 'Step 1 of 3' in page.locator('#stepBar').inner_text()
+    assert page.locator('#stepBar .progress-step.current .progress-step-label').inner_text() == 'Your intent'
     assert page.locator('[data-screen="intent"] details.intent-advanced').count() == 2
     assert page.locator('[data-screen="intent"] details.intent-advanced[open]').count() == 0
     assert 'payment app' in page.locator('[data-screen="intent"]').inner_text().lower()
@@ -189,6 +196,19 @@ with sync_playwright() as p:
     assert page.locator('#live-source-visual').get_attribute('data-state') == 'match'
     page.locator('[data-i18n="compareDetails"]').click()
     assert page.locator('[data-screen="recon"]').is_visible()
+    assert 'Step 2 of 3' in page.locator('#stepBar').inner_text()
+    assert page.locator('#stepBar .progress-step.current .progress-step-label').inner_text() == 'Compare details'
+    page.evaluate("goApp('sms')")
+    assert 'Step 2 of 3' in page.locator('#stepBar').inner_text()
+    assert page.locator('#stepBar .progress-step.current .progress-step-label').inner_text() == 'Compare details'
+    page.evaluate("goApp('safesend')")
+    assert 'Step 3 of 3' in page.locator('#stepBar').inner_text()
+    assert page.locator('#stepBar .progress-step.current .progress-step-label').inner_text() == 'Verify in wallet'
+    page.evaluate("goApp('pending')")
+    assert not page.locator('#stepBar').is_visible()
+    page.evaluate("startJourney('prevention','intent')")
+    assert 'Step 1 of 3' in page.locator('#stepBar').inner_text()
+    page.evaluate("goApp('recon')")
     assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'ready'
     assert page.locator('#checkpoint-intelligence-action').inner_text() == 'Continue to wallet checkpoint'
     page.evaluate('setLang(true)')
@@ -332,6 +352,15 @@ with sync_playwright() as p:
     page.evaluate("goApp('start')")
     page.locator("[data-screen=\"start\"] button.journey-choice[onclick=\"startJourney('recovery','recovery')\"]").click()
     assert page.locator('[data-screen="recovery"]').is_visible()
+    assert 'Step 1 of 4' in page.locator('#stepBar').inner_text()
+    page.evaluate("goApp('sms')")
+    assert 'Step 2 of 4' in page.locator('#stepBar').inner_text()
+    page.evaluate("goApp('recon')")
+    assert 'Step 3 of 4' in page.locator('#stepBar').inner_text()
+    page.evaluate("goApp('incident')")
+    assert 'Step 4 of 4' in page.locator('#stepBar').inner_text()
+    page.evaluate("goApp('settings')")
+    assert not page.locator('#stepBar').is_visible()
 
     # Language coverage for all new first-run and message-review controls.
     page.evaluate("goApp('start'); setLang(true)")

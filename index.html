@@ -221,6 +221,7 @@ Other: Share your OTP."></textarea>
 <section class="panel hidden" data-screen="intent">
 <h2 data-i18n="intentH">1 · Enter payment intent</h2>
 <p class="hint" data-i18n="intentSub">First record what you intend to pay. Then compare it with the details you are preparing to enter in your payment app. PayCheckpoint cannot see or control that app.</p>
+<div class="intent-details-grid">
 <div class="intent-step-card">
   <p class="intent-step-label" data-i18n="intentStepOne">STEP 1 · WHAT YOU INTEND TO PAY</p>
   <label for="f-intended-num" data-i18n="lblIntendedNum">Intended recipient number *</label>
@@ -239,6 +240,7 @@ Other: Share your OTP."></textarea>
   <label for="f-entered-amt" data-i18n="lblEnteredAmt">Amount you are about to enter (৳) *</label>
   <input id="f-entered-amt" type="text" inputmode="decimal" autocomplete="off" placeholder="Exact amount in your payment app" data-i18n-placeholder="enteredAmtPlaceholder" aria-describedby="e-entered-amt" required />
   <div id="e-entered-amt"></div>
+</div>
 </div>
 <section class="live-source-visual" id="live-source-visual" data-state="pending" aria-labelledby="live-source-visual-title">
   <div class="live-source-visual-head">
