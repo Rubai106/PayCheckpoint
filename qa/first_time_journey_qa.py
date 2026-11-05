@@ -78,19 +78,6 @@ with sync_playwright() as p:
     assert page.locator('#payment-demo-result').get_attribute('data-state') == 'mismatch'
     page.evaluate("showView('app'); goApp('start')")
 
-    # The app-specific safety and sequence-review copy must be visible and bilingual.
-    assert 'B and C are hypothetical undo demonstrations' in page.locator('[data-i18n="scenarioIntro"]').inner_text()
-    assert 'cannot cancel a real wallet payment' in page.locator('[data-i18n="scenarioIntro"]').inner_text()
-    assert 'fictional/example text only' in page.locator('[data-i18n="messageReviewPrivacy"]').inner_text()
-    assert 'fictional/example conversations only' in page.locator('[data-i18n="sequencePrivacy"]').inner_text()
-    page.locator('#langBn').click()
-    assert 'কাল্পনিক তথ্য' in page.locator('[data-i18n="scenarioIntro"]').inner_text()
-    assert 'বাস্তব ওয়ালেট পেমেন্ট বাতিল করতে পারে না' in page.locator('[data-i18n="scenarioIntro"]').inner_text()
-    assert 'কাল্পনিক/উদাহরণ কথোপকথন' in page.locator('[data-i18n="sequencePrivacy"]').inner_text()
-    assert 'কথোপকথনের ধারাবাহিকতা পর্যালোচনা' in page.locator('[data-i18n="sequenceTitle"]').inner_text()
-    assert 'কাল্পনিক/উদাহরণ বার্তা' in page.locator('[data-i18n="messageReviewPrivacy"]').inner_text()
-    page.locator('#langEn').click()
-
     # First-use chooser: three explicit consumer situations, no specialist tools in the chooser.
     assert page.locator('[data-screen="start"]').is_visible()
     assert page.locator('[data-screen="start"] .journey-choice').count() == 3
@@ -101,6 +88,33 @@ with sync_playwright() as p:
     assert 'suspicious message' in page.locator('[data-screen="start"] .journey-choice').nth(2).inner_text().lower()
     assert page.locator('[data-screen="start"] #scam-coach-panel').count() == 0
     assert page.locator('[data-screen="start"] #sequence-intelligence-panel').count() == 0
+
+    # Open the guided-example disclosure before asserting its simulation boundary.
+    page.locator('[data-screen="start"] .scenario-disclosure > summary').click()
+    scenario_copy = page.locator('[data-i18n="scenarioIntro"]').inner_text()
+    assert 'B and C are hypothetical undo demonstrations' in scenario_copy
+    assert 'cannot cancel a real wallet payment' in scenario_copy
+    page.locator('#langBn').click()
+    scenario_copy_bn = page.locator('[data-i18n="scenarioIntro"]').inner_text()
+    assert 'কাল্পনিক তথ্য' in scenario_copy_bn
+    assert 'বাস্তব ওয়ালেট পেমেন্ট বাতিল করতে পারে না' in scenario_copy_bn
+    page.locator('#langEn').click()
+    page.locator('[data-screen="start"] .scenario-disclosure > summary').click()
+
+    # Navigate into message review and open the nested conversation disclosure before checking privacy/i18n.
+    page.locator("[data-screen='start'] .journey-choice[onclick=\"startJourney('prevention','message-review')\"]").click()
+    assert page.locator('[data-screen="message-review"]').is_visible()
+    assert 'fictional/example text only' in page.locator('[data-i18n="messageReviewPrivacy"]').inner_text()
+    page.locator('[data-screen="message-review"] details.message-advanced > summary').click()
+    assert 'fictional/example conversations only' in page.locator('[data-i18n="sequencePrivacy"]').inner_text()
+    assert 'Conversation sequence review' in page.locator('[data-i18n="sequenceTitle"]').inner_text()
+    page.locator('#langBn').click()
+    assert 'কাল্পনিক/উদাহরণ বার্তা' in page.locator('[data-i18n="messageReviewPrivacy"]').inner_text()
+    assert 'কাল্পনিক/উদাহরণ কথোপকথন' in page.locator('[data-i18n="sequencePrivacy"]').inner_text()
+    assert 'কথোপকথনের ধারাবাহিকতা পর্যালোচনা' in page.locator('[data-i18n="sequenceTitle"]').inner_text()
+    page.locator('#langEn').click()
+    page.locator('[data-i18n="messageReviewBack"]').click()
+    assert page.locator('[data-screen="start"]').is_visible()
 
     # The basic payment form is guided and progressive: advanced seller-message and screenshot work is optional.
     page.locator("[data-screen=\"start\"] button.journey-choice[onclick=\"startJourney('prevention','intent')\"]").click()
