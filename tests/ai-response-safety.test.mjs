@@ -11,7 +11,7 @@ const matrix = JSON.parse(await readFile(resolve(root, 'evaluation/ai-copilot/re
 test('AI response-safety matrix blocks unsafe instructions and preserves clear warnings in English and Bangla', () => {
   const report = evaluateResponseSafetyCases(matrix.cases);
   assert.equal(report.status, 'passed', JSON.stringify(report.cases.filter(item => !item.passed), null, 2));
-  assert.equal(report.total, 30);
+  assert.equal(report.total, 31);
   assert.ok(report.blocked > 0);
   assert.ok(report.allowed > 0);
   assert.equal(report.modelAccuracyMeasured, false);

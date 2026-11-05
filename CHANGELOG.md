@@ -1,5 +1,5 @@
 ## v1.31.0 follow-up — add reproducible bilingual AI response-safety benchmark
-- Added a 30-case developer-authored English/Bangla matrix covering credential requests, remote-access installation, recovery fees, unsupported completion claims and unsafe reassurance, alongside protective warnings that must remain allowed.
+- Added a 31-case developer-authored English/Bangla matrix covering credential requests, remote-access installation, recovery fees, unsupported completion claims and unsafe reassurance, alongside protective warnings that must remain allowed.
 - Added `npm run qa:ai-safety` and integrated the matrix into deterministic release validation. The report explicitly measures output-guard regression only, not model quality or real-world accuracy.
 - Applied negation-aware handling to the existing unsupported-claim patterns so warnings such as “Never trust guaranteed recovery offers” are not rejected as unsafe recommendations.
 

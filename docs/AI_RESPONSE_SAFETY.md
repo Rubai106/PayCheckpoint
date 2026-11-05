@@ -23,7 +23,7 @@ The gate recognizes clear English and Bangla negation so protective warnings rem
 npm run qa:ai-safety
 ```
 
-The 30 developer-authored examples are stored in `evaluation/ai-copilot/response-safety-cases.json`. The runner writes `evaluation/ai-copilot/response-safety-latest.json` with case-level outcomes and a concise pass count. The same runner is part of `npm run qa:release`.
+The 31 developer-authored examples are stored in `evaluation/ai-copilot/response-safety-cases.json`. The runner writes `evaluation/ai-copilot/response-safety-latest.json` with case-level outcomes and a concise pass count. The same runner is part of `npm run qa:release`.
 
 ## Evidence boundary
 
