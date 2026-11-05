@@ -1,4 +1,9 @@
-:root{--ivory:#F7F7F2;--teal:#126B51;--teal2:#0E5943;--ink:#18211F;--amber:#F2B84B;--amberBg:#FFF6DC;--red:#B94A48;--redBg:#FDF0EF;--line:#D8D8CF;--mut:#45544F;--card:#fff;--radius:14px}
+/* Canonical design tokens — the single source of truth for the whole app.
+   Earlier passes each appended their own :root; those duplicates are removed
+   so a token change here is the only place a colour, radius or shadow changes.
+   Values below are the live v1.28 premium set, plus --shadow-sm/--shadow-md
+   kept for the v1.11-era button and card rules that still reference them. */
+:root{--ivory:#F4F6F1;--teal:#08765B;--teal2:#075D49;--ink:#14231F;--amber:#E7AD38;--amberBg:#FFF5D9;--red:#B74743;--redBg:#FFF0EE;--line:#DCE5DE;--mut:#52645C;--card:#FFFFFF;--radius:18px;--surface:#FFFFFF;--surface2:#F3F7F4;--shadow-sm:0 3px 10px rgba(18,35,58,.045);--shadow-md:0 14px 44px rgba(18,35,58,.095);--shadow-soft:0 12px 36px rgba(19,45,35,.07);--shadow-card:0 22px 60px rgba(19,45,35,.11),0 3px 10px rgba(19,45,35,.045);--focus-ring:0 0 0 4px rgba(8,118,91,.16)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .mnav-btn{display:none;min-width:44px;min-height:44px}
 .mnav{display:none;border-top:1px solid var(--line);padding:10px 18px 14px;background:var(--ivory)}
@@ -25,6 +30,8 @@ a{color:var(--teal)}button,input,textarea,select{font:inherit}
 .btn-o{background:#fff;border-color:var(--line);color:var(--ink)}
 .btn-amber{background:var(--amber);color:#18211F}
 .btn-danger{background:var(--red);color:#fff}
+.btn-danger-o{background:#fff;border:1px solid #E3B7B4;color:#A83A34}
+.btn-danger-o:hover{border-color:#B74743;background:#FFF5F4}
 .btn-ghost{background:transparent;border-color:transparent;color:var(--teal)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .langtog{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
@@ -43,7 +50,7 @@ a{color:var(--teal)}button,input,textarea,select{font:inherit}
 .compare{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:14px}
 .compare table{width:100%;border-collapse:collapse;font-size:14px}
 .compare th,.compare td{padding:10px 12px;text-align:left;border-bottom:1px solid #eee}
-.compare th{background:#F2F2EC;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--mut)}
+.compare th{background:var(--surface2);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--mut)}
 .diff{background:var(--redBg);color:#7A2320;font-weight:600}
 .ok{color:var(--teal);font-weight:600}
 .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;padding:3px 7px;border-radius:999px}
@@ -262,23 +269,8 @@ code{background:#EEEEE8;padding:2px 6px;border-radius:6px;font-size:13px}
 .evidence-timeline-panel .hint{line-height:1.6}
 @media(max-width:640px){.coach-panel,.screenshot-review,.evidence-timeline-panel{padding:12px}.coach-head{display:block}.coach-head>.btn{width:100%;margin-top:8px}.coach-examples .btn,.coach-panel .cta-row .btn,.screenshot-review>.btn,.timeline-add .btn,.evidence-timeline-panel .cta-row .btn{width:100%}.screenshot-fields,.benchmark-list{grid-template-columns:minmax(0,1fr)}.timeline-add{grid-template-columns:minmax(0,1fr)}.evidence-timeline li{grid-template-columns:minmax(0,1fr)}.evidence-timeline time{grid-row:auto}}
 
-/* v1.11.0 — product-led visual and interaction refresh */
-:root{
-  --ivory:#F4F7FB;
-  --teal:#087F73;
-  --teal2:#06665E;
-  --ink:#152238;
-  --amber:#F5B942;
-  --amberBg:#FFF6E1;
-  --red:#C23D42;
-  --redBg:#FFF0F0;
-  --line:#E0E7EF;
-  --mut:#617086;
-  --card:#FFFFFF;
-  --radius:18px;
-  --shadow-sm:0 3px 10px rgba(18,35,58,.045);
-  --shadow-md:0 14px 44px rgba(18,35,58,.095);
-}
+/* v1.11.0 — product-led visual and interaction refresh. (Tokens now live in the
+   single canonical :root at the top of this file; the duplicate :root here was removed.) */
 html{scroll-padding-top:84px}
 body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--ivory);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
 .bn{font-family:"Noto Sans Bengali",ui-sans-serif,system-ui,sans-serif}
@@ -294,7 +286,7 @@ button,input,textarea,select{font:inherit}
 .navlinks a:hover{background:#F1F7F7;color:var(--teal)}
 .nav-cta .btn{border-radius:12px;min-height:44px}
 .langtog{border-color:#DFE6EE;border-radius:12px;padding:3px;background:#F5F7FA;gap:2px}
-.langtog button{border-radius:9px;min-width:42px;min-height:38px;padding:6px 10px;color:#506076}
+.langtog button{border-radius:9px;min-width:44px;min-height:44px;padding:6px 10px;color:#506076}
 .langtog button.on{background:#142D42;color:#fff;box-shadow:0 2px 4px rgba(18,35,58,.15)}
 .btn{min-height:48px;padding:0 19px;border-radius:12px;font-size:14px;font-weight:700;letter-spacing:-.01em;transition:transform .16s ease,box-shadow .16s ease,background .16s ease,border-color .16s ease}
 .btn:hover:not(:disabled){transform:translateY(-1px)}
@@ -376,7 +368,6 @@ footer{background:#F8FAFC;border-top:1px solid #E0E7EF;padding:32px 0 42px;color
 .journey-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:23px 0 12px}
 .journey-choice{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;min-height:180px;padding:22px 50px 22px 22px;border:1px solid #DFE7EE;border-radius:17px;background:#fff;color:#1B2D43;text-align:left;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
 .journey-choice:hover{transform:translateY(-2px);border-color:#9BCFC8;box-shadow:0 12px 26px rgba(15,68,80,.09)}
-.journey-choice-primary{background:linear-gradient(145deg,#F0FAF8 0%,#FFFFFF 82%);border-color:#B5DED7}
 .choice-kicker{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#08786E;font-weight:850}
 .choice-title{font-size:20px;line-height:1.25;letter-spacing:-.03em;font-weight:800;color:#1B2D43}
 .choice-copy{font-size:13px;line-height:1.6;color:#61738A;font-weight:500}
@@ -447,7 +438,7 @@ label{color:#34485F;font-size:13px;line-height:1.45;margin:18px 0 7px}
  .logo-mark{width:30px;height:30px;border-radius:10px}
  .nav-cta{margin-left:auto!important;gap:7px!important}
  .nav-cta .btn{padding:0 12px;min-height:42px;font-size:12px;white-space:nowrap}
- .langtog button{padding:6px 9px;font-size:11px;min-height:36px}
+ .langtog button{padding:6px 9px;font-size:11px;min-height:44px}
  .mnav{background:#fff;border-color:#E4EAF0}
  .hero{padding:35px 0 32px;gap:24px}
  .pill{font-size:9px;letter-spacing:.055em;padding:7px 9px;margin-bottom:18px}
@@ -767,7 +758,7 @@ body.share-brief-printing #evidence-integrity-panel{display:none!important}
 
 /* Step 14 — first-time consumer entry points and progressive disclosure. */
 .journey-choices{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
-.journey-choice{min-height:168px;padding:20px 44px 20px 18px}
+.journey-choice{min-height:150px;padding:20px 44px 20px 18px}
 .journey-choice:focus-visible,.message-advanced>summary:focus-visible{outline:3px solid #D59B24;outline-offset:3px}
 .message-review-top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:10px}
 .message-review-top h2{margin-top:2px}
@@ -779,6 +770,23 @@ body.share-brief-printing #evidence-integrity-panel{display:none!important}
 .message-advanced .sequence-panel{margin:10px 0 0}
 .message-review-next{margin-top:22px;padding-top:16px;border-top:1px solid #E7ECEF}
 .message-review-next>.hint{margin:0 0 10px}
+/* Message review reads as one screen, not a card inside a card: the coach panel
+   and the optional conversation panel lose their inner boxes here, and the
+   examples become a labelled chip group feeding the single Analyze action. */
+.message-review-privacy{border:1px solid #EBD8A7;border-left:4px solid #D39A25;background:#FFF9E9;color:#6B4E12}
+.message-review-privacy::before{content:"⚠";margin-right:8px;font-weight:900}
+[data-screen="message-review"] .coach-panel{margin:18px 0 0;padding:0;border:0;background:transparent;box-shadow:none}
+[data-screen="message-review"] .coach-panel .coach-head{margin-bottom:2px}
+[data-screen="message-review"] .message-advanced .sequence-panel{margin:10px 0 0;padding:0;border:0;background:transparent;box-shadow:none}
+.coach-examples-group{margin:14px 0 4px}
+.coach-examples-label{display:block;font-size:12px;font-weight:700;color:var(--mut);margin:0 0 8px}
+.coach-examples{margin:0 0 14px}
+.coach-examples .btn{min-height:38px;padding:0 13px;border-radius:999px;font-size:12px;font-weight:700}
+.coach-examples .btn-ghost{min-height:38px;padding:0 8px}
+@media(max-width:640px){
+  [data-screen="message-review"] .coach-examples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  [data-screen="message-review"] .coach-examples .btn{width:100%}
+}
 @media(max-width:760px){.journey-choices{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.journey-choices{grid-template-columns:minmax(0,1fr)}.journey-choice{min-height:132px}.message-review-top{display:block}.message-review-top>.btn{width:100%;margin-top:4px}.message-review-next .cta-row .btn{width:100%}}
 
@@ -800,53 +808,11 @@ body.share-brief-printing #evidence-integrity-panel{display:none!important}
 .preflight-checklist .btn{min-height:44px}
 @media(max-width:600px){.preflight-check-summary{grid-template-columns:1fr}.intent-step-card{padding:14px}}
 
-/* v1.27.0 — simplify first-use payment entry and final manual checkpoint. */
-.intent-step-card{background:var(--surface2,rgba(127,127,127,.055));border:1px solid var(--line);border-radius:16px;padding:16px;margin:16px 0}
-.intent-step-label{font-size:12px;font-weight:800;letter-spacing:.07em;color:var(--mut);margin:0 0 12px}
-.intent-step-card label{margin-top:12px}
-.intent-advanced{border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:14px 0;background:var(--surface,transparent)}
-.intent-advanced>summary{cursor:pointer;font-weight:700;min-height:28px;display:flex;align-items:center}
-.intent-advanced[open]>summary{margin-bottom:12px}
-.preflight-check-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
-.preflight-value-card{border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0;background:var(--surface2,rgba(127,127,127,.055))}
-.preflight-value-card span,.preflight-value-card small{display:block;color:var(--mut)}
-.preflight-value-card strong{display:block;overflow-wrap:anywhere;font-size:clamp(20px,3vw,26px);margin:8px 0}
-.preflight-value-card small{font-size:12px;line-height:1.5}
-.preflight-checklist{border:1px solid var(--line);border-radius:16px;padding:16px;margin:18px 0}
-.preflight-checklist>label{display:flex;gap:12px;align-items:flex-start;margin:14px 0;line-height:1.5}
-.preflight-checklist>label input{flex:0 0 22px;width:22px;height:22px;margin-top:1px}
-.preflight-checklist .btn{min-height:44px}
-@media(max-width:600px){.preflight-check-summary{grid-template-columns:1fr}.intent-step-card{padding:14px}}
-
-/* v1.27.1 — competition sticker slot: visible near the top of the navbar per the
-   YUNet AIgnite Buildathon rules. Clearly a placeholder until the official asset is added. */
-.sticker-slot{display:flex;align-items:center;justify-content:center;border:2px dashed var(--amber,#F2B84B);border-radius:10px;padding:4px 10px;min-height:40px;background:rgba(242,184,75,.08)}
-.sticker-slot span{font-size:11px;font-weight:700;color:var(--mut);text-align:center;line-height:1.3;max-width:180px}
-.sticker-slot img{max-height:44px;width:auto;display:block;border-radius:6px}
-@media(max-width:640px){.sticker-slot{min-height:36px;padding:3px 8px}.sticker-slot span{font-size:10px;max-width:130px}}
 
 
 /* PayCheckpoint — premium consumer visual system, v1.28.0.
-   CSS-only depth treatment: no runtime, bundle, network or motion dependency. */
-:root{
-  --ivory:#F4F6F1;
-  --teal:#08765B;
-  --teal2:#075D49;
-  --ink:#14231F;
-  --amber:#E7AD38;
-  --amberBg:#FFF5D9;
-  --red:#B74743;
-  --redBg:#FFF0EE;
-  --line:#DCE5DE;
-  --mut:#52645C;
-  --card:#FFFFFF;
-  --radius:18px;
-  --surface:#FFFFFF;
-  --surface2:#F3F7F4;
-  --shadow-soft:0 12px 36px rgba(19,45,35,.07);
-  --shadow-card:0 22px 60px rgba(19,45,35,.11),0 3px 10px rgba(19,45,35,.045);
-  --focus-ring:0 0 0 4px rgba(8,118,91,.16);
-}
+   CSS-only depth treatment: no runtime, bundle, network or motion dependency.
+   (Tokens now live in the single canonical :root at the top of this file.) */
 html{scroll-padding-top:84px}
 body{
   background:
@@ -862,6 +828,7 @@ body{
   backdrop-filter:blur(18px) saturate(1.35);
 }
 .topbar-in{max-width:1280px;height:70px;gap:clamp(9px,1.25vw,18px)}
+@media(max-width:640px){.topbar-in{height:auto}html{scroll-padding-top:120px}}
 .logo{font-size:18px;letter-spacing:-.045em;white-space:nowrap}
 .logo-mark{
   width:36px;height:36px;border-radius:12px;
@@ -872,8 +839,6 @@ body{
 .navlinks{gap:clamp(10px,1.5vw,22px);font-size:13px}
 .navlinks a{color:#42554C;transition:color .18s ease}
 .navlinks a:hover{color:var(--teal)}
-.sticker-slot{flex:0 1 150px;max-width:150px;border-radius:9px;min-height:36px;padding:3px 7px}
-.sticker-slot span{font-size:10px;max-width:136px}
 .btn{
   min-height:48px;padding:0 21px;border-radius:13px;
   font-weight:700;letter-spacing:-.01em;
@@ -889,7 +854,7 @@ body{
 .btn-ghost{color:var(--teal)}
 .btn:active{transform:translateY(0) scale(.985)}
 .langtog{border-color:#D6E1D9;padding:3px;background:#fff;gap:2px}
-.langtog button{border-radius:9px;min-height:38px}
+.langtog button{border-radius:9px;min-height:44px}
 .langtog button.on{background:#E4F2E9;color:#075D49}
 .wrap{max-width:1280px;padding-inline:clamp(18px,3.2vw,42px)}
 .hero{
@@ -930,9 +895,7 @@ body{
   padding:clamp(20px,2.5vw,30px);
   background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(248,252,248,.94));
   box-shadow:var(--shadow-card);
-  transform:perspective(1200px) rotateY(-4deg) rotateX(2deg) translateZ(0);
-  transform-origin:center center;
-  transition:transform .45s cubic-bezier(.2,.75,.25,1),box-shadow .35s ease;
+  transition:box-shadow .35s ease;
 }
 .mock:before{
   content:"";position:absolute;z-index:-1;inset:12px -12px -12px 12px;
@@ -944,7 +907,7 @@ body{
   border:1px solid rgba(8,118,91,.16);
   box-shadow:0 0 0 14px rgba(8,118,91,.025),0 0 0 28px rgba(8,118,91,.018);
 }
-.mock:hover{transform:perspective(1200px) rotateY(-1deg) rotateX(0) translateY(-4px);box-shadow:0 30px 76px rgba(19,45,35,.15),0 4px 12px rgba(19,45,35,.05)}
+.mock:hover{transform:translateY(-3px);box-shadow:0 30px 76px rgba(19,45,35,.15),0 4px 12px rgba(19,45,35,.05)}
 .mock-top{align-items:center;margin-bottom:16px}
 .mock h3{font-size:19px;letter-spacing:-.035em}
 .mock .sub{color:#617269;line-height:1.55}
@@ -1017,7 +980,6 @@ input[type=text]:focus,input[type=number]:focus,input[type=tel]:focus,input[type
   transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
 }
 .journey-choice:hover{transform:translateY(-3px);border-color:#A9CDB5;box-shadow:var(--shadow-soft)}
-.journey-choice-primary{border-color:#9DCBB0;background:linear-gradient(145deg,#F0FAF2,#fff 78%)}
 .choice-kicker{color:#648074}
 .choice-title{letter-spacing:-.035em}
 .intent-step-card,.preflight-checklist,.preflight-value-card{
@@ -1048,15 +1010,12 @@ details[open]{background:#FCFEFC}
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;gap:32px;padding-top:44px}
   .hero-copy{max-width:760px}
-  .mock{max-width:700px;width:100%;margin:0 auto;transform:perspective(1200px) rotateY(-2deg)}
-  .mock:hover{transform:perspective(1200px) rotateY(0) translateY(-2px)}
+  .mock{max-width:700px;width:100%;margin:0 auto}
 }
 @media(max-width:640px){
   .topbar-in{min-height:64px;padding:9px 12px;gap:8px}
   .logo{font-size:15px;gap:7px}
   .logo-mark{width:30px;height:30px;border-radius:10px}
-  .sticker-slot{max-width:112px;flex-basis:112px;min-height:32px}
-  .sticker-slot span{font-size:9px;max-width:100px}
   .nav-cta .btn{border-radius:10px}
   .wrap{padding-inline:16px}
   .hero{padding:36px 0 34px;gap:26px}
@@ -1436,20 +1395,25 @@ details[open]{background:#FCFEFC}
 .sticker-slot{flex:0 1 166px;max-width:166px;min-height:0;padding:0;border:0;background:transparent;display:flex;align-items:center;justify-content:center}
 .sticker-image{display:block;width:100%;height:auto;max-height:48px;object-fit:contain;filter:drop-shadow(0 3px 7px rgba(31,20,53,.10))}
 @media(max-width:640px){.sticker-slot{flex:0 1 118px;max-width:118px;min-height:0;padding:0}.sticker-image{max-height:42px}}
-.mock.payment-visual-demo{transform:none;overflow:hidden;padding:clamp(18px,2.4vw,28px);background:radial-gradient(ellipse at 82% 6%,rgba(174,222,190,.26),transparent 54%),linear-gradient(150deg,#FFFFFF 0%,#F8FCF8 100%)}
+.mock.payment-visual-demo{transform:none;overflow:hidden;padding:clamp(18px,2.4vw,28px);background:linear-gradient(150deg,#FFFFFF 0%,#F8FCF8 100%)}
+.mock.payment-visual-demo:after{display:none}
 .mock.payment-visual-demo:before{inset:12px -10px -10px 10px}
 .payment-visual-heading{align-items:flex-start}
 .payment-visual-heading h3{font-size:clamp(18px,2vw,21px);letter-spacing:-.04em}
-.visual-demo-switch{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0 4px}
-.visual-demo-switch-button{min-height:36px;padding:0 12px;border:1px solid #DCE6DE;border-radius:9px;background:#fff;color:#52645A;font-size:12px;font-weight:750;cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .18s ease}
-.visual-demo-switch-button:hover{border-color:#8FB8A0;transform:translateY(-1px)}
-.visual-demo-switch-button.is-active{background:#E7F3EA;border-color:#A9CFB4;color:#125B42}
-.payment-scene{position:relative;height:354px;margin:10px 0 4px;perspective:1100px;transform-style:preserve-3d;isolation:isolate}
-.payment-scene:before{content:"";position:absolute;left:50%;top:34px;bottom:30px;width:2px;transform:translateX(-50%);background:linear-gradient(180deg,rgba(16,133,94,.1),rgba(16,133,94,.55),rgba(16,133,94,.12));z-index:-1}
-.payment-scene-card{position:absolute;left:2%;width:96%;min-height:108px;padding:13px 14px;border:1px solid #DDE8DF;border-radius:15px;background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(247,251,247,.96));box-shadow:0 13px 26px rgba(24,49,35,.09),inset 0 1px 0 rgba(255,255,255,.96);transform-style:preserve-3d;transition:transform .38s cubic-bezier(.2,.75,.25,1),border-color .25s ease,box-shadow .25s ease}
-.payment-scene-card--intent{top:2px;z-index:3;transform:translateZ(58px) rotateX(3deg) rotateY(-4deg)}
-.payment-scene-card--instruction{top:120px;z-index:2;transform:translateZ(25px) rotateX(1deg) rotateY(2deg);background:linear-gradient(145deg,#F9FCFA,#F1F8F2)}
-.payment-scene-card--entered{top:238px;z-index:1;transform:translateZ(-12px) rotateX(-2deg) rotateY(4deg)}
+.visual-demo-switch{display:inline-flex;gap:3px;flex-wrap:wrap;margin:16px 0 4px;padding:3px;border:1px solid #DCE6DE;border-radius:999px;background:#EFF4EF}
+.visual-demo-switch-button{min-height:34px;padding:0 14px;border:1px solid transparent;border-radius:999px;background:transparent;color:#52645A;font-size:12px;font-weight:750;cursor:pointer;transition:background .18s ease,color .18s ease}
+.visual-demo-switch-button:hover{color:#125B42}
+.visual-demo-switch-button.is-active{background:#08765B;border-color:#08765B;color:#fff;box-shadow:0 2px 8px rgba(8,118,91,.25)}
+/* Landing demo: three sources in one vertical flow. Cards and connectors are in
+   normal document flow (no fixed heights, no absolute positioning), so longer
+   Bangla copy can never overlap a card or misalign a connector. Depth comes from
+   layered shadows and the source accent, not 3D transforms. */
+.payment-scene{position:relative;display:flex;flex-direction:column;margin:10px 0 4px;isolation:isolate}
+.payment-scene:before{content:"";position:absolute;left:50%;top:14px;bottom:14px;width:2px;transform:translateX(-50%);background:linear-gradient(180deg,rgba(16,133,94,.1),rgba(16,133,94,.55),rgba(16,133,94,.12));z-index:-1}
+.payment-scene-card{position:relative;width:100%;padding:13px 14px;border:1px solid #DDE8DF;border-radius:15px;background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(247,251,247,.96));box-shadow:0 8px 20px rgba(24,49,35,.07),inset 0 1px 0 rgba(255,255,255,.96);transition:border-color .25s ease,box-shadow .25s ease}
+.payment-scene-card--intent{border-left:3px solid #2C946B}
+.payment-scene-card--instruction{border-left:3px solid #7A93A6;background:linear-gradient(145deg,#F9FCFA,#F1F8F2)}
+.payment-scene-card--entered{border-left:3px solid #C9A65E}
 .payment-scene-card-top{display:flex;align-items:center;gap:8px;min-width:0}
 .payment-scene-index,.live-source-index{display:grid;place-items:center;flex:0 0 25px;width:25px;height:25px;border-radius:8px;background:#E8F3EA;color:#176548;font-size:10px;font-weight:900;letter-spacing:.02em}
 .payment-scene-label{font-size:10px;letter-spacing:.09em;font-weight:900;color:#53685B}
@@ -1458,17 +1422,15 @@ details[open]{background:#FCFEFC}
 .payment-scene-values>div{min-width:0}
 .payment-scene-values small{display:block;color:#78877D;font-size:10px;font-weight:650;margin-bottom:2px}
 .payment-scene-values strong{display:block;overflow-wrap:anywhere;color:#1D382B;font-size:clamp(14px,1.5vw,17px);font-weight:850;letter-spacing:-.025em;font-variant-numeric:tabular-nums}
-.payment-scene-card--instruction{min-height:108px}
 .payment-scene-instruction{margin:10px 0 2px 33px;color:#203B2D;font-size:14px;font-weight:800;letter-spacing:-.02em}
 .payment-scene-source-note{margin-left:33px;color:#7B887F;font-size:10px}
-.payment-scene-connector{position:absolute;left:50%;height:24px;width:24px;margin-left:-12px;z-index:4;display:grid;place-items:center}
-.payment-scene-connector--one{top:101px}.payment-scene-connector--two{top:219px}
+.payment-scene-connector{position:relative;align-self:center;flex:0 0 auto;height:26px;width:26px;margin:1px 0;display:grid;place-items:center;z-index:4}
 .payment-scene-connector i{display:block;width:12px;height:12px;border:2px solid #0C8664;border-radius:50%;background:#F7FBF7;box-shadow:0 0 0 5px rgba(11,134,100,.09)}
-.payment-scene-connector span{position:absolute;width:1px;height:24px;background:rgba(11,134,100,.45);z-index:-1}
-.payment-scene[data-state="mismatch"] .payment-scene-card--entered{border-color:#E7B8B2;box-shadow:0 14px 28px rgba(126,48,41,.10),inset 0 1px 0 #fff}
+.payment-scene-connector span{position:absolute;width:2px;height:26px;background:rgba(11,134,100,.45);z-index:-1}
+.payment-scene[data-state="mismatch"] .payment-scene-card--entered{border-color:#E7B8B2;box-shadow:0 10px 22px rgba(126,48,41,.10),inset 0 1px 0 #fff}
 .payment-scene[data-state="mismatch"] .payment-scene-card--entered .payment-scene-values>div:first-child strong{color:#A43D37}
 .payment-scene[data-state="match"] .payment-scene-card{border-color:#B9D8C1}
-.payment-scene[data-state="match"] .payment-scene-card--entered{box-shadow:0 14px 28px rgba(24,94,57,.10),inset 0 1px 0 #fff}
+.payment-scene[data-state="match"] .payment-scene-card--entered{box-shadow:0 10px 22px rgba(24,94,57,.10),inset 0 1px 0 #fff}
 .payment-demo-result{display:flex;align-items:center;gap:10px;padding:12px 13px;border:1px solid #E9C6C1;border-radius:12px;background:linear-gradient(110deg,#FFF3F0,#FFFFFF 76%);color:#713D37}
 .payment-demo-result[data-state="match"]{border-color:#CBE0D0;background:linear-gradient(110deg,#EFF8F0,#FFFFFF 76%);color:#24583D}
 .payment-demo-result-mark{display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border-radius:9px;background:#F8DEDA;color:#9B3933;font-size:15px;font-weight:900}
@@ -1478,6 +1440,9 @@ details[open]{background:#FCFEFC}
 .payment-demo-result p{margin:3px 0 0;color:inherit;font-size:11px;line-height:1.5}
 .payment-demo-result .tag{flex:0 0 auto}
 .payment-demo-result[data-state="match"] .tag{background:#DCEFE0;color:#176648}
+#evidence-map-count{max-width:300px;white-space:normal;line-height:1.45;text-align:center}
+@media(max-width:640px){#evidence-map-count{max-width:100%}}
+@media(max-width:640px){.payment-demo-result{flex-wrap:wrap}.payment-demo-result .tag{margin-left:38px}}
 .payment-visual-demo .mock-unknown{margin:13px 0}
 .payment-visual-demo .mock-try{width:100%;justify-content:space-between}
 .payment-visual-demo .mock-footnote{margin-bottom:0}
@@ -1511,12 +1476,7 @@ details[open]{background:#FCFEFC}
 .live-source-visual[data-state="mismatch"] .live-source-visual-summary{background:#FFF1EE;color:#873F37}
 .live-source-visual[data-state="match"] .live-source-visual-summary{background:#EAF5EC;color:#235E40}
 @media(max-width:760px){
-  .payment-scene{height:347px;perspective:850px}
-  .payment-scene-card{left:0;width:100%;padding:12px;min-height:105px}
-  .payment-scene-card--intent{transform:translateZ(38px) rotateX(2deg) rotateY(-2deg)}
-  .payment-scene-card--instruction{top:118px;transform:translateZ(16px) rotateX(1deg) rotateY(1deg)}
-  .payment-scene-card--entered{top:234px;transform:translateZ(-8px) rotateX(-1deg) rotateY(2deg)}
-  .payment-scene-connector--one{top:99px}.payment-scene-connector--two{top:215px}
+  .payment-scene-card{padding:12px}
   .live-source-visual-head{display:block}
   .live-source-overall{display:inline-flex;margin-top:10px;max-width:none}
   .live-source-visual-grid{grid-template-columns:minmax(0,1fr);gap:9px}
@@ -1526,10 +1486,6 @@ details[open]{background:#FCFEFC}
   .live-source-field strong{text-align:right}
 }
 @media(max-width:420px){
-  .payment-scene{height:352px}
-  .payment-scene-card--instruction{top:120px}
-  .payment-scene-card--entered{top:238px}
-  .payment-scene-connector--two{top:219px}
   .payment-scene-values{margin-left:28px;gap:7px}
   .payment-scene-values strong{font-size:14px}
   .payment-scene-instruction{margin-left:28px;font-size:13px}
@@ -1539,7 +1495,6 @@ details[open]{background:#FCFEFC}
 }
 @media(prefers-reduced-motion:reduce){
   .payment-scene-card,.visual-demo-switch-button,.live-source-card{transition:none!important}
-  .payment-scene-card--intent,.payment-scene-card--instruction,.payment-scene-card--entered{transform:none!important}
 }
 
 /* v1.31.0 — sourced Bangladesh payment-risk context, deliberately compact. */
@@ -1577,9 +1532,9 @@ details[open]{background:#FCFEFC}
 
 /* A small depth shift makes a mismatch legible without adding visual noise. */
 @keyframes payment-mismatch-nudge{
-  0%,100%{transform:translateZ(-12px) rotateX(-2deg) rotateY(4deg)}
-  34%{transform:translateZ(-2px) rotateX(0deg) rotateY(0deg) translateX(3px)}
-  68%{transform:translateZ(-17px) rotateX(-2deg) rotateY(4deg) translateX(-2px)}
+  0%,100%{transform:translateX(0)}
+  34%{transform:translateX(3px)}
+  68%{transform:translateX(-2px)}
 }
 .payment-scene[data-state="mismatch"] .payment-scene-card--entered{animation:payment-mismatch-nudge .48s cubic-bezier(.2,.75,.25,1) both}
 @media(prefers-reduced-motion:reduce){
@@ -1896,6 +1851,7 @@ details[open]{background:#FCFEFC}
   gap:10px;
   margin:12px 0 0;
 }
+#view-app .journey-stage-list:has(.progress-step:nth-child(4)){grid-template-columns:repeat(4,minmax(0,1fr))}
 #view-app .progress-step{
   min-width:0;
   min-height:42px;
@@ -1936,6 +1892,8 @@ details[open]{background:#FCFEFC}
   background:linear-gradient(155deg,#FBFDFB,#F6FAF6);
   box-shadow:0 4px 14px rgba(25,65,41,.025);
 }
+#view-app .intent-details-grid>.intent-step-card:nth-child(1){border-left:3px solid #2C946B}
+#view-app .intent-details-grid>.intent-step-card:nth-child(2){border-left:3px solid #C9A65E}
 #view-app .intent-details-grid>.intent-step-card:nth-child(2){
   background:linear-gradient(155deg,#F8FBF9,#F2F7F3);
 }
@@ -1965,6 +1923,7 @@ details[open]{background:#FCFEFC}
   #view-app .journey-progress-head strong{font-size:12px}
   #view-app .journey-progress-head>span{font-size:11px}
   #view-app .journey-stage-list{gap:7px;margin-top:10px}
+  #view-app .journey-stage-list:has(.progress-step:nth-child(4)){grid-template-columns:repeat(2,minmax(0,1fr))}
   #view-app .progress-step{padding:7px 6px;gap:5px;font-size:10px;align-items:flex-start}
   #view-app .progress-step-mark{width:21px;height:21px;flex-basis:21px}
   #view-app .intent-details-grid{gap:10px;margin:14px 0 17px}

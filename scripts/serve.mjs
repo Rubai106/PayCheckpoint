@@ -37,6 +37,7 @@ const handleApi = createApiHandler({ store, storageEnabled: Boolean(store) });
 const types = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml',
+  '.webp': 'image/webp',
   '.txt': 'text/plain; charset=utf-8', '.webmanifest': 'application/manifest+json'
 };
 
@@ -60,7 +61,7 @@ createServer(async (req, res) => {
 
   // The development server intentionally exposes only web assets. Never serve env files,
   // encrypted case data, source tests, scripts, package manifests, or project documents.
-  const allowed = pathname === '/index.html' || pathname === '/assets/styles.css' || /^\/js\/[a-z0-9-]+\.js$/.test(pathname);
+  const allowed = pathname === '/index.html' || pathname === '/assets/styles.css' || pathname === '/assets/aignite-buildathon-sticker.webp' || /^\/js\/[a-z0-9-]+\.js$/.test(pathname);
   if (!allowed) { res.writeHead(404, { 'Cache-Control': 'no-store' }); res.end('Not found'); return; }
 
   try {
