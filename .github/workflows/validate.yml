@@ -56,3 +56,6 @@ jobs:
 
       - name: Run responsive screen regression
         run: npm run qa:responsive
+
+      - name: Run UI consistency and served-origin regression
+        run: npm run qa:ui-consistency

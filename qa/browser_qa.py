@@ -93,6 +93,10 @@ with sync_playwright() as p:
           startJourney('recovery','incident');
           S.intendedNum='01712345678'; S.intendedAmt='3000';
           S.enteredNum='01712345679'; S.enteredAmt='3500';
+          document.getElementById('f-intended-num').value='01712345678';
+          document.getElementById('f-intended-amt').value='3000';
+          document.getElementById('f-entered-num').value='01712345679';
+          document.getElementById('f-entered-amt').value='3500';
           S.instrRaw='Sample instruction already reviewed by test';
           S.instrNumCands=['01712345678']; S.instrAmtCands=['3000'];
           S.instrNum='01712345678'; S.instrAmt='3000';
@@ -114,7 +118,7 @@ with sync_playwright() as p:
         map_text=page.locator('#evidence-map-body').inner_text()
         assert '01712345678' not in map_text and '01712345679' not in map_text, map_text
         assert '৳3,000' in map_text and '৳3,500' in map_text and '৳3,200' in map_text
-        page.evaluate("""() => {S.intendedAmt='4000';buildIncident();renderScreenshotReviewResult();}""")
+        page.evaluate("""() => {document.getElementById('f-intended-amt').value='4000';S.intendedAmt='4000';buildIncident();renderScreenshotReviewResult();}""")
         assert 'Stale' in page.locator('[data-evidence-source="screenshot"]').inner_text()
         assert 'stale' in page.locator('#screenshot-review-result').inner_text().lower()
         # The copilot context must not use a stale screenshot match as current evidence.

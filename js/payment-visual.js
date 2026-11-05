@@ -84,6 +84,8 @@
       match?t('visualDemoMatchCopy','The sample values line up. This is still not proof of recipient identity.'):t('visualDemoMismatchCopy','The entered number differs from your intent. Pause and correct it before continuing in your own payment app.'));
     var tag=result.querySelector('[data-demo-result-tag]');
     setText(tag,match?t('visualDemoMatchTag','Matches'):t('visualDemoMismatchTag','Mismatch'));
+    var mark=result.querySelector('.payment-demo-result-mark');
+    if(mark)mark.textContent=match?'✓':'!';
     if(tag)tag.className='tag '+(match?'tag-g':'tag-r');
     doc.querySelectorAll('[data-demo-scenario]').forEach(function(button){
       var active=button.dataset.demoScenario===(match?'match':'mismatch');
@@ -163,6 +165,15 @@
   /* Public refresh hook for programmatic case resets/corrections that do not emit input events. */
   root.refreshPayCheckpointComparison=updateLiveComparison;
 
+  /* Public refresh hook for language switches that do not go through the topbar
+     language buttons (for example setLang() from the settings screen): re-render
+     the live comparison and the landing demo result in the current language. */
+  root.refreshPaymentVisualLanguage=function(){
+    updateLiveComparison();
+    var scene=byId('payment-scene');
+    setDemoScenario(scene&&scene.dataset.state==='match'?'match':'mismatch');
+  };
+
   function init(){
     doc.querySelectorAll('[data-demo-scenario]').forEach(function(button){
       button.addEventListener('click',function(){setDemoScenario(button.dataset.demoScenario)});
@@ -173,9 +184,7 @@
     ['langEn','langBn'].forEach(function(id){
       var button=byId(id);
       if(button)button.addEventListener('click',function(){
-        updateLiveComparison();
-        var scene=byId('payment-scene');
-        setDemoScenario(scene&&scene.dataset.state==='match'?'match':'mismatch');
+        root.refreshPaymentVisualLanguage();
       });
     });
     doc.addEventListener('click',function(event){
