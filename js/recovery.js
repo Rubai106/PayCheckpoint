@@ -61,8 +61,17 @@ function confirmSMS(){
  S.receiptProv={};function sameReceiptValue(k,a,b){if(k==='amount'){var am=amountMinor(a),bm=amountMinor(b);return am!=null&&bm!=null&&am===bm}if(k==='recipient'){var ap=canonPhone(a),bp=canonPhone(b);return !!ap&&!!bp&&ap===bp}return a===b}['provider','amount','recipient','trxid','datetime'].forEach(function(k){if(!cur[k])S.receiptProv[k]='missing';else if(!S.receiptRaw[k])S.receiptProv[k]='manual';else if(!sameReceiptValue(k,cur[k],S.receiptRaw[k]))S.receiptProv[k]='edited';else S.receiptProv[k]='receipt'});
  if(S.receiptProv.recipient==='edited'||S.receiptProv.amount==='edited'){/* keep entered (pre-send) mirror in sync only for non-receipt flows */}
  S.receipt=cur;S.receiptReviewed=true;S.reviewedSMS=(document.getElementById('f-sms').value||'').trim();S.savedCaseSnapshot=false;S.savedSnapshotMeta=null;
+ /* Seed provider context from the reviewed SMS only when the user has not
+    already selected a provider in the Recovery Navigator. */
+ if(!S.recoveryNavigator)S.recoveryNavigator={scenario:'unsure',provider:'unknown',completed:[]};
+ var smsProvider=(S.parsedRaw.provider||'').trim().toLowerCase();
+ if(!smsProvider){var typedProv=(cur.provider||'').trim().toLowerCase();if(['bkash','nagad','rocket'].indexOf(typedProv)>=0)smsProvider=typedProv;}
+ if(smsProvider&&(S.recoveryNavigator.provider||'unknown')==='unknown')S.recoveryNavigator.provider=smsProvider;
  if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('receipt-fields-reviewed','User reviewed extracted receipt fields; message authenticity remains unverified','ব্যবহারকারী রসিদ থেকে বের করা তথ্য পর্যালোচনা করেছেন; বার্তার সত্যতা এখনো যাচাই হয়নি','app-recorded');
- renderRecon();if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('details-compared','Receipt details compared against available intent','রসিদের তথ্য উপলভ্য উদ্দেশ্যের সঙ্গে তুলনা করা হয়েছে','app-recorded');goApp('recon');
+ renderRecon();
+ var _rc=S._sourceChecks||{};
+ if(_rc.recipient&&_rc.recipient.receipt&&_rc.recipient.receipt.state==='MISMATCH'&&(S.recoveryNavigator.scenario||'unsure')==='unsure')S.recoveryNavigator.scenario='wrong-recipient';
+ if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('details-compared','Receipt details compared against available intent','রসিদের তথ্য উপলভ্য উদ্দেশ্যের সঙ্গে তুলনা করা হয়েছে','app-recorded');goApp('recon');
 }
 
 /* A reviewed receipt is a snapshot: editing any displayed field invalidates it
