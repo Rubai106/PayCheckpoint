@@ -327,6 +327,7 @@ with sync_playwright() as p:
     # Editing a screenshot field after a confirmed comparison invalidates the old result.
     # The previous match must not survive a handoff from the Evidence Map.
     page.evaluate("""() => {
+      S.lang = 'en';
       S.journey = 'prevention';
       S.intendedNum = '01712345678'; S.intendedAmt = '3000';
       S.enteredNum = '01712345678'; S.enteredAmt = '3000';

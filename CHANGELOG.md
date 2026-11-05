@@ -1,3 +1,6 @@
+## v1.31.0 follow-up — stabilize screenshot invalidation regression language
+- Set the screenshot-edit regression to English explicitly before asserting the visible invalidation notice; preceding bilingual tests intentionally leave the interface in Bangla.
+
 ## v1.31.0 follow-up — invalidate edited screenshot comparisons
 - Editing either screenshot recipient or amount after a confirmed comparison now downgrades the stored result to incomplete and blocks the pre-send checkpoint until the user explicitly confirms a fresh comparison.
 - The same invalidation applies when an OCR suggestion is inserted or the screenshot file is replaced; the old match is never silently reused.
