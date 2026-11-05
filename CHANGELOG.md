@@ -1,3 +1,8 @@
+## v1.32.0 — premium Evidence Map visual system
+- Reworked the Evidence Map with a clearer visual hierarchy, layered depth, source-state accents, tactile interactive cards, more legible field summaries, and stronger keyboard focus styling.
+- Reflowed the field investigation into a compact, single-column mobile layout with touch-friendly controls and overflow checks.
+- Added browser assertions for visual tokens, card depth, responsive width, and mobile control sizing.
+
 ## v1.31.0 follow-up — stabilize screenshot invalidation regression language
 - Set the screenshot-edit regression to English explicitly before asserting the visible invalidation notice; preceding bilingual tests intentionally leave the interface in Bangla.
 

@@ -66,7 +66,36 @@ with sync_playwright() as p:
     assert live_values['amountAgainstOldValue'] == 'mismatch', live_values
     assert page.locator('[data-evidence-source="screenshot"]').get_attribute('data-evidence-review') == 'true'
     assert page.locator('[data-evidence-trail-source="pre-send"]').get_attribute('data-evidence-trail-state') == 'mismatch'
-    checks.append("PASS | Evidence Map and screenshot freshness follow live intent/entry fields instead of stale submitted state")
+    # Visual hierarchy, responsive layout and keyboard affordances stay intentional.
+    visual_tokens = page.evaluate("""() => {
+      const panel = document.getElementById('evidence-map-panel');
+      const row = document.querySelector('.evidence-field-row');
+      const card = document.querySelector('.evidence-source-card');
+      const filter = document.querySelector('[data-evidence-filter="all"]');
+      return {
+        panelRadius: getComputedStyle(panel).borderRadius,
+        panelShadow: getComputedStyle(panel).boxShadow,
+        rowRadius: getComputedStyle(row).borderRadius,
+        rowTransition: getComputedStyle(row).transitionDuration,
+        cardShadow: getComputedStyle(card).boxShadow,
+        focusStyle: getComputedStyle(filter, ':focus-visible').outlineStyle
+      };
+    }""")
+    assert visual_tokens['panelRadius'] == '22px', visual_tokens
+    assert visual_tokens['rowRadius'] == '13px', visual_tokens
+    assert visual_tokens['panelShadow'] != 'none' and visual_tokens['cardShadow'] != 'none', visual_tokens
+    page.set_viewport_size({"width": 390, "height": 844})
+    mobile_visual = page.evaluate("""() => ({
+      gridColumns: getComputedStyle(document.querySelector('.evidence-field-row')).gridTemplateColumns,
+      panelWidth: document.getElementById('evidence-map-panel').getBoundingClientRect().width,
+      documentWidth: document.documentElement.clientWidth,
+      buttonHeight: document.querySelector('.evidence-field-open').getBoundingClientRect().height
+    })""")
+    assert mobile_visual['panelWidth'] <= mobile_visual['documentWidth'], mobile_visual
+    assert mobile_visual['buttonHeight'] >= 34, mobile_visual
+    assert len(mobile_visual['gridColumns'].split()) == 1, mobile_visual
+    page.set_viewport_size({"width": 1280, "height": 1000})
+    checks.append("PASS | Evidence Map has layered visual hierarchy, tactile controls and a single-column mobile investigation layout")
 
     # Explicitly marking a value unknown must clear the visible input as well as state.
     page.evaluate("""() => {
