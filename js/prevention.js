@@ -21,12 +21,16 @@ function submitIntent(){
  }else{valid(intendedNumInput);en.innerHTML='<div class="field-ok">'+esc(t('formatOk'))+esc(canonPhone(num))+esc(t('formatOkEnd'))+'</div>'}
  var av=amountMinor(amt);
  if(amt===''||av==null||av<=0){ea.innerHTML=invalid(intendedAmtInput,esc(t('amountInvalid')))}else{valid(intendedAmtInput)}
+ var recoveryJourney=S.journey==='recovery';
  if(!canonPhone(enteredNum)){
-  var enteredNumIssue=S.lang==='bn'?L('Enter the Bangladesh mobile number exactly as shown in your payment app.','আপনার পেমেন্ট অ্যাপে দেখানো বাংলাদেশি মোবাইল নম্বরটি হুবহু লিখুন।'):(phoneIssue(enteredNum)||L('Enter the Bangladesh mobile number exactly as shown in your payment app.','আপনার পেমেন্ট অ্যাপে দেখানো বাংলাদেশি মোবাইল নম্বরটি হুবহু লিখুন।'));
-  een.innerHTML=invalid(enteredNumInput,'<strong>'+L('Check the recipient number:','প্রাপকের নম্বর দেখুন:')+'</strong> '+esc(enteredNumIssue)+'. '+esc(t('phoneAcceptedFormats')));
+  if(recoveryJourney&&enteredNum===''){valid(enteredNumInput)}
+  else{
+   var enteredNumIssue=S.lang==='bn'?L('Enter the Bangladesh mobile number exactly as shown in your payment app.','আপনার পেমেন্ট অ্যাপে দেখানো বাংলাদেশি মোবাইল নম্বরটি হুবহু লিখুন।'):(phoneIssue(enteredNum)||L('Enter the Bangladesh mobile number exactly as shown in your payment app.','আপনার পেমেন্ট অ্যাপে দেখানো বাংলাদেশি মোবাইল নম্বরটি হুবহু লিখুন।'));
+   een.innerHTML=invalid(enteredNumInput,'<strong>'+L('Check the recipient number:','প্রাপকের নম্বর দেখুন:')+'</strong> '+esc(enteredNumIssue)+'. '+esc(t('phoneAcceptedFormats')));
+  }
  }else{valid(enteredNumInput)}
  var enteredMinor=amountMinor(enteredAmt);
- if(enteredAmt===''||enteredMinor==null||enteredMinor<=0){eea.innerHTML=invalid(enteredAmtInput,esc(t('amountInvalid')))}else{valid(enteredAmtInput)}
+ if(enteredAmt===''||enteredMinor==null||enteredMinor<=0){if(recoveryJourney&&enteredAmt===''){valid(enteredAmtInput)}else{eea.innerHTML=invalid(enteredAmtInput,esc(t('amountInvalid')))}}else{valid(enteredAmtInput)}
  if(!ok){if(firstInvalid)firstInvalid.focus();return}
  S._localFieldsCorrected=false;S.intendedNum=num;S.intendedAmt=amt;S.intentUnknown={num:false,amt:false};S.instruction=document.getElementById('f-instruction').value;parseInstruction(S.instruction);S.enteredNum=enteredNum;S.enteredAmt=enteredAmt;if(S.screenReview&&typeof renderScreenshotReviewResult==='function')renderScreenshotReviewResult();
  if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('payment-intent-recorded','User recorded intended recipient and amount','ব্যবহারকারী উদ্দেশ্য করা প্রাপক ও পরিমাণ লিখেছেন','app-recorded');
