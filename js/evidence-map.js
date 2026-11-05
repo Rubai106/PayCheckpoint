@@ -52,7 +52,7 @@ function evidenceMapCompare(value, kind, confirmed) {
   return a === b ? 'match' : 'mismatch';
 }
 function evidenceMapDisplay(value, kind) {
-  if (value == null || String(value).trim() === '') return evidenceMapCopy('Not available', 'পাওয়া যায়নি');
+  if (value == null || String(value).trim() === '') return '—';
   if (kind === 'recipient') return S.revealed ? String(value) : mask(String(value));
   if (kind === 'amount') return fmt(value);
   return evidenceMapCopy('Not shown for privacy', 'গোপনীয়তার জন্য দেখানো হয়নি');

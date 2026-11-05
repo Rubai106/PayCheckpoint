@@ -164,7 +164,7 @@ def run_inline_checks():
                       f'no horizontal overflow: recovery {lang_name} {width}px '
                       f'(overflow={overflow(page)})')
 
-        # Blocker fix 1: incident jump nav stays in the app and scrolls in place.
+        # Blocker fix 1: incident jump nav scrolls in-page instead of returning home.
         page.set_viewport_size({'width': 1440, 'height': 1000})
         page.evaluate("showView('app'); goApp('incident')")
         page.wait_for_timeout(400)
@@ -177,8 +177,8 @@ def run_inline_checks():
               'incident jump nav stays in the app and scrolls to the section '
               f'(app_visible={app_visible}, scrollY={page.evaluate("window.scrollY")})')
 
-        # Blocker fix 2: recovery SMS flow compares the receipt with the user's
-        # intended values and exposes the exact digit-diff.
+        # Blocker fix 2: recovery SMS flow asks for the intended number and the
+        # digit-diff fires on the comparison.
         page.evaluate("startNewCase('recovery'); goApp('sms')")
         page.locator('#f-sms').fill(
             'bKash: You have sent Tk 3000.00 to 01712345679 on 05/11/2026 at 2:41 PM. '
@@ -187,17 +187,17 @@ def run_inline_checks():
         page.wait_for_timeout(900)
         intended_shown = page.evaluate(
             "!document.getElementById('sms-intended-fields').classList.contains('hidden')")
-        check(intended_shown, 'recovery SMS screen shows intended-value inputs')
+        check(intended_shown, 'SMS screen shows the intended-number fields in recovery')
         page.locator('#x-intended-num').fill('01712345678')
         page.locator('#x-intended-amt').fill('3000')
-        page.locator('button[onclick="confirmSMS()"]').click()
+        page.locator('button[onclick="confirmSMS()"]').click()  # text varies by language
         page.wait_for_timeout(600)
         recon_text = page.locator('#recon-body').inner_text()
         check('MISMATCH' in recon_text and 'Differs at position' in recon_text,
-              'recovery comparison reports the mismatched number and exact digit position')
+              'recovery comparison shows the digit-diff against the intended number')
 
-        # Friction fix #4: a reviewed SMS refreshes dossier readiness and
-        # derives provider/scenario for the call-support workflow.
+        # Friction fix #4: building the incident report re-renders the dossier
+        # from the parsed SMS (provider + scenario derived, readiness fresh).
         page.evaluate("startNewCase('recovery'); goApp('sms')")
         page.locator('#f-sms').fill(
             'bKash: You have sent Tk 3000.00 to 01712345679 on 05/11/2026 at 2:41 PM. '
@@ -219,7 +219,7 @@ def run_inline_checks():
         check(dossier_provider not in ('Not selected', 'নির্বাচিত নয়'),
               f'dossier provider comes from the parsed SMS ({dossier_provider!r})')
 
-        # Friction fix #3: preflight offers a guarded route to the Undo simulation.
+        # Friction fix #3: preflight offers a guarded link to the Undo simulation.
         page.evaluate("startNewCase('prevention'); goApp('intent')")
         page.locator('#f-intended-num').fill('01712345678')
         page.locator('#f-intended-amt').fill('3000')
@@ -233,6 +233,72 @@ def run_inline_checks():
         page.wait_for_timeout(500)
         check(page.evaluate("!document.querySelector('[data-screen=safesend]').classList.contains('hidden')"),
               'preflight Undo link reaches the SafeSend simulation')
+
+        # Polish fix #7: month-name SMS datetimes parse (was DD/MM/YYYY only).
+        page.evaluate("startNewCase('recovery'); goApp('sms')")
+        page.locator('#f-sms').fill(
+            'bKash: You have sent Tk 3000.00 to 01712345679 on 05 Nov 2026 at 2:41 PM. '
+            'TrxID 9HX7F2K1QZ. Balance Tk 1,240.50.')
+        page.locator('#btn-parse').click()
+        page.wait_for_timeout(900)
+        check(page.locator('#x-datetime').input_value() == '05 Nov 2026 at 2:41 PM',
+              f'month-name SMS datetime parses (got {page.locator("#x-datetime").input_value()!r})')
+
+        # Polish fix #9: Bangla recon row labels follow the language.
+        page.evaluate("setLang(true)")
+        page.evaluate("startNewCase('prevention'); goApp('intent')")
+        page.locator('#f-intended-num').fill('01712345678')
+        page.locator('#f-intended-amt').fill('3000')
+        page.locator('#f-entered-num').fill('01712345679')
+        page.locator('#f-entered-amt').fill('3000')
+        page.locator('button[data-i18n="compareDetails"]').click()
+        page.wait_for_timeout(500)
+        bn_labels = page.locator('#recon-body .compare tbody td b').all_inner_texts()
+        check(bn_labels == ['প্রাপকের নম্বর', 'পরিমাণ'],
+              f'Bangla recon row labels are localised (got {bn_labels!r})')
+        page.evaluate("setLang(false)")
+
+        # Polish fix #10: the Evidence Map no longer repeats "Not available".
+        page.evaluate("startNewCase('recovery'); goApp('sms')")
+        page.locator('#f-sms').fill(
+            'bKash: You have sent Tk 3000.00 to 01712345679 on 05/11/2026 at 2:41 PM. '
+            'TrxID 9HX7F2K1QZ. Balance Tk 1,240.50.')
+        page.locator('#btn-parse').click()
+        page.wait_for_timeout(900)
+        page.locator('#x-intended-num').fill('01712345678')
+        page.locator('#x-intended-amt').fill('3000')
+        page.locator('button[onclick="confirmSMS()"]').click()
+        page.wait_for_timeout(600)
+        page.locator('#recon-actions button[onclick="buildIncident()"]').click()
+        page.wait_for_timeout(600)
+        map_text = page.locator('#evidence-map-body').inner_text()
+        check('Not available' not in map_text,
+              'Evidence Map shows no repeated "Not available" phrase')
+
+        # Polish fix #12: a fresh case states that no Copilot plan exists yet.
+        page.evaluate("startNewCase('prevention')")
+        page.wait_for_timeout(300)
+        check(page.locator('#copilot-status').inner_text() == 'No plan generated yet for this case.',
+              'Copilot opens with a neutral no-plan-yet status')
+
+        # Polish fix #8: a zero-pattern sequence review states what was checked.
+        page.evaluate("startNewCase('prevention'); goApp('message-review')")
+        page.wait_for_timeout(400)
+        page.locator('#sequence-review-toggle').click()
+        page.wait_for_timeout(400)
+        page.locator('#sequence-transcript').fill(
+            'Other: Your parcel is held at the depot.\n'
+            'Me: What do I need to do?\n'
+            'Other: Pay a Tk 350 delivery fee first.\n'
+            'Me: I already paid for delivery.\n'
+            'Other: This is a separate warehouse charge. Pay now or it returns.')
+        page.locator('button[onclick="runConversationSequenceReview()"]').click()
+        page.wait_for_timeout(600)
+        seq_text = page.locator('#sequence-results').inner_text()
+        check('Checked 7 configured progressions; none matched.' in seq_text,
+              'zero-pattern sequence review states the checked count')
+        check('No configured warning pattern matched' not in seq_text,
+              'zero-pattern review does not repeat the no-match line per message')
 
         check(not errors, f'no JS page errors during inline checks (got {errors[:3]})')
         browser.close()

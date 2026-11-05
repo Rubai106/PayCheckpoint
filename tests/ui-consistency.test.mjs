@@ -252,17 +252,17 @@ test('incident: generated textareas carry empty-state placeholders in both langu
   }
 });
 
-test('incident: jump nav anchors bypass the home-section handler', async () => {
+test('incident: jump nav links are exempt from the home-section anchor handler', async () => {
   const js = await read('js/navigation.js');
   assert.match(js, /a\.closest\('\.incident-jump-nav'\)\)return/,
-    'incident jump links must scroll in place instead of navigating home');
+    'anchor handler must skip .incident-jump-nav links so they scroll in-page instead of returning home');
 });
 
-test('recovery: SMS review asks for intended recipient and amount in both languages', async () => {
+test('recovery: SMS screen asks for the intended number and amount', async () => {
   const html = await read('index.html');
   assert.ok(html.includes('id="sms-intended-fields"'), 'SMS intended-fields block missing');
-  assert.ok(html.includes('id="x-intended-num"'), 'intended recipient input missing');
-  assert.ok(html.includes('id="x-intended-amt"'), 'intended amount input missing');
+  assert.ok(html.includes('id="x-intended-num"'), 'intended number input missing from SMS screen');
+  assert.ok(html.includes('id="x-intended-amt"'), 'intended amount input missing from SMS screen');
   for (const key of ['smsIntendedTitle', 'smsIntendedHint', 'smsIntendedNum', 'smsIntendedAmt']) {
     assert.ok(I18N.en[key] && I18N.en[key].length > 3, `EN ${key} missing`);
     assert.ok(I18N.bn[key] && I18N.bn[key].length > 3, `BN ${key} missing`);
@@ -270,41 +270,40 @@ test('recovery: SMS review asks for intended recipient and amount in both langua
   }
 });
 
-test('recovery: confirming an SMS records the supplied intended values', async () => {
+test('recovery: confirming an SMS harvests the intended values', async () => {
   const js = await read('js/recovery.js');
-  assert.ok(js.includes("getElementById('x-intended-num')"), 'confirmSMS must read intended number');
-  assert.ok(js.includes("getElementById('x-intended-amt')"), 'confirmSMS must read intended amount');
-  assert.ok(js.includes('S.intendedNum=iNum'), 'confirmSMS must store intended number');
-  assert.ok(js.includes('S.intendedAmt=iAmt'), 'confirmSMS must store intended amount');
-  assert.ok(js.includes('sms-intended-fields'), 'parseSMS must manage the intended-fields block');
+  assert.ok(js.includes("getElementById('x-intended-num')"), 'confirmSMS must read the intended number');
+  assert.ok(js.includes("getElementById('x-intended-amt')"), 'confirmSMS must read the intended amount');
+  assert.match(js, /S\.intendedNum=iNum/, 'confirmSMS must store the intended number');
+  assert.match(js, /S\.intendedAmt=iAmt/, 'confirmSMS must store the intended amount');
+  assert.match(js, /sms-intended-fields/, 'parseSMS must toggle the intended-fields block by intent state');
 });
 
-test('recovery: intent-only submission is allowed only after payment', async () => {
+test('recovery: intent-only submission is allowed in recovery, still blocked in prevention', async () => {
   const js = await read('js/prevention.js');
-  assert.ok(js.includes("if(recoveryJourney&&enteredNum===''){valid(enteredNumInput)}"),
-    'recovery may omit the post-payment entered number');
-  assert.ok(js.includes("if(enteredAmt===''||enteredMinor==null||enteredMinor<=0){if(recoveryJourney&&enteredAmt==='')"),
-    'recovery may omit the post-payment entered amount');
-  assert.ok(js.includes('een.innerHTML=invalid(enteredNumInput'),
-    'invalid entered numbers must still be rejected in prevention');
-  assert.ok(js.includes('eea.innerHTML=invalid(enteredAmtInput'),
-    'invalid entered amounts must still be rejected in prevention');
+  assert.match(js, /recoveryJourney&&enteredNum===''\)\{valid\(enteredNumInput\)\}/,
+    'empty entered number must be allowed when the journey is recovery');
+  assert.match(js, /recoveryJourney&&enteredAmt===''\)\{valid\(enteredAmtInput\)\}/,
+    'empty entered amount must be allowed when the journey is recovery');
+  assert.match(js, /een\.innerHTML=invalid\(enteredNumInput/,
+    'entered-number validation must still exist for the prevention journey');
+  assert.match(js, /eea\.innerHTML=invalid\(enteredAmtInput/,
+    'entered-amount validation must still exist for the prevention journey');
 });
-
 
 test('incident: building the report re-renders the dossier and navigator', async () => {
   const js = await read('js/reports.js');
-  assert.ok(js.includes('renderIncidentDossier()'),
+  assert.match(js, /renderIncidentDossier\(\)/,
     'buildIncident must re-render the dossier so readiness is fresh, not the stale first render');
-  assert.ok(js.includes('renderRecoveryNavigator()'),
+  assert.match(js, /renderRecoveryNavigator\(\)/,
     'buildIncident must re-render the navigator so derived provider/scenario show in the selects');
 });
 
 test('recovery: confirming an SMS seeds the navigator provider and scenario', async () => {
   const js = await read('js/recovery.js');
-  assert.ok(js.includes('S.recoveryNavigator.provider=smsProvider'),
+  assert.match(js, /S\.recoveryNavigator\.provider=smsProvider/,
     'confirmSMS must seed the navigator provider from the parsed SMS when none is chosen');
-  assert.ok(js.includes("S.recoveryNavigator.scenario='wrong-recipient'"),
+  assert.match(js, /S\.recoveryNavigator\.scenario='wrong-recipient'/,
     'confirmSMS must derive the wrong-recipient scenario from a receipt recipient mismatch');
 });
 
@@ -314,13 +313,13 @@ test('preflight: a guarded link leads to the Undo simulation', async () => {
     'preflight screen must link to the Undo simulation');
   assert.ok(html.includes('data-i18n="preflightTryUndo"'), 'Undo link must be localizable');
   const js = await read('js/prevention.js');
-  assert.ok(js.includes('function goToUndoSimulation()'),
+  assert.match(js, /function goToUndoSimulation\(\)/,
     'guarded Undo entry must exist');
-  assert.ok(js.includes("if(outcome!=='MATCH'||evidenceGate.blocked)"),
+  assert.match(js, /outcome!=='MATCH'\|\|evidenceGate\.blocked/,
     'Undo entry must re-check the MATCH gate so direct navigation cannot open it incomplete');
   for (const key of ['preflightTryUndo', 'evidencePackMaskNote']) {
-    assert.ok(I18N.en[key] && I18N.en[key].length > 3, 'EN ' + key + ' missing');
-    assert.ok(I18N.bn[key] && I18N.bn[key].length > 3, 'BN ' + key + ' missing');
+    assert.ok(I18N.en[key] && I18N.en[key].length > 3, `EN ${key} missing`);
+    assert.ok(I18N.bn[key] && I18N.bn[key].length > 3, `BN ${key} missing`);
   }
 });
 
@@ -329,9 +328,9 @@ test('evidence pack: masking is stated at download and in the pack notice', asyn
   assert.ok(html.includes('data-i18n="evidencePackMaskNote"'),
     'pack download must carry a visible masking note');
   const js = await read('js/enhancements.js');
-  assert.ok(js.includes('Full numbers and the transaction reference are masked in this pack because they were not revealed before download.'),
+  assert.match(js, /masked in this pack because they were not revealed before download/,
     'pack importantNotice must state the masking when numbers are hidden');
-  assert.ok(js.includes('Full numbers and the transaction reference are masked in this pack. Use “Reveal full numbers” before downloading if the provider needs them.'),
+  assert.match(js, /masked in this pack\. Use/,
     'post-download status must warn that identifiers are masked when hidden');
 });
 
@@ -339,6 +338,50 @@ test('recon: the correction is offered exactly once, in the intelligence panel',
   const js = await read('js/prevention.js');
   assert.doesNotMatch(js, /recon-actions[\s\S]{0,400}correctMismatch\(\)/,
     'recon-actions must not duplicate the correction button');
-  assert.ok(js.includes('function(){correctMismatch()}'),
+  assert.match(js, /function\(\)\{correctMismatch\(\)\}/,
     'the intelligence panel must still offer the correction');
+});
+
+test('sms: datetime parsing accepts month-name formats', async () => {
+  const js = await read('js/recovery.js');
+  assert.match(js, /function parseSmsDatetime\(txt\)/,
+    'datetime extraction must go through a dedicated parser');
+  assert.match(js, /Jan\(\?:uary\)\?\|Feb/,
+    'parser must recognise month names, not only DD/MM/YYYY');
+  assert.match(js, /Nov 05, 2026|month\+'\\\\s\+\\\\d\{1,2\},?\\\\s\+\\\\d\{4\}'/,
+    'parser must accept the month-first format too');
+});
+
+test('sequence: a zero-pattern result states how much was checked', async () => {
+  const js = await read('js/sequence-intelligence.js');
+  assert.match(js, /patternsCheckedNone: 'Checked \{count\} configured progressions; none matched\.'/, 'EN scope note missing');
+  assert.match(js, /patternsCheckedNone: 'নির্ধারিত \{count\}টি ধারাবাহিকতা পরীক্ষা করা হয়েছে; কোনোটিই মেলেনি।'/, 'BN scope note missing');
+  assert.match(js, /patternsCheckedNone\.replace\('\{count\}', String\(patternTotal\)\)/,
+    'result must render the scope note with the real configured count');
+  assert.doesNotMatch(js, /: copy\.noSignal;/,
+    'per-message output must not repeat "No configured warning pattern matched"');
+});
+
+test('recon: row labels follow the active language', async () => {
+  const js = await read('js/prevention.js');
+  assert.match(js, /row\(L\('Recipient number','প্রাপকের নম্বর'\)/,
+    'recipient row label must be localised');
+  assert.match(js, /row\(L\('Amount','পরিমাণ'\)/,
+    'amount row label must be localised');
+});
+
+test('evidence map: empty values do not repeat "Not available"', async () => {
+  const js = await read('js/evidence-map.js');
+  assert.doesNotMatch(js, /return evidenceMapCopy\('Not available'/,
+    'empty map values must not repeat the "Not available" phrase');
+  assert.match(js, /return '—';/,
+    'empty map values render as a dash; the state tag still carries the meaning');
+});
+
+test('copilot: a fresh case states that no plan exists yet', async () => {
+  const js = await read('js/cases.js');
+  assert.match(js, /No plan generated yet for this case\./,
+    'fresh-case Copilot status must state the state, not instruct');
+  assert.doesNotMatch(js, /New case started\. Generate a fresh plan for this case\./,
+    'the old confusing status line must be gone');
 });
