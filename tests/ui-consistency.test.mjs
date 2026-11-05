@@ -90,6 +90,13 @@ test('server: static allowlist serves the competition sticker', async () => {
   assert.ok(js.includes('/assets/aignite-buildathon-sticker.webp'), 'sticker missing from serve allowlist');
 });
 
+test('touch targets: landing demo and message-review example controls are at least 44px', async () => {
+  const css = await read('assets/styles.css');
+  assert.match(css, /\.visual-demo-switch-button\{min-height:44px/);
+  assert.match(css, /\.coach-examples \.btn\{min-height:44px/);
+  assert.match(css, /\.coach-examples \.btn-ghost\{min-height:44px/);
+});
+
 test('settings: destructive clear action is outline-red, not solid red', async () => {
   const css = await read('assets/styles.css');
   const html = await read('index.html');
