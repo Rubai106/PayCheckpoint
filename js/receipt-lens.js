@@ -186,6 +186,7 @@ var PC_RECEIPT_LENS = (function () {
     if (!candidate) return;
     var input = byId(type === 'recipient' ? 'screen-recipient-num' : 'screen-recipient-amt');
     if (!input) return;
+    if (typeof invalidateConfirmedScreenshotReview === 'function') invalidateConfirmedScreenshotReview('field-edit');
     input.value = candidate.value;
     state.selected[type] = { id: candidate.id, type: type, value: candidate.value, lineIndex: candidate.lineIndex, confidence: candidate.confidence, confidenceBand: labelConfidence(candidate.confidence), imageEpoch: state.imageEpoch };
     var consent = byId('screenshot-confirm-review'); if (consent) consent.checked = false;
@@ -193,6 +194,7 @@ var PC_RECEIPT_LENS = (function () {
     status(copy('Suggestion inserted. Check it against the image, correct it if needed, and explicitly confirm before comparing.', 'প্রস্তাব ঘরে বসানো হয়েছে। ছবির সঙ্গে মিলিয়ে দেখুন, প্রয়োজনে ঠিক করুন এবং তুলনার আগে স্পষ্টভাবে নিশ্চিত করুন।'), 'info');
   }
   function noteManualEdit(type) {
+    if (typeof invalidateConfirmedScreenshotReview === 'function') invalidateConfirmedScreenshotReview('field-edit');
     var selected = state.selected[type]; if (!selected) return;
     var input = byId(type === 'recipient' ? 'screen-recipient-num' : 'screen-recipient-amt');
     if (!input || normaliseDigits(input.value).replace(/[\s,]/g, '') === normaliseDigits(selected.value).replace(/[\s,]/g, '')) return;

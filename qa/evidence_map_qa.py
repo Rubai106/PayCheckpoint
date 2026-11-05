@@ -324,6 +324,47 @@ with sync_playwright() as p:
     assert page.locator('[data-screen="preflight-check"]').is_hidden()
     checks.append("PASS | mixed screenshot mismatch/incomplete state discloses both issues in English and Bangla and blocks preflight")
 
+    # Editing a screenshot field after a confirmed comparison invalidates the old result.
+    # The previous match must not survive a handoff from the Evidence Map.
+    page.evaluate("""() => {
+      S.journey = 'prevention';
+      S.intendedNum = '01712345678'; S.intendedAmt = '3000';
+      S.enteredNum = '01712345678'; S.enteredAmt = '3000';
+      S.receiptReviewed = false; S.receipt = {}; S.receiptProv = {};
+      S.instrNumCands = []; S.instrAmtCands = [];
+      S.instrNumConfirmed = false; S.instrAmtConfirmed = false;
+      S.screenReview = {
+        intentRecipient: canonPhone(S.intendedNum),
+        intentAmountMinor: amountMinor(S.intendedAmt),
+        recipientState: 'MATCH', amountState: 'MATCH', overall: 'MATCH',
+        method: 'Manual visual comparison'
+      };
+      PC_FEATURE_STATE.screenReview = S.screenReview;
+      PC_FEATURE_STATE.screenshotFileReady = true;
+      PC_FEATURE_STATE.screenshotUrl = 'blob:qa-screenshot';
+      document.getElementById('screen-recipient-num').value = '01712345679';
+      document.getElementById('screen-recipient-num').dispatchEvent(new Event('input', {bubbles:true}));
+      renderRecon(); goApp('recon');
+    }""")
+    invalidated = page.evaluate("({state:S.screenReview.overall, invalidated:S.screenReview.invalidatedByEdit, reason:S.screenReview.invalidationReason})")
+    assert invalidated == {'state':'INCOMPLETE','invalidated':True,'reason':'field-edit'}, invalidated
+    assert page.locator('#screenshot-review-result').inner_text().lower().find('changed after') >= 0
+    assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'review'
+    page.evaluate("renderPreflightCheck()")
+    assert page.locator('[data-screen="recon"]').is_visible()
+    assert page.locator('[data-screen="preflight-check"]').is_hidden()
+
+    # A fresh explicit confirmation replaces the invalidated snapshot.
+    page.evaluate("""() => {
+      document.getElementById('screen-recipient-num').value = '01712345678';
+      document.getElementById('screen-recipient-amt').value = '3000';
+      document.getElementById('screenshot-confirm-review').checked = true;
+      compareScreenshotReview();
+    }""")
+    refreshed = page.evaluate("({state:S.screenReview.overall, invalidated:S.screenReview.invalidatedByEdit})")
+    assert refreshed == {'state':'MATCH','invalidated':False}, refreshed
+    checks.append("PASS | editing screenshot values invalidates the previous comparison and requires a fresh explicit confirmation")
+
     # Direct calls must also reject mismatched entered values, even if the UI action is hidden.
     page.evaluate("""() => {
       S.screenReview = null;

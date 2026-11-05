@@ -1,3 +1,8 @@
+## v1.31.0 follow-up — invalidate edited screenshot comparisons
+- Editing either screenshot recipient or amount after a confirmed comparison now downgrades the stored result to incomplete and blocks the pre-send checkpoint until the user explicitly confirms a fresh comparison.
+- The same invalidation applies when an OCR suggestion is inserted or the screenshot file is replaced; the old match is never silently reused.
+- Added a browser regression for edit → invalidated state → blocked preflight → fresh confirmation.
+
 ## v1.31.0 follow-up — align Evidence Map regression inputs
 - Fixed the incident-dossier Evidence Map fixture to populate the visible intended/entered form fields as well as in-memory state. The regression now exercises a genuine live-field mismatch instead of comparing confirmed instruction values against blank form inputs.
 

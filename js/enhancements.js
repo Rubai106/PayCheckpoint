@@ -164,12 +164,33 @@ function runScamBenchmarkUi(){var out=document.getElementById('scam-benchmark-re
   out.innerHTML='<div class="note" role="status"><strong>'+esc(report.passed+'/'+report.total+' '+L('synthetic rule checks passed','টি কৃত্রিম নিয়ম পরীক্ষা পাস'))+'</strong>'+metrics+'<p>'+esc(L('This measures implementation consistency on fixed developer-authored examples, not real-world fraud-detection accuracy. Cases are not independently labeled. No network calls or message retention.','এটি ডেভেলপার-তৈরি নির্দিষ্ট নমুনায় নিয়মের সামঞ্জস্য মাপে, বাস্তব প্রতারণা শনাক্তের নির্ভুলতা নয়। কেসগুলো স্বাধীনভাবে লেবেল করা হয়নি। কোনো নেটওয়ার্ক কল বা বার্তা সংরক্ষণ করা হয় না।'))+'</p><ul class="benchmark-list">'+rows+'</ul></div>';}
 
 /* Screenshot / receipt review. ReceiptLens OCR is optional; selected values require explicit user confirmation. */
+function invalidateConfirmedScreenshotReview(reason) {
+  var review = S.screenReview;
+  if (!review || review.invalidatedByEdit) return false;
+  var invalidated = Object.assign({}, review, {
+    recipientState: 'INCOMPLETE',
+    amountState: 'INCOMPLETE',
+    overall: 'INCOMPLETE',
+    invalidatedByEdit: true,
+    invalidationReason: reason === 'image-change' ? 'image-change' : 'field-edit'
+  });
+  S.screenReview = invalidated;
+  PC_FEATURE_STATE.screenReview = invalidated;
+  if (typeof renderScreenshotReviewResult === 'function') renderScreenshotReviewResult();
+  var recon = document.querySelector('[data-screen="recon"]:not(.hidden)');
+  if (recon && typeof renderRecon === 'function') renderRecon();
+  var map = document.getElementById('evidence-map-panel');
+  if (map && !map.classList.contains('hidden') && typeof renderEvidenceMap === 'function') renderEvidenceMap();
+  return true;
+}
+
 function handlePreflightScreenshot(input) {
   var statusEl = document.getElementById('screenshot-file-status');
   var preview = document.getElementById('preflight-screenshot-preview');
   var viewport = document.getElementById('receipt-lens-image-viewport');
   if (PC_FEATURE_STATE.screenshotUrl) { try { URL.revokeObjectURL(PC_FEATURE_STATE.screenshotUrl); } catch (_) {} PC_FEATURE_STATE.screenshotUrl = null; }
-  PC_FEATURE_STATE.screenshotFileReady = false; PC_FEATURE_STATE.screenReview = null; S.screenReview = null;
+  if (S.screenReview) invalidateConfirmedScreenshotReview('image-change');
+  PC_FEATURE_STATE.screenshotFileReady = false; PC_FEATURE_STATE.screenReview = S.screenReview || null;
   if (preview) { preview.removeAttribute('src'); preview.onload = null; }
   if (viewport) viewport.classList.add('hidden'); else if (preview) preview.classList.add('hidden');
   if (!input || !input.files || !input.files[0]) { if (statusEl) statusEl.innerHTML = ''; return; }
@@ -203,7 +224,7 @@ function compareScreenshotReview() {
   if (!seenNum || seenAmt == null || seenAmt <= 0) { out.innerHTML = '<div class="errbox" role="alert">' + esc(L('Enter or select a valid recipient number and positive amount from the image.', 'ছবি থেকে প্রাপকের সঠিক নম্বর ও ধনাত্মক পরিমাণ লিখুন বা নির্বাচন করুন।')) + '</div>'; return; }
   var recipientState = seenNum === intendedNum ? 'MATCH' : 'MISMATCH', amountState = seenAmt === intendedAmt ? 'MATCH' : 'MISMATCH', overall = recipientState === 'MATCH' && amountState === 'MATCH' ? 'MATCH' : 'MISMATCH';
   var ocrMeta = typeof PC_RECEIPT_LENS !== 'undefined' ? PC_RECEIPT_LENS.forComparison() : { method: 'manual visual comparison', recipientMethod: 'manual', amountMethod: 'manual', ocrLanguage: null, recipientConfidenceBand: null, amountConfidenceBand: null, recipientSourceLine: null, amountSourceLine: null };
-  var review = { at: new Date().toISOString(), recipientState: recipientState, amountState: amountState, overall: overall, method: ocrMeta.method, recipientMethod: ocrMeta.recipientMethod, amountMethod: ocrMeta.amountMethod, ocrLanguage: ocrMeta.ocrLanguage, recipientConfidenceBand: ocrMeta.recipientConfidenceBand, amountConfidenceBand: ocrMeta.amountConfidenceBand, recipientSourceLine: ocrMeta.recipientSourceLine, amountSourceLine: ocrMeta.amountSourceLine, intentRecipient: intendedNum, intentAmountMinor: intendedAmt };
+  var review = { at: new Date().toISOString(), recipientState: recipientState, amountState: amountState, overall: overall, invalidatedByEdit: false, method: ocrMeta.method, recipientMethod: ocrMeta.recipientMethod, amountMethod: ocrMeta.amountMethod, ocrLanguage: ocrMeta.ocrLanguage, recipientConfidenceBand: ocrMeta.recipientConfidenceBand, amountConfidenceBand: ocrMeta.amountConfidenceBand, recipientSourceLine: ocrMeta.recipientSourceLine, amountSourceLine: ocrMeta.amountSourceLine, intentRecipient: intendedNum, intentAmountMinor: intendedAmt };
   PC_FEATURE_STATE.screenReview = review; S.screenReview = review;
   var isOcr = String(review.method || '').indexOf('OCR-assisted') >= 0;
   recordTimelineEvent('screenshot-review', overall === 'MATCH' ? 'Payment screenshot reviewed; both fields match intent' : 'Payment screenshot reviewed; one or more fields differ from intent', overall === 'MATCH' ? 'পেমেন্ট স্ক্রিনশট পর্যালোচনা; দুটি মানই উদ্দেশ্যের সঙ্গে মিলে গেছে' : 'পেমেন্ট স্ক্রিনশট পর্যালোচনা; এক বা একাধিক মান উদ্দেশ্যের সঙ্গে মেলেনি', 'app-recorded');
@@ -214,6 +235,7 @@ function compareScreenshotReview() {
 function renderScreenshotReviewResult() {
   var out = document.getElementById('screenshot-review-result'), review = S.screenReview;
   if (!out || !review) return;
+  if (review.invalidatedByEdit) { out.innerHTML = '<div class="warn" role="status"><strong>' + esc(L('Screenshot values changed after the last review.', 'শেষ পর্যালোচনার পরে স্ক্রিনশটের তথ্য বদলেছে।')) + '</strong><p>' + esc(L('The previous comparison is no longer current. Check the image and explicitly confirm a fresh comparison before relying on it.', 'আগের তুলনাটি আর বর্তমান নয়। ছবির সঙ্গে তথ্য মিলিয়ে আবার স্পষ্টভাবে নিশ্চিত করুন।')) + '</p></div>'; return; }
   var stale = !Object.prototype.hasOwnProperty.call(review, 'intentRecipient') || !Object.prototype.hasOwnProperty.call(review, 'intentAmountMinor') || review.intentRecipient !== canonPhone(S.intendedNum) || review.intentAmountMinor !== amountMinor(S.intendedAmt);
   if (stale) { out.innerHTML = '<div class="warn" role="status"><strong>' + esc(L('Previous screenshot result is stale. Your intended recipient or amount changed.', 'আগের স্ক্রিনশট ফলটি পুরোনো। উদ্দেশ্য করা প্রাপক বা পরিমাণ বদলেছে।')) + '</strong><p>' + esc(L('Read or select the values in the image and compare again. The old result must not be used for the updated intent.', 'ছবির মান নিজে পড়ুন বা নির্বাচন করে আবার তুলনা করুন। বদলানো উদ্দেশ্যের জন্য পুরোনো ফল ব্যবহার করবেন না।')) + '</p></div>'; return; }
   var matched = review.overall === 'MATCH', cls = matched ? 'okbox' : 'errbox';
