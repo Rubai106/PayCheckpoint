@@ -92,6 +92,10 @@ with sync_playwright() as p:
       S.instrNumConfirmed = true; S.instrNum = '01712345679';
       S.instrAmtConfirmed = true; S.instrAmt = '3000';
       S.enteredNum = '01712345678'; S.enteredAmt = '3000';
+      document.getElementById('f-intended-num').value = S.intendedNum;
+      document.getElementById('f-intended-amt').value = S.intendedAmt;
+      document.getElementById('f-entered-num').value = S.enteredNum;
+      document.getElementById('f-entered-amt').value = S.enteredAmt;
       goApp('recon');
     }""")
     assert page.locator('[data-screen="recon"]').is_visible()

@@ -1,3 +1,6 @@
+## v1.31.0 follow-up — align Evidence Map fixture with real form state
+- Updated the legacy Evidence Map browser fixture to populate the actual intent and pre-send form inputs when it constructs a case programmatically. The production view now intentionally reads those visible fields first; the fixture must mirror user entry instead of mutating cached state alone.
+
 ## v1.31.0 follow-up — keep Evidence Map aligned with live payment fields
 - Added shared live-field resolvers for intended and pre-send recipient/amount. Evidence Map baseline, source comparisons, field trail and screenshot staleness now read the visible fields before any cached state, so post-submit edits cannot leave the map showing old values.
 - Mark unknown now clears the corresponding visible intent input and validation error as well as state, preventing the previous value from reappearing in the evidence baseline.
