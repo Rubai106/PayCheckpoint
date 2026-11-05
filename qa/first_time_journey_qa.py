@@ -36,6 +36,10 @@ with sync_playwright() as p:
     prevent_copy = page.locator('[data-i18n="preventText"]').inner_text().lower()
     assert 'compare them' in prevent_copy and 'confirmation screen' in prevent_copy
     assert 'cannot see or change that app' in prevent_copy
+    can_copy = page.locator('[data-i18n="can3"]').inner_text().lower()
+    assert 'private offline action plan' in can_copy and 'optional ai plan' in can_copy
+    recovery_copy = page.locator('[data-i18n="recoverText"]').inner_text().lower()
+    assert 'fictional confirmation sms' in recovery_copy and 'does not submit complaints' in recovery_copy
     assert 'cannot return money or guarantee recovery' in (page.locator('[data-i18n="faqRefundA"]').text_content() or '').lower()
     assert 'optional copilot' in (page.locator('[data-i18n="faqStoredA"]').text_content() or '').lower()
     assert 'see the payment' in page.locator('[data-i18n="visualDemoTitle"]').inner_text().lower()
@@ -58,6 +62,9 @@ with sync_playwright() as p:
     assert 'একটি ঘটনা' in page.locator('[data-i18n="howH"]').inner_text()
     assert 'আপনার ওয়ালেটের পাশাপাশি' in page.locator('[data-i18n="howSub"]').inner_text()
     assert 'পেমেন্ট অ্যাপ' in page.locator('[data-i18n="preventText"]').inner_text()
+    assert 'অফলাইন করণীয় পরিকল্পনা' in page.locator('[data-i18n="can3"]').inner_text()
+    assert 'সম্মতি' in page.locator('[data-i18n="can3"]').inner_text()
+    assert 'অভিযোগ জমা দেয় না' in page.locator('[data-i18n="recoverText"]').inner_text()
     page.locator('#langEn').click()
     assert 'alongside your wallet' in page.locator('[data-i18n="howSub"]').inner_text().lower()
     page.locator('[data-demo-scenario="mismatch"]').click()
