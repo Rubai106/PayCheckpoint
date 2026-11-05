@@ -56,11 +56,17 @@ function copilotComparisonState(a, b, normalize) {
   return left === right ? 'match' : 'mismatch';
 }
 function copilotCurrentContext() {
-  var inNum = S.enteredNum || (document.getElementById('f-entered-num') || {}).value || '';
-  var inAmt = S.enteredAmt || (document.getElementById('f-entered-amt') || {}).value || '';
+  // The visible form fields are the live source of truth. S.* may still contain
+  // the last submitted values while a user is editing the current case.
+  var enteredNumField = document.getElementById('f-entered-num');
+  var enteredAmtField = document.getElementById('f-entered-amt');
+  var intendedNumField = document.getElementById('f-intended-num');
+  var intendedAmtField = document.getElementById('f-intended-amt');
+  var inNum = enteredNumField ? enteredNumField.value : (S.enteredNum || '');
+  var inAmt = enteredAmtField ? enteredAmtField.value : (S.enteredAmt || '');
   var receipt = S.receiptReviewed ? (S.receipt || {}) : {};
-  var intendedNum = S.intendedNum || (document.getElementById('f-intended-num') || {}).value || '';
-  var intendedAmt = S.intendedAmt || (document.getElementById('f-intended-amt') || {}).value || '';
+  var intendedNum = intendedNumField ? intendedNumField.value : (S.intendedNum || '');
+  var intendedAmt = intendedAmtField ? intendedAmtField.value : (S.intendedAmt || '');
   var actualNum = inNum || receipt.recipient || '';
   var actualAmt = inAmt || receipt.amount || '';
   var recipient = copilotComparisonState(intendedNum, actualNum, function(v) { return canonPhone(v); });

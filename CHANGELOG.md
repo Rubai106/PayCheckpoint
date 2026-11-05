@@ -1,3 +1,7 @@
+## v1.31.0 follow-up — use live payment fields in Copilot comparisons
+- Copilot now reads the visible intent and entered-detail fields before falling back to in-memory state. Editing recipient or amount after a previous submission can no longer leave the Copilot comparison anchored to the old submitted values.
+- Added a browser regression that deliberately makes the current DOM differ from S.* and verifies the Copilot comparison reports the live mismatch, then returns to match when the visible entry is corrected.
+
 ## v1.31.0 follow-up — invalidate stale Copilot context and consume consent once
 - Copilot results now carry an in-memory context signature. Changes to the scenario, provider, warning categories, comparison states or live payment fields clear the prior plan; cloud requests are also discarded if those inputs change while inference is pending.
 - Offline plan signatures deliberately exclude the free-text note because the offline engine does not read it. Language is excluded from the signature so switching UI language alone does not invalidate a cloud response; offline guidance is regenerated locally for the selected language.

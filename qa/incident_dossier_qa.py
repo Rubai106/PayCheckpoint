@@ -121,6 +121,22 @@ with sync_playwright() as p:
     assert '16247' not in nagad and '16216' not in nagad
     checks.append('PASS | Provider contact card refreshes and Nagad phone number is not invented')
 
+    # Copilot comparisons must read live inputs, not an older submitted S.* snapshot.
+    live_comparison = page.evaluate('''() => {
+      S.intendedNum = '01712345678';
+      S.intendedAmt = '3000';
+      S.enteredNum = '01712345678';
+      S.enteredAmt = '3000';
+      document.getElementById('f-intended-num').value = '01712345678';
+      document.getElementById('f-intended-amt').value = '3000';
+      document.getElementById('f-entered-num').value = '01712345679';
+      document.getElementById('f-entered-amt').value = '3000';
+      return copilotCurrentContext().comparison;
+    }''')
+    assert live_comparison['recipient'] == 'mismatch', live_comparison
+    page.locator('#f-entered-num').fill('01712345678')
+    assert page.evaluate("copilotCurrentContext().comparison.recipient") == 'match'
+
     # Cloud Copilot must send a boolean consent only after the checkbox gate; offline mode must never send a request.
     page.evaluate('''() => {
       window.__copilotCalls = [];

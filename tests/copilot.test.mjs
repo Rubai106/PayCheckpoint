@@ -223,6 +223,20 @@ test('new cases and offline choice invalidate older cloud Copilot generations', 
   assert.match(client, /var PC_COPILOT_REQUEST_ID = 0/);
 });
 
+test('Copilot reads current payment form values ahead of previously submitted state', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { resolve, dirname } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+  const source = await readFile(resolve(root, 'js/copilot.js'), 'utf8');
+  const start = source.indexOf('function copilotCurrentContext()');
+  const end = source.indexOf('\nfunction copilotContextSignature', start);
+  const body = source.slice(start, end);
+  assert.match(body, /var inNum = enteredNumField \? enteredNumField\.value : \(S\.enteredNum \|\| ''\)/);
+  assert.match(body, /var intendedNum = intendedNumField \? intendedNumField\.value : \(S\.intendedNum \|\| ''\)/);
+  assert.ok(start >= 0 && end > start);
+});
+
 test('Copilot invalidates plans when their source context changes and consumes consent per request', async () => {
   const { readFile } = await import('node:fs/promises');
   const { resolve, dirname } = await import('node:path');
