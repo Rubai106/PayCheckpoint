@@ -783,8 +783,8 @@ body.share-brief-printing #evidence-integrity-panel{display:none!important}
 .coach-examples-group{margin:14px 0 4px}
 .coach-examples-label{display:block;font-size:12px;font-weight:700;color:var(--mut);margin:0 0 8px}
 .coach-examples{margin:0 0 14px}
-.coach-examples .btn{min-height:38px;padding:0 13px;border-radius:999px;font-size:12px;font-weight:700}
-.coach-examples .btn-ghost{min-height:38px;padding:0 8px}
+.coach-examples .btn{min-height:44px;padding:0 13px;border-radius:999px;font-size:12px;font-weight:700}
+.coach-examples .btn-ghost{min-height:44px;padding:0 8px}
 @media(max-width:640px){
   [data-screen="message-review"] .coach-examples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   [data-screen="message-review"] .coach-examples .btn{width:100%}
@@ -1408,7 +1408,7 @@ details[open]{background:#FCFEFC}
 .payment-visual-heading{align-items:flex-start}
 .payment-visual-heading h3{font-size:clamp(18px,2vw,21px);letter-spacing:-.04em}
 .visual-demo-switch{display:inline-flex;gap:3px;flex-wrap:wrap;margin:16px 0 4px;padding:3px;border:1px solid #DCE6DE;border-radius:999px;background:#EFF4EF}
-.visual-demo-switch-button{min-height:34px;padding:0 14px;border:1px solid transparent;border-radius:999px;background:transparent;color:#52645A;font-size:12px;font-weight:750;cursor:pointer;transition:background .18s ease,color .18s ease}
+.visual-demo-switch-button{min-height:44px;padding:0 14px;border:1px solid transparent;border-radius:999px;background:transparent;color:#52645A;font-size:12px;font-weight:750;cursor:pointer;transition:background .18s ease,color .18s ease}
 .visual-demo-switch-button:hover{color:#125B42}
 .visual-demo-switch-button.is-active{background:#08765B;border-color:#08765B;color:#fff;box-shadow:0 2px 8px rgba(8,118,91,.25)}
 /* Landing demo: three sources in one vertical flow. Cards and connectors are in
