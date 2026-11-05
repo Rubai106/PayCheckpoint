@@ -1,3 +1,10 @@
+## v1.32.0 follow-up — fix incident navigation and recovery digit-diff
+- Incident jump links now bypass the public-section navigation handler and scroll to their target inside the open incident workspace.
+- Recovery SMS review now offers optional intended recipient and amount inputs in English and Bangla, stores supplied intent before comparing reviewed receipt fields, and exposes the existing precise mismatch/digit-position explanation.
+- Empty post-payment entered values are permitted only in the recovery journey; pre-payment prevention still requires all four recipient/amount values.
+- Added static and browser regression coverage for both blockers while retaining the 44px touch-target CSS and regression guards.
+- PR #7 was validated by GitHub Actions run #216 (all seven stages passed) and squash-merged to main as `b21f592a133621186f1d99b3e1ba24b2d94b3cac`.
+
 ## v1.32.0 follow-up — B2C value proposition and trust-copy alignment
 - Replaced the stale “Prevent → Undo (simulation) → Recover” headline with the real consumer journey: use PayCheckpoint alongside a wallet to compare details before confirmation, review suspicious requests, and organise facts after a problem.
 - Aligned English and Bangla capability copy with implemented behavior: the optional AI plan is consent-based; the simulation is no longer presented as a core user benefit; recovery examples are fictional and complaint drafts are copied/submitted by the user.
