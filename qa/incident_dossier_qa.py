@@ -155,6 +155,13 @@ with sync_playwright() as p:
     assert sent['consent'] is True and isinstance(sent['consent'], bool), sent
     assert set(sent) == {'consent','language','situation','provider','note','signals','comparison'}
     assert page.locator('.copilot-result-card').is_visible()
+    # Cloud output must retain its generation language and must not silently auto-send on language switch.
+    page.locator('#langBn').click()
+    assert page.locator('.copilot-language-note').is_visible()
+    assert 'ইংরেজিতে' in page.locator('.copilot-language-note').inner_text()
+    assert page.evaluate('window.__copilotCalls.length') == 1
+    page.locator('#langEn').click()
+    assert page.locator('.copilot-language-note').count() == 0
     page.evaluate('''() => {
       window.__copilotCalls = [];
       document.getElementById('copilot-cloud-consent').checked = false;
@@ -162,6 +169,13 @@ with sync_playwright() as p:
     }''')
     assert page.evaluate('window.__copilotCalls.length') == 0
     assert 'private' in page.locator('.copilot-result-top .tag').inner_text().lower()
+    page.locator('#langBn').click()
+    assert page.evaluate("PC_COPILOT_LAST_RESULT && PC_COPILOT_LAST_RESULT.language === 'bn'")
+    assert page.locator('.copilot-language-note').count() == 0
+    assert 'ব্যক্তিগত' in page.locator('.copilot-result-top .tag').inner_text()
+    page.locator('#langEn').click()
+    assert page.evaluate("PC_COPILOT_LAST_RESULT && PC_COPILOT_LAST_RESULT.language === 'en'")
+    assert page.locator('.copilot-language-note').count() == 0
     checks.append('PASS | Cloud AI sends literal boolean consent only after user opt-in; offline plan sends no request')
 
     # A response from a previous case must not overwrite a newly-started case.

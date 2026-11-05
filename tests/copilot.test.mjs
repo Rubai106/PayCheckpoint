@@ -190,6 +190,18 @@ test('starting a new cloud Copilot request invalidates the previous result befor
   assert.ok(invalidate >= 0 && request > invalidate, 'old result must clear before the network request begins');
 });
 
+test('Copilot records the plan language and distinguishes cloud output from local offline re-generation', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { resolve, dirname } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+  const source = await readFile(resolve(root, 'js/copilot.js'), 'utf8');
+  assert.match(source, /language: ctx\.language/);
+  assert.match(source, /mode === 'offline-guide' && PC_COPILOT_LAST_RESULT\.language !== selectedLanguage/);
+  assert.match(source, /copilot-language-note/);
+  assert.match(source, /generate a new cloud plan/i);
+});
+
 test('new cases and offline choice invalidate older cloud Copilot generations', async () => {
   const { readFile } = await import('node:fs/promises');
   const { resolve, dirname } = await import('node:path');

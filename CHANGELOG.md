@@ -1,3 +1,8 @@
+## v1.31.0 follow-up — keep Copilot output language honest
+- Copilot results now retain the language in which they were generated. Switching the interface does not silently present old cloud output as translated; a localized notice tells the user the plan's language and how to request a new one.
+- Private offline plans are regenerated locally in the newly selected language without a cloud call or use of the free-text note.
+- Added browser coverage for English cloud output while the interface is Bangla, no automatic second request, and local offline re-generation in both languages.
+
 ## v1.31.0 follow-up — invalidate late Copilot responses across case changes
 - Added a monotonic request-generation guard. Starting a new case, starting a newer cloud request or choosing the offline plan invalidates older in-flight Copilot responses. Late results/errors are discarded and cannot overwrite the current case or the user's offline plan.
 - Resetting a case also clears the previous Copilot result and restores the cloud button state.

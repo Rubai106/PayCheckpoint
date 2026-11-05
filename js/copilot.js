@@ -129,7 +129,7 @@ function createOfflineCopilotResult(ctx) {
   };
 }
 function copilotEl(tag, cls, text) { var el = document.createElement(tag); if (cls) el.className = cls; if (text != null) el.textContent = text; return el; }
-function renderCopilotResult(result, mode, model) {
+function renderCopilotResult(result, mode, model, generatedLanguage) {
   var out = document.getElementById('copilot-results'); if (!out) return; out.replaceChildren();
   var card = copilotEl('article', 'copilot-result-card');
   var top = copilotEl('div', 'copilot-result-top');
@@ -137,6 +137,14 @@ function renderCopilotResult(result, mode, model) {
   top.appendChild(copilotEl('span', 'tag ' + (mode === 'cloudflare-ai' ? 'tag-g' : 'tag-n'), mode === 'cloudflare-ai' ? copilotCopy('AI-assisted', 'AI সহায়তাপ্রাপ্ত') : copilotCopy('Private · offline', 'ব্যক্তিগত · অফলাইন')));
   card.appendChild(top);
   card.appendChild(copilotEl('p', 'copilot-result-summary', result.summary || ''));
+  var outputLanguage = generatedLanguage === 'bn' ? 'bn' : generatedLanguage === 'en' ? 'en' : (S.lang === 'bn' ? 'bn' : 'en');
+  var currentLanguage = S.lang === 'bn' ? 'bn' : 'en';
+  if (outputLanguage !== currentLanguage) {
+    var languageNotice = outputLanguage === 'en'
+      ? copilotCopy('This plan was generated in English. The interface is now in Bangla; generate a new cloud plan if you need Bangla output.', 'এই পরিকল্পনাটি ইংরেজিতে তৈরি হয়েছে। এখন ইন্টারফেস বাংলায়; বাংলায় পরিকল্পনা পেতে নতুন ক্লাউড পরিকল্পনা তৈরি করুন।')
+      : copilotCopy('This plan was generated in Bangla. The interface is now in English; generate a new cloud plan if you need English output.', 'এই পরিকল্পনাটি বাংলায় তৈরি হয়েছে। এখন ইন্টারফেস ইংরেজিতে; ইংরেজিতে পরিকল্পনা পেতে নতুন ক্লাউড পরিকল্পনা তৈরি করুন।');
+    card.appendChild(copilotEl('p', 'hint copilot-language-note', languageNotice));
+  }
   if (result.unknowns && result.unknowns.length) {
     card.appendChild(copilotEl('h5', '', copilotCopy('What remains unknown', 'যা এখনো অজানা')));
     var ulUnknown = copilotEl('ul', 'copilot-list'); result.unknowns.forEach(function(x) { ulUnknown.appendChild(copilotEl('li', '', x)); }); card.appendChild(ulUnknown);
@@ -207,8 +215,8 @@ async function runCloudCopilot() {
     var payload = await response.json().catch(function() { return {}; });
     if (requestId !== PC_COPILOT_REQUEST_ID) return;
     if (!response.ok) throw new Error(payload.message || copilotCopy('The AI service is unavailable. Use the offline plan instead.', 'AI সেবা এখন পাওয়া যাচ্ছে না। এর বদলে অফলাইন পরিকল্পনা ব্যবহার করুন।'));
-    PC_COPILOT_LAST_RESULT = { result: payload.result, mode: payload.mode, model: payload.model };
-    renderCopilotResult(payload.result, payload.mode, payload.model);
+    PC_COPILOT_LAST_RESULT = { result: payload.result, mode: payload.mode, model: payload.model, language: ctx.language };
+    renderCopilotResult(payload.result, payload.mode, payload.model, ctx.language);
   } catch (error) {
     if (requestId !== PC_COPILOT_REQUEST_ID) return;
     if (status) status.textContent = String(error && error.message || copilotCopy('AI plan failed. No claim was made about the case. Try the private offline plan.', 'AI পরিকল্পনা তৈরি হয়নি। কেস সম্পর্কে কোনো সিদ্ধান্ত দেওয়া হয়নি। ব্যক্তিগত অফলাইন পরিকল্পনা চেষ্টা করুন।'));
@@ -221,8 +229,8 @@ function runOfflineCopilot() {
   var ctx = copilotCurrentContext();
   // Deliberately do not inspect or use the free-text note in offline mode.
   var result = createOfflineCopilotResult(ctx);
-  PC_COPILOT_LAST_RESULT = { result: result, mode: 'offline-guide', model: null };
-  renderCopilotResult(result, 'offline-guide', null);
+  PC_COPILOT_LAST_RESULT = { result: result, mode: 'offline-guide', model: null, language: ctx.language };
+  renderCopilotResult(result, 'offline-guide', null, ctx.language);
 }
 function refreshCopilotLanguage() {
   var bn = S.lang === 'bn';
@@ -256,7 +264,15 @@ function refreshCopilotLanguage() {
   var pb = document.getElementById('copilot-provider'); if (pb) Array.from(pb.options).forEach(function(option, i) { if (copy.providerOptions[i]) option.textContent = bn ? copy.providerOptions[i][1] : copy.providerOptions[i][0]; });
   var cloud = document.getElementById('btn-copilot-cloud'); if (cloud && !cloud.dataset.busy) cloud.textContent = bn ? copy.cloudButton[1] : copy.cloudButton[0];
   var offline = document.getElementById('btn-copilot-offline'); if (offline) offline.textContent = bn ? copy.offlineButton[1] : copy.offlineButton[0];
-  if (PC_COPILOT_LAST_RESULT) renderCopilotResult(PC_COPILOT_LAST_RESULT.result, PC_COPILOT_LAST_RESULT.mode, PC_COPILOT_LAST_RESULT.model);
+  if (PC_COPILOT_LAST_RESULT) {
+    var selectedLanguage = S.lang === 'bn' ? 'bn' : 'en';
+    if (PC_COPILOT_LAST_RESULT.mode === 'offline-guide' && PC_COPILOT_LAST_RESULT.language !== selectedLanguage) {
+      // Offline guidance is local and note-free, so it can be safely regenerated in the selected language.
+      runOfflineCopilot();
+    } else {
+      renderCopilotResult(PC_COPILOT_LAST_RESULT.result, PC_COPILOT_LAST_RESULT.mode, PC_COPILOT_LAST_RESULT.model, PC_COPILOT_LAST_RESULT.language);
+    }
+  }
   // Readiness is checked at panel initialization only; a language switch never triggers a request.
 }
 function initCopilotPanel() {
