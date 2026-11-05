@@ -166,7 +166,7 @@ function renderEvidenceFieldTrail(sources) {
       : evidenceMapDisplay(value, lens);
     var action = source.actionable
       ? '<button type="button" class="evidence-field-open" data-evidence-trace-open="' + esc(source.id) + '" aria-label="' + esc(evidenceMapCopy('Open ' + source.title + ' for ' + (isAmount ? 'amount' : 'recipient'), (isAmount ? 'পরিমাণের জন্য ' : 'প্রাপকের জন্য ') + source.title + ' খুলুন')) + '">' + esc(evidenceMapCopy('Open input', 'ইনপুট খুলুন')) + '<span aria-hidden="true">↗</span></button>'
-      : '<span class="evidence-field-no-action">' + esc(evidenceMapCopy('Not connected', 'সংযুক্ত নয়')) + '</span>';
+      : '<button type="button" class="evidence-field-open" disabled aria-label="' + esc(evidenceMapCopy('Open input — not connected: no provider record is attached', 'ইনপুট খুলুন — সংযুক্ত নয়: প্রদানকারীর কোনো রেকর্ড যুক্ত নেই')) + '">' + esc(evidenceMapCopy('Open input', 'ইনপুট খুলুন')) + '<span aria-hidden="true">↗</span></button><span class="evidence-field-no-action">' + esc(evidenceMapCopy('Not connected', 'সংযুক্ত নয়')) + '</span>';
     return '<article class="evidence-field-row" data-evidence-trail-source="' + esc(source.id) + '" data-evidence-trail-state="' + esc(state) + '">' +
       '<div class="evidence-field-source"><span class="evidence-source-order">' + esc(source.order) + '</span><div><strong>' + esc(source.title) + '</strong><small>' + esc(source.provenance) + '</small></div></div>' +
       '<div class="evidence-field-value"><small>' + esc(isAmount ? evidenceMapCopy('Amount', 'পরিমাণ') : evidenceMapCopy('Recipient', 'প্রাপক')) + '</small><strong>' + esc(display) + '</strong></div>' +
