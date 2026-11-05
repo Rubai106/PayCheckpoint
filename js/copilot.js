@@ -170,6 +170,8 @@ async function runCloudCopilot() {
     consent?.focus(); return;
   }
   var ctx = copilotCurrentContext();
+  // A new attempt owns the visible result slot. If it fails, a previous case's AI plan must not reappear on a later language refresh.
+  PC_COPILOT_LAST_RESULT = null;
   // Only a best-effort redacted note, categorical flags and local rule IDs are sent as fields. The note can still contain details after imperfect redaction, so UI disclosure warns users not to paste raw SMS or identifiers.
   ctx.note = copilotRedactText(ctx.note);
   if (btn) { btn.disabled = true; btn.dataset.busy = '1'; btn.textContent = copilotCopy('Generating…', 'তৈরি হচ্ছে…'); }

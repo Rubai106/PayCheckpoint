@@ -175,6 +175,21 @@ test('static UI explains Cloudflare free quota and never advertises Gemini', asy
   assert.match(html, /\.\/js\/copilot\.js/);
 });
 
+test('starting a new cloud Copilot request invalidates the previous result before awaiting a response', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { resolve, dirname } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+  const source = await readFile(resolve(root, 'js/copilot.js'), 'utf8');
+  const start = source.indexOf('async function runCloudCopilot()');
+  const end = source.indexOf('\nfunction runOfflineCopilot()', start);
+  assert.ok(start >= 0 && end > start, 'cloud Copilot function must remain discoverable');
+  const body = source.slice(start, end);
+  const invalidate = body.indexOf('PC_COPILOT_LAST_RESULT = null;');
+  const request = body.indexOf("await fetch('/api/copilot/analyze'");
+  assert.ok(invalidate >= 0 && request > invalidate, 'old result must clear before the network request begins');
+});
+
 test('copilot API retains per-IP rate limiting in local Node mode', async t => {
   let attempts = 0;
   const fakeService = {

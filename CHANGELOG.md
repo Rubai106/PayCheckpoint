@@ -1,3 +1,7 @@
+## v1.31.0 follow-up — clear stale Copilot output on a new cloud attempt
+- Starting a fresh consented cloud request now clears the prior Copilot result from memory before awaiting the server. A failed request cannot leave an older plan available to reappear after a language switch.
+- Added a regression that enforces the ordering: stale result invalidation must happen before the new network request.
+
 ## v1.31.0 follow-up — fix AI response-safety runner syntax
 - Corrected the benchmark runner's summary output so the script parses cleanly under the Node version used by GitHub Actions.
 
