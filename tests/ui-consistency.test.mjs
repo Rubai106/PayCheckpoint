@@ -127,6 +127,13 @@ const dictCtx = vm.createContext({
 vm.runInContext(await read('js/state-utils.js'), dictCtx, { filename: 'state-utils.js' });
 const I18N = dictCtx.I18N;
 
+test('touch targets: demo and message-review controls remain at least 44px', async () => {
+  const css = await read('assets/styles.css');
+  assert.match(css, /\.visual-demo-switch-button\{min-height:44px/);
+  assert.match(css, /\.coach-examples \.btn\{min-height:44px/);
+  assert.match(css, /\.coach-examples \.btn-ghost\{min-height:44px/);
+});
+
 test('step bar: no legacy .steps span pill rule', async () => {
   const css = await read('assets/styles.css');
   assert.doesNotMatch(css, /\.steps span\{/, 'legacy .steps span pill rule must stay deleted');
