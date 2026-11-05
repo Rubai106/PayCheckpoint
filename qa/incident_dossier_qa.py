@@ -154,6 +154,7 @@ with sync_playwright() as p:
     sent = page.evaluate('window.__copilotCalls[0].body')
     assert sent['consent'] is True and isinstance(sent['consent'], bool), sent
     assert set(sent) == {'consent','language','situation','provider','note','signals','comparison'}
+    assert not page.locator('#copilot-cloud-consent').is_checked(), 'consent must be consumed by exactly one cloud request'
     assert page.locator('.copilot-result-card').is_visible()
     # Cloud output must retain its generation language and must not silently auto-send on language switch.
     page.locator('#langBn').click()
@@ -162,6 +163,16 @@ with sync_playwright() as p:
     assert page.evaluate('window.__copilotCalls.length') == 1
     page.locator('#langEn').click()
     assert page.locator('.copilot-language-note').count() == 0
+    # Changing the source note invalidates the result; an unchecked box cannot silently resend it.
+    page.locator('#copilot-note').fill('A new detail changes the case context.')
+    assert page.evaluate('PC_COPILOT_LAST_RESULT === null')
+    assert page.locator('.copilot-result-card').count() == 0
+    page.evaluate('runCloudCopilot()')
+    assert page.evaluate('window.__copilotCalls.length') == 1
+    page.locator('#copilot-cloud-consent').check()
+    page.evaluate('runCloudCopilot()')
+    assert page.evaluate('window.__copilotCalls.length') == 2
+    assert not page.locator('#copilot-cloud-consent').is_checked()
     page.evaluate('''() => {
       window.__copilotCalls = [];
       document.getElementById('copilot-cloud-consent').checked = false;
@@ -205,6 +216,26 @@ with sync_playwright() as p:
     assert page.evaluate('PC_COPILOT_LAST_RESULT === null')
     assert page.locator('.copilot-result-card').count() == 0
     checks.append('PASS | Late cloud response from an earlier case is discarded after starting a new case')
+
+    # Changing the case note while cloud inference is pending invalidates the request generation.
+    page.evaluate('''() => {
+      document.getElementById('copilot-cloud-consent').checked = true;
+      window.__copilotResolve = null;
+      window.fetch = (url, options = {}) => String(url).endsWith('/api/copilot/analyze')
+        ? new Promise(resolve => { window.__copilotResolve = resolve; })
+        : Promise.resolve({ ok: true, json: async () => ({ cloudAiConfigured: true }) });
+      runCloudCopilot();
+    }''')
+    page.wait_for_function("typeof window.__copilotResolve === 'function'")
+    page.locator('#copilot-note').fill('A changed note while inference is pending.')
+    assert page.evaluate('PC_COPILOT_LAST_RESULT === null')
+    assert page.evaluate('PC_COPILOT_PENDING_CONTEXT_KEY === null')
+    assert page.locator('.copilot-result-card').count() == 0
+    page.evaluate('window.__copilotResolve(window.__oldCopilotResponse)')
+    page.wait_for_timeout(40)
+    assert page.evaluate('PC_COPILOT_LAST_RESULT === null')
+    assert page.locator('.copilot-result-card').count() == 0
+    checks.append('PASS | Cloud response is discarded when case context changes during inference')
 
     # Choosing offline guidance while cloud inference is pending must keep the offline result in control.
     page.evaluate('''() => {

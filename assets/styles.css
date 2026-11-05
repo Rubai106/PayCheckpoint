@@ -530,6 +530,7 @@ label{color:#34485F;font-size:13px;line-height:1.45;margin:18px 0 7px}
 .copilot-result-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:7px}
 .copilot-result-top h4{margin:0;font-size:18px;color:#18374D;letter-spacing:-.015em}
 .copilot-result-summary{color:#465D72;line-height:1.75;margin:8px 0 15px}
+.copilot-language-note{margin:10px 0;padding:10px 12px;border-left:3px solid #D49A34;border-radius:8px;background:#FFF9E8;color:#745720;font-size:12px;line-height:1.65}
 .copilot-result-card h5{margin:16px 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.045em;color:#536B7C}
 .copilot-list{padding-left:20px;margin:6px 0 12px;line-height:1.7;color:#334B60}
 .copilot-list li+li{margin-top:5px}

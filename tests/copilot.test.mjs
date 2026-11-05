@@ -223,6 +223,22 @@ test('new cases and offline choice invalidate older cloud Copilot generations', 
   assert.match(client, /var PC_COPILOT_REQUEST_ID = 0/);
 });
 
+test('Copilot invalidates plans when their source context changes and consumes consent per request', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { resolve, dirname } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+  const source = await readFile(resolve(root, 'js/copilot.js'), 'utf8');
+  assert.match(source, /var PC_COPILOT_PENDING_CONTEXT_KEY = null/);
+  assert.match(source, /function copilotContextSignature\(mode, context\)/);
+  assert.match(source, /function refreshCopilotContextFreshness\(\)/);
+  assert.match(source, /document\.addEventListener\(type, function\(\)/);
+  assert.match(source, /PC_COPILOT_PENDING_CONTEXT_KEY = contextKey/);
+  assert.match(source, /consent\.checked = false/);
+  assert.match(source, /for this request only/);
+  assert.match(source, /mode === 'cloudflare-ai' \? ctx\.note : null/);
+});
+
 test('copilot API retains per-IP rate limiting in local Node mode', async t => {
   let attempts = 0;
   const fakeService = {

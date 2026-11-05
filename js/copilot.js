@@ -2,6 +2,7 @@
 var PC_COPILOT_LAST_RESULT = null;
 var PC_COPILOT_STATUS = null;
 var PC_COPILOT_REQUEST_ID = 0;
+var PC_COPILOT_PENDING_CONTEXT_KEY = null;
 
 function resetCopilotCloudButton() {
   var btn = document.getElementById('btn-copilot-cloud');
@@ -13,6 +14,7 @@ function resetCopilotCloudButton() {
 
 function invalidateCopilotRequest(message) {
   PC_COPILOT_REQUEST_ID += 1;
+  PC_COPILOT_PENDING_CONTEXT_KEY = null;
   PC_COPILOT_LAST_RESULT = null;
   var out = document.getElementById('copilot-results');
   if (out) out.replaceChildren();
@@ -80,6 +82,52 @@ function copilotCurrentContext() {
     }
   };
 }
+function copilotContextSignature(mode, context) {
+  var ctx = context || copilotCurrentContext();
+  var liveValues = {};
+  [
+    'f-intended-num', 'f-intended-amt', 'f-instruction',
+    'f-entered-num', 'f-entered-amt', 'copilot-situation', 'copilot-provider'
+  ].forEach(function(id) {
+    var field = document.getElementById(id);
+    liveValues[id] = field ? String(field.value || '') : '';
+  });
+  return JSON.stringify({
+    situation: ctx.situation,
+    provider: ctx.provider,
+    note: mode === 'cloudflare-ai' ? ctx.note : null,
+    signals: ctx.signals,
+    comparison: ctx.comparison,
+    liveValues: liveValues
+  });
+}
+
+function refreshCopilotContextFreshness() {
+  var previous = PC_COPILOT_LAST_RESULT;
+  var expected = previous ? previous.contextKey : PC_COPILOT_PENDING_CONTEXT_KEY;
+  if (!expected) return true;
+  var mode = previous ? previous.mode : 'cloudflare-ai';
+  if (copilotContextSignature(mode) !== expected) {
+    invalidateCopilotRequest(copilotCopy(
+      'Case details changed. Generate a fresh plan before relying on it.',
+      'কেসের তথ্য পরিবর্তিত হয়েছে। পরিকল্পনার ওপর নির্ভর করার আগে নতুন পরিকল্পনা তৈরি করুন।'
+    ));
+    return false;
+  }
+  return true;
+}
+
+function watchCopilotContextChanges() {
+  var root = document.documentElement;
+  if (!root || root.dataset.copilotContextWatch === '1') return;
+  root.dataset.copilotContextWatch = '1';
+  ['input', 'change', 'click', 'submit'].forEach(function(type) {
+    document.addEventListener(type, function() {
+      refreshCopilotContextFreshness();
+    });
+  });
+}
+
 function copilotSignalText(ids) {
   if (!ids || !ids.length) return copilotCopy('No local warning category has been recorded. That does not mean the situation is safe.', 'কোনো স্থানীয় সতর্কতা-ধরন রেকর্ড হয়নি। এর অর্থ এই নয় যে পরিস্থিতি নিরাপদ।');
   return ids.map(function(id) { var v = PC_COPILOT_SIGNAL_LABELS[id]; return v ? (S.lang === 'bn' ? v[1] : v[0]) : id; }).join(', ');
@@ -206,6 +254,10 @@ async function runCloudCopilot() {
   PC_COPILOT_LAST_RESULT = null;
   // Only a best-effort redacted note, categorical flags and local rule IDs are sent as fields. The note can still contain details after imperfect redaction, so UI disclosure warns users not to paste raw SMS or identifiers.
   ctx.note = copilotRedactText(ctx.note);
+  var contextKey = copilotContextSignature('cloudflare-ai', ctx);
+  PC_COPILOT_PENDING_CONTEXT_KEY = contextKey;
+  // Consent authorizes this request only; a later send requires a new opt-in.
+  consent.checked = false;
   if (btn) { btn.disabled = true; btn.dataset.busy = '1'; btn.textContent = copilotCopy('Generating…', 'তৈরি হচ্ছে…'); }
   if (status) status.textContent = copilotCopy('Sending the redacted summary to Cloudflare Workers AI after your consent…', 'আপনার সম্মতির পর রেড্যাক্ট করা সারাংশ Cloudflare Workers AI-তে পাঠানো হচ্ছে…');
   if (out) out.replaceChildren();
@@ -214,14 +266,23 @@ async function runCloudCopilot() {
     if (requestId !== PC_COPILOT_REQUEST_ID) return;
     var payload = await response.json().catch(function() { return {}; });
     if (requestId !== PC_COPILOT_REQUEST_ID) return;
+    if (copilotContextSignature('cloudflare-ai') !== PC_COPILOT_PENDING_CONTEXT_KEY) {
+      invalidateCopilotRequest(copilotCopy('Case details changed while AI was working. Generate a fresh plan.', 'AI কাজ করার সময় কেসের তথ্য পরিবর্তিত হয়েছে। নতুন পরিকল্পনা তৈরি করুন।'));
+      return;
+    }
     if (!response.ok) throw new Error(payload.message || copilotCopy('The AI service is unavailable. Use the offline plan instead.', 'AI সেবা এখন পাওয়া যাচ্ছে না। এর বদলে অফলাইন পরিকল্পনা ব্যবহার করুন।'));
-    PC_COPILOT_LAST_RESULT = { result: payload.result, mode: payload.mode, model: payload.model, language: ctx.language };
+    PC_COPILOT_PENDING_CONTEXT_KEY = null;
+    PC_COPILOT_LAST_RESULT = { result: payload.result, mode: payload.mode, model: payload.model, language: ctx.language, contextKey: contextKey };
     renderCopilotResult(payload.result, payload.mode, payload.model, ctx.language);
   } catch (error) {
     if (requestId !== PC_COPILOT_REQUEST_ID) return;
+    PC_COPILOT_PENDING_CONTEXT_KEY = null;
     if (status) status.textContent = String(error && error.message || copilotCopy('AI plan failed. No claim was made about the case. Try the private offline plan.', 'AI পরিকল্পনা তৈরি হয়নি। কেস সম্পর্কে কোনো সিদ্ধান্ত দেওয়া হয়নি। ব্যক্তিগত অফলাইন পরিকল্পনা চেষ্টা করুন।'));
   } finally {
-    if (requestId === PC_COPILOT_REQUEST_ID) resetCopilotCloudButton();
+    if (requestId === PC_COPILOT_REQUEST_ID) {
+      PC_COPILOT_PENDING_CONTEXT_KEY = null;
+      resetCopilotCloudButton();
+    }
   }
 }
 function runOfflineCopilot() {
@@ -229,10 +290,12 @@ function runOfflineCopilot() {
   var ctx = copilotCurrentContext();
   // Deliberately do not inspect or use the free-text note in offline mode.
   var result = createOfflineCopilotResult(ctx);
-  PC_COPILOT_LAST_RESULT = { result: result, mode: 'offline-guide', model: null, language: ctx.language };
+  var contextKey = copilotContextSignature('offline-guide', ctx);
+  PC_COPILOT_LAST_RESULT = { result: result, mode: 'offline-guide', model: null, language: ctx.language, contextKey: contextKey };
   renderCopilotResult(result, 'offline-guide', null, ctx.language);
 }
 function refreshCopilotLanguage() {
+  refreshCopilotContextFreshness();
   var bn = S.lang === 'bn';
   var copy = {
     title: ['Evidence-to-Action Copilot', 'প্রমাণ থেকে করণীয় সহায়ক'],
@@ -243,7 +306,7 @@ function refreshCopilotLanguage() {
     redaction: ['Best-effort redaction removes likely phone numbers, links, emails and long digit sequences before cloud processing, but it cannot guarantee anonymity. Summarize the event in your own words; do not paste a full SMS or include names, account details or secrets.', 'ক্লাউডে পাঠানোর আগে সম্ভাব্য ফোন নম্বর, লিংক, ইমেইল ও লম্বা সংখ্যার ধারা বাদ দেওয়ার চেষ্টা করা হয়; তবে সম্পূর্ণ গোপনীয়তার নিশ্চয়তা নয়। গোপন তথ্য লিখবেন না।'],
     privacySummary: ['What is sent if I choose cloud AI?', 'ক্লাউড AI বেছে নিলে কী পাঠানো হয়?'],
     privacyCopy: ["After you consent, a best-effort redacted note, local warning categories and categorical comparison states are sent to Cloudflare Workers AI. The separate SMS field and screenshot bytes are not sent by this feature. Redaction can miss details; do not include names, full phone numbers, account details, transaction references, PINs, OTPs or full messages. Cloudflare documents zero retention for standard stateless Workers AI inference after processing and says customer content is not used to train models; operational metadata may be retained. The currently documented free allocation is 10,000 Neurons per day and can be exhausted; over-quota requests may fail. The hosted request requires a Cloudflare Pages Workers AI binding named AI, not a model API key. This external request happens only after explicit consent.", 'আপনার সম্মতির পর যতটা সম্ভব রেড্যাক্ট করা নোট, স্থানীয় সতর্কতার ধরন এবং তুলনার সাধারণ অবস্থা Cloudflare Workers AI-তে পাঠানো হয়। এই ফিচার আলাদা SMS ফিল্ড বা স্ক্রিনশট ফাইল পাঠায় না। রেড্যাকশন কিছু তথ্য বাদ দিতে ব্যর্থ হতে পারে; নাম, পূর্ণ ফোন নম্বর, অ্যাকাউন্টের তথ্য, লেনদেন রেফারেন্স, PIN, OTP বা সম্পূর্ণ বার্তা দেবেন না। Cloudflare জানায় সাধারণ stateless Workers AI inference প্রক্রিয়া শেষে গ্রাহকের কনটেন্ট সংরক্ষণ করে না এবং কনটেন্ট মডেল প্রশিক্ষণে ব্যবহার করে না; তবে কার্যক্রম-সংক্রান্ত metadata রাখা হতে পারে। বর্তমানে নথিভুক্ত বিনামূল্যের বরাদ্দ ১০,০০০ Neurons/দিন এবং তা শেষ হয়ে যেতে পারে; সীমা পেরোলে অনুরোধ ব্যর্থ হতে পারে। Hosted request-এর জন্য API key নয়, Cloudflare Pages-এ AI নামে Workers AI binding প্রয়োজন। স্পষ্ট সম্মতির পরেই অনুরোধ পাঠানো হয়.'], 
-    consent: ['I understand the data-sharing notice and consent to send this best-effort redacted summary to Cloudflare Workers AI.', 'তথ্য ভাগাভাগির নোটিশ বুঝেছি এবং এই রেড্যাক্ট করা সারাংশ Cloudflare Workers AI-তে পাঠাতে সম্মতি দিচ্ছি।'],
+    consent: ['I have read the data-sharing notice and consent to send this best-effort redacted summary to Cloudflare Workers AI for this request only.', 'তথ্য ভাগাভাগির নোটিশ পড়েছি এবং শুধু এই অনুরোধের জন্য যতটা সম্ভব রেড্যাক্ট করা সারাংশ Cloudflare Workers AI-তে পাঠাতে সম্মতি দিচ্ছি।'],
     cloudButton: ['Generate AI action plan', 'AI করণীয় পরিকল্পনা তৈরি করুন'],
     offlineButton: ['Build private offline plan', 'ব্যক্তিগত অফলাইন পরিকল্পনা তৈরি করুন'],
     situationOptions: [['I have not sent the money yet', 'টাকা এখনো পাঠাইনি'], ['I received a suspicious message or call', 'সন্দেহজনক বার্তা বা কল পেয়েছি'], ['I have sent money / a transaction went wrong', 'টাকা পাঠিয়েছি / লেনদেনে সমস্যা হয়েছে'], ['I am not sure', 'নিশ্চিত নই']],
@@ -277,6 +340,7 @@ function refreshCopilotLanguage() {
 }
 function initCopilotPanel() {
   if (!document.getElementById('copilot-title')) return;
+  watchCopilotContextChanges();
   refreshCopilotStatus();
   var situation = document.getElementById('copilot-situation');
   if (situation && !situation.dataset.userChanged) situation.value = S.journey === 'prevention' ? 'before-payment' : 'after-payment';

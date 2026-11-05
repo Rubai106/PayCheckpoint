@@ -1,3 +1,9 @@
+## v1.31.0 follow-up — invalidate stale Copilot context and consume consent once
+- Copilot results now carry an in-memory context signature. Changes to the scenario, provider, warning categories, comparison states or live payment fields clear the prior plan; cloud requests are also discarded if those inputs change while inference is pending.
+- Offline plan signatures deliberately exclude the free-text note because the offline engine does not read it. Language is excluded from the signature so switching UI language alone does not invalidate a cloud response; offline guidance is regenerated locally for the selected language.
+- Cloud consent is now single-request: the checkbox is unchecked as soon as the opt-in is accepted, and every subsequent cloud request requires a fresh check.
+- Added browser coverage for post-result edits, edits during a pending request, and one-time consent. The language mismatch notice has a compact dedicated visual treatment.
+
 ## v1.31.0 follow-up — describe requested, not detected, Copilot language
 - Changed the language-mismatch notice to say which language was requested, not to claim the model's actual output language was detected. The interface explicitly says language switching does not translate an existing cloud response.
 - Added a regression that prevents the UI copy from overstating the available language evidence.
