@@ -1,3 +1,7 @@
+## v1.31.0 follow-up — publish AI response-safety benchmark result
+- Recorded the latest deterministic bilingual response-guard run: 31/31 developer-authored cases passed (17 unsafe examples blocked; 14 protective/uncertainty examples allowed) in GitHub Actions run #41949838344 for commit `48b291c28d791c78c620069099a28c1f621fbc4b`.
+- Published case-level expected/actual outcomes at `evaluation/ai-copilot/response-safety-latest.json`. This remains a regression of the output validator, not model accuracy.
+
 ## v1.31.0 follow-up — send Cloud Copilot consent as a boolean
 - Fixed a UI-to-API contract mismatch: the shared Copilot context contained localized consent copy instead of the boolean required by the server. The cloud request now adds `consent: true` only after the checkbox is checked; offline context no longer carries any cloud-consent field.
 - Added a browser regression that checks the actual POST payload, verifies that an unchecked box sends no request, and confirms that the private offline plan sends no request.

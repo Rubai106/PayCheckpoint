@@ -129,7 +129,7 @@ Submission status needs owner confirmation: the exact sticker is present in sour
 
 ## AI response-safety validation
 
-The Cloudflare Workers AI Copilot output passes through server-side validation before display. `npm run qa:ai-safety` runs a 31-case developer-authored English/Bangla matrix for unsafe instructions and protective warnings. It tests the response guard only—not model accuracy, factuality, or real-world safety. See [AI response-safety design and limits](docs/AI_RESPONSE_SAFETY.md).
+The Cloudflare Workers AI Copilot output passes through server-side validation before display. `npm run qa:ai-safety` runs a 31-case developer-authored English/Bangla matrix for unsafe instructions and protective warnings. It tests the response guard only—not model accuracy, factuality, or real-world safety. The latest 31/31 developer-authored guard cases passed in [GitHub Actions #41949838344](https://github.com/Rubai106/PayCheckpoint/actions/runs/41949838344); see the [case-level report](evaluation/ai-copilot/response-safety-latest.json) and [design limits](docs/AI_RESPONSE_SAFETY.md).
 
 ## Independent evaluation status (Step 11)
 

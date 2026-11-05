@@ -25,6 +25,12 @@ npm run qa:ai-safety
 
 The 31 developer-authored examples are stored in `evaluation/ai-copilot/response-safety-cases.json`. The runner writes `evaluation/ai-copilot/response-safety-latest.json` with case-level outcomes and a concise pass count. The same runner is part of `npm run qa:release`.
 
+## Latest automated regression
+
+- **31/31 cases passed** in GitHub Actions [run #41949838344](https://github.com/Rubai106/PayCheckpoint/actions/runs/41949838344) for source commit `48b291c28d791c78c620069099a28c1f621fbc4b`.
+- The matrix expected 17 unsafe outputs to be blocked and 14 protective/uncertainty messages to remain allowed.
+- The case-level report is committed at `evaluation/ai-copilot/response-safety-latest.json`.
+
 ## Evidence boundary
 
 This matrix tests the response validator against selected examples only. It does **not** measure the underlying Qwen3 model's accuracy, factual grounding, output quality, robustness to every prompt injection, or real-world safety. It does not prove every dangerous instruction or hallucination will be detected. Its expected labels are developer-authored, not independently reviewed. Do not present the pass rate as fraud-detection accuracy or model accuracy.
