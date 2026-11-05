@@ -1,3 +1,7 @@
+## v1.31.0 follow-up — isolate Copilot timeout cleanup by request
+- Made timeout cleanup request-owned. An older request that settles late can no longer clear a newer request's timeout handle.
+- Added a regression assertion for the ownership check to prevent this concurrency race from returning.
+
 ## v1.31.0 follow-up — abort obsolete Cloud Copilot requests
 - Added an AbortController for hosted Copilot requests. Starting a new case, switching to offline guidance, or changing the source context now aborts the obsolete fetch instead of only ignoring its eventual response.
 - Added a 30-second request timeout with a clear timeout message; it makes no claim about payment status and leaves the private offline plan available.

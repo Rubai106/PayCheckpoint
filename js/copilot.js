@@ -268,11 +268,12 @@ async function runCloudCopilot() {
   var abortController = typeof AbortController === 'function' ? new AbortController() : null;
   PC_COPILOT_ABORT_CONTROLLER = abortController;
   var timedOut = false;
-  PC_COPILOT_REQUEST_TIMEOUT_HANDLE = window.setTimeout(function() {
-    PC_COPILOT_REQUEST_TIMEOUT_HANDLE = null;
+  var requestTimeoutHandle = window.setTimeout(function() {
+    if (PC_COPILOT_REQUEST_TIMEOUT_HANDLE === requestTimeoutHandle) PC_COPILOT_REQUEST_TIMEOUT_HANDLE = null;
     timedOut = true;
     if (abortController) abortController.abort();
   }, PC_COPILOT_REQUEST_TIMEOUT_MS);
+  PC_COPILOT_REQUEST_TIMEOUT_HANDLE = requestTimeoutHandle;
   var ctx = copilotCurrentContext();
   // This assignment is reachable only after the explicit checkbox gate above.
   ctx.consent = true;
@@ -309,8 +310,10 @@ async function runCloudCopilot() {
       ? copilotCopy('Cloud AI took too long to respond. No case outcome was established. Try again with fresh consent or use the private offline plan.', 'Cloud AI উত্তর দিতে বেশি সময় নিয়েছে। কেসের কোনো ফলাফল প্রতিষ্ঠিত হয়নি। নতুন সম্মতি দিয়ে আবার চেষ্টা করুন অথবা ব্যক্তিগত অফলাইন পরিকল্পনা ব্যবহার করুন।')
       : String(error && error.message || copilotCopy('AI plan failed. No claim was made about the case. Try the private offline plan.', 'AI পরিকল্পনা তৈরি হয়নি। কেস সম্পর্কে কোনো সিদ্ধান্ত দেওয়া হয়নি। ব্যক্তিগত অফলাইন পরিকল্পনা চেষ্টা করুন।'));
   } finally {
-    if (PC_COPILOT_REQUEST_TIMEOUT_HANDLE !== null) clearTimeout(PC_COPILOT_REQUEST_TIMEOUT_HANDLE);
-    PC_COPILOT_REQUEST_TIMEOUT_HANDLE = null;
+    if (PC_COPILOT_REQUEST_TIMEOUT_HANDLE === requestTimeoutHandle) {
+      clearTimeout(requestTimeoutHandle);
+      PC_COPILOT_REQUEST_TIMEOUT_HANDLE = null;
+    }
     if (requestId === PC_COPILOT_REQUEST_ID) {
       PC_COPILOT_PENDING_CONTEXT_KEY = null;
       if (PC_COPILOT_ABORT_CONTROLLER === abortController) PC_COPILOT_ABORT_CONTROLLER = null;
