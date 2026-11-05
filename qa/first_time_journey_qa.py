@@ -296,7 +296,8 @@ with sync_playwright() as p:
     assert page.locator('[data-screen="recon"]').is_visible()
     assert page.locator('#checkpoint-intelligence').get_attribute('data-state') == 'stop'
     assert page.locator('#checkpoint-intelligence-action').inner_text() == 'Update entered values'
-    assert page.locator('#recon-actions button[onclick*="correctMismatch"]').count() == 1
+    # Correction is deliberately offered only once, in Checkpoint Intelligence.
+    assert page.locator('#recon-actions button[onclick*="correctMismatch"]').count() == 0
     assert page.locator('#recon-actions button[onclick*="safesend"]').count() == 0
     page.locator('#checkpoint-intelligence-action').click()
     assert '01712345678' in page.locator('#recon-body').inner_text()
