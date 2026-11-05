@@ -7,11 +7,25 @@ var PC_COPILOT_ABORT_CONTROLLER = null;
 var PC_COPILOT_REQUEST_TIMEOUT_HANDLE = null;
 var PC_COPILOT_REQUEST_TIMEOUT_MS = 30000;
 
+function syncCopilotCloudButton() {
+  var btn = document.getElementById('btn-copilot-cloud');
+  if (!btn) return;
+  var consent = document.getElementById('copilot-cloud-consent');
+  var configured = !!(PC_COPILOT_STATUS && PC_COPILOT_STATUS.cloudAiConfigured);
+  btn.disabled = !!btn.dataset.busy || !configured || !(consent && consent.checked);
+  var hint = document.getElementById('copilot-consent-hint');
+  if (hint) {
+    var needsConsent = configured && !(consent && consent.checked) && !btn.dataset.busy;
+    hint.hidden = !needsConsent;
+    if (needsConsent) hint.textContent = copilotCopy('Tick the consent box above to enable the AI plan.', 'AI পরিকল্পনা চালু করতে উপরের সম্মতির বাক্সে টিক দিন।');
+  }
+}
+
 function resetCopilotCloudButton() {
   var btn = document.getElementById('btn-copilot-cloud');
   if (!btn) return;
   delete btn.dataset.busy;
-  btn.disabled = !(PC_COPILOT_STATUS && PC_COPILOT_STATUS.cloudAiConfigured);
+  syncCopilotCloudButton();
   btn.textContent = copilotCopy('Generate AI action plan', 'AI করণীয় পরিকল্পনা তৈরি করুন');
 }
 
@@ -250,7 +264,7 @@ async function refreshCopilotStatus() {
     var enabled = !!PC_COPILOT_STATUS.cloudAiConfigured;
     badge.textContent = enabled ? copilotCopy('Cloud AI ready', 'ক্লাউড AI প্রস্তুত') : copilotCopy('Offline ready', 'অফলাইন প্রস্তুত');
     badge.className = 'tag ' + (enabled ? 'tag-g' : 'tag-n');
-    if (btn) btn.disabled = !enabled;
+    syncCopilotCloudButton();
     if (!enabled && status) status.textContent = copilotCopy('Cloud AI is not configured on this server. The private offline plan is ready. To enable AI without an API key, deploy this app to Cloudflare Pages and configure the Workers AI binding named AI. The free daily allocation is limited; the offline plan remains available.', 'এই deployment-এ Cloudflare Workers AI binding নেই। API key ছাড়াই AI চালু করতে Cloudflare Pages-এ Workers AI binding-এর নাম AI দিন। দৈনিক বিনামূল্যের বরাদ্দ সীমিত; অফলাইন পরিকল্পনা ব্যবহার করতে পারবেন।');
   } catch (_) {
     badge.textContent = copilotCopy('Offline ready', 'অফলাইন প্রস্তুত'); badge.className = 'tag tag-n';
@@ -343,6 +357,7 @@ function refreshCopilotLanguage() {
     privacySummary: ['What is sent if I choose cloud AI?', 'ক্লাউড AI বেছে নিলে কী পাঠানো হয়?'],
     privacyCopy: ["After you consent, a best-effort redacted note, local warning categories and categorical comparison states are sent to Cloudflare Workers AI. The separate SMS field and screenshot bytes are not sent by this feature. Redaction can miss details; do not include names, full phone numbers, account details, transaction references, PINs, OTPs or full messages. Cloudflare documents zero retention for standard stateless Workers AI inference after processing and says customer content is not used to train models; operational metadata may be retained. The currently documented free allocation is 10,000 Neurons per day and can be exhausted; over-quota requests may fail. The hosted request requires a Cloudflare Pages Workers AI binding named AI, not a model API key. This external request happens only after explicit consent.", 'আপনার সম্মতির পর যতটা সম্ভব রেড্যাক্ট করা নোট, স্থানীয় সতর্কতার ধরন এবং তুলনার সাধারণ অবস্থা Cloudflare Workers AI-তে পাঠানো হয়। এই ফিচার আলাদা SMS ফিল্ড বা স্ক্রিনশট ফাইল পাঠায় না। রেড্যাকশন কিছু তথ্য বাদ দিতে ব্যর্থ হতে পারে; নাম, পূর্ণ ফোন নম্বর, অ্যাকাউন্টের তথ্য, লেনদেন রেফারেন্স, PIN, OTP বা সম্পূর্ণ বার্তা দেবেন না। Cloudflare জানায় সাধারণ stateless Workers AI inference প্রক্রিয়া শেষে গ্রাহকের কনটেন্ট সংরক্ষণ করে না এবং কনটেন্ট মডেল প্রশিক্ষণে ব্যবহার করে না; তবে কার্যক্রম-সংক্রান্ত metadata রাখা হতে পারে। বর্তমানে নথিভুক্ত বিনামূল্যের বরাদ্দ ১০,০০০ Neurons/দিন এবং তা শেষ হয়ে যেতে পারে; সীমা পেরোলে অনুরোধ ব্যর্থ হতে পারে। Hosted request-এর জন্য API key নয়, Cloudflare Pages-এ AI নামে Workers AI binding প্রয়োজন। স্পষ্ট সম্মতির পরেই অনুরোধ পাঠানো হয়.'], 
     consent: ['I have read the data-sharing notice and consent to send this best-effort redacted summary to Cloudflare Workers AI for this request only.', 'তথ্য ভাগাভাগির নোটিশ পড়েছি এবং শুধু এই অনুরোধের জন্য যতটা সম্ভব রেড্যাক্ট করা সারাংশ Cloudflare Workers AI-তে পাঠাতে সম্মতি দিচ্ছি।'],
+    consentHint: ['Tick the consent box above to enable the AI plan.', 'AI পরিকল্পনা চালু করতে উপরের সম্মতির বাক্সে টিক দিন।'],
     cloudButton: ['Generate AI action plan', 'AI করণীয় পরিকল্পনা তৈরি করুন'],
     offlineButton: ['Build private offline plan', 'ব্যক্তিগত অফলাইন পরিকল্পনা তৈরি করুন'],
     situationOptions: [['I have not sent the money yet', 'টাকা এখনো পাঠাইনি'], ['I received a suspicious message or call', 'সন্দেহজনক বার্তা বা কল পেয়েছি'], ['I have sent money / a transaction went wrong', 'টাকা পাঠিয়েছি / লেনদেনে সমস্যা হয়েছে'], ['I am not sure', 'নিশ্চিত নই']],
@@ -358,6 +373,7 @@ function refreshCopilotLanguage() {
   setText('copilot-privacy-summary', bn ? copy.privacySummary[1] : copy.privacySummary[0]);
   setText('copilot-privacy-copy', bn ? copy.privacyCopy[1] : copy.privacyCopy[0]);
   setText('copilot-consent-copy', bn ? copy.consent[1] : copy.consent[0]);
+  setText('copilot-consent-hint', bn ? copy.consentHint[1] : copy.consentHint[0]);
   var note = document.getElementById('copilot-note'); if (note) note.placeholder = bn ? 'নাম, ফোন নম্বর, অ্যাকাউন্টের তথ্য, লেনদেন রেফারেন্স, PIN বা OTP ছাড়া পরিস্থিতি লিখুন।' : 'Summarize the situation in your own words. Do not paste the full SMS or include names, phone/account details, payment references, PINs or OTPs.';
   var sb = document.getElementById('copilot-situation'); if (sb) Array.from(sb.options).forEach(function(option, i) { if (copy.situationOptions[i]) option.textContent = bn ? copy.situationOptions[i][1] : copy.situationOptions[i][0]; });
   var pb = document.getElementById('copilot-provider'); if (pb) Array.from(pb.options).forEach(function(option, i) { if (copy.providerOptions[i]) option.textContent = bn ? copy.providerOptions[i][1] : copy.providerOptions[i][0]; });
@@ -378,6 +394,8 @@ function initCopilotPanel() {
   if (!document.getElementById('copilot-title')) return;
   watchCopilotContextChanges();
   refreshCopilotStatus();
+  var consent = document.getElementById('copilot-cloud-consent');
+  if (consent) consent.addEventListener('change', syncCopilotCloudButton);
   var situation = document.getElementById('copilot-situation');
   if (situation && !situation.dataset.userChanged) situation.value = S.journey === 'prevention' ? 'before-payment' : 'after-payment';
   if (situation) situation.addEventListener('change', function() { situation.dataset.userChanged = '1'; });
