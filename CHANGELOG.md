@@ -1,3 +1,7 @@
+## v1.31.0 follow-up — invalidate reviewed receipts after field edits
+- Editing provider, amount, recipient, transaction reference or date/time after confirmation now clears the reviewed receipt snapshot and any derived saved-case snapshot. The user must confirm the revised fields again before they can be used as reviewed evidence.
+- Added a recovery-workspace regression that edits the amount after confirmation, verifies the stale snapshot is cleared, then confirms the new value and its edited provenance.
+
 ## v1.31.0 follow-up — preserve provider-field provenance during SMS review
 - When a pasted SMS does not identify bKash, Nagad or Rocket, the form still offers the editable “Unknown — confirm manually” fallback, but the source record now stays empty. Confirming that unchanged fallback is therefore labelled as manually entered rather than extracted from the message.
 - Added a recovery-workspace browser regression proving that the fallback remains visible and editable while its provenance is recorded as manual.

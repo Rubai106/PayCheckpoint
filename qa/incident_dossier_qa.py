@@ -47,7 +47,18 @@ with sync_playwright() as p:
     page.get_by_role('button', name='Confirm & compare →').click()
     assert page.evaluate("S.receiptRaw.provider") == ''
     assert page.evaluate("S.receiptProv.provider") == 'manual'
-    checks.append('PASS | Unknown-provider fallback remains editable but is not mislabelled as extracted receipt evidence')
+    # Editing a field after confirmation must invalidate the previous receipt snapshot.
+    page.evaluate("goApp('sms')")
+    page.locator('#x-amount').fill('3500')
+    assert page.evaluate('S.receiptReviewed') is False
+    assert page.evaluate('S.receipt') == {}
+    assert page.evaluate("S.reviewedSMS") == ''
+    assert 'confirm the fields again' in page.locator('#sms-status').inner_text().lower()
+    page.get_by_role('button', name='Confirm & compare →').click()
+    assert page.evaluate('S.receiptReviewed') is True
+    assert page.evaluate("S.receipt.amount") == '3500'
+    assert page.evaluate("S.receiptProv.amount") == 'edited'
+    checks.append('PASS | Editing reviewed receipt fields invalidates the old snapshot and re-confirmation records the revised value')
     page.evaluate("goApp('incident')")
     page.evaluate("goApp('incident')")
     page.evaluate("S.intendedNum='01712345678'; S.intendedAmt='3000'; S.receipt={recipient:'01712345678',amount:'3000',datetime:'2026-10-30 10:15',trxid:'TRX-123456789'}; S.receiptReviewed=true; renderIncidentDossier()")

@@ -35,3 +35,14 @@ function confirmSMS(){
  if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('receipt-fields-reviewed','User reviewed extracted receipt fields; message authenticity remains unverified','ব্যবহারকারী রসিদ থেকে বের করা তথ্য পর্যালোচনা করেছেন; বার্তার সত্যতা এখনো যাচাই হয়নি','app-recorded');
  renderRecon();if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('details-compared','Receipt details compared against available intent','রসিদের তথ্য উপলভ্য উদ্দেশ্যের সঙ্গে তুলনা করা হয়েছে','app-recorded');goApp('recon');
 }
+
+/* A reviewed receipt is a snapshot: editing any displayed field invalidates it
+   until the user explicitly confirms the revised values again. */
+function invalidateReviewedReceiptAfterFieldEdit(){
+ if(!S.receiptReviewed)return;
+ S.receiptReviewed=false;S.receipt={};S.receiptRaw={};S.receiptProv={};S.reviewedSMS='';S.savedCaseSnapshot=false;S.savedSnapshotMeta=null;
+ if(document.getElementById('recon-body')&&document.getElementById('recon-body').innerHTML)renderRecon();
+ if(document.getElementById('incident-body')&&document.getElementById('incident-body').innerHTML)buildIncident({navigate:false});
+ var status=document.getElementById('sms-status');if(status)status.innerHTML='<div class="warn" role="status">'+L('A reviewed field changed. Confirm the fields again before using them as reviewed receipt data.','পর্যালোচিত তথ্যের একটি ঘর বদলেছে। রসিদের পর্যালোচিত তথ্য হিসেবে ব্যবহার করার আগে আবার নিশ্চিত করুন।')+'</div>';
+}
+['x-provider','x-amount','x-recipient','x-trxid','x-datetime'].forEach(function(id){var field=document.getElementById(id);if(field)field.addEventListener('input',invalidateReviewedReceiptAfterFieldEdit);});
