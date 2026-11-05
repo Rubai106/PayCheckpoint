@@ -117,6 +117,10 @@ def run_inline_checks():
                 check(overflow(page) == 0,
                       f'no horizontal overflow: landing {lang_name} {width}px '
                       f'(overflow={overflow(page)})')
+                demo_target_heights = page.locator('.visual-demo-switch-button').evaluate_all(
+                    '(els) => els.map(el => el.getBoundingClientRect().height)')
+                check(len(demo_target_heights) == 2 and all(h >= 44 for h in demo_target_heights),
+                      f'landing demo controls meet 44px touch floor: {lang_name} {width}px ({demo_target_heights})')
 
                 page.evaluate("startJourney('prevention','intent')")
                 h2 = page.locator('[data-screen="intent"] h2').inner_text()
@@ -134,6 +138,10 @@ def run_inline_checks():
                 check(page.locator('#stepBar').evaluate(
                     'el => el.classList.contains("hidden")'),
                     f'no progress bar on message-review: {lang_name} {width}px')
+                coach_target_heights = page.locator('.coach-examples button').evaluate_all(
+                    '(els) => els.map(el => el.getBoundingClientRect().height)')
+                check(len(coach_target_heights) >= 4 and all(h >= 44 for h in coach_target_heights),
+                      f'message-review example controls meet 44px touch floor: {lang_name} {width}px ({coach_target_heights})')
                 check(overflow(page) == 0,
                       f'no horizontal overflow: message-review {lang_name} {width}px '
                       f'(overflow={overflow(page)})')
