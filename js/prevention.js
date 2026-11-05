@@ -171,7 +171,6 @@ function renderRecon(){
   if(instructionIsDifferent)acts+='<button class="btn btn-o" onclick="goApp(\'intent\')">'+L('Review original instruction / intent','মূল নির্দেশনা / উদ্দেশ্য পর্যালোচনা করুন')+'</button>';
   acts+='<button class="btn btn-ghost" onclick="goApp(\'intent\')">'+esc(t('backToIntent'))+'</button>';
  }else{
-  if(entryIsDifferent&&!S.receiptReviewed&&S.journey==='prevention')acts+='<button class="btn btn-p" onclick="correctMismatch()">'+esc(t('correctEntry'))+'</button>';
   if(instructionIsDifferent)acts+='<button class="btn btn-o" onclick="goApp(\'intent\')">'+L('Review original instruction / intent','মূল নির্দেশনা / উদ্দেশ্য পর্যালোচনা করুন')+'</button>';
   if(receiptIsDifferent||S.receiptReviewed)acts+='<button class="btn btn-o" onclick="goApp(\'sms\')">'+esc(t('reviewReceipt'))+'</button>';
   if(S._ssOutcome==='MATCH'&&!preflightEvidence.blocked)acts+='<button class="btn btn-p" onclick="renderPreflightCheck()">'+esc(t('continuePreflightCheck'))+'</button>';
@@ -356,6 +355,20 @@ function renderPreflightCheck(){
  if(amount)amount.onchange=syncWalletCheckProgress;
  syncWalletCheckProgress();
  goApp('preflight-check');
+ return true;
+}
+/* The Undo experience is a simulation, not a real reversal action. Re-check
+   the same MATCH and evidence gates here so direct navigation cannot bypass
+   the preflight checkpoint. */
+function goToUndoSimulation(){
+ var outcome=computeOutcome();
+ var evidenceGate=checkpointPreflightBlock();
+ if(outcome!=='MATCH'||evidenceGate.blocked){
+  if(typeof renderRecon==='function')renderRecon();
+  goApp('recon');
+  return false;
+ }
+ goApp('safesend');
  return true;
 }
 function recordWalletCheck(){
