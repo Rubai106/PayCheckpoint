@@ -105,26 +105,15 @@ The historic v1.27.2 release audit is retained in `docs/STEP15_RELEASE_AND_SUBMI
 
 A five-slide draft deck, English speaker notes, production verification report and final submission checklist are in `submission/`. The current source revision and validation history are available from the [GitHub main branch](https://github.com/Rubai106/PayCheckpoint/tree/main) and [GitHub Actions](https://github.com/Rubai106/PayCheckpoint/actions); use the latest run associated with the main-branch head when checking release readiness. The public app is https://paycheckpoint.pages.dev, but its `/build-info.json` has not yet been independently checked against this SHA. Checkpoint Intelligence selects one source-aware next action after reconciliation; its guidance is deterministic and is not an AI fraud verdict. The exact organizer-provided sticker is committed at `assets/aignite-buildathon-sticker.webp` and rendered in the source navbar. Production display and source parity still require a live check. Independent held-out OCR/conversation evaluation and participant usability testing remain NOT RUN.
 
-## Competition alignment (checked 4 November 2026)
+## Competition alignment and judge readiness (checked 5 November 2026)
 
-The official Devpost event listing currently shows four weighted criteria:
+The current official Devpost page displays four weighted criteria totalling 50 marks: Problem & User Value (12), Solution & Innovation (12), AI & Technical Implementation (10), and User Experience & Product Readiness (16). The rules also mention Presentation and Pitch, but it is not a separate line in that weighted breakdown. See the [official event listing](https://yunet-aignite26.devpost.com/) and [rules](https://yunet-aignite26.devpost.com/rules).
 
-| Criterion | Marks |
-|---|---:|
-| Problem and User Value | 12 |
-| Solution and Innovation | 12 |
-| AI and Technical Implementation | 10 |
-| User Experience and Product Readiness | 16 |
-| **Total** | **50** |
+A provisional source-and-evidence review estimates **39/50** (reviewer variation band approximately 37–42). This is not an organizer score, guaranteed result, or proof of a 45+ outcome. The full rationale, competitive positioning and evidence-led path toward 45+ are recorded in [the 5 November judge-readiness audit](docs/JUDGE_READINESS_AUDIT_2026-11-05.md).
 
-The rules page also names Presentation and Pitch as an evaluation dimension, but it is not a separate line in the currently displayed 50-mark weighted breakdown. Presentation quality still matters to the required deck and any live pitch. A 45+/50 result is an aspiration, not an official or evidence-backed score prediction. Sources: [official event listing](https://yunet-aignite26.devpost.com/) and [rules](https://yunet-aignite26.devpost.com/rules).
+Current GitHub main head reviewed: `6101e3f79d0b3a3b9913b4852ed9d4edee004095`. [Actions run #41946092409](https://github.com/Rubai106/PayCheckpoint/actions/runs/41946092409) passed deterministic release validation, the first-time journey, recovery workspace, Evidence Map, keyboard/focus and responsive checks. This validates the repository source, not deployment. The live `/build-info.json` still needs to be compared with the current main SHA before claiming production parity.
 
-Mandatory requirements include an individual student entry, a functional B2C web app with meaningful AI, the exact official sticker prominently near the top, a publicly accessible live URL and a deck of no more than five slides. A demo video is recommended but optional; if submitted, it must be in English. The event header and schedule currently show a submission cutoff of **5 November 2026 at 10:00 PM +06**. The rules-page body also contains an 11:59 PM Bangladesh-time statement, so use 10:00 PM as the conservative cutoff unless the organizer confirms otherwise in writing.
-
-The homepage's Bangladesh Bank context strip uses the 2025 report's 81,423 reported cases across MFS, cheque and card segments and the 8.7% MFS fraud-value recovery rate. It links directly to the official report and explicitly says these sector figures are not an individual risk estimate or proof of PayCheckpoint outcomes.
-
-Do not claim fraud-detection accuracy, real-world OCR accuracy, global-first novelty, user savings, fraud prevented, funds recovered, recipient verification, provider connectivity, transaction reversal or user-study outcomes without evidence.
-
+Submission status needs owner confirmation: the exact sticker is present in source, but production display is unverified; the repository contains a draft five-slide deck only; and the final Devpost submitted state has not been verified. Human usability and independent AI/OCR/conversation validation remain NOT RUN.
 ## ReceiptLens lifecycle reliability (Step 13)
 
 - ReceiptLens now has an English/Bangla Cancel OCR control, idempotent worker termination, stale-run guards, and new-image/new-case invalidation. A cancelled run cannot overwrite a newer run. See `docs/STEP13_RECEIPTLENS_LIFECYCLE.md` for implementation, QA and the initialization-download limitation.

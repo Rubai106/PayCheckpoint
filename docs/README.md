@@ -17,6 +17,7 @@ This directory contains project documentation organized by purpose. The applicat
 - [Official recovery guidance sources](RECOVERY_GUIDANCE_SOURCES.md)
 
 ## Evaluation and releases
+- [Judge-readiness audit — 5 November 2026](JUDGE_READINESS_AUDIT_2026-11-05.md)
 - [Evaluation readiness](EVALUATION_READINESS_REPORT.md)
 - [Independent validation protocol](STEP11_INDEPENDENT_PRODUCT_VALIDATION.md)
 - [ReceiptLens pilot report](STEP12_REAL_RECEIPTLENS_PILOT.md)
