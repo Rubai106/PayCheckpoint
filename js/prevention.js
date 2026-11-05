@@ -76,7 +76,7 @@ function parseInstruction(msg){
  /* A single candidate is still only a suggestion. The user must confirm it before it affects comparison. */
  S.instrNum='';S.instrNumConfirmed=false;S.instrAmt='';S.instrAmtConfirmed=false;
 }
-function confirmInstr(which,selId){var el=document.getElementById(selId);if(!el)return;var v=el.value;if(which==='num'){if(S.instrNumCands.indexOf(v)<0)return;S.instrNum=v;S.instrNumConfirmed=true}if(which==='amt'){if(S.instrAmtCands.indexOf(v)<0)return;S.instrAmt=v;S.instrAmtConfirmed=true}renderRecon()}
+function confirmInstr(which,selId){var el=document.getElementById(selId);if(!el)return;var v=el.value;if(which==='num'){if(S.instrNumCands.indexOf(v)<0)return;S.instrNum=v;S.instrNumConfirmed=true}if(which==='amt'){if(S.instrAmtCands.indexOf(v)<0)return;S.instrAmt=v;S.instrAmtConfirmed=true}if(typeof window!=='undefined'&&typeof window.refreshPayCheckpointComparison==='function')window.refreshPayCheckpointComparison();renderRecon()}
 function markUnknown(which){S.intentUnknown[which]=true;if(which==='num')S.intendedNum='';if(which==='amt')S.intendedAmt='';renderRecon();goApp('recon')}
 /* ---------- reconciliation (provenance-preserving) ---------- */
 function renderRecon(){

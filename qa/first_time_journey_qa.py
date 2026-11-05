@@ -181,6 +181,21 @@ with sync_playwright() as p:
     assert page.locator('[data-live-source="entered"] [data-live-value="recipient"]').inner_text() == '01712345678'
     assert page.locator('[data-live-source="entered"] [data-live-value="amount"]').inner_text() == '৳3,000'
 
+    # Explicitly confirming extracted instruction candidates must refresh the live source card
+    # even when the confirmation function is invoked without a DOM click event.
+    page.evaluate("loadScenario('A')")
+    assert page.locator('[data-screen="recon"]').is_visible()
+    assert page.locator('#sel-instr-num option').count() > 1
+    assert page.locator('#sel-instr-amt option').count() > 1
+    page.locator('#sel-instr-num').select_option('01712345678')
+    page.evaluate("confirmInstr('num','sel-instr-num')")
+    page.locator('#sel-instr-amt').select_option('3000')
+    page.evaluate("confirmInstr('amt','sel-instr-amt')")
+    assert page.evaluate("S.instrNumConfirmed && S.instrAmtConfirmed")
+    assert page.locator('[data-live-source="instruction"]').get_attribute('data-state') == 'match'
+    assert page.locator('[data-live-source="instruction"] [data-live-value="recipient"]').inner_text() == '01712345678'
+    assert page.locator('[data-live-source="instruction"] [data-live-value="amount"]').inner_text() == '৳3,000'
+
     # Starting a new case clears the form and all live comparison layers.
     page.evaluate("startJourney('prevention','intent')")
     assert page.locator('#live-source-visual').get_attribute('data-state') == 'pending'

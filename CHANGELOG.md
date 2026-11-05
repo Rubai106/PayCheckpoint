@@ -1,3 +1,6 @@
+- Instruction candidate confirmation now refreshes the live source comparison directly in the state-changing function, not only through the delegated UI click listener.
+- Added a browser regression that confirms extracted recipient and amount candidates through direct function calls and verifies the instruction source card updates to a match.
+
 ## v1.31.0 follow-up — refresh live comparison for preloaded scenarios
 - `setFields()` now refreshes the live source comparison after writing the five scenario fields programmatically, so preloaded examples do not leave a stale visual until the user navigates or types.
 - Added a first-time browser regression for the matching example scenario, including the displayed recipient and amount.
