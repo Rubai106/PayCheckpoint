@@ -1,3 +1,8 @@
+## v1.31.0 follow-up — send Cloud Copilot consent as a boolean
+- Fixed a UI-to-API contract mismatch: the shared Copilot context contained localized consent copy instead of the boolean required by the server. The cloud request now adds `consent: true` only after the checkbox is checked; offline context no longer carries any cloud-consent field.
+- Added a browser regression that checks the actual POST payload, verifies that an unchecked box sends no request, and confirms that the private offline plan sends no request.
+- Kept the stale-result invalidation regression: a new cloud attempt clears the previous response before waiting for the server.
+
 ## v1.31.0 follow-up — clear stale Copilot output on a new cloud attempt
 - Starting a fresh consented cloud request now clears the prior Copilot result from memory before awaiting the server. A failed request cannot leave an older plan available to reappear after a language switch.
 - Added a regression that enforces the ordering: stale result invalidation must happen before the new network request.

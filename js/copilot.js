@@ -45,7 +45,6 @@ function copilotCurrentContext() {
   var screen = S.screenReview && !screenStale ? (S.screenReview.overall === 'MATCH' ? 'match' : S.screenReview.overall === 'MISMATCH' ? 'mismatch' : 'not-reviewed') : 'not-reviewed';
   var signals = S.coachResult && Array.isArray(S.coachResult.signalIds) ? S.coachResult.signalIds.filter(function(x) { return Object.prototype.hasOwnProperty.call(PC_COPILOT_SIGNAL_LABELS, x); }) : [];
   return {
-    consent: ['I understand the data-sharing notice and consent to send this best-effort redacted summary to Cloudflare Workers AI.', 'তথ্য ভাগাভাগির নোটিশ বুঝেছি এবং এই রেড্যাক্ট করা সারাংশ Cloudflare Workers AI-তে পাঠাতে সম্মতি দিচ্ছি।'],
     language: S.lang === 'bn' ? 'bn' : 'en',
     situation: (document.getElementById('copilot-situation') || {}).value || (S.journey === 'prevention' ? 'before-payment' : 'after-payment'),
     provider: (document.getElementById('copilot-provider') || {}).value || 'unknown',
@@ -170,6 +169,8 @@ async function runCloudCopilot() {
     consent?.focus(); return;
   }
   var ctx = copilotCurrentContext();
+  // This assignment is reachable only after the explicit checkbox gate above.
+  ctx.consent = true;
   // A new attempt owns the visible result slot. If it fails, a previous case's AI plan must not reappear on a later language refresh.
   PC_COPILOT_LAST_RESULT = null;
   // Only a best-effort redacted note, categorical flags and local rule IDs are sent as fields. The note can still contain details after imperfect redaction, so UI disclosure warns users not to paste raw SMS or identifiers.

@@ -121,6 +121,49 @@ with sync_playwright() as p:
     assert '16247' not in nagad and '16216' not in nagad
     checks.append('PASS | Provider contact card refreshes and Nagad phone number is not invented')
 
+    # Cloud Copilot must send a boolean consent only after the checkbox gate; offline mode must never send a request.
+    page.evaluate('''() => {
+      window.__copilotCalls = [];
+      window.fetch = async (url, options = {}) => {
+        if (String(url).endsWith('/api/copilot/analyze')) {
+          window.__copilotCalls.push({ url: String(url), body: JSON.parse(options.body) });
+          return { ok: true, json: async () => ({
+            mode: 'cloudflare-ai', model: 'fixture-model',
+            result: {
+              heading: 'Review the details', summary: 'The provider has not confirmed the transaction.',
+              unknowns: ['The recipient identity is not independently verified.'],
+              nextSteps: [
+                { timing: 'now', action: 'Pause before proceeding.', reason: 'The information needs independent confirmation.' },
+                { timing: 'next', action: 'Contact the provider through its official app.', reason: 'Only the provider can check its own records.' }
+              ],
+              avoid: ['Never share your PIN or OTP.'], complaintOutline: [],
+              notice: 'AI-assisted guidance, not a verified finding.'
+            }
+          }) };
+        }
+        return { ok: true, json: async () => ({ cloudAiConfigured: true }) };
+      };
+      PC_COPILOT_STATUS = { cloudAiConfigured: true };
+      document.getElementById('copilot-cloud-consent').checked = false;
+    }''')
+    page.evaluate('runCloudCopilot()')
+    assert page.evaluate('window.__copilotCalls.length') == 0
+    page.locator('#copilot-cloud-consent').check()
+    page.evaluate('runCloudCopilot()')
+    assert page.evaluate('window.__copilotCalls.length') == 1
+    sent = page.evaluate('window.__copilotCalls[0].body')
+    assert sent['consent'] is True and isinstance(sent['consent'], bool), sent
+    assert set(sent) == {'consent','language','situation','provider','note','signals','comparison'}
+    assert page.locator('.copilot-result-card').is_visible()
+    page.evaluate('''() => {
+      window.__copilotCalls = [];
+      document.getElementById('copilot-cloud-consent').checked = false;
+      runOfflineCopilot();
+    }''')
+    assert page.evaluate('window.__copilotCalls.length') == 0
+    assert 'private' in page.locator('.copilot-result-top .tag').inner_text().lower()
+    checks.append('PASS | Cloud AI sends literal boolean consent only after user opt-in; offline plan sends no request')
+
     # Bangla view and new-case reset.
     page.locator('#langBn').click()
     assert 'পেমেন্ট ঘটনার ডসিয়ে' in page.locator('#incident-dossier-title').inner_text()
