@@ -395,7 +395,7 @@ Other: Share your OTP."></textarea>
     <p id="wallet-check-status" class="hint" role="status" aria-live="polite"></p>
   </div>
   <div class="note preflight-next-action" role="note"><strong data-i18n="nextActionLabel">Next step</strong><p data-i18n="nextActionText">Return to your payment app and decide there. Only that app can send the transfer. PayCheckpoint does not send, hold, cancel or reverse real payments.</p></div>
-  <div class="cta-row"><button class="btn btn-o" type="button" onclick="goApp('recon')" data-i18n="backToComparison">← Back to comparison</button><button class="btn btn-ghost" type="button" onclick="goApp('start')" data-i18n="backToChoices">Back to choices</button></div>
+  <div class="cta-row"><button class="btn btn-o" type="button" onclick="goApp('recon')" data-i18n="backToComparison">← Back to comparison</button><button class="btn btn-ghost" type="button" onclick="goApp('start')" data-i18n="backToChoices">Back to choices</button><button class="btn btn-o" type="button" onclick="goToUndoSimulation()" data-i18n="preflightTryUndo">Try the Undo simulation with these details →</button></div>
 </section>
 
 <!-- SAFESEND -->
@@ -551,6 +551,7 @@ Other: Share your OTP."></textarea>
   </div>
   <p class="hint" data-i18n="timelinePrivacy">This timeline stays in page memory. It is not stored by default. It contains no free-text notes and is not proof that an action occurred.</p>
   <div class="cta-row"><button class="btn btn-p" type="button" id="btn-download-evidence-pack" onclick="downloadStructuredEvidencePack()" data-i18n="downloadEvidencePack">Download structured evidence pack (.json)</button></div>
+  <p class="hint" data-i18n="evidencePackMaskNote">Full numbers and the transaction reference are masked in the pack unless you reveal them first.</p>
   <div id="evidence-pack-status" aria-live="polite"></div>
 </section>
 <label for="f-complaint" data-i18n="complaintLabel">Complaint draft (editable, factual &amp; neutral) — your edits are preserved when you reveal numbers, copy or navigate within this case</label>
