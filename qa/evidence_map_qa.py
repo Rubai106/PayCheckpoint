@@ -85,12 +85,22 @@ with sync_playwright() as p:
     assert visual_tokens['rowRadius'] == '13px', visual_tokens
     assert visual_tokens['panelShadow'] != 'none' and visual_tokens['cardShadow'] != 'none', visual_tokens
     page.set_viewport_size({"width": 390, "height": 844})
-    mobile_visual = page.evaluate("""() => ({
-      gridColumns: getComputedStyle(document.querySelector('.evidence-field-row')).gridTemplateColumns,
-      panelWidth: document.getElementById('evidence-map-panel').getBoundingClientRect().width,
-      documentWidth: document.documentElement.clientWidth,
-      buttonHeight: document.querySelector('.evidence-field-open').getBoundingClientRect().height
-    })""")
+    mobile_visual = page.evaluate("""() => {
+      const panel = document.getElementById('evidence-map-panel');
+      const visibleChain = [];
+      for (let node = panel; node && node !== document.body; node = node.parentElement) {
+        visibleChain.push([node, node.classList.contains('hidden')]);
+        node.classList.remove('hidden');
+      }
+      const result = {
+        gridColumns: getComputedStyle(document.querySelector('.evidence-field-row')).gridTemplateColumns,
+        panelWidth: panel.getBoundingClientRect().width,
+        documentWidth: document.documentElement.clientWidth,
+        buttonHeight: document.querySelector('.evidence-field-open').getBoundingClientRect().height
+      };
+      visibleChain.forEach(([node, wasHidden]) => { if (wasHidden) node.classList.add('hidden'); });
+      return result;
+    }""")
     assert mobile_visual['panelWidth'] <= mobile_visual['documentWidth'], mobile_visual
     assert mobile_visual['buttonHeight'] >= 34, mobile_visual
     assert len(mobile_visual['gridColumns'].split()) == 1, mobile_visual

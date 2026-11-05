@@ -1,3 +1,6 @@
+## v1.32.0 follow-up — measure the mobile Evidence Map in its parked test state
+- The Evidence Map is intentionally parked while its source screen is inactive. The responsive browser assertion now temporarily reveals its ancestor chain for geometry measurement and restores the original hidden state afterward; it no longer mistakes a hidden component's zero-size box for a mobile layout defect.
+
 ## v1.32.0 follow-up — synchronize release metadata and regression expectations
 - Updated the source-integrity gate, package-version assertions, Pages build metadata expectation, README and submission-readiness summary to consistently identify v1.32.0.
 
