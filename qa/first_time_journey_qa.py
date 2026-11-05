@@ -25,8 +25,17 @@ with sync_playwright() as p:
     errors = []
     page.on('pageerror', lambda exc: errors.append(str(exc)))
     page.set_content(html, wait_until='load', timeout=30000)
-    # Trust copy on the marketing page must agree with the implemented prototype boundary.
-    assert 'optionally review the original instruction' in page.locator('[data-i18n="preventText"]').inner_text().lower()
+    page.evaluate('setLang(false)')
+    # Trust copy must explain the consumer job without implying PayCheckpoint controls a wallet.
+    how_title = page.locator('[data-i18n="howH"]').inner_text()
+    how_copy = page.locator('[data-i18n="howSub"]').inner_text().lower()
+    assert how_title == 'One case. Clear next steps.'
+    assert 'alongside your wallet' in how_copy
+    assert 'before you confirm' in how_copy and 'if a payment goes wrong' in how_copy
+    assert 'undo (simulation)' not in how_copy
+    prevent_copy = page.locator('[data-i18n="preventText"]').inner_text().lower()
+    assert 'compare them' in prevent_copy and 'confirmation screen' in prevent_copy
+    assert 'cannot see or change that app' in prevent_copy
     assert 'cannot return money or guarantee recovery' in (page.locator('[data-i18n="faqRefundA"]').text_content() or '').lower()
     assert 'optional copilot' in (page.locator('[data-i18n="faqStoredA"]').text_content() or '').lower()
     assert 'see the payment' in page.locator('[data-i18n="visualDemoTitle"]').inner_text().lower()
@@ -46,7 +55,11 @@ with sync_playwright() as p:
     page.locator('[data-demo-scenario="match"]').click()
     page.locator('#langBn').click()
     assert 'লেখা সব তথ্য মিলেছে' in page.locator('#payment-demo-result').inner_text()
+    assert 'একটি ঘটনা' in page.locator('[data-i18n="howH"]').inner_text()
+    assert 'আপনার ওয়ালেটের পাশাপাশি' in page.locator('[data-i18n="howSub"]').inner_text()
+    assert 'পেমেন্ট অ্যাপ' in page.locator('[data-i18n="preventText"]').inner_text()
     page.locator('#langEn').click()
+    assert 'alongside your wallet' in page.locator('[data-i18n="howSub"]').inner_text().lower()
     page.locator('[data-demo-scenario="mismatch"]').click()
     assert page.locator('#payment-demo-result').get_attribute('data-state') == 'mismatch'
     page.evaluate("showView('app'); goApp('start')")
