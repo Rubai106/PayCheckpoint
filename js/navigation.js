@@ -40,7 +40,7 @@ var mb=document.getElementById('mnavBtn'),mn=document.getElementById('mnav');if(
 var dk=document.getElementById('dlg-keep');if(dk)dk.onclick=function(){document.getElementById('dlg-undo').close();var u=document.getElementById('btn-undo');if(u)u.focus()};
 /* Public-site section links must never dead-end while the app view is showing: return home first, then scroll to the section. Applies to desktop nav, mobile menu and footer links alike. */
 function navSection(id){showView('home');var el=document.getElementById(id);if(el)setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'start'})},30)}
-document.querySelectorAll('a[href^="#"]').forEach(function(a){var id=a.getAttribute('href').slice(1);if(!id)return;a.addEventListener('click',function(e){if(document.getElementById(id)){e.preventDefault();navSection(id)}})});
+document.querySelectorAll('a[href^="#"]').forEach(function(a){if(a.closest('.incident-jump-nav'))return;var id=a.getAttribute('href').slice(1);if(!id)return;a.addEventListener('click',function(e){if(document.getElementById(id)){e.preventDefault();navSection(id)}})});
 
 
 /* Keyboard dismissal for the compact navigation; return focus to its trigger. */

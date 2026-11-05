@@ -436,7 +436,11 @@ Object.assign(I18N.en,{
   sequenceBtnReview:'Review sequence locally',
   sequenceBtnClear:'Clear transcript',
   sequenceBtnTimeline:'Add summary to case timeline',
-  sequenceDisclaimer:'This local rule/sequence review does not establish sender identity, intent, message authenticity or fraud. No detected pattern does not mean safe.'
+  sequenceDisclaimer:'This local rule/sequence review does not establish sender identity, intent, message authenticity or fraud. No detected pattern does not mean safe.',
+  smsIntendedTitle:'What did you mean to send?',
+  smsIntendedHint:'Enter the number and amount you intended, so the receipt can be compared with your intent. Leave them blank if you do not know them — the comparison will stay incomplete instead of guessing.',
+  smsIntendedNum:'Intended recipient number',
+  smsIntendedAmt:'Intended amount (৳)'
 });
 Object.assign(I18N.bn,{
   messageReviewPrivacy:'এই প্রোটোটাইপে শুধু কাল্পনিক/উদাহরণ বার্তা ব্যবহার করুন। আসল SMS, PIN, OTP, পাসওয়ার্ড, ওয়ালেট লগইন বা অ্যাকাউন্টের তথ্য পেস্ট করবেন না। সাধারণ পরীক্ষা এই ব্রাউজারেই চলে এবং প্রেরকের পরিচয় শনাক্ত করে না।',
@@ -460,5 +464,9 @@ Object.assign(I18N.bn,{
   sequenceBtnReview:'স্থানীয়ভাবে কথোপকথন পর্যালোচনা',
   sequenceBtnClear:'কথোপকথন মুছুন',
   sequenceBtnTimeline:'সারাংশ কেসের সময়রেখায় যোগ করুন',
-  sequenceDisclaimer:'এই স্থানীয় নিয়ম/ধারাবাহিকতা পর্যালোচনা প্রেরকের পরিচয়, উদ্দেশ্য, বার্তার সত্যতা বা প্রতারণা প্রমাণ করে না। কোনো সতর্ক সংকেত না পেলেও বার্তাটি নিরাপদ প্রমাণ হয় না।'
+  sequenceDisclaimer:'এই স্থানীয় নিয়ম/ধারাবাহিকতা পর্যালোচনা প্রেরকের পরিচয়, উদ্দেশ্য, বার্তার সত্যতা বা প্রতারণা প্রমাণ করে না। কোনো সতর্ক সংকেত না পেলেও বার্তাটি নিরাপদ প্রমাণ হয় না।',
+  smsIntendedTitle:'আপনি কী পাঠাতে চেয়েছিলেন?',
+  smsIntendedHint:'আপনি যে নম্বর ও পরিমাণ পাঠাতে চেয়েছিলেন তা লিখুন, যাতে রসিদের সঙ্গে উদ্দেশ্যের তুলনা করা যায়। না জানলে ফাঁকা রাখুন — অনুমান না করে তুলনা অসম্পূর্ণ থাকবে।',
+  smsIntendedNum:'উদ্দেশ্য করা প্রাপকের নম্বর',
+  smsIntendedAmt:'উদ্দেশ্য করা পরিমাণ (৳)'
 });

@@ -164,6 +164,38 @@ def run_inline_checks():
                       f'no horizontal overflow: recovery {lang_name} {width}px '
                       f'(overflow={overflow(page)})')
 
+        # Blocker fix 1: incident jump nav stays in the app and scrolls in place.
+        page.set_viewport_size({'width': 1440, 'height': 1000})
+        page.evaluate("showView('app'); goApp('incident')")
+        page.wait_for_timeout(400)
+        page.locator('.incident-jump-nav a[href="#evidence-integrity-panel"]').click()
+        page.wait_for_timeout(800)
+        app_visible = page.evaluate(
+            "!document.getElementById('view-app').classList.contains('hidden')")
+        scrolled = page.evaluate('window.scrollY') > 200
+        check(app_visible and scrolled,
+              'incident jump nav stays in the app and scrolls to the section '
+              f'(app_visible={app_visible}, scrollY={page.evaluate("window.scrollY")})')
+
+        # Blocker fix 2: recovery SMS flow compares the receipt with the user's
+        # intended values and exposes the exact digit-diff.
+        page.evaluate("startNewCase('recovery'); goApp('sms')")
+        page.locator('#f-sms').fill(
+            'bKash: You have sent Tk 3000.00 to 01712345679 on 05/11/2026 at 2:41 PM. '
+            'TrxID 9HX7F2K1QZ. Balance Tk 1,240.50.')
+        page.locator('#btn-parse').click()
+        page.wait_for_timeout(900)
+        intended_shown = page.evaluate(
+            "!document.getElementById('sms-intended-fields').classList.contains('hidden')")
+        check(intended_shown, 'recovery SMS screen shows intended-value inputs')
+        page.locator('#x-intended-num').fill('01712345678')
+        page.locator('#x-intended-amt').fill('3000')
+        page.locator('button[onclick="confirmSMS()"]').click()
+        page.wait_for_timeout(600)
+        recon_text = page.locator('#recon-body').inner_text()
+        check('MISMATCH' in recon_text and 'Differs at position' in recon_text,
+              'recovery comparison reports the mismatched number and exact digit position')
+
         check(not errors, f'no JS page errors during inline checks (got {errors[:3]})')
         browser.close()
 

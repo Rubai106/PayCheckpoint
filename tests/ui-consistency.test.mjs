@@ -251,3 +251,42 @@ test('incident: generated textareas carry empty-state placeholders in both langu
     assert.ok(html.includes(`data-i18n-placeholder="${key}"`), `${key} not wired in index.html`);
   }
 });
+
+test('incident: jump nav anchors bypass the home-section handler', async () => {
+  const js = await read('js/navigation.js');
+  assert.match(js, /a\.closest\('\.incident-jump-nav'\)\)return/,
+    'incident jump links must scroll in place instead of navigating home');
+});
+
+test('recovery: SMS review asks for intended recipient and amount in both languages', async () => {
+  const html = await read('index.html');
+  assert.ok(html.includes('id="sms-intended-fields"'), 'SMS intended-fields block missing');
+  assert.ok(html.includes('id="x-intended-num"'), 'intended recipient input missing');
+  assert.ok(html.includes('id="x-intended-amt"'), 'intended amount input missing');
+  for (const key of ['smsIntendedTitle', 'smsIntendedHint', 'smsIntendedNum', 'smsIntendedAmt']) {
+    assert.ok(I18N.en[key] && I18N.en[key].length > 3, `EN ${key} missing`);
+    assert.ok(I18N.bn[key] && I18N.bn[key].length > 3, `BN ${key} missing`);
+    assert.ok(html.includes(`data-i18n="${key}"`), `${key} not wired in index.html`);
+  }
+});
+
+test('recovery: confirming an SMS records the supplied intended values', async () => {
+  const js = await read('js/recovery.js');
+  assert.ok(js.includes("getElementById('x-intended-num')"), 'confirmSMS must read intended number');
+  assert.ok(js.includes("getElementById('x-intended-amt')"), 'confirmSMS must read intended amount');
+  assert.ok(js.includes('S.intendedNum=iNum'), 'confirmSMS must store intended number');
+  assert.ok(js.includes('S.intendedAmt=iAmt'), 'confirmSMS must store intended amount');
+  assert.ok(js.includes('sms-intended-fields'), 'parseSMS must manage the intended-fields block');
+});
+
+test('recovery: intent-only submission is allowed only after payment', async () => {
+  const js = await read('js/prevention.js');
+  assert.ok(js.includes("if(recoveryJourney&&enteredNum===''){valid(enteredNumInput)}"),
+    'recovery may omit the post-payment entered number');
+  assert.ok(js.includes("if(enteredAmt===''||enteredMinor==null||enteredMinor<=0){if(recoveryJourney&&enteredAmt==='')"),
+    'recovery may omit the post-payment entered amount');
+  assert.ok(js.includes('een.innerHTML=invalid(enteredNumInput'),
+    'invalid entered numbers must still be rejected in prevention');
+  assert.ok(js.includes('eea.innerHTML=invalid(enteredAmtInput'),
+    'invalid entered amounts must still be rejected in prevention');
+});
