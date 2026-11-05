@@ -7,11 +7,11 @@ var PC_SEQUENCE_STATE = { result: null };
 var PC_SEQUENCE_COPY = {
   en: { toggle: 'Review a full conversation (optional)',
     title: 'Conversation sequence review',
-    intro: 'Review a conversation as a sequence, not as isolated messages. Paste one message per line. Use “Other:” and “Me:” labels when possible. Analysis runs locally in this browser; the transcript is not uploaded or added to exports.',
-    format: 'Paste oldest-first. Example: Other: I am from customer care. | Me: What happened? | Other: Your account will be blocked. | Other: Send your OTP. Optional timestamps: [10:05] Other: ...',
+    intro: 'Use fictional messages only in this prototype. Paste one message per line; label the other person “Other:” and yourself “Me:” where possible. Analysis runs in this browser; the transcript stays on this page until cleared and is not uploaded or exported.',
+    format: 'Paste oldest-first. Example: Other: Your account will be blocked. | Me: Why? | Other: Share your OTP. Optional timestamp: [10:05] Other: ...',
     disclaimer: 'This local rule/sequence review does not establish sender identity, intent, message authenticity, or fraud. No detected pattern does not mean safe.',
-    privacy: 'Do not paste PINs, OTPs, passwords, full account numbers or private keys. Although analysis is local, pasted text stays visible in this page until you clear it. The transcript is never included in the case timeline or export.',
-    label: 'Conversation transcript (max 30 messages / 12,000 characters)',
+    privacy: 'Use fictional/example conversations only in this prototype. Do not paste real chats, PINs, OTPs, passwords, full account numbers or identifying details. Pasted text remains visible in this page until you clear it. It is processed locally and never added to exports.',
+    label: 'Fictional conversation (max 30 messages / 12,000 characters)',
     placeholder: 'Other: I am calling from customer care.\nMe: What is the issue?\nOther: Your account will be blocked immediately.\nOther: Send your OTP to verify.',
     analyze: 'Review sequence locally', clear: 'Clear transcript', sample: 'Load staged example', benign: 'Load benign example', add: 'Add summary to case timeline',
     need: 'Enter at least two separate messages. Use one message per line.',
@@ -50,10 +50,10 @@ var PC_SEQUENCE_COPY = {
   },
   bn: { toggle: 'পুরো কথোপকথন পর্যালোচনা করুন (ঐচ্ছিক)',
     title: 'কথোপকথনের ধারাবাহিকতা পর্যালোচনা',
-    intro: 'একটি বার্তার বদলে পুরো কথোপকথনের ধাপগুলো পর্যালোচনা করুন। প্রতি লাইনে একটি বার্তা লিখুন। সম্ভব হলে “Other:” ও “Me:” ব্যবহার করুন। বিশ্লেষণ এই ব্রাউজারেই হয়; কথোপকথন আপলোড বা এক্সপোর্টে যোগ হয় না।',
-    format: 'পুরোনো থেকে নতুন ক্রমে লিখুন। উদাহরণ: Other: আমি কাস্টমার কেয়ার থেকে বলছি। | Me: সমস্যা কী? | Other: আপনার অ্যাকাউন্ট বন্ধ হবে। | Other: OTP পাঠান। ঐচ্ছিক সময়: [10:05] Other: ...',
-    privacy: 'PIN, OTP, পাসওয়ার্ড, পূর্ণ অ্যাকাউন্ট নম্বর বা গোপন কী পেস্ট করবেন না। বিশ্লেষণ স্থানীয় হলেও লেখা পরিষ্কার না করা পর্যন্ত এই পৃষ্ঠায় থাকবে। কথোপকথন কেসের সময়রেখা বা এক্সপোর্টে রাখা হয় না।',
-    label: 'কথোপকথন (সর্বোচ্চ ৩০ বার্তা / ১২,০০০ অক্ষর)',
+    intro: 'এই প্রোটোটাইপে শুধু কাল্পনিক বার্তা ব্যবহার করুন। প্রতি লাইনে একটি বার্তা লিখুন; সম্ভব হলে অন্য ব্যক্তির বার্তার আগে “Other:” এবং নিজের বার্তার আগে “Me:” লিখুন। বিশ্লেষণ এই ব্রাউজারেই চলে; লেখা মুছে না ফেলা পর্যন্ত এই পৃষ্ঠায় থাকে, আপলোড বা এক্সপোর্টে যোগ হয় না।',
+    format: 'পুরোনো থেকে নতুন ক্রমে লিখুন। উদাহরণ: Other: আপনার অ্যাকাউন্ট বন্ধ হয়ে যাবে। | Me: কেন? | Other: আপনার OTP দিন। ঐচ্ছিক সময়: [10:05] Other: ...',
+    privacy: 'এই প্রোটোটাইপে শুধু কাল্পনিক/উদাহরণ কথোপকথন ব্যবহার করুন। আসল চ্যাট, PIN, OTP, পাসওয়ার্ড, সম্পূর্ণ অ্যাকাউন্ট নম্বর বা পরিচয় শনাক্ত করা যায় এমন তথ্য দেবেন না। মুছে ফেলা পর্যন্ত লেখা এই পৃষ্ঠায় দেখা যাবে। এটি স্থানীয়ভাবে বিশ্লেষণ করা হয় এবং এক্সপোর্টে যোগ হয় না।',
+    label: 'কাল্পনিক কথোপকথন (সর্বোচ্চ ৩০টি বার্তা / ১২,০০০ অক্ষর)',
     placeholder: 'Other: আমি কাস্টমার কেয়ার থেকে বলছি।\nMe: সমস্যা কী?\nOther: এখনই আপনার অ্যাকাউন্ট বন্ধ হবে।\nOther: যাচাইয়ের জন্য OTP দিন।',
     analyze: 'স্থানীয়ভাবে ধারাবাহিকতা পর্যালোচনা', clear: 'লেখা মুছুন', sample: 'ধাপে ধাপে উদাহরণ', benign: 'স্বাভাবিক উদাহরণ', add: 'সারাংশ সময়রেখায় যোগ করুন',
     need: 'কমপক্ষে দুটি আলাদা বার্তা দিন। প্রতি লাইনে একটি বার্তা লিখুন।',
@@ -62,6 +62,7 @@ var PC_SEQUENCE_COPY = {
     noPatterns: 'সমর্থিত কোনো বহু-বার্তার ধারাবাহিকতা পাওয়া যায়নি। এর অর্থ কথোপকথন নিরাপদ—এমন নয়।',
     orderWarning: 'কিছু সময়-চিহ্নের ক্রম উল্টো মনে হচ্ছে। বিশ্লেষণ পেস্ট করা ক্রম অনুসরণ করে; ধারাবাহিকতা ব্যবহারের আগে পুরোনো থেকে নতুন ক্রমে সাজান।',
     unknown: 'কিছু বার্তায় বক্তার পরিচয় নেই। আলাদা বার্তার সংকেত দেখা যায়, তবে ধারাবাহিকতা শুধু “Other” হিসেবে চিহ্নিত বার্তার মধ্যে দেখানো হয়।',
+    disclaimer: 'এই স্থানীয় নিয়ম/ধারাবাহিকতা পর্যালোচনা প্রেরকের পরিচয়, উদ্দেশ্য, বার্তার সত্যতা বা প্রতারণা প্রমাণ করে না। কোনো সতর্ক সংকেত না পেলেও বার্তাটি নিরাপদ প্রমাণ হয় না.',
     titleResult: 'ধারাবাহিকতা পর্যালোচনা — প্রতারণার চূড়ান্ত সিদ্ধান্ত নয়',
     count: 'পর্যালোচিত বার্তা', signals: 'সতর্কতার সংকেত থাকা বার্তা', patterns: 'ক্রমিক ধারা পাওয়া গেছে',
     stage: 'পর্যবেক্ষিত বার্তার ধাপ', patternsHeading: 'একাধিক বার্তার ধারা', actions: 'ব্যবহারিক পরবর্তী পদক্ষেপ',
@@ -339,7 +340,7 @@ function refreshConversationSequenceLanguage() {
   };
   Object.keys(ids).forEach(function(id){ var el = document.getElementById(id); if (el) el.textContent = copy[ids[id]]; });
   var intro = document.querySelector('#sequence-intelligence-panel .coach-head .hint'); if (intro) intro.textContent = copy.intro;
-  var eyebrow = document.querySelector('#sequence-intelligence-panel .eyebrow'); if (eyebrow) eyebrow.textContent = S.lang === 'bn' ? 'শুধু স্থানীয় · বার্তার ক্রম গুরুত্বপূর্ণ' : 'LOCAL ONLY · MESSAGE ORDER MATTERS';
+  var eyebrow = document.querySelector('#sequence-intelligence-panel .eyebrow'); if (eyebrow) eyebrow.textContent = S.lang === 'bn' ? 'শুধু ব্রাউজারে · বার্তার ক্রম গুরুত্বপূর্ণ' : 'LOCAL ONLY · MESSAGE ORDER MATTERS';
   var input = document.getElementById('sequence-transcript'); if (input) input.placeholder = copy.placeholder;
   if (PC_SEQUENCE_STATE.result) renderConversationSequenceResult(PC_SEQUENCE_STATE.result);
 }

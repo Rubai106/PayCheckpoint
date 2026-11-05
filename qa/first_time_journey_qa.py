@@ -117,6 +117,8 @@ with sync_playwright() as p:
     assert 'কাল্পনিক/উদাহরণ বার্তা' in page.locator('[data-i18n="messageReviewPrivacy"]').inner_text()
     assert 'কাল্পনিক/উদাহরণ কথোপকথন' in (sequence_privacy.text_content() or '')
     assert 'কথোপকথনের ধারাবাহিকতা পর্যালোচনা' in page.locator('[data-i18n="sequenceTitle"]').inner_text()
+    assert 'এই স্থানীয় নিয়ম/ধারাবাহিকতা পর্যালোচনা' in page.locator('[data-i18n="sequenceDisclaimer"]').inner_text()
+    assert 'undefined' not in page.locator('[data-i18n="sequenceDisclaimer"]').inner_text().lower()
     page.locator('#langEn').click()
     page.locator('[data-i18n="messageReviewBack"]').click()
     assert page.locator('[data-screen="start"]').is_visible()
