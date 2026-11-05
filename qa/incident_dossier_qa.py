@@ -37,6 +37,17 @@ with sync_playwright() as p:
     page.locator('#incident-workflow-continue').click()
     assert page.locator('[data-screen="sms"]').is_visible()
     assert page.evaluate("document.activeElement && document.activeElement.id") == 'f-sms'
+    # A provider placeholder or empty parse must not create a reviewed receipt.
+    page.locator('#f-sms').fill('Payment notice received. Contact support for more information.')
+    page.evaluate('parseSMS()')
+    page.wait_for_timeout(600)
+    assert page.locator('#sms-fields').is_visible()
+    page.get_by_role('button', name='Confirm & compare →').click()
+    assert page.evaluate('S.receiptReviewed') is False
+    assert page.evaluate('S.receipt') == {}
+    assert 'at least one detail' in page.locator('#sms-status').inner_text().lower()
+    checks.append('PASS | Empty or unsupported message cannot become a reviewed receipt without an amount, recipient or reference')
+
     # A fallback label is UI guidance, not a fact extracted from the message.
     page.locator('#f-sms').fill('You have sent Tk 3,000.00 to 01712345678. TrxID ABCD123456. Date: 28/10/2026 10:42 AM.')
     page.evaluate('parseSMS()')

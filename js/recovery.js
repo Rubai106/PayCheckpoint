@@ -28,6 +28,13 @@ function confirmSMS(){
  var smsNow=(document.getElementById('f-sms').value||'').trim();if(S.parseStatus!=='done'||!S.parsedSMS||smsNow!==S.parsedSMS){var status=document.getElementById('sms-status');if(status)status.innerHTML='<div class="warn" role="alert">'+L('The current message has not been extracted. Extract it again before confirming these fields.','বর্তমান বার্তা থেকে এখনো তথ্য বের করা হয়নি। এই তথ্য নিশ্চিত করার আগে আবার Extract করুন।')+'</div>';return}
  /* NO invented defaults: missing intent stays missing and the comparison stays incomplete. */
  var cur={provider:document.getElementById('x-provider').value.trim(),amount:document.getElementById('x-amount').value.trim(),recipient:document.getElementById('x-recipient').value.trim(),trxid:document.getElementById('x-trxid').value.trim(),datetime:document.getElementById('x-datetime').value.trim()};
+ /* Provider/date placeholders alone are not transaction evidence. Require one
+    identifying detail before creating a reviewed receipt record. */
+ if(!cur.amount&&!cur.recipient&&!cur.trxid){
+  var emptyStatus=document.getElementById('sms-status');
+  if(emptyStatus)emptyStatus.innerHTML='<div class="warn" role="alert">'+L('No amount, recipient or transaction reference is available to review. Add at least one detail manually, or paste a message that contains it. The receipt will stay unreviewed.','পর্যালোচনার জন্য কোনো পরিমাণ, প্রাপক বা লেনদেনের রেফারেন্স নেই। অন্তত একটি তথ্য নিজে লিখুন অথবা এমন বার্তা দিন যাতে এটি আছে। ততক্ষণ রসিদটি অপর্যালোচিত থাকবে।')+'</div>';
+  return;
+ }
  S.receiptRaw={provider:S.parsedRaw.provider||'',amount:S.parsedRaw.amount||'',recipient:S.parsedRaw.recipient||'',trxid:S.parsedRaw.trxid||'',datetime:S.parsedRaw.datetime||''};
  S.receiptProv={};function sameReceiptValue(k,a,b){if(k==='amount'){var am=amountMinor(a),bm=amountMinor(b);return am!=null&&bm!=null&&am===bm}if(k==='recipient'){var ap=canonPhone(a),bp=canonPhone(b);return !!ap&&!!bp&&ap===bp}return a===b}['provider','amount','recipient','trxid','datetime'].forEach(function(k){if(!cur[k])S.receiptProv[k]='missing';else if(!S.receiptRaw[k])S.receiptProv[k]='manual';else if(!sameReceiptValue(k,cur[k],S.receiptRaw[k]))S.receiptProv[k]='edited';else S.receiptProv[k]='receipt'});
  if(S.receiptProv.recipient==='edited'||S.receiptProv.amount==='edited'){/* keep entered (pre-send) mirror in sync only for non-receipt flows */}

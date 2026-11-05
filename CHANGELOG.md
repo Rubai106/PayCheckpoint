@@ -1,3 +1,7 @@
+## v1.31.0 follow-up — block empty receipt confirmations
+- Confirmation now requires at least one transaction-identifying detail: amount, recipient or transaction reference. A generated provider placeholder or a date/time alone cannot create a reviewed receipt record.
+- Added a recovery-workspace browser regression for unsupported messages with no transaction details; confirmation must remain blocked and the receipt must remain unreviewed.
+
 ## v1.31.0 follow-up — invalidate reviewed receipts after field edits
 - Editing provider, amount, recipient, transaction reference or date/time after confirmation now clears the reviewed receipt snapshot and any derived saved-case snapshot. The user must confirm the revised fields again before they can be used as reviewed evidence.
 - Added a recovery-workspace regression that edits the amount after confirmation, verifies the stale snapshot is cleared, then confirms the new value and its edited provenance.
