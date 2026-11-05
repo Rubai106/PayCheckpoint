@@ -134,7 +134,11 @@ with sync_playwright() as p:
       return copilotCurrentContext().comparison;
     }''')
     assert live_comparison['recipient'] == 'mismatch', live_comparison
-    page.locator('#f-entered-num').fill('01712345678')
+    page.evaluate("""() => {
+      const field = document.getElementById('f-entered-num');
+      field.value = '01712345678';
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+    }""")
     assert page.evaluate("copilotCurrentContext().comparison.recipient") == 'match'
 
     # Cloud Copilot must send a boolean consent only after the checkbox gate; offline mode must never send a request.

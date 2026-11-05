@@ -1,3 +1,6 @@
+## v1.31.0 follow-up — make live-form regression independent of screen visibility
+- Adjusted the Copilot live-input browser regression to update the hidden payment field through the DOM and dispatch its normal input event. The recovery workspace intentionally hides the payment form; the test now verifies source precedence without trying to interact with an invisible control.
+
 ## v1.31.0 follow-up — use live payment fields in Copilot comparisons
 - Copilot now reads the visible intent and entered-detail fields before falling back to in-memory state. Editing recipient or amount after a previous submission can no longer leave the Copilot comparison anchored to the old submitted values.
 - Added a browser regression that deliberately makes the current DOM differ from S.* and verifies the Copilot comparison reports the live mismatch, then returns to match when the visible entry is corrected.
