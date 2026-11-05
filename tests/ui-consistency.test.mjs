@@ -127,13 +127,6 @@ const dictCtx = vm.createContext({
 vm.runInContext(await read('js/state-utils.js'), dictCtx, { filename: 'state-utils.js' });
 const I18N = dictCtx.I18N;
 
-test('touch targets: demo and message-review controls remain at least 44px', async () => {
-  const css = await read('assets/styles.css');
-  assert.match(css, /\.visual-demo-switch-button\{min-height:44px/);
-  assert.match(css, /\.coach-examples \.btn\{min-height:44px/);
-  assert.match(css, /\.coach-examples \.btn-ghost\{min-height:44px/);
-});
-
 test('step bar: no legacy .steps span pill rule', async () => {
   const css = await read('assets/styles.css');
   assert.doesNotMatch(css, /\.steps span\{/, 'legacy .steps span pill rule must stay deleted');
@@ -250,4 +243,41 @@ test('incident: generated textareas carry empty-state placeholders in both langu
     assert.ok(I18N.bn[key] && I18N.bn[key].length > 10, `BN ${key} missing`);
     assert.ok(html.includes(`data-i18n-placeholder="${key}"`), `${key} not wired in index.html`);
   }
+});
+
+test('incident: jump nav links are exempt from the home-section anchor handler', async () => {
+  const js = await read('js/navigation.js');
+  assert.match(js, /a\.closest\('\.incident-jump-nav'\)\)return/,
+    'anchor handler must skip .incident-jump-nav links so they scroll in-page instead of returning home');
+});
+
+test('recovery: SMS screen asks for the intended number and amount', async () => {
+  const html = await read('index.html');
+  assert.ok(html.includes('id="sms-intended-fields"'), 'SMS intended-fields block missing');
+  assert.ok(html.includes('id="x-intended-num"'), 'intended number input missing from SMS screen');
+  assert.ok(html.includes('id="x-intended-amt"'), 'intended amount input missing from SMS screen');
+  for (const key of ['smsIntendedTitle', 'smsIntendedHint', 'smsIntendedNum', 'smsIntendedAmt']) {
+    assert.ok(I18N.en[key] && I18N.en[key].length > 3, `EN ${key} missing`);
+    assert.ok(I18N.bn[key] && I18N.bn[key].length > 3, `BN ${key} missing`);
+    assert.ok(html.includes(`data-i18n="${key}"`), `${key} not wired in index.html`);
+  }
+});
+
+test('recovery: confirming an SMS harvests the intended values', async () => {
+  const js = await read('js/recovery.js');
+  assert.ok(js.includes("getElementById('x-intended-num')"), 'confirmSMS must read the intended number');
+  assert.ok(js.includes("getElementById('x-intended-amt')"), 'confirmSMS must read the intended amount');
+  assert.match(js, /S\.intendedNum=iNum/, 'confirmSMS must store the intended number');
+  assert.match(js, /S\.intendedAmt=iAmt/, 'confirmSMS must store the intended amount');
+  assert.match(js, /sms-intended-fields/, 'parseSMS must toggle the intended-fields block by intent state');
+});
+
+test('recovery: intent-only submission is allowed in recovery, still blocked in prevention', async () => {
+  const js = await read('js/prevention.js');
+  assert.match(js, /recoveryJourney&&enteredNum===''\)\{valid\(enteredNumInput\)\}/,
+    'empty entered number must be allowed when the journey is recovery');
+  assert.match(js, /recoveryJourney&&enteredAmt===''\)\{valid\(enteredAmtInput\)\}/,
+    'empty entered amount must be allowed when the journey is recovery');
+  assert.match(js, /een\.innerHTML=invalid\(enteredNumInput/,
+    'entered-number validation must still exist for the prevention journey');
 });

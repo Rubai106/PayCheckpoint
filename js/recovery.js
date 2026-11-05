@@ -20,6 +20,15 @@ function parseSMS(){
   document.getElementById('x-provider').value=prov;document.getElementById('x-amount').value=S.parsedRaw.amount;document.getElementById('x-recipient').value=S.parsedRaw.recipient;document.getElementById('x-trxid').value=S.parsedRaw.trxid;document.getElementById('x-datetime').value=S.parsedRaw.datetime;
   document.getElementById('x-trxid-note').innerHTML=trx?'<div class="field-ok">✓ '+L('Extracted from pasted SMS','পেস্ট করা SMS থেকে নেওয়া')+'</div>':'<div class="field-err" role="alert">— '+L('Missing: no transaction reference found.','অনুপস্থিত: লেনদেনের রেফারেন্স পাওয়া যায়নি।')+' <strong>'+L('Why it matters:','কেন গুরুত্বপূর্ণ:')+'</strong> '+L('A provider may ask for the reference.','প্রদানকারী রেফারেন্স চাইতে পারে।')+' <strong>'+L('Next:','পরবর্তী পদক্ষেপ:')+'</strong> '+L('Check the official transaction record and type it here — do not guess.','অফিসিয়াল লেনদেনের রেকর্ড দেখে এখানে লিখুন — অনুমান করবেন না।')+'</div>';
   document.getElementById('sms-fields').classList.remove('hidden');
+  var intendedBox=document.getElementById('sms-intended-fields');
+  if(intendedBox){
+   var hasCompleteIntent=!!(canonPhone(S.intendedNum)&&amountMinor(S.intendedAmt)!=null);
+   intendedBox.classList.toggle('hidden',hasCompleteIntent);
+   if(!hasCompleteIntent){
+    var inNumEl=document.getElementById('x-intended-num');if(inNumEl&&!inNumEl.value)inNumEl.value=S.intendedNum||'';
+    var inAmtEl=document.getElementById('x-intended-amt');if(inAmtEl&&!inAmtEl.value)inAmtEl.value=S.intendedAmt||'';
+   }
+  }
  },450);
 }
 var smsPasteEl=document.getElementById('f-sms');if(smsPasteEl)smsPasteEl.addEventListener('input',function(){var current=this.value.trim(),changedReview=S.receiptReviewed&&current!==S.reviewedSMS,changedParse=(S.parseStatus==='done'||S.parseStatus==='parsing')&&current!==(S.parseStatus==='parsing'?S._parseRequestedSMS:S.parsedSMS);if(changedReview){S.receiptReviewed=false;S.receipt={};S.receiptRaw={};S.receiptProv={};S.reviewedSMS='';if(document.getElementById('recon-body')&&document.getElementById('recon-body').innerHTML)renderRecon();if(document.getElementById('incident-body')&&document.getElementById('incident-body').innerHTML)buildIncident({navigate:false})}if(changedParse){S.parseReqId++;S.parseStatus='stale';S.parsedSMS='';S._parseRequestedSMS='';S.parsedRaw={};['x-provider','x-amount','x-recipient','x-trxid','x-datetime'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});document.getElementById('sms-fields').classList.add('hidden');var smn=document.getElementById('sms-status');if(smn)smn.innerHTML='<div class="warn" role="status">'+L('The pasted text changed since extraction. Extract it again before confirming any fields; stale extracted values were cleared.','তথ্য বের করার পর পেস্ট করা লেখা বদলেছে। কোনো তথ্য নিশ্চিত করার আগে আবার তথ্য বের করুন; পুরোনো বের করা মান মুছে ফেলা হয়েছে।')+'</div>'}else if(changedReview){var smn2=document.getElementById('sms-status');if(smn2)smn2.innerHTML='<div class="warn" role="status">'+L('The pasted message changed after review. Extract and confirm it again before using its fields as reviewed receipt data.','পর্যালোচনার পরে পেস্ট করা বার্তা বদলেছে। রসিদের পর্যালোচিত তথ্য হিসেবে ব্যবহার করার আগে আবার বের করে নিশ্চিত করুন।')+'</div>'}});
@@ -34,6 +43,20 @@ function confirmSMS(){
   var emptyStatus=document.getElementById('sms-status');
   if(emptyStatus)emptyStatus.innerHTML='<div class="warn" role="alert">'+L('No amount, recipient or transaction reference is available to review. Add at least one detail manually, or paste a message that contains it. The receipt will stay unreviewed.','পর্যালোচনার জন্য কোনো পরিমাণ, প্রাপক বা লেনদেনের রেফারেন্স নেই। অন্তত একটি তথ্য নিজে লিখুন অথবা এমন বার্তা দিন যাতে এটি আছে। ততক্ষণ রসিদটি অপর্যালোচিত থাকবে।')+'</div>';
   return;
+ }
+ /* Recovery fix: the SMS screen now asks what the user meant to send, so the
+    receipt can be compared with intent and the digit-diff can fire. Blank is
+    allowed — missing intent stays missing and the comparison stays incomplete. */
+ var intendedBox2=document.getElementById('sms-intended-fields');
+ if(intendedBox2&&!intendedBox2.classList.contains('hidden')){
+  var iNum=(document.getElementById('x-intended-num').value||'').trim();
+  var iAmt=(document.getElementById('x-intended-amt').value||'').trim();
+  var iErr=document.getElementById('x-intended-err');if(iErr)iErr.innerHTML='';
+  if(iNum&&!canonPhone(iNum)){if(iErr)iErr.innerHTML='<div class="field-err" role="alert">'+esc(t('phoneAcceptedFormats'))+'</div>';return}
+  if(iAmt&&(amountMinor(iAmt)==null||amountMinor(iAmt)<=0)){if(iErr)iErr.innerHTML='<div class="field-err" role="alert">'+esc(t('amountInvalid'))+'</div>';return}
+  if(iNum){S.intendedNum=iNum;S.intentUnknown.num=false}
+  if(iAmt){S.intendedAmt=iAmt;S.intentUnknown.amt=false}
+  if(iNum||iAmt){if(typeof recordTimelineEventOnce==='function')recordTimelineEventOnce('payment-intent-recorded','User recorded intended recipient and amount','ব্যবহারকারী উদ্দেশ্য করা প্রাপক ও পরিমাণ লিখেছেন','app-recorded')}
  }
  S.receiptRaw={provider:S.parsedRaw.provider||'',amount:S.parsedRaw.amount||'',recipient:S.parsedRaw.recipient||'',trxid:S.parsedRaw.trxid||'',datetime:S.parsedRaw.datetime||''};
  S.receiptProv={};function sameReceiptValue(k,a,b){if(k==='amount'){var am=amountMinor(a),bm=amountMinor(b);return am!=null&&bm!=null&&am===bm}if(k==='recipient'){var ap=canonPhone(a),bp=canonPhone(b);return !!ap&&!!bp&&ap===bp}return a===b}['provider','amount','recipient','trxid','datetime'].forEach(function(k){if(!cur[k])S.receiptProv[k]='missing';else if(!S.receiptRaw[k])S.receiptProv[k]='manual';else if(!sameReceiptValue(k,cur[k],S.receiptRaw[k]))S.receiptProv[k]='edited';else S.receiptProv[k]='receipt'});
