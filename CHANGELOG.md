@@ -1,3 +1,6 @@
+## v1.31.0 follow-up — preserve Bangla uncertainty statements
+- Refined the transaction-completion guard to distinguish a factual completion assertion from a Bangla “whether it completed” uncertainty statement. Unsafe completion claims remain blocked; uncertainty and provider-not-confirmed warnings remain valid.
+
 ## v1.31.0 follow-up — refine multilingual AI response guard
 - Corrected regex escaping in the new response-safety guard and expanded Bangla matching to cover credential-sharing, remote-access and recovery-fee instructions while recognizing common Bengali negation placement.
 - Kept a regression matrix for unsafe instructions and clear English/Bangla warnings so the fail-closed guard does not suppress protective advice.

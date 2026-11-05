@@ -120,7 +120,7 @@ function isNegatedSafetyWarning(sentence, match) {
   const englishNegation = /\b(?:never|do not|don't|dont|must not|mustn't|should not|shouldn't|avoid|cannot|can't)\b/i.test(prefix) ||
     /\bnot\s*$/i.test(prefix);
   const banglaNegation = /(?:কখনোই|কখনও|কোনোভাবেই|করবেন না|দেবেন না|পাঠাবেন না|শেয়ার করবেন না)/u.test(prefix) ||
-    /^\s*(?:(?:করবেন|দেবেন|পাঠাবেন|জানাবেন|শেয়ার করবেন)\s*)?(?:না|নয়|হয়নি|হয় নি|কি\s+না)(?:[।.!?;,\s]|$)/u.test(suffix);
+    /^\s*(?:(?:করবেন|দেবেন|পাঠাবেন|জানাবেন|শেয়ার করবেন)\s*)?(?:না|নয়|হয়নি|হয় নি|কি\s+না|হয়েছে\s+কি\s+না)(?:[।.!?;,\s]|$)/u.test(suffix);
   return englishNegation || banglaNegation;
 }
 
