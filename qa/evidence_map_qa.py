@@ -124,6 +124,12 @@ with sync_playwright() as p:
       S.instrAmt = '3000';
       S.enteredNum = '01712345678';
       S.enteredAmt = '3000';
+      // Evidence Map reads the visible form as the current source of truth.
+      // Keep the DOM fixture aligned with S so this is a real mismatch scenario.
+      document.getElementById('f-intended-num').value = S.intendedNum;
+      document.getElementById('f-intended-amt').value = S.intendedAmt;
+      document.getElementById('f-entered-num').value = S.enteredNum;
+      document.getElementById('f-entered-amt').value = S.enteredAmt;
       S.receiptReviewed = true;
       S.receipt = {recipient:'01712345678', amount:'3000'};
       S.screenReview = {
